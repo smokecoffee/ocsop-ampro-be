@@ -14,7 +14,7 @@
  * Updated content    : 최초작성
  *
  *==================================================================================*/
-package com.poscodx.odc.business.config;
+package com.poscodx.odc.ampro015.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +39,7 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.posco.mes3.business"))
+                .apis(RequestHandlerSelectors.basePackage("com.poscodx.odc.ampro015"))
                 .paths(PathSelectors.any())
                 .build();
     }

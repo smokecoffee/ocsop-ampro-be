@@ -14,7 +14,7 @@
  * Updated content    : 최초작성
  *
  *==================================================================================*/
-package com.poscodx.odc.business;
+package com.poscodx.odc.ampro015;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @since ${date}
  */
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.posco.mes3.business", "com.posco.reuse.compensation.util", })
+@ComponentScan(basePackages = { "com.poscodx.odc.ampro015", "com.posco.reuse.compensation.util", })
 @RestController
 @EnableDiscoveryClient
 //@EnableFeignClients(basePackages = {"com.posco.mes3.reusecompensation.client"})

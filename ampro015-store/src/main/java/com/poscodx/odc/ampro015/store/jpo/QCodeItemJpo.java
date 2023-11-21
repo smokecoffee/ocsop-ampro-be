@@ -31,7 +31,7 @@ import org.springframework.beans.BeanUtils;
 @Getter
 @Setter
 @Entity(name = "QCodeItem")
-@Table(name = "TB_M2VD01_S_QITEM_CODE", schema = "POSM2V")
+@Table(name = "TB_M2VD01_S_QITEM_CODE", schema = "AMPRO")
 public class QCodeItemJpo
     extends PoscoEntityJpo
 {

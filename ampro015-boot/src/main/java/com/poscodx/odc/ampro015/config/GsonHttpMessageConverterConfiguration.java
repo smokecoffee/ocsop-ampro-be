@@ -14,7 +14,7 @@
  * Updated content    : 최초작성
  *
  *==================================================================================*/
-package com.poscodx.odc.business.config;
+package com.poscodx.odc.ampro015.config;
 
 import com.poscoict.base.share.util.json.JsonUtil;
 import org.springframework.context.annotation.Bean;

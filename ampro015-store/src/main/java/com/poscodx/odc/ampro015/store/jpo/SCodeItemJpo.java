@@ -32,7 +32,7 @@ import org.springframework.beans.BeanUtils;
 @Getter
 @Setter
 @Entity(name = "SCodeItem")
-@Table(name = "TB_M2VD01_S_SITEM_CODE", schema = "POSM2V")
+@Table(name = "TB_M2VD01_S_QITEM_CODE", schema = "AMPRO")
 @IdClass(SCodeItemJpoId.class)
 public class SCodeItemJpo
     extends PoscoEntityJpo

@@ -29,7 +29,7 @@ import com.poscdx.odc.ampro015.domain.proxy.SampleProxyProxy;
  * @since ${date}
  */
 @Service
-@EnableFeignClients(basePackages = {"com.posco.mes3"})
+@EnableFeignClients(basePackages = {"com.poscodx.odc"})
 public class SampleProxyDelegator implements SampleProxyProxy {
 
 }
