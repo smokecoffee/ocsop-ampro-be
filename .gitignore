@@ -62,3 +62,16 @@ yarn-error.log*
 .vscode
 .history
 dist/common/
+
+## Eclipse settings
+*.jar
+*.jar.original
+*.class
+# build output
+business-boot/target/**
+business-domain/target/
+business-service/target/**
+business-store/target/**
+
+
+
