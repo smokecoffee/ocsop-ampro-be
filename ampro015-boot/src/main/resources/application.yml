@@ -1,0 +1,38 @@
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # 성능 가이드 - 해당값 지정 [TODO - 중]
+    min-response-size: 1024
+
+spring:
+  datasource:
+    url: ${datasource.url}
+    username: ${datasource.username}
+    password: ${datasource.password}
+    driver-class-name: ${datasource.driver-class-name}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # oracle db 사용시 none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  zipkin:
+    enabled: false
+  sleuth:
+    messaging:
+      enabled: false
+      kafka:
+        enabled: false
+
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 3000 # TODO[선택] : 업무 요건에 맞게 변경
+        readTimeout: 10000 # TODO[선택] : 업무 요건에 맞게 변경
+ribbon:
+  ReadTimeout: 10000 # TODO[선택] : 업무 요건에 맞게 변경
+  ConnectTimeout: 3000 # TODO[선택] : 업무 요건에 맞게 변경

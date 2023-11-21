@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ampro015-product
+  profiles:
+    active: local
+encrypt: 
+  failOnError: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    enabled: true
