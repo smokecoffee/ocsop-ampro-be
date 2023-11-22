@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,6 +31,21 @@ public class ImageJpo extends PoscoEntityJpo {
 
     @Column(name = "PATH")
     private String path;
+
+    @Column(name = "CREATE_BY")
+    private String createBy;
+
+    @Column(name = "CREATE_AT")
+    private Date createAt;
+
+    @Column(name = "UPDATE_BY")
+    private String updateBy;
+
+    @Column(name = "UPDATE_AT")
+    private Date updateAt;
+
+    @Column(name = "DELETE_AT")
+    private Date deleteAt;
     @Override
     public void validateJpo() throws PosBaseException {
 
