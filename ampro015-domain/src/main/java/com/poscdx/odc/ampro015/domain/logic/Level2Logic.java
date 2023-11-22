@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 
 public class Level2Logic implements Level2Service {
 
@@ -180,5 +181,10 @@ public class Level2Logic implements Level2Service {
                 });
             }
         }
+    }
+    @Override
+    public String RenderQRcode(String content){
+        QRCodeRender qrCodeRender = new QRCodeRender();
+        return qrCodeRender.generateEmbeddedQRCodenBase64(content);
     }
 }

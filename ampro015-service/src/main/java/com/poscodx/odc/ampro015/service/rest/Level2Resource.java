@@ -10,11 +10,16 @@ import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/itemCodeMng")
+@RequestMapping("/level2")
 public class Level2Resource {
 
     private final ServiceLifecycle serviceLifecycle;
@@ -40,5 +45,10 @@ public class Level2Resource {
     public void deleteItemCodeInfo(@RequestBody List<ItemCodeDto> itemCodeDtoList) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] itemCodeDtoList -> " + JsonUtil.toJson(itemCodeDtoList), this);
         this.serviceLifecycle.requestLevel2Service().deleteItemCodeInfo(serviceLifecycle, itemCodeDtoList);
+    }
+
+    @GetMapping("/render-qrcode")
+    public String RenderQRcode() {
+        return this.serviceLifecycle.requestLevel2Service().RenderQRcode("https://newsroom.posco.com/en/");
     }
 }
