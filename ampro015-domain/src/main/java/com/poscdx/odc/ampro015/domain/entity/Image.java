@@ -4,6 +4,8 @@ import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -15,7 +17,11 @@ public class Image extends PoscoEntity {
     private String name;
     private String originalName;
     private String path;
-
+    private String createBy;
+    private Date createAt;
+    private String updateBy;
+    private Date updateAt;
+    private Date deleteAt;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
