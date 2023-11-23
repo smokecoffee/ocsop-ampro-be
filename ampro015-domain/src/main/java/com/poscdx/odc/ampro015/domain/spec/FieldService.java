@@ -1,8 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.google.gson.JsonElement;
 import com.poscdx.odc.ampro015.domain.entity.Field;
-import com.poscoict.base.share.domain.NameValueList;
 
 import java.util.List;
 
@@ -11,7 +9,7 @@ public interface FieldService {
 
     List<Field> findAll();
 
-    Field modify(int id, JsonElement updateInfoJson);
+    Field modify(Field field);
 
     Field register(Field entity);
 

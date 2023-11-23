@@ -1,12 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.poscdx.odc.ampro015.domain.entity.Asset;
-import com.poscdx.odc.ampro015.domain.entity.Field;
-import com.poscdx.odc.ampro015.domain.entity.Image;
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
@@ -14,7 +8,6 @@ import com.poscoict.base.share.util.json.JsonUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +18,10 @@ import java.util.List;
 public class Level2Resource {
 
     private final ServiceLifecycle serviceLifecycle;
+
     @GetMapping("")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체" ),
+            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체"),
             @ApiImplicitParam(name = "description", value = "검색어", example = "Shaped Refractory")
     })
     public List<ItemCodeDto> findItemCodeInfos(@RequestParam(value = "codeType", required = false) String codeType,
@@ -49,10 +43,9 @@ public class Level2Resource {
         this.serviceLifecycle.requestLevel2Service().deleteItemCodeInfo(serviceLifecycle, itemCodeDtoList);
     }
 
-    @PutMapping(path = "/asset", produces = MediaType.APPLICATION_JSON_VALUE, consumes =
-            MediaType.APPLICATION_JSON_VALUE)
-    public String updateAsset(@RequestBody String updateInfo) {
-        this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, updateInfo);
-        return "OK";
+    @PutMapping(path = "/asset")
+    public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
+        this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
     }
 }

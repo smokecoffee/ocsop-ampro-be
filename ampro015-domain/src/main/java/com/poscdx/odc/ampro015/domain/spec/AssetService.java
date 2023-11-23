@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.google.gson.JsonElement;
 import com.poscdx.odc.ampro015.domain.entity.Asset;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface AssetService {
 
     List<Asset> findAll();
 
-    Asset modify(int id, JsonElement updateInfoJson);
+    Asset modify(Asset asset);
 
     Asset register(Asset entity);
 

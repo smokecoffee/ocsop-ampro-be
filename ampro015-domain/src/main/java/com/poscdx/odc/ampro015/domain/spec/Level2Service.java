@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
+import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
@@ -13,5 +14,6 @@ public interface Level2Service {
 
     void deleteItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList);
 
-    void updateAsset(ServiceLifecycle serviceLifecycle, String updateInfo);
+    //    void updateAsset(ServiceLifecycle serviceLifecycle, String updateInfo);
+    void updateAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto assetInfoDto);
 }

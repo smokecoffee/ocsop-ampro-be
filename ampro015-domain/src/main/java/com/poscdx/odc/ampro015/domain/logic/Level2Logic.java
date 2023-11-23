@@ -1,13 +1,9 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscoict.base.share.domain.NameValueList;
-import com.poscoict.base.share.util.json.JsonUtil;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -156,15 +152,15 @@ public class Level2Logic implements Level2Service {
             // A: QCode, B: SCode
             if ("A".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
                 group.forEach(itemCodeDto -> {
-                        if (Objects.nonNull(itemCodeDto)) {
-                            QCodeItem qCodeItem = serviceLifecycle.requestQCodeItemService().find(itemCodeDto.getItemNum());
-                            if (Objects.nonNull(qCodeItem)) {
-                                serviceLifecycle.requestQCodeItemService()
-                                        .modify(qCodeItem.getItemNum(),
-                                                NameValueList.newInstance("deleteFlag", "Y"));
+                            if (Objects.nonNull(itemCodeDto)) {
+                                QCodeItem qCodeItem = serviceLifecycle.requestQCodeItemService().find(itemCodeDto.getItemNum());
+                                if (Objects.nonNull(qCodeItem)) {
+                                    serviceLifecycle.requestQCodeItemService()
+                                            .modify(qCodeItem.getItemNum(),
+                                                    NameValueList.newInstance("deleteFlag", "Y"));
+                                }
                             }
                         }
-                    }
                 );
             }
             if ("B".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
@@ -184,21 +180,27 @@ public class Level2Logic implements Level2Service {
         }
     }
 
+    /**
+     * @param serviceLifecycle ServiceLifecycle
+     * @param assetInfoDto     AssetInfoDto
+     */
     @Override
-    public void updateAsset(ServiceLifecycle serviceLifecycle, String updateInfo) {
-        try {
-            JsonObject reqInfo = JsonParser.parseString(updateInfo).getAsJsonObject();
-            serviceLifecycle.requestAssetService().modify(reqInfo.get("asset").getAsJsonObject().get("id").getAsInt()
-                    , reqInfo.get("asset"));
-            for (JsonElement je: reqInfo.get("fields").getAsJsonArray()) {
-                serviceLifecycle.requestFieldService().modify(je.getAsJsonObject().get("id").getAsInt(), je);
-            }
+    public void updateAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto assetInfoDto) {
 
-            for (JsonElement je: reqInfo.get("images").getAsJsonArray()) {
-                serviceLifecycle.requestImageService().modify(je.getAsJsonObject().get("id").getAsInt(), je);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        //Update asset entity
+        Asset asset = assetInfoDto.getAsset();
+        serviceLifecycle.requestAssetService().modify(asset);
+
+        //Update list field
+        List<Field> fields = assetInfoDto.getFields();
+        for (Field field : fields) {
+            serviceLifecycle.requestFieldService().modify(field);
+        }
+
+        //Update list image
+        List<Image> images = assetInfoDto.getImages();
+        for (Image image : images) {
+            serviceLifecycle.requestImageService().modify(image);
         }
     }
 }

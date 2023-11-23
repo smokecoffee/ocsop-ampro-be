@@ -1,8 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.google.gson.JsonElement;
 import com.poscdx.odc.ampro015.domain.entity.Image;
-import com.poscoict.base.share.domain.NameValueList;
 
 import java.util.List;
 
@@ -11,7 +9,7 @@ public interface ImageService {
 
     List<Image> findAll();
 
-    Image modify(int id, JsonElement updateInfoJson);
+    Image modify(Image image);
 
     Image register(Image entity);
 

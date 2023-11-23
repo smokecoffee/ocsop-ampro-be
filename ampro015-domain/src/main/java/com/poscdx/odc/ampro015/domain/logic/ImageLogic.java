@@ -1,13 +1,9 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.poscdx.odc.ampro015.domain.entity.Image;
 import com.poscdx.odc.ampro015.domain.spec.ImageService;
 import com.poscdx.odc.ampro015.domain.store.ImageStore;
-import com.poscoict.base.share.domain.NameValueList;
 
-import java.util.Date;
 import java.util.List;
 
 public class ImageLogic implements ImageService {
@@ -28,16 +24,8 @@ public class ImageLogic implements ImageService {
     }
 
     @Override
-    public Image modify(int id, JsonElement updateInfoJson) {
-        Image entity = this.store.retrieve(id);
-        JsonObject jsonObject = updateInfoJson.getAsJsonObject();
-        entity.setName(jsonObject.get("name").getAsString());
-        entity.setOriginalName(jsonObject.get("originalName").getAsString());
-        entity.setPath(jsonObject.get("url").getAsString());
-        entity.setAssetId(jsonObject.get("assetId").getAsInt());
-        entity.setUpdateBy(jsonObject.get("updateBy").getAsInt());
-        entity.setUpdateAt(new Date());
-        return this.store.update(entity);
+    public Image modify(Image image) {
+        return this.store.update(image);
     }
 
     @Override

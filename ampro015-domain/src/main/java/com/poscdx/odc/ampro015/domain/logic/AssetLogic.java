@@ -1,13 +1,9 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.poscdx.odc.ampro015.domain.entity.Asset;
 import com.poscdx.odc.ampro015.domain.spec.AssetService;
 import com.poscdx.odc.ampro015.domain.store.AssetStore;
-import com.poscoict.base.share.domain.NameValueList;
 
-import java.util.Date;
 import java.util.List;
 
 public class AssetLogic implements AssetService {
@@ -28,17 +24,8 @@ public class AssetLogic implements AssetService {
     }
 
     @Override
-    public Asset modify(int id, JsonElement updateInfoJson) {
-        Asset entity = this.store.retrieve(id);
-        JsonObject jsonObject = updateInfoJson.getAsJsonObject();
-        entity.setToken(jsonObject.get("token").getAsString());
-        entity.setOwner(jsonObject.get("owner").getAsString());
-        entity.setDuration(jsonObject.get("duration").getAsInt());
-        entity.setQrcode(jsonObject.get("qrcode").getAsString());
-        entity.setStatus(jsonObject.get("status").getAsInt());
-        entity.setUpdateBy(jsonObject.get("updateBy").getAsInt());
-        entity.setUpdateAt(new Date());
-        return this.store.update(entity);
+    public Asset modify(Asset asset) {
+        return this.store.update(asset);
     }
 
     @Override
