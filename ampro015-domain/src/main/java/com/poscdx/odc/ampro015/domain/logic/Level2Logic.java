@@ -1,8 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
-import com.poscdx.odc.ampro015.domain.entity.QCodeItem;
-import com.poscdx.odc.ampro015.domain.entity.SCodeItem;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscoict.base.share.domain.NameValueList;
@@ -180,5 +178,20 @@ public class Level2Logic implements Level2Service {
                 });
             }
         }
+    }
+
+    @Override
+    public List<AssetDto> findAssetList(ServiceLifecycle serviceLifecycle,String owner, int status) {
+        List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(owner, status));
+        List<AssetDto>  result = new ArrayList<>();
+        if (!ObjectUtils.isEmpty(assetList)){
+            for (Asset asset: assetList){
+                AssetDto item = new AssetDto();
+                item.setAsset(asset);
+                item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
+                item.setFields(serviceLifecycle.requestFieldService().findFieldInfos(asset.getId()));
+            }
+        }
+        return result;
     }
 }
