@@ -1,9 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.Asset;
-import com.poscdx.odc.ampro015.domain.entity.Field;
-import com.poscdx.odc.ampro015.domain.entity.Image;
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.http.ResponseEntity;
 
@@ -19,5 +16,5 @@ public interface Level2Service {
 
     String RenderQRcode(String token);
 
-    ResponseEntity<?> addNewAsset(Asset asset, List<Field> fields, List<Image> images);
+    ResponseEntity<?> addNewAsset(AssetInfoDto request);
 }

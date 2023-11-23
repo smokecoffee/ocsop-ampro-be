@@ -63,12 +63,12 @@ public class Level2Resource {
      * @param request
      * @return
      */
-    @PostMapping("/create-new-asset-with-info")
+    @PostMapping("/asset")
     public ResponseEntity<?> createNewAsset(@RequestBody AssetInfoDto request) {
         logger.info("<-------- Start processing create new asset with information -------->");
         ResponseEntity<?> response = null;
         try {
-            response = this.serviceLifecycle.requestLevel2Service().addNewAsset(request.getAsset(), request.getFields(), request.getImages());
+            response = this.serviceLifecycle.requestLevel2Service().addNewAsset(request);
         } catch (Exception e) {
             logger.info("Exception - There is an exception when creating a new asset; {}", e.getMessage());
             response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

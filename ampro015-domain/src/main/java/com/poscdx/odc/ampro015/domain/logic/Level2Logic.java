@@ -199,19 +199,19 @@ public class Level2Logic implements Level2Service {
      * addNewAsset
      * @author 202293 - Trieu Le
      * @since 2023-11-23
-     * 
-     * @param asset
-     * @param fields
-     * @param images
-     * @return ResponseEntity
+     *
+     * @param request
+     * @return
      *
      */
     @Override
-    public ResponseEntity<?> addNewAsset(Asset asset, List<Field> fields, List<Image> images) {
+    public ResponseEntity<?> addNewAsset(AssetInfoDto request) {
 
         ResponseEntity<?> response = new ResponseEntity<>(HttpStatus.OK);
+
         try {
             logger.info("Storing asset information into the database");
+            Asset asset = request.getAsset();
             String tokenString = UUID.randomUUID().toString();
             asset.setToken(tokenString);
             QRCodeRender drCodeRender = new QRCodeRender();
@@ -222,6 +222,7 @@ public class Level2Logic implements Level2Service {
             logger.info("Asset with id {} was added into database: {}", assetId, assetAdded.toString());
 
             logger.info("Storing field list information into the database");
+            List<Field> fields = request.getFields();
             fields.forEach(field -> {
                 field.setAssetId(assetId);
                 Field filedAdded = storeLifecycle.requestFieldStore().add(field);
@@ -229,6 +230,7 @@ public class Level2Logic implements Level2Service {
             });
 
             logger.info("Storing image list information into the database");
+            List<Image> images = request.getImages();
             images.forEach(image -> {
                 image.setAssetId(assetId);
                 Image imageAdded = storeLifecycle.requestImageStore().add(image);
