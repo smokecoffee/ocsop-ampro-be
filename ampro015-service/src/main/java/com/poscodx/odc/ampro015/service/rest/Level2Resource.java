@@ -1,5 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
+import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.posco.reuse.common.logging.PosLogWriterIF;
@@ -8,13 +9,12 @@ import com.poscoict.base.share.util.json.JsonUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,9 +23,12 @@ import java.util.List;
 public class Level2Resource {
 
     private final ServiceLifecycle serviceLifecycle;
+
+    private static final Logger logger = LoggerFactory.getLogger(Level2Resource.class);
+
     @GetMapping("")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체" ),
+            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체"),
             @ApiImplicitParam(name = "description", value = "검색어", example = "Shaped Refractory")
     })
     public List<ItemCodeDto> findItemCodeInfos(@RequestParam(value = "codeType", required = false) String codeType,
@@ -51,4 +54,27 @@ public class Level2Resource {
     public String RenderQRcode() {
         return this.serviceLifecycle.requestLevel2Service().RenderQRcode("KHUGNSH6CCDS");
     }
+
+    /**
+     * createNewAsset
+     * @author 202293 - Trieu Le
+     * @since 2023-11-23
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/create-new-asset-with-info")
+    public ResponseEntity<?> createNewAsset(@RequestBody AssetInfoDto request) {
+        logger.info("<-------- Start processing create new asset with information -------->");
+        ResponseEntity<?> response = null;
+        try {
+            response = this.serviceLifecycle.requestLevel2Service().addNewAsset(request.getAsset(), request.getFields(), request.getImages());
+        } catch (Exception e) {
+            logger.info("Exception - There is an exception when creating a new asset; {}", e.getMessage());
+            response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return response;
+    }
 }
+
