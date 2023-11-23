@@ -86,6 +86,6 @@ public class QRCodeRender {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return imageString;
+        return "data:image/png;base64," + imageString;
     }
 }
