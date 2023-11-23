@@ -10,7 +10,6 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -19,36 +18,39 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class QRCodeRender {
-    public String generateEmbeddedQRCodenBase64(String myCodeText) {
+    String qrcodeDomain = "http://localhost:3000/asset?token=";
 
-        String qrCode=null;
+    private  BufferedImage resize(BufferedImage img, int newW, int newH) {
+        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return dimg;
+    }
+    public String generateEmbeddedQRCodenBase64(String token) {
         int size = 250;
+        int sizeLogo = 50;
         String fileType = "png";
         String imageString = null;
-
+        String urlQRCode = this.qrcodeDomain + token;
+        System.out.println("Url QrCode : " + urlQRCode);
         try {
-
             Map<EncodeHintType, Object> hintMap = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
             hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-
-            // Now with zxing version 3.2.1 you could change border size (white border size to just 1)
             hintMap.put(EncodeHintType.MARGIN, 1); /* default = 4 */
             hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, size,
+            BitMatrix byteMatrix = qrCodeWriter.encode(urlQRCode, BarcodeFormat.QR_CODE, size,
                     size, hintMap);
             int CrunchifyWidth = byteMatrix.getWidth();
-            BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth,
-                    BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);
             image.createGraphics();
 
-            // Load the image from class path
+            // Load the image from Resource and resize
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("logo-3.png").getFile());
-            BufferedImage logoImage = ImageIO.read(file);
-            // Even you can load the image from file path
-//            BufferedImage logoImage = ImageIO.read(new File("C:\\sites\\python\\QRCode\\posco\\logo-3.png"));
+            File file = new File(classLoader.getResource("logo.png").getFile());
+            BufferedImage logoImage = this.resize(ImageIO.read(file), sizeLogo, sizeLogo);
 
             // Calculate the delta height and width between QR code and logo
             int deltaHeight = image.getHeight() - logoImage.getHeight();
@@ -59,8 +61,8 @@ public class QRCodeRender {
 
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, CrunchifyWidth, CrunchifyWidth);
-
-            graphics.setColor(new Color(237, 49,36));
+            graphics.setColor(new Color(0, 87,138));
+//            graphics.setColor(new Color(0, 62,154));
 
             for (int i = 0; i < CrunchifyWidth; i++) {
                 for (int j = 0; j < CrunchifyWidth; j++) {
@@ -69,10 +71,7 @@ public class QRCodeRender {
                     }
                 }
             }
-
             graphics.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
-
-            //ImageIO.write(combined, fileType, myFile);
             final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
             try {
@@ -82,14 +81,11 @@ public class QRCodeRender {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         } catch (WriterException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return imageString;
     }
 }

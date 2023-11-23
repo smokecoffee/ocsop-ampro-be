@@ -183,8 +183,8 @@ public class Level2Logic implements Level2Service {
         }
     }
     @Override
-    public String RenderQRcode(String content){
+    public String RenderQRcode(String token){
         QRCodeRender qrCodeRender = new QRCodeRender();
-        return qrCodeRender.generateEmbeddedQRCodenBase64(content);
+        return qrCodeRender.generateEmbeddedQRCodenBase64(token);
     }
 }

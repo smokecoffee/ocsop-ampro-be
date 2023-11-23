@@ -13,5 +13,5 @@ public interface Level2Service {
 
     void deleteItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList);
 
-    String RenderQRcode(String content);
+    String RenderQRcode(String token);
 }

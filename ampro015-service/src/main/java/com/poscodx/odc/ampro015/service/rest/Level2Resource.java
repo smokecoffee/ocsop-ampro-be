@@ -49,6 +49,6 @@ public class Level2Resource {
 
     @GetMapping("/render-qrcode")
     public String RenderQRcode() {
-        return this.serviceLifecycle.requestLevel2Service().RenderQRcode("https://newsroom.posco.com/en/");
+        return this.serviceLifecycle.requestLevel2Service().RenderQRcode("KHUGNSH6CCDS");
     }
 }
