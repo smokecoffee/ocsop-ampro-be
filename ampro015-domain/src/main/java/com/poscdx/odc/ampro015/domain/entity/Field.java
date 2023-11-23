@@ -14,12 +14,12 @@ import java.util.Date;
 public class Field extends PoscoEntity {
     private int id;
     private int assetId;
-    private int orderBy;
+    private int sort;
     private String name;
     private String value;
-    private String createBy;
+    private int createBy;
     private Date createAt;
-    private String updateBy;
+    private int updateBy;
     private Date updateAt;
     private Date deleteAt;
     public String toJson() {

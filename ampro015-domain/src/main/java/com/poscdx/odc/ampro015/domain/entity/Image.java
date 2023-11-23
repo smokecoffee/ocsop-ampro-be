@@ -17,9 +17,9 @@ public class Image extends PoscoEntity {
     private String name;
     private String originalName;
     private String path;
-    private String createBy;
+    private int createBy;
     private Date createAt;
-    private String updateBy;
+    private int updateBy;
     private Date updateAt;
     private Date deleteAt;
     public String toJson() {

@@ -19,9 +19,9 @@ public class Asset extends PoscoEntity {
     private int duration;
     private String qrcode;
     private int status;
-    private String createBy;
+    private int createBy;
     private Date createAt;
-    private String updateBy;
+    private int updateBy;
     private Date updateAt;
     private Date deleteAt;
     public String toJson() {
