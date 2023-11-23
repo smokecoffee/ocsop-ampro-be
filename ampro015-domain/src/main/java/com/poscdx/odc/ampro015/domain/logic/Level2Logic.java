@@ -1,11 +1,13 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
-import com.poscdx.odc.ampro015.domain.entity.QCodeItem;
-import com.poscdx.odc.ampro015.domain.entity.SCodeItem;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscoict.base.share.domain.NameValueList;
+import com.poscoict.base.share.util.json.JsonUtil;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -179,6 +181,24 @@ public class Level2Logic implements Level2Service {
                     });
                 });
             }
+        }
+    }
+
+    @Override
+    public void updateAsset(ServiceLifecycle serviceLifecycle, String updateInfo) {
+        try {
+            JsonObject reqInfo = JsonParser.parseString(updateInfo).getAsJsonObject();
+            serviceLifecycle.requestAssetService().modify(reqInfo.get("asset").getAsJsonObject().get("id").getAsInt()
+                    , reqInfo.get("asset"));
+            for (JsonElement je: reqInfo.get("fields").getAsJsonArray()) {
+                serviceLifecycle.requestFieldService().modify(je.getAsJsonObject().get("id").getAsInt(), je);
+            }
+
+            for (JsonElement je: reqInfo.get("images").getAsJsonArray()) {
+                serviceLifecycle.requestImageService().modify(je.getAsJsonObject().get("id").getAsInt(), je);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -12,4 +12,6 @@ public interface Level2Service {
     void modifyItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList);
 
     void deleteItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList);
+
+    void updateAsset(ServiceLifecycle serviceLifecycle, String updateInfo);
 }
