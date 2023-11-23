@@ -41,8 +41,7 @@ public class QRCodeRender {
             hintMap.put(EncodeHintType.MARGIN, 1); /* default = 4 */
             hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix byteMatrix = qrCodeWriter.encode(urlQRCode, BarcodeFormat.QR_CODE, size,
-                    size, hintMap);
+            BitMatrix byteMatrix = qrCodeWriter.encode(urlQRCode, BarcodeFormat.QR_CODE, size, size, hintMap);
             int CrunchifyWidth = byteMatrix.getWidth();
             BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);
             image.createGraphics();
@@ -61,9 +60,9 @@ public class QRCodeRender {
 
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, CrunchifyWidth, CrunchifyWidth);
-            graphics.setColor(new Color(0, 87,138));
-//            graphics.setColor(new Color(0, 62,154));
 
+            // Fill color all
+            graphics.setColor(new Color(0, 130,207));
             for (int i = 0; i < CrunchifyWidth; i++) {
                 for (int j = 0; j < CrunchifyWidth; j++) {
                     if (byteMatrix.get(i, j)) {
@@ -71,6 +70,29 @@ public class QRCodeRender {
                     }
                 }
             }
+
+            // Fill color eye
+            graphics.setColor(new Color(0, 87,138));
+            for (int i = 0; i < CrunchifyWidth; i++) {
+                for (int j = 0; j < CrunchifyWidth; j++) {
+                    if(i < 65 & j < 65){
+                        if (byteMatrix.get(i, j)) {
+                            graphics.fillRect(i, j, 1, 1);
+                        }
+                    }
+                    if(i < 65 & j > 183){
+                        if (byteMatrix.get(i, j)) {
+                            graphics.fillRect(i, j, 1, 1);
+                        }
+                    }
+                    if(i > 183 & j < 65){
+                        if (byteMatrix.get(i, j)) {
+                            graphics.fillRect(i, j, 1, 1);
+                        }
+                    }
+                }
+            }
+
             graphics.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
             final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
