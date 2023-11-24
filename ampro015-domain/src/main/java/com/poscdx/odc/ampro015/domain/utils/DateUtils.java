@@ -18,21 +18,19 @@ import java.util.Date;
  * @author 202293 - Trieu Le
  */
 public class DateUtils {
-    private static final Logger logger = LoggerFactory.getLogger(DateUtils.class);
 
     public static String customtDateTime = "yyyy-MM-dd_HH:mm:ss";
-
     public static String defaultDateTime = "yyyy-MM-dd HH:mm:ss";
     public static String originalDate = "EEEEE MMMMM yyyy HH:mm.SSSZ";
     public static String simpleDate = "dd-MM-yyyy";
 
     /**
      * convertDateTimeToString
-     * @author 202293 - Trieu Le
      *
      * @param date
      * @param format
      * @return
+     * @author 202293 - Trieu Le
      * @author 202293 - Trieu Le
      */
     public static String convertDateTimeToString(Date date, String format) {
@@ -43,12 +41,11 @@ public class DateUtils {
     /**
      * convertStringToDate
      *
-     * @author 202293 - Trieu Le
-     *
      * @param date
      * @param format
      * @return
      * @throws ParseException
+     * @author 202293 - Trieu Le
      */
     public static Date convertStringToDate(String date, String format) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
@@ -59,33 +56,26 @@ public class DateUtils {
      * DateTypeAdapter
      *
      * @author 202293 - Trieu Le
-     *
+     * <p>
      * This one is used to convert date json of body request to Date (read(JsonReader in) method)
      * and convert datetime to string (write(JsonWriter out, Date value) method)
      */
     public static class DateTypeAdapter extends TypeAdapter<Date> {
 
         @Override
-        public void write(JsonWriter out, Date value)  {
-            try {
-                out.value(convertDateTimeToString(value, defaultDateTime));
-            } catch (IOException ioE) {
-                logger.error("IOException - There is an exception when converting date to string: {}", ioE.getMessage());
-            }
+        public void write(JsonWriter out, Date value) throws IOException {
+            out.value(convertDateTimeToString(value, defaultDateTime));
         }
 
         @Override
-        public Date read(JsonReader in) {
-            Date response = null;
+        public Date read(JsonReader in) throws IOException {
+            String dateString = in.nextString();
             try {
-                String dateString = in.nextString();
-                response = convertStringToDate(dateString, defaultDateTime);
-            } catch (ParseException pE) {
-                logger.error("ParseException - There is an exception when parsing date: {}", pE.getMessage());
-            } catch (IOException ioE) {
-                logger.error("IOException - There is an exception when converting string to date: {}", ioE.getMessage());
+                return convertStringToDate(dateString, defaultDateTime);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
-            return response;
+
         }
     }
 }

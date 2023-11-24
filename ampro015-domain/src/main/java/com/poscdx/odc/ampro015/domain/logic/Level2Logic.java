@@ -5,8 +5,6 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import com.poscoict.base.share.domain.NameValueList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
@@ -15,8 +13,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Level2Logic implements Level2Service {
-
-    private static final Logger logger = LoggerFactory.getLogger(Level2Logic.class);
 
     @Override
     public List<ItemCodeDto> findItemCodeInfos(ServiceLifecycle serviceLifecycle, String codeType, String description) {
@@ -231,37 +227,32 @@ public class Level2Logic implements Level2Service {
         ResponseEntity<?> response = null;
 
         try {
-            logger.info("Storing asset information into the database");
+            // Create the new asset
             Asset asset = request.getAsset();
             String tokenString = UUID.randomUUID().toString();
             asset.setToken(tokenString);
             QRCodeRender drCodeRender = new QRCodeRender();
             String qrCode = drCodeRender.generateEmbeddedQRCodenBase64(tokenString);
             asset.setQrcode(qrCode);
-            Asset assetAdded = serviceLifecycle.requestAssetService().modify(asset);
+            Asset assetAdded = serviceLifecycle.requestAssetService().register(asset);
             int assetId = assetAdded.getId();
-            logger.info("Asset with id {} was added into database: {}", assetId, assetAdded.toString());
 
-            logger.info("Storing field list information into the database");
+            // Create the field list
             List<Field> fields = request.getFields();
             fields.forEach(field -> {
                 field.setAssetId(assetId);
-                Field filedAdded = serviceLifecycle.requestFieldService().modify(field);
-                logger.info("Field with id {} was added into database: {}", filedAdded.getId(), filedAdded.toString());
+                Field filedAdded = serviceLifecycle.requestFieldService().register(field);
             });
 
-            logger.info("Storing image list information into the database");
+            // Create the image list
             List<Image> images = request.getImages();
             images.forEach(image -> {
                 image.setAssetId(assetId);
-                Image imageAdded = serviceLifecycle.requestImageService().modify(image);
-                logger.info("Image with id {} was added into database: {}", imageAdded.getId(), imageAdded.toString());
+                Image imageAdded = serviceLifecycle.requestImageService().register(image);
             });
 
-            logger.info("<-------- End processing create new asset with information -------->");
             response = new ResponseEntity<>("Successfully", HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Exception - There is an exception when adding the new asset: {}", e.getMessage());
             response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return response;
