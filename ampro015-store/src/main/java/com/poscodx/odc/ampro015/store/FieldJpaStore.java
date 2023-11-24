@@ -4,18 +4,48 @@ import com.poscdx.odc.ampro015.domain.entity.Field;
 import com.poscdx.odc.ampro015.domain.store.FieldStore;
 import com.poscodx.odc.ampro015.store.jpo.FieldJpo;
 import com.poscodx.odc.ampro015.store.repository.FieldRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class FieldJpaStore implements FieldStore {
+    private final FieldRepository repository;
 
-    @Autowired FieldRepository fieldRepository;
+    public FieldJpaStore(FieldRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public Field add(Field field) {
-        FieldJpo fieldJpo = new FieldJpo(field);
-        FieldJpo addField = fieldRepository.save(fieldJpo);
-        return addField.toDomain();
+    public Field retrieve(int id) {
+        Optional<FieldJpo> retVal = this.repository.findById(id);
+        if (retVal.isPresent()) {
+            return retVal.get().toDomain();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Field> retrieveAll() {
+        return FieldJpo.toDomains(this.repository.findAll());
+    }
+
+    @Override
+    public Field update(Field entity) {
+        FieldJpo jpoToUpdate = new FieldJpo(entity);
+        FieldJpo updatedJpo = this.repository.save(jpoToUpdate);
+        return updatedJpo.toDomain();
+    }
+
+    @Override
+    public Field create(Field entity) {
+        return this.repository.save(new FieldJpo(entity)).toDomain();
+    }
+
+    @Override
+    public void delete(int id) {
+        this.repository.deleteById(id);
     }
 }

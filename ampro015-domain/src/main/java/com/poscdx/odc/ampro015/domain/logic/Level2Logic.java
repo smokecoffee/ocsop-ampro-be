@@ -2,13 +2,11 @@ package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.lifecycle.StoreLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import com.poscoict.base.share.domain.NameValueList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
@@ -19,9 +17,6 @@ import java.util.stream.Collectors;
 public class Level2Logic implements Level2Service {
 
     private static final Logger logger = LoggerFactory.getLogger(Level2Logic.class);
-
-    @Autowired
-    StoreLifecycle storeLifecycle;
 
     @Override
     public List<ItemCodeDto> findItemCodeInfos(ServiceLifecycle serviceLifecycle, String codeType, String description) {
@@ -190,24 +185,50 @@ public class Level2Logic implements Level2Service {
     }
 
     @Override
-    public String RenderQRcode(String token) {
+    public String renderQRcode(String token) {
         QRCodeRender qrCodeRender = new QRCodeRender();
         return qrCodeRender.generateEmbeddedQRCodenBase64(token);
+
     }
 
     /**
-     * addNewAsset
+     * @param serviceLifecycle ServiceLifecycle
+     * @param assetInfoDto     AssetInfoDto
+     */
+    @Override
+    public void updateAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto assetInfoDto) {
+
+        //Update asset entity
+        Asset asset = assetInfoDto.getAsset();
+        serviceLifecycle.requestAssetService().modify(asset);
+
+        //Update list field
+        List<Field> fields = assetInfoDto.getFields();
+        for (Field field : fields) {
+            serviceLifecycle.requestFieldService().modify(field);
+        }
+
+        //Update list image
+        List<Image> images = assetInfoDto.getImages();
+        for (Image image : images) {
+            serviceLifecycle.requestImageService().modify(image);
+        }
+
+    }
+
+    /**
+     * createAsset
      * @author 202293 - Trieu Le
-     * @since 2023-11-23
      *
-     * @param request
+     * @param serviceLifecycle ServiceLifecycle
+     * @param request          AssetInfoDto
      * @return
      *
      */
     @Override
-    public ResponseEntity<?> addNewAsset(AssetInfoDto request) {
+    public ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request) {
 
-        ResponseEntity<?> response = new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<?> response = null;
 
         try {
             logger.info("Storing asset information into the database");
@@ -217,7 +238,7 @@ public class Level2Logic implements Level2Service {
             QRCodeRender drCodeRender = new QRCodeRender();
             String qrCode = drCodeRender.generateEmbeddedQRCodenBase64(tokenString);
             asset.setQrcode(qrCode);
-            Asset assetAdded = storeLifecycle.requestAssetStore().add(asset); <--- change to name create
+            Asset assetAdded = serviceLifecycle.requestAssetService().modify(asset);
             int assetId = assetAdded.getId();
             logger.info("Asset with id {} was added into database: {}", assetId, assetAdded.toString());
 
@@ -225,7 +246,7 @@ public class Level2Logic implements Level2Service {
             List<Field> fields = request.getFields();
             fields.forEach(field -> {
                 field.setAssetId(assetId);
-                Field filedAdded = storeLifecycle.requestFieldStore().add(field);
+                Field filedAdded = serviceLifecycle.requestFieldService().modify(field);
                 logger.info("Field with id {} was added into database: {}", filedAdded.getId(), filedAdded.toString());
             });
 
@@ -233,7 +254,7 @@ public class Level2Logic implements Level2Service {
             List<Image> images = request.getImages();
             images.forEach(image -> {
                 image.setAssetId(assetId);
-                Image imageAdded = storeLifecycle.requestImageStore().add(image);
+                Image imageAdded = serviceLifecycle.requestImageService().modify(image);
                 logger.info("Image with id {} was added into database: {}", imageAdded.getId(), imageAdded.toString());
             });
 
@@ -245,6 +266,5 @@ public class Level2Logic implements Level2Service {
         }
         return response;
     }
-
 }
 

@@ -51,24 +51,30 @@ public class Level2Resource {
     }
 
     @GetMapping("/render-qrcode")
-    public String RenderQRcode() {
-        return this.serviceLifecycle.requestLevel2Service().RenderQRcode("KHUGNSH6CCDS");
+    public String renderQRcode() {
+        return this.serviceLifecycle.requestLevel2Service().renderQRcode("KHUGNSH6CCDS");
+    }
+
+    @PutMapping(path = "/asset")
+    public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " + JsonUtil.toJson(assetInfoDto), this);
+        this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
     }
 
     /**
-     * createNewAsset
+     * createAsset
      * @author 202293 - Trieu Le
      * @since 2023-11-23
      *
-     * @param request
+     * @param request AssetInfoDto
      * @return
      */
     @PostMapping("/asset")
-    public ResponseEntity<?> createNewAsset(@RequestBody AssetInfoDto request) {
+    public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
         logger.info("<-------- Start processing create new asset with information -------->");
         ResponseEntity<?> response = null;
         try {
-            response = this.serviceLifecycle.requestLevel2Service().addNewAsset(request); <-- change name to createAsset
+            response = this.serviceLifecycle.requestLevel2Service().createAsset(serviceLifecycle, request);
         } catch (Exception e) {
             logger.info("Exception - There is an exception when creating a new asset; {}", e.getMessage());
             response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
