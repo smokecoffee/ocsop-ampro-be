@@ -68,7 +68,7 @@ public class Level2Resource {
         logger.info("<-------- Start processing create new asset with information -------->");
         ResponseEntity<?> response = null;
         try {
-            response = this.serviceLifecycle.requestLevel2Service().addNewAsset(request);
+            response = this.serviceLifecycle.requestLevel2Service().addNewAsset(request); <-- change name to createAsset
         } catch (Exception e) {
             logger.info("Exception - There is an exception when creating a new asset; {}", e.getMessage());
             response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -217,7 +217,7 @@ public class Level2Logic implements Level2Service {
             QRCodeRender drCodeRender = new QRCodeRender();
             String qrCode = drCodeRender.generateEmbeddedQRCodenBase64(tokenString);
             asset.setQrcode(qrCode);
-            Asset assetAdded = storeLifecycle.requestAssetStore().add(asset);
+            Asset assetAdded = storeLifecycle.requestAssetStore().add(asset); <--- change to name create
             int assetId = assetAdded.getId();
             logger.info("Asset with id {} was added into database: {}", assetId, assetAdded.toString());
 
