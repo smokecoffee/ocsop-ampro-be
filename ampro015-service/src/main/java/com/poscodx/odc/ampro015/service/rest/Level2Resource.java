@@ -1,6 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
@@ -23,9 +23,10 @@ import java.util.List;
 public class Level2Resource {
 
     private final ServiceLifecycle serviceLifecycle;
+
     @GetMapping("")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체" ),
+            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체"),
             @ApiImplicitParam(name = "description", value = "검색어", example = "Shaped Refractory")
     })
     public List<ItemCodeDto> findItemCodeInfos(@RequestParam(value = "codeType", required = false) String codeType,
@@ -48,7 +49,13 @@ public class Level2Resource {
     }
 
     @GetMapping("/render-qrcode")
-    public String RenderQRcode() {
-        return this.serviceLifecycle.requestLevel2Service().RenderQRcode("KHUGNSH6CCDS");
+    public String renderQRcode() {
+        return this.serviceLifecycle.requestLevel2Service().renderQRcode("KHUGNSH6CCDS");
+    }
+
+    @PutMapping(path = "/asset")
+    public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
+        this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
     }
 }
