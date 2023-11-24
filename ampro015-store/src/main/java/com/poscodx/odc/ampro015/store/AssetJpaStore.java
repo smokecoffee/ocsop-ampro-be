@@ -34,9 +34,9 @@ public class AssetJpaStore implements AssetStore {
     }
 
     @Override
-    public List<Asset> retrieveByEmplNameAndStatus(String owner, int status) {
-        Iterable<AssetJpo> test =  this.repository.findAllByOwnerAndStatus(owner,status);
-        return AssetJpo.toDomains(test);
+    public List<Asset> retrieveByOwnerAndStatus(String owner, int status) {
+        Iterable<AssetJpo> list =  this.repository.findAllByOwnerAndStatus(owner,status);
+        return AssetJpo.toDomains(list);
     }
 
     @Override

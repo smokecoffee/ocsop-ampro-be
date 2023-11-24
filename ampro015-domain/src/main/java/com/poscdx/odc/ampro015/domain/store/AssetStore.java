@@ -9,7 +9,7 @@ public interface AssetStore {
 
     public List<Asset> retrieveAll();
 
-    public List<Asset> retrieveByEmplNameAndStatus(String emplName, int status);
+    public List<Asset> retrieveByOwnerAndStatus(String emplName, int status);
 
     public Asset update(Asset entity);
 

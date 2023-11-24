@@ -3,14 +3,19 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
+import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscoict.base.share.domain.NameValueList;
 import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+
+import javax.servlet.http.HttpServletResponse;
 
 public class Level2Logic implements Level2Service {
 
@@ -179,6 +184,11 @@ public class Level2Logic implements Level2Service {
             }
         }
     }
+    @Override
+    public String RenderQRcode(String token){
+        QRCodeRender qrCodeRender = new QRCodeRender();
+        return qrCodeRender.generateEmbeddedQRCodenBase64(token);
+    }
 
     @Override
     public List<AssetDto> findAssetList(ServiceLifecycle serviceLifecycle,String owner, int status) {
@@ -190,8 +200,26 @@ public class Level2Logic implements Level2Service {
                 item.setAsset(asset);
                 item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
                 item.setFields(serviceLifecycle.requestFieldService().findFieldInfos(asset.getId()));
+                result.add(item);
             }
         }
         return result;
+    }
+
+    @Override
+    public void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException {
+        List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(assetSearch.getOwner(), assetSearch.getStatus()));
+        List<AssetDto>  result = new ArrayList<>();
+        if (!ObjectUtils.isEmpty(assetList)){
+            for (Asset asset: assetList){
+                AssetDto item = new AssetDto();
+                item.setAsset(asset);
+                item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
+                item.setFields(serviceLifecycle.requestFieldService().findFieldInfos(asset.getId()));
+                result.add(item);
+            }
+        }
+        ExportExcel exportExcel = new ExportExcel(result);
+        exportExcel.export(response);
     }
 }

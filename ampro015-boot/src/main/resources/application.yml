@@ -36,3 +36,8 @@ feign:
 ribbon:
   ReadTimeout: 10000 # TODO[선택] : 업무 요건에 맞게 변경
   ConnectTimeout: 3000 # TODO[선택] : 업무 요건에 맞게 변경
+
+qrcode:
+  domain : http://localhost:3000/asert?token=
+  fileType : png
+  size : 250

@@ -21,9 +21,10 @@ public interface AssetRepository
     extends JpaRepository<AssetJpo, Integer>
 {
     @Query(value = "SELECT *\n"+
-                    "FROM AMPRO.TB_A01_ASSET ass\n"+
-                    "WHERE ass.OWNER LIKE CONCAT('%',:owner,'%')\n"+
-                    "AND ass.STATUS = :status\n"+
-                    "AND ass.DELETE_AT IS NULL", nativeQuery = true)
-    public Iterable<AssetJpo> findAllByOwnerAndStatus(@Param("owner") String owner, @Param("status") int status);
+                    "FROM TB_A01_ASSET a\n"+
+                    "WHERE a.OWNER LIKE CONCAT('%',:owner,'%')\n"+
+                    "AND a.STATUS = :status\n"+
+                    "AND a.DELETE_AT IS NULL", nativeQuery = true)
+    Iterable<AssetJpo> findAllByOwnerAndStatus(@Param("owner") String owner,
+                                               @Param("status") int status);
 }

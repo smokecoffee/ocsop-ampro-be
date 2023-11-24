@@ -13,6 +13,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,5 +32,27 @@ public class Level2Resource {
         String owner = assetSearch.getOwner();
         int status = assetSearch.getStatus();
         return this.serviceLifecycle.requestLevel2Service().findAssetList(serviceLifecycle, owner, status);
+    }
+
+    @GetMapping("/render-qrcode")
+    public String RenderQRcode() {
+        return this.serviceLifecycle.requestLevel2Service().RenderQRcode("KHUGNSH6CCDS");
+    }
+
+    @GetMapping("/asset/export-excel")
+    public void exportToExcel(HttpServletResponse response,
+                              @RequestParam(required = true) String owner,
+                              @RequestParam(required = true) Integer status) throws IOException{
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=QR-CODE_" + currentDateTime+ ".xlsx";
+        response.setHeader(headerKey,headerValue);
+        AssetSearch assetSearch = new AssetSearch();
+        assetSearch.setOwner(owner);
+        assetSearch.setStatus(status);
+        this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
     }
 }

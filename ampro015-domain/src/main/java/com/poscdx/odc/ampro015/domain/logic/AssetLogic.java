@@ -17,7 +17,7 @@ public class AssetLogic implements AssetService {
 
     @Override
     public List<Asset> findAssetInfos(String owner, int status) {
-        return this.store.retrieveByEmplNameAndStatus(owner,status);
+        return this.store.retrieveByOwnerAndStatus(owner,status);
     }
 
     @Override
