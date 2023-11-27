@@ -5,26 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+public interface AssetRepository extends JpaRepository<AssetJpo, Integer> {
 
-/**
- * Auto generated class
- * 
- * 자동생성 프로그램 버전 : 1.0.0
- * 생성일시 :  2023-08-26 21:42:35.32
- * @FileName : 클래스에 대한 한글 명칭
- * Change history
- * @수정날짜;SCR_NO;수정자;수정내용
- * @2023-08-26 21:42:35.32;00000;홍길동;최초생성
- * 
- */
-public interface AssetRepository
-    extends JpaRepository<AssetJpo, Integer>
-{
     @Query(value = "SELECT *\n"+
-                    "FROM TB_A01_ASSET a\n"+
-                    "WHERE a.OWNER LIKE CONCAT('%',:owner,'%')\n"+
-                    "AND a.STATUS = :status\n"+
-                    "AND a.DELETE_AT IS NULL", nativeQuery = true)
+            "FROM TB_A01_ASSET a\n"+
+            "WHERE a.OWNER LIKE CONCAT('%',:owner,'%')\n"+
+            "AND a.STATUS = :status\n"+
+            "AND a.DELETE_AT IS NULL", nativeQuery = true)
     Iterable<AssetJpo> findAllByOwnerAndStatus(@Param("owner") String owner,
                                                @Param("status") int status);
 }

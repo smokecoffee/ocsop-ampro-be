@@ -1,18 +1,19 @@
 package com.poscdx.odc.ampro015.domain.store;
 
-import com.poscdx.odc.ampro015.domain.entity.Field;
 import com.poscdx.odc.ampro015.domain.entity.Image;
 
 import java.util.List;
 
 public interface ImageStore {
-    public List<Image> retrieve(Integer id);
+    Image retrieve(int id);
 
-    public List<Image> retrieveAll();
+    List<Image> retrieveAll();
 
-    public Image update(Image entity);
+    Image update(Image entity);
 
-    public Image create(Image entity);
+    Image create(Image entity);
 
-    public void delete(String id);
+    void delete(int id);
+
+    public List<Image> retrieveList(Integer id);
 }

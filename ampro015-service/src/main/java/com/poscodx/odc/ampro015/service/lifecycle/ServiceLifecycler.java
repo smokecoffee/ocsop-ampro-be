@@ -15,7 +15,6 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final AssetService assetService;
     private final FieldService fieldService;
     private final ImageService imageService;
-
     @Override
     public QCodeItemService requestQCodeItemService() {
         return this.qCodeItemService;

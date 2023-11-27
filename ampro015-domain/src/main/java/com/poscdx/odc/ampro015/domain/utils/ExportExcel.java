@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
 import com.poscdx.odc.ampro015.domain.entity.AssetDto;
+import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.Field;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.ss.usermodel.*;
@@ -29,11 +30,11 @@ public class ExportExcel {
 
     private XSSFSheet sheet;
 
-    private final List<AssetDto> assetDtos;
+    private final List<AssetInfoDto> assetDtos;
 
     private final int rowStart = 0;
 
-    public ExportExcel(List<AssetDto> assetDtos) {
+    public ExportExcel(List<AssetInfoDto> assetDtos) {
         this.assetDtos = assetDtos;
         this.workbook = new XSSFWorkbook();
     }
@@ -139,7 +140,7 @@ public class ExportExcel {
     private void writeDataLines() {
         int rowCount = this.rowStart + 1;
         CellStyle style = this.createCellStyle(IndexedColors.WHITE.getIndex(), false);
-        for (AssetDto item : this.assetDtos) {
+        for (AssetInfoDto item : this.assetDtos) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
             createCell(row, columnCount++, item.getAsset().getOwner(), style);

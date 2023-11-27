@@ -19,8 +19,8 @@ public class AssetJpaStore implements AssetStore {
     }
 
     @Override
-    public Asset retrieve(String id) {
-        Optional<AssetJpo> retVal = this.repository.findById(Integer.valueOf(id));
+    public Asset retrieve(int id) {
+        Optional<AssetJpo> retVal = this.repository.findById(id);
         if (retVal.isPresent()) {
             return retVal.get().toDomain();
         } else {
@@ -30,27 +30,29 @@ public class AssetJpaStore implements AssetStore {
 
     @Override
     public List<Asset> retrieveAll() {
-        return null;
+        return AssetJpo.toDomains(this.repository.findAll());
+    }
+
+    @Override
+    public Asset update(Asset entity) {
+        AssetJpo jpoToUpdate = new AssetJpo(entity);
+        AssetJpo updatedJpo = this.repository.save(jpoToUpdate);
+        return updatedJpo.toDomain();
+    }
+
+    @Override
+    public Asset create(Asset entity) {
+        return this.repository.save(new AssetJpo(entity)).toDomain();
+    }
+
+    @Override
+    public void delete(int id) {
+        this.repository.deleteById(id);
     }
 
     @Override
     public List<Asset> retrieveByOwnerAndStatus(String owner, int status) {
         Iterable<AssetJpo> list =  this.repository.findAllByOwnerAndStatus(owner,status);
         return AssetJpo.toDomains(list);
-    }
-
-    @Override
-    public Asset update(Asset entity) {
-        return null;
-    }
-
-    @Override
-    public Asset create(Asset entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(String id) {
-
     }
 }

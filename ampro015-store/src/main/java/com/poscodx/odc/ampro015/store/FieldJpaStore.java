@@ -6,8 +6,9 @@ import com.poscodx.odc.ampro015.store.jpo.FieldJpo;
 import com.poscodx.odc.ampro015.store.repository.FieldRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class FieldJpaStore implements FieldStore {
     private final FieldRepository repository;
@@ -17,27 +18,39 @@ public class FieldJpaStore implements FieldStore {
     }
 
     @Override
-    public List<Field> retrieve(Integer assetId) {
-        return FieldJpo.toDomains(this.repository.findAllByAssetId(assetId));
+    public Field retrieve(int id) {
+        Optional<FieldJpo> retVal = this.repository.findById(id);
+        if (retVal.isPresent()) {
+            return retVal.get().toDomain();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public List<Field> retrieveAll() {
-        return null;
+        return FieldJpo.toDomains(this.repository.findAll());
     }
 
     @Override
     public Field update(Field entity) {
-        return null;
+        FieldJpo jpoToUpdate = new FieldJpo(entity);
+        FieldJpo updatedJpo = this.repository.save(jpoToUpdate);
+        return updatedJpo.toDomain();
     }
 
     @Override
     public Field create(Field entity) {
-        return null;
+        return this.repository.save(new FieldJpo(entity)).toDomain();
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(int id) {
+        this.repository.deleteById(id);
+    }
 
+    @Override
+    public List<Field> retrieveList(Integer assetId) {
+        return FieldJpo.toDomains(this.repository.findAllByAssetId(assetId));
     }
 }

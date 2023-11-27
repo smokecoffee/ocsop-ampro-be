@@ -1,25 +1,45 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.Asset;
 import com.poscdx.odc.ampro015.domain.entity.Field;
-import com.poscdx.odc.ampro015.domain.spec.AssetService;
 import com.poscdx.odc.ampro015.domain.spec.FieldService;
-import com.poscdx.odc.ampro015.domain.store.AssetStore;
 import com.poscdx.odc.ampro015.domain.store.FieldStore;
 
 import java.util.List;
 
 public class FieldLogic implements FieldService {
-
     private final FieldStore store;
 
     public FieldLogic(FieldStore store) {
         this.store = store;
     }
 
+    @Override
+    public Field find(int id) {
+        return this.store.retrieve(id);
+    }
+
+    @Override
+    public List<Field> findAll() {
+        return this.store.retrieveAll();
+    }
+
+    @Override
+    public Field modify(Field field) {
+        return this.store.update(field);
+    }
+
+    @Override
+    public Field register(Field entity) {
+        return this.store.create(entity);
+    }
+
+    @Override
+    public void remove(int id) {
+        this.store.delete(id);
+    }
 
     @Override
     public List<Field> findFieldInfos(Integer assetId) {
-        return this.store.retrieve(assetId);
+        return this.store.retrieveList(assetId);
     }
 }

@@ -157,15 +157,15 @@ public class Level2Logic implements Level2Service {
             // A: QCode, B: SCode
             if ("A".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
                 group.forEach(itemCodeDto -> {
-                        if (Objects.nonNull(itemCodeDto)) {
-                            QCodeItem qCodeItem = serviceLifecycle.requestQCodeItemService().find(itemCodeDto.getItemNum());
-                            if (Objects.nonNull(qCodeItem)) {
-                                serviceLifecycle.requestQCodeItemService()
-                                        .modify(qCodeItem.getItemNum(),
-                                                NameValueList.newInstance("deleteFlag", "Y"));
+                            if (Objects.nonNull(itemCodeDto)) {
+                                QCodeItem qCodeItem = serviceLifecycle.requestQCodeItemService().find(itemCodeDto.getItemNum());
+                                if (Objects.nonNull(qCodeItem)) {
+                                    serviceLifecycle.requestQCodeItemService()
+                                            .modify(qCodeItem.getItemNum(),
+                                                    NameValueList.newInstance("deleteFlag", "Y"));
+                                }
                             }
                         }
-                    }
                 );
             }
             if ("B".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
@@ -185,18 +185,44 @@ public class Level2Logic implements Level2Service {
         }
     }
     @Override
-    public String RenderQRcode(String token){
+    public String renderQRcode(String token) {
         QRCodeRender qrCodeRender = new QRCodeRender();
         return qrCodeRender.generateEmbeddedQRCodenBase64(token);
+
+    }
+
+    /**
+     * @param serviceLifecycle ServiceLifecycle
+     * @param assetInfoDto     AssetInfoDto
+     */
+    @Override
+    public void updateAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto assetInfoDto) {
+
+        //Update asset entity
+        Asset asset = assetInfoDto.getAsset();
+        serviceLifecycle.requestAssetService().modify(asset);
+
+        //Update list field
+        List<Field> fields = assetInfoDto.getFields();
+        for (Field field : fields) {
+            serviceLifecycle.requestFieldService().modify(field);
+        }
+
+        //Update list image
+        List<Image> images = assetInfoDto.getImages();
+        for (Image image : images) {
+            serviceLifecycle.requestImageService().modify(image);
+        }
+
     }
 
     @Override
-    public List<AssetDto> findAssetList(ServiceLifecycle serviceLifecycle,String owner, int status) {
+    public List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle,String owner, int status) {
         List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(owner, status));
-        List<AssetDto>  result = new ArrayList<>();
+        List<AssetInfoDto>  result = new ArrayList<>();
         if (!ObjectUtils.isEmpty(assetList)){
             for (Asset asset: assetList){
-                AssetDto item = new AssetDto();
+                AssetInfoDto item = new AssetInfoDto();
                 item.setAsset(asset);
                 item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
                 item.setFields(serviceLifecycle.requestFieldService().findFieldInfos(asset.getId()));
@@ -209,10 +235,10 @@ public class Level2Logic implements Level2Service {
     @Override
     public void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException {
         List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(assetSearch.getOwner(), assetSearch.getStatus()));
-        List<AssetDto>  result = new ArrayList<>();
+        List<AssetInfoDto>  result = new ArrayList<>();
         if (!ObjectUtils.isEmpty(assetList)){
             for (Asset asset: assetList){
-                AssetDto item = new AssetDto();
+                AssetInfoDto item = new AssetInfoDto();
                 item.setAsset(asset);
                 item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
                 item.setFields(serviceLifecycle.requestFieldService().findFieldInfos(asset.getId()));

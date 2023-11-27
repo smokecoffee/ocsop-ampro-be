@@ -16,21 +16,6 @@ public class StoreLifecycler implements StoreLifecycle {
     private final ImageStore imageStore;
 
     @Override
-    public AssetStore requestAssetStore() {
-        return assetStore;
-    }
-
-    @Override
-    public FieldStore requestFieldStore() {
-        return fieldStore;
-    }
-
-    @Override
-    public ImageStore requestImageStore() {
-        return imageStore;
-    }
-
-    @Override
     public QCodeItemStore requestQCodeItemStore() {
         return this.qCodeItemStore;
     }
@@ -39,4 +24,21 @@ public class StoreLifecycler implements StoreLifecycle {
     public SCodeItemStore requestSCodeItemStore() {
         return this.sCodeItemStore;
     }
+
+    @Override
+    public AssetStore requestAssetStore() {
+        return this.assetStore;
+    }
+
+    @Override
+    public FieldStore requestFieldStore() {
+        return this.fieldStore;
+    }
+
+    @Override
+    public ImageStore requestImageStore() {
+        return this.imageStore;
+    }
+
+
 }

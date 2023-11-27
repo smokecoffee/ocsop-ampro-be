@@ -13,10 +13,4 @@ public class AssetResource {
         this.service = service;
     }
 
-    @CrossOrigin
-    @GetMapping(path = "/find/{id}")
-    public Asset find(@PathVariable String id) {
-        return this.service.retrieve(id);
-    }
-
 }

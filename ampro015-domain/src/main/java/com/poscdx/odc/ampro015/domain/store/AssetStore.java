@@ -5,15 +5,15 @@ import com.poscdx.odc.ampro015.domain.entity.Asset;
 import java.util.List;
 
 public interface AssetStore {
-    public Asset retrieve(String id);
+    Asset retrieve(int id);
 
-    public List<Asset> retrieveAll();
+    List<Asset> retrieveAll();
+
+    Asset update(Asset entity);
+
+    Asset create(Asset entity);
+
+    void delete(int id);
 
     public List<Asset> retrieveByOwnerAndStatus(String emplName, int status);
-
-    public Asset update(Asset entity);
-
-    public Asset create(Asset entity);
-
-    public void delete(String id);
 }

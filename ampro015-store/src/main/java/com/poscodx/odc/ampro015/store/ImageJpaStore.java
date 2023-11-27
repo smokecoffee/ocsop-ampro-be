@@ -6,8 +6,8 @@ import com.poscodx.odc.ampro015.store.jpo.ImageJpo;
 import com.poscodx.odc.ampro015.store.repository.ImageRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ImageJpaStore implements ImageStore {
@@ -18,27 +18,39 @@ public class ImageJpaStore implements ImageStore {
     }
 
     @Override
-    public List<Image> retrieve(Integer assetId) {
-        return ImageJpo.toDomains(this.repository.findAllByAssetId(assetId));
+    public Image retrieve(int id) {
+        Optional<ImageJpo> retVal = this.repository.findById(id);
+        if (retVal.isPresent()) {
+            return retVal.get().toDomain();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public List<Image> retrieveAll() {
-        return null;
+        return ImageJpo.toDomains(this.repository.findAll());
     }
 
     @Override
     public Image update(Image entity) {
-        return null;
+        ImageJpo jpoToUpdate = new ImageJpo(entity);
+        ImageJpo updatedJpo = this.repository.save(jpoToUpdate);
+        return updatedJpo.toDomain();
     }
 
     @Override
     public Image create(Image entity) {
-        return null;
+        return this.repository.save(new ImageJpo(entity)).toDomain();
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(int id) {
+        this.repository.deleteById(id);
+    }
 
+    @Override
+    public List<Image> retrieveList(Integer assetId) {
+        return ImageJpo.toDomains(this.repository.findAllByAssetId(assetId));
     }
 }

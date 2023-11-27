@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class FieldSpringLogic  extends FieldLogic {
+public class FieldSpringLogic extends FieldLogic {
     public FieldSpringLogic(FieldStore store) {
         super(store);
     }
