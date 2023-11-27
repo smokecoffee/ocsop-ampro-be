@@ -37,4 +37,9 @@ public class ImageLogic implements ImageService {
     public void remove(int id) {
         this.store.delete(id);
     }
+
+    @Override
+    public List<Image> findImageInfos(Integer assetId) {
+        return this.store.retrieveList(assetId);
+    }
 }

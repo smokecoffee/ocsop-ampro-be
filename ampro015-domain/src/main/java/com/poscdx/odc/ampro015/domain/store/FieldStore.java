@@ -14,4 +14,6 @@ public interface FieldStore {
     Field create(Field entity);
 
     void delete(int id);
+
+    public List<Field> retrieveList(Integer id);
 }

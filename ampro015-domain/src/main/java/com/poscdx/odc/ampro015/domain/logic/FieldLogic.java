@@ -37,4 +37,9 @@ public class FieldLogic implements FieldService {
     public void remove(int id) {
         this.store.delete(id);
     }
+
+    @Override
+    public List<Field> findFieldInfos(Integer assetId) {
+        return this.store.retrieveList(assetId);
+    }
 }

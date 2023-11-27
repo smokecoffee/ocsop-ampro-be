@@ -14,4 +14,6 @@ public interface ImageService {
     Image register(Image entity);
 
     void remove(int id);
+
+    List<Image> findImageInfos(Integer assetId);
 }

@@ -14,4 +14,6 @@ public interface AssetStore {
     Asset create(Asset entity);
 
     void delete(int id);
+
+    public List<Asset> retrieveByOwnerAndStatus(String emplName, int status);
 }

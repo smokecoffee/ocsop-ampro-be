@@ -14,4 +14,6 @@ public interface ImageStore {
     Image create(Image entity);
 
     void delete(int id);
+
+    public List<Image> retrieveList(Integer id);
 }

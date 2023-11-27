@@ -48,4 +48,9 @@ public class FieldJpaStore implements FieldStore {
     public void delete(int id) {
         this.repository.deleteById(id);
     }
+
+    @Override
+    public List<Field> retrieveList(Integer assetId) {
+        return FieldJpo.toDomains(this.repository.findAllByAssetId(assetId));
+    }
 }

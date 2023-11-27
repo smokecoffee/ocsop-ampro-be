@@ -49,4 +49,10 @@ public class AssetJpaStore implements AssetStore {
     public void delete(int id) {
         this.repository.deleteById(id);
     }
+
+    @Override
+    public List<Asset> retrieveByOwnerAndStatus(String owner, int status) {
+        Iterable<AssetJpo> list =  this.repository.findAllByOwnerAndStatus(owner,status);
+        return AssetJpo.toDomains(list);
+    }
 }

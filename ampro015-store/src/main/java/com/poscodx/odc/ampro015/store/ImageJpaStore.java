@@ -48,4 +48,9 @@ public class ImageJpaStore implements ImageStore {
     public void delete(int id) {
         this.repository.deleteById(id);
     }
+
+    @Override
+    public List<Image> retrieveList(Integer assetId) {
+        return ImageJpo.toDomains(this.repository.findAllByAssetId(assetId));
+    }
 }

@@ -58,4 +58,29 @@ public class Level2Resource {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
         this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
     }
+
+    @PostMapping("/asset/search")
+    public List<AssetInfoDto> findAssetList(@RequestBody AssetSearch assetSearch) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
+        String owner = assetSearch.getOwner();
+        int status = assetSearch.getStatus();
+        return this.serviceLifecycle.requestLevel2Service().findAssetList(serviceLifecycle, owner, status);
+    }
+
+    @GetMapping("/asset/export-excel")
+    public void exportToExcel(HttpServletResponse response,
+                              @RequestParam(required = true) String owner,
+                              @RequestParam(required = true) Integer status) throws IOException{
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=QR-CODE_" + currentDateTime+ ".xlsx";
+        response.setHeader(headerKey,headerValue);
+        AssetSearch assetSearch = new AssetSearch();
+        assetSearch.setOwner(owner);
+        assetSearch.setStatus(status);
+        this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
+    }
 }
