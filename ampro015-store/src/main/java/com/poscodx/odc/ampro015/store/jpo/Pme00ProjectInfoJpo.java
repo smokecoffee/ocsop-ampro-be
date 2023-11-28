@@ -19,14 +19,14 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Pme00ProjectInfo")
-@Table(name = "tb_pme00_project_info", schema = "AMPRO")
+@Table(name = "tb_pme00_project_info", schema = "POSCTZN")
 public class Pme00ProjectInfoJpo {
     @Id
-    @Column(name = "CD_V_ID")
-    private String cdVId;
+    @Column(name = "CD_V")
+    private String cdV;
 
     @Column(name = "PERIOD")
-    private String period;
+    private int period;
 
     @Column(name = "KOREA_PM")
     private String koreaPm;
@@ -51,11 +51,7 @@ public class Pme00ProjectInfoJpo {
     }
 
     public static List<Pme00ProjectInfo> toDomains(Iterable<Pme00ProjectInfoJpo> jpos) {
-        return StreamSupport.stream(jpos.spliterator(), false).map(FieldJpo::toDomain).collect(Collectors.toList());
+        return StreamSupport.stream(jpos.spliterator(), false).map(Pme00ProjectInfoJpo::toDomain).collect(Collectors.toList());
     }
 
-    @Override
-    public void validateJpo() throws PosBaseException {
-
-    }
 }

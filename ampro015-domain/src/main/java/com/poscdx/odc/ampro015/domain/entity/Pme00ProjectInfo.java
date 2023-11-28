@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pme00ProjectInfo extends PoscoEntity {
-    private String cdVId;
+    private String cdV;
     private int period;
     private String koreaPm;
     private String vietnamPl;
@@ -21,7 +21,7 @@ public class Pme00ProjectInfo extends PoscoEntity {
         return JsonUtil.toJson(this);
     }
 
-    public static Field fromJson(String json) {
-        return JsonUtil.fromJson(json, Field.class);
+    public static Pme00ProjectInfo fromJson(String json) {
+        return JsonUtil.fromJson(json, Pme00ProjectInfo.class);
     }
 }

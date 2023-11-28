@@ -1,8 +1,12 @@
 package com.poscodx.odc.ampro015.service.rest;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
+import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
+import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Pme00ProjectInfo")
@@ -10,4 +14,35 @@ public class Pme00ProjectInfoResource {
     private final Pme00ProjectInfoService service;
 
     public Pme00ProjectInfoResource(Pme00ProjectInfoService service) { this.service = service; }
+
+    @CrossOrigin
+    @GetMapping(path = "/all")
+    public List<Pme00ProjectInfo> findAll() {
+        return this.service.findAll();
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/findById")
+    public Pme00ProjectInfo find(@RequestBody String cdVId) {
+        return this.service.find(cdVId);
+    }
+
+    @CrossOrigin
+    @PostMapping
+    public Pme00ProjectInfo register(@RequestBody Pme00ProjectInfo entity) {
+        return this.service.register(entity);
+    }
+
+    @CrossOrigin
+    @PutMapping(path = "/modify")
+    public void modify(@RequestBody List<Pme00ProjectInfo> entityList) {
+        this.service.modify(entityList);
+    }
+
+    @CrossOrigin
+    @DeleteMapping(path = "/")
+    public void remove(@RequestBody String cdVId) {
+        this.service.remove(cdVId);
+    }
+
 }

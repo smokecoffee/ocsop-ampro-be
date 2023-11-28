@@ -24,8 +24,13 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public Pme00ProjectInfo modify(Pme00ProjectInfo pme00ProjectInfo) {
-        return this.store.update(pme00ProjectInfo);
+    public void modify(List<Pme00ProjectInfo> entityList) {
+        entityList.forEach(this.store::update);
+    }
+
+    @Override
+    public Pme00ProjectInfo register(Pme00ProjectInfo entity) {
+        return this.store.create(entity);
     }
 
     @Override
