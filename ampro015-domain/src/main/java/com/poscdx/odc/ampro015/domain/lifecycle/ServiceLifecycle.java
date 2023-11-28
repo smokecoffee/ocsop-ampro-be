@@ -12,4 +12,6 @@ public interface ServiceLifecycle {
     Pme00MemberService requestPme00MemberService();
 
     Pme00EmployeeMeetingService requestPme00EmployeeMeetingService();
+
+    Pme00MeetingService requestPme00MeetingService();
 }

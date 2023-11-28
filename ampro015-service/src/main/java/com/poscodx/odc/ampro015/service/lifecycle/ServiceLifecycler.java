@@ -15,6 +15,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final ImageService imageService;
     private final Pme00MemberService pme00MemberService;
     private final Pme00EmployeeMeetingService pme00EmployeeMeetingService;
+    private final Pme00MeetingService pme00MeetingService;
 
     @Override
     public Level2Service requestLevel2Service() {
@@ -44,6 +45,11 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Pme00EmployeeMeetingService requestPme00EmployeeMeetingService() {
         return this.pme00EmployeeMeetingService;
+    }
+
+    @Override
+    public Pme00MeetingService requestPme00MeetingService() {
+        return this.pme00MeetingService;
     }
 
 }
