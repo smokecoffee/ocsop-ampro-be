@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
+import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeMeetingStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeMeetingJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00EmployeeMeetingRepository;
@@ -19,8 +20,8 @@ public class Pme00EmployeeMeetingJpaStore implements Pme00EmployeeMeetingStore {
     }
 
     @Override
-    public Pme00EmployeeMeeting retrieve(int id) {
-        Optional<Pme00EmployeeMeetingJpo> retVal = this.repository.findById(id);
+    public Pme00EmployeeMeeting retrieve(Pme00EmployeeMeetingId entityId) {
+        Optional<Pme00EmployeeMeetingJpo> retVal = this.repository.findById(entityId);
         if (retVal.isPresent()) {
             return retVal.get().toDomain();
         } else {
@@ -46,8 +47,8 @@ public class Pme00EmployeeMeetingJpaStore implements Pme00EmployeeMeetingStore {
     }
 
     @Override
-    public void delete(int id) {
-        this.repository.deleteById(id);
+    public void delete(Pme00EmployeeMeetingId entityId) {
+        this.repository.deleteById(entityId);
     }
 
 }

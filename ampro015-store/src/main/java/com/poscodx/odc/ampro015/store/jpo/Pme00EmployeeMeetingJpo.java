@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
+import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @Entity(name = "Pme00EmployeeMeeting")
 @Table(name = "TB_PME00_EMPLOYEE_MEETING", schema = "POSCTZN")
+@IdClass(Pme00EmployeeMeetingId.class)
 public class Pme00EmployeeMeetingJpo {
 
     @Id
@@ -23,9 +25,11 @@ public class Pme00EmployeeMeetingJpo {
     @Column(name = "EMP_MEET_ID")
     private int empMeetId;
 
+    @Id
     @Column(name = "MEETING_ID")
     private int meetingId;
 
+    @Id
     @Column(name = "EMP_ID")
     private String empId;
 
