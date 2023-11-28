@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Pme00EmployeeMeetingService {
 
-    Pme00EmployeeMeeting find(Pme00EmployeeMeetingId entityId);
+    Pme00EmployeeMeeting find(int id);
 
     List<Pme00EmployeeMeeting> findAll();
 
@@ -15,6 +15,6 @@ public interface Pme00EmployeeMeetingService {
 
     Pme00EmployeeMeeting register(Pme00EmployeeMeeting entity);
 
-    void remove(Pme00EmployeeMeetingId entityId);
+    void remove(int id);
 
 }

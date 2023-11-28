@@ -6,7 +6,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
 import java.util.List;
 
 public interface Pme00EmployeeMeetingStore {
-    Pme00EmployeeMeeting retrieve(Pme00EmployeeMeetingId entityId);
+    Pme00EmployeeMeeting retrieve(int id);
 
     List<Pme00EmployeeMeeting> retrieveAll();
 
@@ -14,6 +14,6 @@ public interface Pme00EmployeeMeetingStore {
 
     Pme00EmployeeMeeting create(Pme00EmployeeMeeting entity);
 
-    void delete(Pme00EmployeeMeetingId entityId);
+    void delete(int id);
 
 }
