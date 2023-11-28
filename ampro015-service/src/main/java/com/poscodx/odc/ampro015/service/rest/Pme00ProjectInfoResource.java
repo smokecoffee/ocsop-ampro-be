@@ -1,7 +1,5 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,7 @@ public class Pme00ProjectInfoResource {
     }
 
     @CrossOrigin
-    @PostMapping(path = "/findById")
+    @PostMapping(path = "/find")
     public Pme00ProjectInfo find(@RequestBody String cdVId) {
         return this.service.find(cdVId);
     }
