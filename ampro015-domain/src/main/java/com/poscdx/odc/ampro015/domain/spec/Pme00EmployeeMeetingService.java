@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
 
 import java.util.List;
 
