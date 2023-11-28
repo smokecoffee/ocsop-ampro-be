@@ -4,8 +4,6 @@ import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
-import java.util.Date;
-
 
 @Getter
 @Setter
