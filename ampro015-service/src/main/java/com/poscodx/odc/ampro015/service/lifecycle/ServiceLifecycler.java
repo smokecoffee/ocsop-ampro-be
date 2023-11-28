@@ -1,10 +1,7 @@
 package com.poscodx.odc.ampro015.service.lifecycle;
 
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.spec.AssetService;
-import com.poscdx.odc.ampro015.domain.spec.FieldService;
-import com.poscdx.odc.ampro015.domain.spec.ImageService;
-import com.poscdx.odc.ampro015.domain.spec.Level2Service;
+import com.poscdx.odc.ampro015.domain.spec.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +13,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final AssetService assetService;
     private final FieldService fieldService;
     private final ImageService imageService;
+    private final M00Codes030Service m00Codes030Service;
 
     @Override
     public Level2Service requestLevel2Service() {
@@ -35,5 +33,10 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public ImageService requestImageService() {
         return this.imageService;
+    }
+
+    @Override
+    public M00Codes030Service requestM00Codes030Service(){
+        return this.m00Codes030Service;
     }
 }

@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.StoreLifecycle;
 import com.poscdx.odc.ampro015.domain.store.AssetStore;
 import com.poscdx.odc.ampro015.domain.store.FieldStore;
 import com.poscdx.odc.ampro015.domain.store.ImageStore;
+import com.poscdx.odc.ampro015.domain.store.M00Codes030Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ public class StoreLifecycler implements StoreLifecycle {
     private final AssetStore assetStore;
     private final FieldStore fieldStore;
     private final ImageStore imageStore;
+    private final M00Codes030Store m00Codes030Store;
 
     @Override
     public AssetStore requestAssetStore() {
@@ -28,6 +30,11 @@ public class StoreLifecycler implements StoreLifecycle {
     @Override
     public ImageStore requestImageStore() {
         return this.imageStore;
+    }
+
+    @Override
+    public M00Codes030Store requestM00Codes030Store(){
+        return this.m00Codes030Store;
     }
 
 
