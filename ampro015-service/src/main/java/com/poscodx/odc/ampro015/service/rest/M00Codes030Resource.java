@@ -27,18 +27,18 @@ public class M00Codes030Resource {
         return this.service.find(id);
     }
 
-    @PostMapping
-    public M00Codes030 register(@RequestBody M00Codes030 entity){
-        return this.service.register(entity);
-    }
-
-    @PutMapping
-    public void modify(@RequestBody List<M00Codes030> entityList){
-        this.service.modify(entityList);
-    }
-
-    @DeleteMapping
-    public void delete(@RequestBody M00Codes030Id id){
-        this.service.remove(id);
-    }
+//    @PostMapping
+//    public M00Codes030 register(@RequestBody M00Codes030 entity){
+//        return this.service.register(entity);
+//    }
+//
+//    @PutMapping
+//    public void modify(@RequestBody List<M00Codes030> entityList){
+//        this.service.modify(entityList);
+//    }
+//
+//    @DeleteMapping
+//    public void delete(@RequestBody M00Codes030Id id){
+//        this.service.remove(id);
+//    }
 }
