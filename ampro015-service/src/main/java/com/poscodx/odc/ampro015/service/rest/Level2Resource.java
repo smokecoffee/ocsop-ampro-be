@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
+import com.poscdx.odc.ampro015.domain.entity.Task;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
@@ -57,5 +58,25 @@ public class Level2Resource {
         assetSearch.setOwner(owner);
         assetSearch.setStatus(status);
         this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
+    }
+
+    @GetMapping("/task")
+    public Task getTask(HttpServletResponse response,
+                        @RequestParam(required = true) String projectNumber,
+                        @RequestParam(required = false) String taskName) throws IOException{
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=QR-CODE_" + currentDateTime+ ".xlsx";
+        response.setHeader(headerKey,headerValue);
+        return this.serviceLifecycle.requestTaskService().find(projectNumber, taskName);
+    }
+
+    @PutMapping("/task")
+    public Task updateTask(HttpServletResponse response,
+                        @RequestBody(required = false) Task requestTask) throws IOException{
+        return this.serviceLifecycle.requestTaskService().modify(requestTask);
     }
 }

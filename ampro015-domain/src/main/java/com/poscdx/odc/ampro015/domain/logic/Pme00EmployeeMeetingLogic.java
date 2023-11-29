@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeetingId;
 import com.poscdx.odc.ampro015.domain.spec.Pme00EmployeeMeetingService;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeMeetingStore;
 
@@ -15,8 +14,8 @@ public class Pme00EmployeeMeetingLogic implements Pme00EmployeeMeetingService {
     }
 
     @Override
-    public Pme00EmployeeMeeting find(Pme00EmployeeMeetingId entityId) {
-        return this.store.retrieve(entityId);
+    public Pme00EmployeeMeeting find(int id) {
+        return this.store.retrieve(id);
     }
 
     @Override
@@ -35,8 +34,8 @@ public class Pme00EmployeeMeetingLogic implements Pme00EmployeeMeetingService {
     }
 
     @Override
-    public void remove(Pme00EmployeeMeetingId entityId) {
-        this.store.delete(entityId);
+    public void remove(int id) {
+        this.store.delete(id);
     }
 
 }
