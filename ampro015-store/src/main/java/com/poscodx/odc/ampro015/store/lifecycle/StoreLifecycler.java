@@ -1,11 +1,7 @@
 package com.poscodx.odc.ampro015.store.lifecycle;
 
 import com.poscdx.odc.ampro015.domain.lifecycle.StoreLifecycle;
-import com.poscdx.odc.ampro015.domain.store.AssetStore;
-import com.poscdx.odc.ampro015.domain.store.FieldStore;
-import com.poscdx.odc.ampro015.domain.store.ImageStore;
-import com.poscdx.odc.ampro015.domain.store.M00Codes030Store;
-import com.poscdx.odc.ampro015.domain.store.TaskStore;
+import com.poscdx.odc.ampro015.domain.store.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +13,11 @@ public class StoreLifecycler implements StoreLifecycle {
     private final FieldStore fieldStore;
     private final ImageStore imageStore;
     private final M00Codes030Store m00Codes030Store;
-    private final TaskStore taskStore;
+    private final M00TaskStore m00TaskStore;
+    private final Pme00EmployeeMeetingStore pme00EmployeeMeetingStore;
+    private final Pme00MeetingStore pme00MeetingStore;
+    private final Pme00MemberStore pme00MemberStore;
+    private final Pme00ProjectInfoStore pme00ProjectInfoStore;
 
     @Override
     public AssetStore requestAssetStore() {
@@ -39,7 +39,27 @@ public class StoreLifecycler implements StoreLifecycle {
         return this.m00Codes030Store;
     }
 
-    public TaskStore requestTaskStore() {
-        return this.taskStore;
+    public M00TaskStore requestTaskStore() {
+        return this.m00TaskStore;
+    }
+
+    @Override
+    public Pme00EmployeeMeetingStore requestPme00EmployeeMeetingStore() {
+        return this.pme00EmployeeMeetingStore;
+    }
+
+    @Override
+    public Pme00MeetingStore requestMeetingStore() {
+        return this.pme00MeetingStore;
+    }
+
+    @Override
+    public Pme00MemberStore requestMemberStore() {
+        return this.pme00MemberStore;
+    }
+
+    @Override
+    public Pme00ProjectInfoStore requestPme00ProjectInfoStore() {
+        return this.pme00ProjectInfoStore;
     }
 }

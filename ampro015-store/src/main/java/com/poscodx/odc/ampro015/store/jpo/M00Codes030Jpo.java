@@ -1,10 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.Asset;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.poscoict.base.share.jpo.PoscoEntityJpo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

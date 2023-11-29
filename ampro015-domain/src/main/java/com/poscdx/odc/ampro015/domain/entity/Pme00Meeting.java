@@ -1,9 +1,9 @@
 package com.poscdx.odc.ampro015.domain.entity;
+
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
+
 import java.util.Date;
-import com.poscoict.base.share.domain.PoscoEntity;
-import com.poscoict.base.share.util.json.JsonUtil;
 
 
 @Getter

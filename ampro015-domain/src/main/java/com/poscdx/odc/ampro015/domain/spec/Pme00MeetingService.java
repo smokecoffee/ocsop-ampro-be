@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.Image;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 
 import java.util.List;

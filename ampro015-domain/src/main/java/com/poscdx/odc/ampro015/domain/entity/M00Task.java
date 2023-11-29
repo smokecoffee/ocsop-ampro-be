@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
+public class M00Task {
     private String projectNumber;
     private String taskName;
     private String taskExplain;
@@ -33,7 +33,7 @@ public class Task {
         return JsonUtil.toJson(this);
     }
 
-    public static Task fromJson(String json) {
-        return JsonUtil.fromJson(json, Task.class);
+    public static M00Task fromJson(String json) {
+        return JsonUtil.fromJson(json, M00Task.class);
     }
 }

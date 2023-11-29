@@ -21,11 +21,7 @@ public class Pme00MemberJpaStore implements Pme00MemberStore {
     @Override
     public Pme00Member retrieve(int id) {
         Optional<Pme00MemberJpo> retVal = this.repository.findById(id);
-        if (retVal.isPresent()) {
-            return retVal.get().toDomain();
-        } else {
-            return null;
-        }
+        return retVal.map(Pme00MemberJpo::toDomain).orElse(null);
     }
 
     @Override

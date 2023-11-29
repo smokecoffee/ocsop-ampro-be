@@ -1,7 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.Task;
-import com.poscdx.odc.ampro015.domain.entity.TaskId;
+import com.poscdx.odc.ampro015.domain.entity.M00Task;
+import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,9 +22,9 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Task")
-@Table(name = "TB_PME00_TASK", schema = "POSCTZN")
-@IdClass(TaskId.class)
-public class Pme00TaskJpo implements Serializable {
+@Table(name = "TB_M00_TASK", schema = "POSCTZN")
+@IdClass(M00TaskId.class)
+public class M00TaskJpo implements Serializable {
     @Id
     @Column(name = "PROJECT_NUMBER")
     private String projectNumber;
@@ -68,18 +68,18 @@ public class Pme00TaskJpo implements Serializable {
     @Column(name = "CATEGORY")
     private String category;
 
-    public Pme00TaskJpo(Task domainEntity) {
+    public M00TaskJpo(M00Task domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }
 
-    public Task toDomain() {
-        Task domainEntity = new Task();
+    public M00Task toDomain() {
+        M00Task domainEntity = new M00Task();
         BeanUtils.copyProperties(this, domainEntity);
         return domainEntity;
     }
 
-    public static List<Task> toDomains(Iterable<Pme00TaskJpo> jpos) {
-        return StreamSupport.stream(jpos.spliterator(), false).map(Pme00TaskJpo::toDomain).collect(Collectors.toList());
+    public static List<M00Task> toDomains(Iterable<M00TaskJpo> jpos) {
+        return StreamSupport.stream(jpos.spliterator(), false).map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 
 }

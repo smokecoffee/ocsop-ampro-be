@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.lifecycle;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.*;
 
 public interface ServiceLifecycle {
@@ -9,8 +10,12 @@ public interface ServiceLifecycle {
     FieldService requestFieldService();
     ImageService requestImageService();
     M00Codes030Service requestM00Codes030Service();
-    Pme00MemberService requestPme00MemberService();
+    M00TaskService requestTaskService();
     Pme00EmployeeMeetingService requestPme00EmployeeMeetingService();
+
     Pme00MeetingService requestPme00MeetingService();
-    TaskService requestTaskService();
+    Pme00MemberService requestPme00MemberService();
+    Pme00ProjectInfoService requestPme00ProjectInfoService();
+
+
 }

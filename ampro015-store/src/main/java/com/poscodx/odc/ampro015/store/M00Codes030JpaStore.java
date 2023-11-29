@@ -27,11 +27,7 @@ public class M00Codes030JpaStore implements M00Codes030Store {
     @Override
     public M00Codes030 retrieve(M00Codes030Id id){
         Optional<M00Codes030Jpo> retVal = this.repository.findById(id);
-        if (retVal.isPresent()) {
-            return retVal.get().toDomain();
-        } else {
-            return null;
-        }
+        return retVal.map(M00Codes030Jpo::toDomain).orElse(null);
     }
 
     @Override
