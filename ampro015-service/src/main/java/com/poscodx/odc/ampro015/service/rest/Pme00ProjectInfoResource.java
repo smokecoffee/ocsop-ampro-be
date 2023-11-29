@@ -21,8 +21,8 @@ public class Pme00ProjectInfoResource {
 
     @CrossOrigin
     @PostMapping(path = "/find")
-    public Pme00ProjectInfo find(@RequestBody String cdVId) {
-        return this.service.find(cdVId);
+    public Pme00ProjectInfo find(@RequestBody Pme00ProjectInfo entity) {
+        return this.service.find(entity.getCdV());
     }
 
     @CrossOrigin
@@ -39,8 +39,8 @@ public class Pme00ProjectInfoResource {
 
     @CrossOrigin
     @DeleteMapping
-    public void remove(@RequestBody String cdVId) {
-        this.service.remove(cdVId);
+    public void remove(@RequestBody Pme00ProjectInfo entity) {
+        this.service.remove(entity.getCdV());
     }
 
 }

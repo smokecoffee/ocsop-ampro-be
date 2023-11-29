@@ -22,8 +22,8 @@ public class M00Codes020Resource {
     }
 
     @PostMapping(path="/find")
-    public M00Codes020 find(@RequestBody int cdTpId){
-        return this.service.find(cdTpId);
+    public M00Codes020 find(@RequestBody M00Codes020 entity){
+        return this.service.find(entity.getCdTpId());
     }
 
 }

@@ -22,8 +22,8 @@ public class Pme00MemberResource {
 
     @CrossOrigin
     @PostMapping(path = "/find")
-    public Pme00Member find(@RequestBody int id) {
-        return this.service.find(id);
+    public Pme00Member find(@RequestBody Pme00Member entity) {
+        return this.service.find(entity.getMemberId());
     }
 
     @CrossOrigin
@@ -40,8 +40,8 @@ public class Pme00MemberResource {
 
     @CrossOrigin
     @DeleteMapping
-    public void remove(@RequestBody int id) {
-        this.service.remove(id);
+    public void remove(@RequestBody Pme00Member entity) {
+        this.service.remove(entity.getMemberId());
     }
 
 }
