@@ -21,11 +21,7 @@ public class Pme00EmployeeMeetingJpaStore implements Pme00EmployeeMeetingStore {
     @Override
     public Pme00EmployeeMeeting retrieve(int id) {
         Optional<Pme00EmployeeMeetingJpo> retVal = this.repository.findById(id);
-        if (retVal.isPresent()) {
-            return retVal.get().toDomain();
-        } else {
-            return null;
-        }
+        return retVal.map(Pme00EmployeeMeetingJpo::toDomain).orElse(null);
     }
 
     @Override

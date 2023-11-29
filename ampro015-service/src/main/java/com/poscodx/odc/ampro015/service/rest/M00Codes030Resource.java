@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/codes030")
-@CrossOrigin
 public class M00Codes030Resource {
 
     private final M00Codes030Service service;
@@ -29,17 +28,17 @@ public class M00Codes030Resource {
         return this.service.find(id);
     }
 
-    @PostMapping(path="/")
+    @PostMapping
     public M00Codes030 register(@RequestBody M00Codes030 entity){
         return this.service.register(entity);
     }
 
-    @PutMapping(path="/modify")
+    @PutMapping
     public void modify(@RequestBody List<M00Codes030> entityList){
         this.service.modify(entityList);
     }
 
-    @DeleteMapping(path="/delete")
+    @DeleteMapping
     public void delete(@RequestBody M00Codes030Id id){
         this.service.remove(id);
     }

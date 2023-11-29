@@ -1,9 +1,6 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.Image;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.poscoict.base.share.jpo.PoscoEntityJpo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,10 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter

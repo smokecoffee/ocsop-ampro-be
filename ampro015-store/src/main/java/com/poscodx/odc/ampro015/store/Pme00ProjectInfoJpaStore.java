@@ -20,11 +20,7 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     @Override
     public Pme00ProjectInfo retrieve(String cdVId) {
         Optional<Pme00ProjectInfoJpo> retVal = this.repository.findById(cdVId);
-        if (retVal.isPresent()) {
-            return retVal.get().toDomain();
-        } else {
-            return null;
-        }
+        return retVal.map(Pme00ProjectInfoJpo::toDomain).orElse(null);
     }
 
     @Override
