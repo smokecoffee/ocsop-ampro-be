@@ -31,7 +31,7 @@ public class StoreLifecycler implements StoreLifecycle {
     }
 
     @Override
-    public M00Codes030Store requestM00Codes030Store() {
+    public M00Codes030Store requestM00Codes030Store(){
         return this.m00Codes030Store;
     }
 
