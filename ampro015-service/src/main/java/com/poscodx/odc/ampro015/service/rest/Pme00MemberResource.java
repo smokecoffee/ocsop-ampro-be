@@ -33,13 +33,13 @@ public class Pme00MemberResource {
     }
 
     @CrossOrigin
-    @PutMapping(path = "/modify")
+    @PutMapping
     public void modify(@RequestBody List<Pme00Member> entityList) {
         this.service.modify(entityList);
     }
 
     @CrossOrigin
-    @DeleteMapping(path = "/")
+    @DeleteMapping
     public void remove(@RequestBody int id) {
         this.service.remove(id);
     }

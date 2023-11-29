@@ -34,13 +34,13 @@ public class M00TaskResource {
     }
 
     @CrossOrigin
-    @PutMapping(path = "/modify")
+    @PutMapping
     public void modify(@RequestBody List<M00Task> entityList) {
         this.service.modify(entityList);
     }
 
     @CrossOrigin
-    @DeleteMapping(path = "/")
+    @DeleteMapping
     public void remove(@RequestBody M00TaskId id) {
         this.service.remove(id);
     }

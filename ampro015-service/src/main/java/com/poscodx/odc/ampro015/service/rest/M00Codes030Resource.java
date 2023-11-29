@@ -27,17 +27,17 @@ public class M00Codes030Resource {
         return this.service.find(id);
     }
 
-    @PostMapping(path="/create")
+    @PostMapping
     public M00Codes030 register(@RequestBody M00Codes030 entity){
         return this.service.register(entity);
     }
 
-    @PutMapping(path="/")
+    @PutMapping
     public void modify(@RequestBody List<M00Codes030> entityList){
         this.service.modify(entityList);
     }
 
-    @DeleteMapping(path="/delete")
+    @DeleteMapping
     public void delete(@RequestBody M00Codes030Id id){
         this.service.remove(id);
     }

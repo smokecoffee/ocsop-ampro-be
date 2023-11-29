@@ -33,13 +33,13 @@ public class Pme00EmployeeMeetingResource {
     }
 
     @CrossOrigin
-    @PutMapping(path = "/modify")
+    @PutMapping
     public void modify(@RequestBody List<Pme00EmployeeMeeting> entityList) {
         this.service.modify(entityList);
     }
 
     @CrossOrigin
-    @DeleteMapping(path = "/")
+    @DeleteMapping
     public void remove(@RequestBody int id) {
         this.service.remove(id);
     }
