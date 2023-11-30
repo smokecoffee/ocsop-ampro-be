@@ -24,17 +24,30 @@ public class Level2Resource {
 
     private final ServiceLifecycle serviceLifecycle;
 
+    /**
+     * 
+     * @return
+     */
     @GetMapping("/render-qrcode")
     public String renderQRcode() {
         return this.serviceLifecycle.requestLevel2Service().renderQRcode("KHUGNSH6CCDS");
     }
 
+    /**
+     *
+     * @param assetInfoDto
+     */
     @PutMapping(path = "/asset")
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
         this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
     }
 
+    /**
+     *
+     * @param assetSearch
+     * @return
+     */
     @PostMapping("/asset/search")
     public List<AssetInfoDto> findAssetList(@RequestBody AssetSearch assetSearch) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
@@ -43,6 +56,13 @@ public class Level2Resource {
         return this.serviceLifecycle.requestLevel2Service().findAssetList(serviceLifecycle, owner, status);
     }
 
+    /**
+     *
+     * @param response
+     * @param owner
+     * @param status
+     * @throws IOException
+     */
     @GetMapping("/asset/export-excel")
     public void exportToExcel(HttpServletResponse response,
                               @RequestParam(required = true) String owner,
@@ -59,7 +79,7 @@ public class Level2Resource {
         assetSearch.setStatus(status);
 
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
-        
+
         this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
     }
 
