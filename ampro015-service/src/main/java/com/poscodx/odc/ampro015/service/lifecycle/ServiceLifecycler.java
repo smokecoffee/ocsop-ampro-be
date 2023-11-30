@@ -20,6 +20,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00MemberService pme00MemberService;
     private final Pme00ProjectInfoService pme00ProjectInfoService;
     private final Pme00AnnouncementService pme00AnnouncementService;
+    private final Pme00EmployeeTaskService pme00EmployeeTaskService;
 
     @Override
     public Level2Service requestLevel2Service() {
@@ -69,6 +70,11 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Pme00ProjectInfoService requestPme00ProjectInfoService() {
         return this.pme00ProjectInfoService;
+    }
+
+    @Override
+    public Pme00EmployeeTaskService requestPme00EmployeeTaskService() {
+        return this.pme00EmployeeTaskService;
     }
 
     @Override
