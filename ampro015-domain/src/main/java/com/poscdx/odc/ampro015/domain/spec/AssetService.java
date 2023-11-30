@@ -18,4 +18,6 @@ public interface AssetService {
 
     List<Asset> findAssetInfos(String emplName, int status);
 
+    Asset findByToken(String token);
+
 }

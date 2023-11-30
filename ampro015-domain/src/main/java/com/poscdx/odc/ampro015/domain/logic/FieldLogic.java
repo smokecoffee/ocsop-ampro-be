@@ -42,4 +42,9 @@ public class FieldLogic implements FieldService {
     public List<Field> findFieldInfos(Integer assetId) {
         return this.store.retrieveList(assetId);
     }
+
+    @Override
+    public List<Field> findByAssetId(int id) {
+        return this.store.findByAssetId(id);
+    }
 }

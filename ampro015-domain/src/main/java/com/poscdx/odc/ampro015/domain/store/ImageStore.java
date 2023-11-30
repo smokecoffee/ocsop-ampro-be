@@ -16,4 +16,6 @@ public interface ImageStore {
     void delete(int id);
 
     public List<Image> retrieveList(Integer id);
+
+    List<Image> findByAssetId(int id);
 }

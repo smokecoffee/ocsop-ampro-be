@@ -48,6 +48,7 @@ public class Level2Resource {
      * @param assetSearch
      * @return
      */
+    @CrossOrigin
     @PostMapping("/asset/search")
     public List<AssetInfoDto> findAssetList(@RequestBody AssetSearch assetSearch) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
@@ -81,6 +82,20 @@ public class Level2Resource {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
 
         this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/asset")
+    public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
+        return this.serviceLifecycle.requestLevel2Service().getAsset(serviceLifecycle, token);
+    }
+
+    @CrossOrigin
+    @DeleteMapping(path = "/asset")
+    public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) int userId) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] Asset Token : " +JsonUtil.toJson(token), this);
+        this.serviceLifecycle.requestLevel2Service().deleteAsset(serviceLifecycle, token, userId);
     }
 
 }

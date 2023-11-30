@@ -16,4 +16,6 @@ public interface AssetStore {
     void delete(int id);
 
     public List<Asset> retrieveByOwnerAndStatus(String emplName, int status);
+
+    Asset findByToken(String token);
 }
