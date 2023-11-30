@@ -57,6 +57,9 @@ public class Level2Resource {
         AssetSearch assetSearch = new AssetSearch();
         assetSearch.setOwner(owner);
         assetSearch.setStatus(status);
+
+        PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
+        
         this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
     }
 
