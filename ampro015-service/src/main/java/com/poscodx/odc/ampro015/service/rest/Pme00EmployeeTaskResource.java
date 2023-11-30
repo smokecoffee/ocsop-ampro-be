@@ -1,5 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
+import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.spec.Pme00EmployeeTaskService;
@@ -23,8 +24,8 @@ public class Pme00EmployeeTaskResource {
 
     @CrossOrigin
     @PostMapping(path = "/find")
-    public Pme00EmployeeTask find(@RequestBody M00TaskId m00TaskId) {
-        return this.service.find(m00TaskId);
+    public Pme00EmployeeTask find(@RequestBody M00EmployeeTaskId m00EmployeeTaskId) {
+        return this.service.find(m00EmployeeTaskId);
     }
 
     @CrossOrigin
@@ -41,8 +42,8 @@ public class Pme00EmployeeTaskResource {
 
     @CrossOrigin
     @DeleteMapping
-    public void remove(@RequestBody M00TaskId m00TaskId) {
-        this.service.remove(m00TaskId);
+    public void remove(@RequestBody M00EmployeeTaskId m00EmployeeTaskId) {
+        this.service.remove(m00EmployeeTaskId);
     }
 
 }
