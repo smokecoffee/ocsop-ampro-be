@@ -30,20 +30,20 @@ public class M00Codes030JpaStore implements M00Codes030Store {
         return retVal.map(M00Codes030Jpo::toDomain).orElse(null);
     }
 
-//    @Override
-//    public M00Codes030 update(M00Codes030 entity){
-//        M00Codes030Jpo jpoToUpdate = new M00Codes030Jpo(entity);
-//        M00Codes030Jpo updatedJpo = this.repository.save(jpoToUpdate);
-//        return updatedJpo.toDomain();
-//    }
-//
-//    @Override
-//    public M00Codes030 create(M00Codes030 entity){
-//        return this.repository.save(new M00Codes030Jpo(entity)).toDomain();
-//    }
-//
-//    @Override
-//    public void delete(M00Codes030Id id){
-//        this.repository.deleteById(id);
-//    }
+    @Override
+    public M00Codes030 update(M00Codes030 entity){
+        M00Codes030Jpo jpoToUpdate = new M00Codes030Jpo(entity);
+        M00Codes030Jpo updatedJpo = this.repository.save(jpoToUpdate);
+        return updatedJpo.toDomain();
+    }
+
+    @Override
+    public M00Codes030 create(M00Codes030 entity){
+        return this.repository.save(new M00Codes030Jpo(entity)).toDomain();
+    }
+
+    @Override
+    public void delete(M00Codes030Id id){
+        this.repository.deleteById(id);
+    }
 }

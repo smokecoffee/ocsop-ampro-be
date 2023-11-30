@@ -11,10 +11,10 @@ public interface M00Codes030Service {
 
     M00Codes030 find(M00Codes030Id id);
 
-//    void modify(List<M00Codes030> entityList);
-//
-//    M00Codes030 register(M00Codes030 entity);
-//
-//    void remove(M00Codes030Id id);
+    void modify(List<M00Codes030> entityList);
+
+    M00Codes030 register(M00Codes030 entity);
+
+    void remove(M00Codes030Id id);
 
 }
