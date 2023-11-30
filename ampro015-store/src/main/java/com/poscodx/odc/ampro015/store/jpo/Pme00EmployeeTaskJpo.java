@@ -1,6 +1,6 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
+import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @Entity(name = "Pme00EmployeeTask")
 @Table(name = "TB_PME00_EMPLOYEE_TASK", schema = "POSCTZN")
-@IdClass(M00TaskId.class)
+@IdClass(M00EmployeeTaskId.class)
 public class Pme00EmployeeTaskJpo {
 
     @Id
@@ -28,8 +28,10 @@ public class Pme00EmployeeTaskJpo {
     @Column(name = "TASK_NAME")
     private String taskName;
 
+    @Id
     @Column(name = "EMP_ID")
     private String empId;
+
     public Pme00EmployeeTaskJpo(Pme00EmployeeTask domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }

@@ -1,6 +1,6 @@
 package com.poscodx.odc.ampro015.store;
 
-import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
+import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeTaskStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
@@ -20,8 +20,8 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     }
 
     @Override
-    public Pme00EmployeeTask retrieve(M00TaskId m00TaskId) {
-        Optional<Pme00EmployeeTaskJpo> retVal = this.repository.findById(m00TaskId);
+    public Pme00EmployeeTask retrieve(M00EmployeeTaskId m00EmployeeTaskId) {
+        Optional<Pme00EmployeeTaskJpo> retVal = this.repository.findById(m00EmployeeTaskId);
         return retVal.map(Pme00EmployeeTaskJpo::toDomain).orElse(null);
     }
 
@@ -43,8 +43,8 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     }
 
     @Override
-    public void delete(M00TaskId m00TaskId) {
-        this.repository.deleteById(m00TaskId);
+    public void delete(M00EmployeeTaskId m00EmployeeTaskId) {
+        this.repository.deleteById(m00EmployeeTaskId);
     }
 
 }

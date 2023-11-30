@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.spec.Pme00EmployeeTaskService;
@@ -15,8 +16,8 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     }
 
     @Override
-    public Pme00EmployeeTask find(M00TaskId m00TaskId) {
-        return this.store.retrieve(m00TaskId);
+    public Pme00EmployeeTask find(M00EmployeeTaskId m00EmployeeTaskId) {
+        return this.store.retrieve(m00EmployeeTaskId);
     }
 
     @Override
@@ -35,8 +36,8 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     }
 
     @Override
-    public void remove(M00TaskId m00TaskId) {
-        this.store.delete(m00TaskId);
+    public void remove(M00EmployeeTaskId m00EmployeeTaskId) {
+        this.store.delete(m00EmployeeTaskId);
     }
 
 }
