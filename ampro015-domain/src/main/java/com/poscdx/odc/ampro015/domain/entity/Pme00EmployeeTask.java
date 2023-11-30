@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
@@ -10,14 +9,16 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssetSearch extends PoscoEntity {
-    private String owner;
-    private int status;
+public class Pme00EmployeeTask {
+    private String projectNumber;
+    private String taskName;
+    private String empId;
+
     public String toJson() {
         return JsonUtil.toJson(this);
     }
 
-    public static AssetSearch fromJson(String json) {
-        return JsonUtil.fromJson(json, AssetSearch.class);
+    public static Pme00EmployeeTask fromJson(String json) {
+        return JsonUtil.fromJson(json, Pme00EmployeeTask.class);
     }
 }

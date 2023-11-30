@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
-import com.poscdx.odc.ampro015.domain.entity.AssetDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.Field;
 import org.apache.commons.codec.binary.Base64;
@@ -19,11 +18,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ExportExcel {
     private final XSSFWorkbook workbook;
