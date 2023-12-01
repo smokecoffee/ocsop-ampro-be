@@ -44,7 +44,7 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<M00Task> retrieveAll() {
+    public List<M00Task> retrieveAll(String projectNumber) {
         return M00TaskJpo.toDomains(this.repository.findAll());
     }
 }

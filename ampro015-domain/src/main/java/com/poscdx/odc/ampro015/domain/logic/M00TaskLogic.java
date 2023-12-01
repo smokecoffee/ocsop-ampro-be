@@ -23,8 +23,8 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findAll() {
-        return store.retrieveAll();
+    public List<M00Task> findAll(String projectNumber) {
+        return store.retrieveAll(projectNumber);
     }
 
     @Override
