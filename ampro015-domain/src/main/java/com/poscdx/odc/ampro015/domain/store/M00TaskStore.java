@@ -14,5 +14,5 @@ public interface M00TaskStore {
 
     void delete(M00TaskId id);
 
-    public List<M00Task> retrieveAll();
+    public List<M00Task> retrieveAll(String projectNumber);
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface M00TaskService {
     M00Task find(M00TaskId id);
 
-    List<M00Task> findAll();
+    List<M00Task> findAll(String projectNumer);
 
     void modify(List<M00Task> entityList);
 
