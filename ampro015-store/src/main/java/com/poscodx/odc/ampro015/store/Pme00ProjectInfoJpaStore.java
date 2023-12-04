@@ -45,4 +45,9 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
         this.repository.deleteById(cdVId);
     }
 
+    @Override
+    public List<Object[]> getActiveEmployee() {
+        return this.repository.getActiveEmployee();
+    }
+
 }

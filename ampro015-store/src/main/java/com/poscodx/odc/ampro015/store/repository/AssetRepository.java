@@ -14,4 +14,6 @@ public interface AssetRepository extends JpaRepository<AssetJpo, Integer> {
             "AND a.DELETE_AT IS NULL", nativeQuery = true)
     Iterable<AssetJpo> findAllByOwnerAndStatus(@Param("owner") String owner,
                                                @Param("status") int status);
+
+    AssetJpo findByToken(String token);
 }

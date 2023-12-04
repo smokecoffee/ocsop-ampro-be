@@ -13,6 +13,7 @@ public class Pme00EmployeeTask {
     private String projectNumber;
     private String taskName;
     private String empId;
+    private String empName;
 
     public String toJson() {
         return JsonUtil.toJson(this);
