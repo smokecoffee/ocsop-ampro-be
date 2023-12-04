@@ -1,9 +1,11 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
@@ -36,5 +38,15 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     @Override
     public void remove(String cdVId) {
         this.store.delete(cdVId);
+    }
+
+    @Override
+    public List<EmployeeDto> getActiveEmployee() {
+        List<Object[]> resultList = this.store.getActiveEmployee();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            employeeDtoList.add(new EmployeeDto(obj));
+        }
+        return employeeDtoList;
     }
 }

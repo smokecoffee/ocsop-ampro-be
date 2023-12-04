@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -39,6 +40,12 @@ public class Pme00ProjectInfoJpo {
 
     @Column(name = "FRAMEWORK")
     private String framework;
+
+    @Column(name = "START_DATE")
+    private Date startDate;
+
+    @Column(name = "END_DATE")
+    private Date endDate;
 
     public Pme00ProjectInfoJpo(Pme00ProjectInfo domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
