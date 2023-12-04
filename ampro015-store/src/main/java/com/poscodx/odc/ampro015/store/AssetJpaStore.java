@@ -55,4 +55,10 @@ public class AssetJpaStore implements AssetStore {
         Iterable<AssetJpo> list =  this.repository.findAllByOwnerAndStatus(owner,status);
         return AssetJpo.toDomains(list);
     }
+
+    @Override
+    public Asset findByToken(String token) {
+        AssetJpo findAssetJpo = this.repository.findByToken(token);
+        return findAssetJpo.toDomain();
+    }
 }
