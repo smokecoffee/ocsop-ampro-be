@@ -1,7 +1,9 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
+import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
 
+import java.util.Date;
 import java.util.List;
 
 public interface Pme00MeetingService {
@@ -16,4 +18,8 @@ public interface Pme00MeetingService {
     void remove(int id);
 
 
+    List<Pme00Meeting> findAllByAssetId(int cd_tp_id, String title,
+                                        String startTime, String endTime,
+                                        String creatorId, String requesterId,
+                                        String categoryMeeting, String status);
 }
