@@ -37,7 +37,7 @@ public class Pme00MeetingResource {
             Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
             if (findMeeting == null) {
                 this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
-                result.setStatus(HttpStatus.NOT_FOUND.value());
+                result.setStatus(HttpStatus.OK.value());
                 result.setMessage("The meeting has been created successfully");
             } else {
                 result.setStatus(HttpStatus.NOT_FOUND.value());
@@ -81,4 +81,19 @@ public class Pme00MeetingResource {
        return this.serviceLifecycle.requestPme00MeetingService().findAllByAssetId(cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status);
     }
 
+    @PutMapping("/editMeeting")
+    public Pme00MeetingResponse editMeetingRoom(@RequestBody Pme00Meeting newMeeting) {
+        int id = newMeeting.getMeetingId();
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
+        Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
+        if(findMeeting == null) {
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setMessage("This meeting room could not be found");
+        } else {
+            result.setStatus(HttpStatus.OK.value());
+            result.setData(newMeeting);
+            result.setMessage("Edit meeting room successfully");
+        }
+        return result;
+    }
 }
