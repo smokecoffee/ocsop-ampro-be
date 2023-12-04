@@ -14,4 +14,6 @@ public interface Pme00MeetingService {
     Pme00Meeting register(Pme00Meeting entity);
 
     void remove(int id);
+
+
 }

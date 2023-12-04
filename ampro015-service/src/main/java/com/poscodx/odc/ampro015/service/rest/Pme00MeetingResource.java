@@ -1,5 +1,7 @@
 package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
+import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
 import com.poscdx.odc.ampro015.domain.spec.Pme00MeetingService;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
@@ -26,29 +28,46 @@ public class Pme00MeetingResource {
     }
 
     @PostMapping("/addMeeting")
-    public ResponseEntity addMeeting(@RequestBody Pme00Meeting newMeeting) {
+    public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
         boolean checkValidRequest = newMeeting.getMeetingId() > 0 && newMeeting.getCd_tp_id() > 0 && newMeeting.getCreatorId() != "" && newMeeting.getRequesterId() != "" && newMeeting.getCategoryMeeting() != "" ;
         if( checkValidRequest ) {
             int id = newMeeting.getMeetingId();
             Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
             if (findMeeting == null) {
                 this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
-                return new ResponseEntity<>("The meeting has been created successfully", HttpStatus.OK);
+                result.setStatus(HttpStatus.NOT_FOUND.value());
+                result.setMessage("The meeting has been created successfully");
             } else {
-                return new ResponseEntity<>("This meeting has been created", HttpStatus.BAD_REQUEST);
+                result.setStatus(HttpStatus.NOT_FOUND.value());
+                result.setMessage("This meeting has been created");
             }
         } else {
-            return new ResponseEntity<>("Not valid request", HttpStatus.BAD_REQUEST);
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setMessage("Not valid request");
         }
+        return result;
     }
 
-    @GetMapping("/getInforBookingRoom/{id}")
-    public Object searchMeeting(@PathVariable int id) {
+    @GetMapping("/meetings/{id}")
+    public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
         Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
         if(findMeeting == null) {
-            return new ResponseEntity<>("This meeting room could not be found", HttpStatus.BAD_REQUEST);
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setData(null);
+            result.setMessage("This meeting room could not be found");
         } else {
-            return findMeeting;
+        result.setStatus(HttpStatus.OK.value());
+        result.setData(findMeeting);
+        result.setMessage("find successfully");
         }
+        return result;
     }
+
+    @PostMapping("/meetings")
+    public List<Pme00Meeting> searchListMeetings(@RequestBody SearchMeetingDto searchMeeting) {
+
+    }
+
 }
