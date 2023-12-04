@@ -18,4 +18,7 @@ public interface Level2Service {
 
     void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException;
 
+    AssetInfoDto getAsset(ServiceLifecycle serviceLifecycle, String token);
+
+    void deleteAsset(ServiceLifecycle serviceLifecycle, String token, int userId);
 }

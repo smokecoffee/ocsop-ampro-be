@@ -4,6 +4,8 @@ import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +18,8 @@ public class Pme00ProjectInfo extends PoscoEntity {
     private String vietnamPl;
     private String status;
     private String framework;
+    private Date startDate;
+    private Date endDate;
 
     public String toJson() {
         return JsonUtil.toJson(this);
