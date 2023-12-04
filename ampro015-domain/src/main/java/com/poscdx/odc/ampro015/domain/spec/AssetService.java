@@ -15,4 +15,9 @@ public interface AssetService {
     Asset register(Asset entity);
 
     void remove(int id);
+
+    List<Asset> findAssetInfos(String emplName, int status);
+
+    Asset findByToken(String token);
+
 }

@@ -14,4 +14,8 @@ public interface FieldService {
     Field register(Field entity);
 
     void remove(int id);
+
+    List<Field> findFieldInfos(Integer assetId);
+
+    List<Field> findByAssetId(int id);
 }

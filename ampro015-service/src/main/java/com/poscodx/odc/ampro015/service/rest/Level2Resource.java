@@ -1,20 +1,20 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
+import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
+import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,64 +23,17 @@ import java.util.List;
 public class Level2Resource {
 
     private final ServiceLifecycle serviceLifecycle;
-
-    private static final Logger logger = LoggerFactory.getLogger(Level2Resource.class);
-
-    @GetMapping("")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "codeType", value = "코드구분", example = "A: Q코드 / B: S코드 / C : QR코드 / null : 전체"),
-            @ApiImplicitParam(name = "description", value = "검색어", example = "Shaped Refractory")
-    })
-    public List<ItemCodeDto> findItemCodeInfos(@RequestParam(value = "codeType", required = false) String codeType,
-                                               @RequestParam(value = "description", required = false) String description) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "codeType -> " + codeType, this);
-        PosLogger.developerLog(PosLogWriterIF.INFO, "description -> " + description, this);
-        return this.serviceLifecycle.requestLevel2Service().findItemCodeInfos(serviceLifecycle, codeType, description);
-    }
-
-    @PutMapping("/modify")
-    public void modifyItemCodeInfo(@RequestBody List<ItemCodeDto> itemCodeDtoList) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "[수정] itemCodeDtoList -> " + JsonUtil.toJson(itemCodeDtoList), this);
-        this.serviceLifecycle.requestLevel2Service().modifyItemCodeInfo(serviceLifecycle, itemCodeDtoList);
-    }
-
-    @PostMapping("/delete")
-    public void deleteItemCodeInfo(@RequestBody List<ItemCodeDto> itemCodeDtoList) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] itemCodeDtoList -> " + JsonUtil.toJson(itemCodeDtoList), this);
-        this.serviceLifecycle.requestLevel2Service().deleteItemCodeInfo(serviceLifecycle, itemCodeDtoList);
-    }
-
+    /**
+     * 
+     * @return
+     */
     @GetMapping("/render-qrcode")
     public String renderQRcode() {
         return this.serviceLifecycle.requestLevel2Service().renderQRcode("KHUGNSH6CCDS");
     }
 
-    @PutMapping(path = "/asset")
-    public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " + JsonUtil.toJson(assetInfoDto), this);
-        this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
-    }
-
-    /**
-     * createAsset
-     * @author 202293 - Trieu Le
-     * @since 2023-11-23
-     *
-     * @param request AssetInfoDto
-     * @return
-     */
-    @PostMapping("/asset")
-    public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
-        logger.info("<-------- Start processing create new asset with information -------->");
-        ResponseEntity<?> response = null;
-        try {
-            response = this.serviceLifecycle.requestLevel2Service().createAsset(serviceLifecycle, request);
-        } catch (Exception e) {
-            logger.info("Exception - There is an exception when creating a new asset; {}", e.getMessage());
-            response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
-        return response;
+    @GetMapping(path = "/getActiveEmp")
+    public List<EmployeeDto> getActiveEmployee() {
+        return this.serviceLifecycle.requestPme00ProjectInfoService().getActiveEmployee();
     }
 }
-

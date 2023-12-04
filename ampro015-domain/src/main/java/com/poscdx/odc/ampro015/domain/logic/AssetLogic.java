@@ -37,4 +37,15 @@ public class AssetLogic implements AssetService {
     public void remove(int id) {
         this.store.delete(id);
     }
+
+    @Override
+    public List<Asset> findAssetInfos(String owner, int status) {
+        return this.store.retrieveByOwnerAndStatus(owner,status);
+    }
+
+    @Override
+    public Asset findByToken(String token) {
+        return this.store.findByToken(token);
+    }
+
 }
