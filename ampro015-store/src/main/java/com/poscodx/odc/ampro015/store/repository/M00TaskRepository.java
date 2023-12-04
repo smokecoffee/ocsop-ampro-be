@@ -7,8 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> {
-    @Query(value = "SELECT * FROM tb_pme00_task WHERE PROJECT_NUMBER = :projectNumber", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_m00_task WHERE PROJECT_NUMBER = :projectNumber" + " AND LAST_DELETE_TIMESTAMP IS NULL", nativeQuery = true)
     List<M00TaskJpo> findByProjectNumber(@Param("projectNumber") String projectNumber);
+
+    @Query(value = "SELECT * FROM tb_m00_task WHERE PROJECT_NUMBER = :projectNumber" + " AND TASK_NAME = :taskName"+ " AND LAST_DELETE_TIMESTAMP IS NULL", nativeQuery = true)
+    Optional<M00TaskJpo> findOneTaskNumber(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);
 }
