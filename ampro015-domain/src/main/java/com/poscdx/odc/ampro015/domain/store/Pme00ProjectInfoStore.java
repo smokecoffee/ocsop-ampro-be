@@ -14,4 +14,6 @@ public interface Pme00ProjectInfoStore {
     Pme00ProjectInfo create(Pme00ProjectInfo entity);
 
     void delete (String cdVId);
+
+    List<Object[]> getActiveEmployee();
 }
