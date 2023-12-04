@@ -41,4 +41,14 @@ public class Pme00MeetingResource {
             return new ResponseEntity<>("Not valid request", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getInforBookingRoom/{id}")
+    public Object searchMeeting(@PathVariable int id) {
+        Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
+        if(findMeeting == null) {
+            return new ResponseEntity<>("This meeting room could not be found", HttpStatus.BAD_REQUEST);
+        } else {
+            return findMeeting;
+        }
+    }
 }
