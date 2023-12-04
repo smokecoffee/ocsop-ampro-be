@@ -16,4 +16,6 @@ public interface ImageService {
     void remove(int id);
 
     List<Image> findImageInfos(Integer assetId);
+
+    List<Image> findByAssetId(int id);
 }

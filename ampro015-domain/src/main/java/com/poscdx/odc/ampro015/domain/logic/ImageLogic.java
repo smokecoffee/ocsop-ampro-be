@@ -42,4 +42,9 @@ public class ImageLogic implements ImageService {
     public List<Image> findImageInfos(Integer assetId) {
         return this.store.retrieveList(assetId);
     }
+
+    @Override
+    public List<Image> findByAssetId(int id) {
+        return this.store.findByAssetId(id);
+    }
 }
