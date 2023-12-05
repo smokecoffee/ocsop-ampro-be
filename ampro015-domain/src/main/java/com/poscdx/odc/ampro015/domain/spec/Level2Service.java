@@ -26,7 +26,4 @@ public interface Level2Service {
 
     ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request);
 
-    Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
-
-    Pme00ProjectListDto modifyProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
 }
