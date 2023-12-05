@@ -45,15 +45,6 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
                                                String startTime, String endTime,
                                                String creatorId, String requesterId,
                                                String categoryMeeting, String status) {
-//        int cpId = searchMeeting.getCd_tp_id();
-//        String title = searchMeeting.getTitle();
-//        Date startTime = searchMeeting.getStartTime();
-//        Date endTime = searchMeeting.getEndTime();
-//        String creatorId = searchMeeting.getCreatorId();
-//        String requesterId = searchMeeting.getRequesterId();
-//        String categoryMeeting = searchMeeting.getCategoryMeeting();
-//        String status = searchMeeting.getStatus();
-
         return this.store.findAllByAssetId(cd_tp_id, title,
                                         startTime, endTime, creatorId, requesterId,
                                         categoryMeeting, status);
