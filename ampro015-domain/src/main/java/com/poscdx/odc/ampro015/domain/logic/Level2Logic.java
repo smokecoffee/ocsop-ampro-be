@@ -6,14 +6,13 @@ import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Level2Logic implements Level2Service {
 
@@ -141,6 +140,53 @@ public class Level2Logic implements Level2Service {
             }
         }
     }
+
+    /**
+     * createAsset
+     * @author 202293 - Trieu Le
+     *
+     * @param serviceLifecycle ServiceLifecycle
+     * @param request          AssetInfoDto
+     * @return
+     *
+     */
+    @Override
+    public ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request) {
+
+        ResponseEntity<?> response = null;
+
+        try {
+            // Create the new asset
+            Asset asset = request.getAsset();
+            String tokenString = UUID.randomUUID().toString();
+            asset.setToken(tokenString);
+            QRCodeRender drCodeRender = new QRCodeRender();
+            String qrCode = drCodeRender.generateEmbeddedQRCodenBase64(tokenString);
+            asset.setQrcode(qrCode);
+            Asset assetAdded = serviceLifecycle.requestAssetService().register(asset);
+            int assetId = assetAdded.getId();
+
+            // Create the field list
+            List<Field> fields = request.getFields();
+            fields.forEach(field -> {
+                field.setAssetId(assetId);
+                Field filedAdded = serviceLifecycle.requestFieldService().register(field);
+            });
+
+            // Create the image list
+            List<Image> images = request.getImages();
+            images.forEach(image -> {
+                image.setAssetId(assetId);
+                Image imageAdded = serviceLifecycle.requestImageService().register(image);
+            });
+
+            response = new ResponseEntity<>("Successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return response;
+    }
+
 
     @Override
     public Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){

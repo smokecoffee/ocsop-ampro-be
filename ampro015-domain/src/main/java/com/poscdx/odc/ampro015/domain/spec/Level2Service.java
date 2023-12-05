@@ -2,7 +2,6 @@ package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectListDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +21,8 @@ public interface Level2Service {
     AssetInfoDto getAsset(ServiceLifecycle serviceLifecycle, String token);
 
     void deleteAsset(ServiceLifecycle serviceLifecycle, String token, int userId);
+
+    ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request);
 
     Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
 
