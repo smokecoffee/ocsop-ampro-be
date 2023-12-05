@@ -23,7 +23,7 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public M00Task retrieve(M00TaskId id) {
-        Optional<M00TaskJpo> taskResult = this.repository.findOneTaskNumber(id.getProjectNumber(), id.getTaskName());
+        Optional<M00TaskJpo> taskResult = this.repository.findOneTask(id.getProjectNumber(), id.getTaskName());
         return taskResult.map(M00TaskJpo::toDomain).orElse(null);
     }
 

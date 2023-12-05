@@ -15,6 +15,6 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
     List<M00TaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber, Pageable pageable);
 
     @Query(value = "SELECT * FROM tb_m00_task WHERE PROJECT_NUMBER = :projectNumber" + " AND TASK_NAME = :taskName", nativeQuery = true)
-    Optional<M00TaskJpo> findOneTaskNumber(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);
+    Optional<M00TaskJpo> findOneTask(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);
 
 }

@@ -29,7 +29,6 @@ public class M00Task {
     private String writer;
     private String password;
     private String category;
-    private Date lastDeleteTimestamp;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
