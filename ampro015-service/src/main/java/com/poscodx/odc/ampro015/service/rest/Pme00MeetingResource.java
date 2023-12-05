@@ -50,16 +50,19 @@ public class Pme00MeetingResource {
                 List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
 
                 listMember = listMember.stream().map(i -> {
-                    i.setMeetingId(pme00Meeting.getMeetingId());
-                    return i;}
-                ).collect(Collectors.toList());
+                                                i.setMeetingId(pme00Meeting.getMeetingId());
+                                                 return i;})
+                                                .collect(Collectors.toList());
 
-                Set<String> setId =  listMember.stream().map(Pme00EmployeeMeeting::getEmpId).collect(Collectors.toSet());
+                Set<String> setId =  listMember.stream()
+                                               .map(Pme00EmployeeMeeting::getEmpId)
+                                               .collect(Collectors.toSet());
                 System.out.println("setEmpId: " + setId);
 
                 for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
                     if(setId.contains(pme00EmployeeMeeting.getEmpId())){
-                        this.serviceLifecycle.requestPme00EmployeeMeetingService().register(pme00EmployeeMeeting);
+                        this.serviceLifecycle.requestPme00EmployeeMeetingService()
+                                             .register(pme00EmployeeMeeting);
                         setId.remove(pme00EmployeeMeeting.getEmpId());
                     }
                 }
