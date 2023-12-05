@@ -51,6 +51,13 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         return employeeDtoList;
     }
 
+    /**
+     * Insert infor project
+     *
+     * @param serviceLifecycle
+     * @param dto
+     * @return
+     */
     @Override
     public Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){
 
@@ -158,6 +165,25 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         }
 
         return dto;
+    }
+
+    /**
+     * Delete project
+     *
+     * @param serviceLifecycle
+     * @param id
+     */
+    @Override
+    public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id){
+
+        // Delete member in Pme00Member
+        serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
+
+        // Delete project Pme00ProjectInfo
+        serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
+
+        // Delete project M00Codes030
+        serviceLifecycle.requestM00Codes030Service().remove(id);
     }
 
     @Override
