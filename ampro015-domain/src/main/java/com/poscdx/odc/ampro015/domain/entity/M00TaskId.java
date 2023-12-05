@@ -1,13 +1,16 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class M00TaskId implements Serializable {
     private String projectNumber;
     private String taskName;

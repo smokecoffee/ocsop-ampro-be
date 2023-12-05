@@ -2,13 +2,11 @@ package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
+import com.poscdx.odc.ampro015.domain.entity.TaskMember;
 import com.poscdx.odc.ampro015.domain.spec.M00TaskService;
 import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class M00TaskLogic implements M00TaskService {
     private final M00TaskStore store;
@@ -23,8 +21,8 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findAll(String projectNumber) {
-        return store.retrieveAll(projectNumber);
+    public List<M00Task> findAll(String projectNumber, int pageNo, int pageSize, String sortBy, String sortDirection) {
+        return store.retrieveAll(projectNumber, pageNo, pageSize, sortBy, sortDirection);
     }
 
     @Override
