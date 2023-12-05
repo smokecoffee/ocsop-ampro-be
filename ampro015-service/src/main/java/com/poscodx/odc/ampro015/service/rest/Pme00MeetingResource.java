@@ -99,8 +99,7 @@ public class Pme00MeetingResource {
             @RequestParam("creatorId") String creatorId,
             @RequestParam("requesterId") String  requesterId,
             @RequestParam("categoryMeeting") String categoryMeeting,
-            @RequestParam("status") String status
-            ) {
+            @RequestParam("status") String status) {
        return this.serviceLifecycle.requestPme00MeetingService()
                .findAllByAssetId(cd_tp_id,
                                 title,
