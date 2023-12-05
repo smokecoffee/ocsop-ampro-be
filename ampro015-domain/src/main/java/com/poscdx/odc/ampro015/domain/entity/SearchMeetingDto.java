@@ -4,6 +4,7 @@ import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +20,7 @@ public class SearchMeetingDto {
     private String requesterId;
     private String categoryMeeting;
     private String status;
+    private List<Pme00EmployeeMeeting> listMember;
 
     public String toJson() {
         return JsonUtil.toJson(this);

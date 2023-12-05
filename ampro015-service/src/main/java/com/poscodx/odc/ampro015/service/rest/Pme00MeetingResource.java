@@ -1,4 +1,5 @@
 package com.poscodx.odc.ampro015.service.rest;
+import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
@@ -10,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,15 +35,32 @@ public class Pme00MeetingResource {
     @PostMapping("/addMeeting")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        boolean checkValidRequest = newMeeting.getMeetingId() > 0 && newMeeting.getCd_tp_id() > 0 && newMeeting.getCreatorId() != "" && newMeeting.getRequesterId() != "" && newMeeting.getCategoryMeeting() != "" ;
+        boolean checkValidRequest = newMeeting.getMeetingId() > 0 && newMeeting.getCd_tp_id() == 65 && newMeeting.getCreatorId() != "" && newMeeting.getRequesterId() != "" && newMeeting.getCategoryMeeting() != "" ;
         if(checkValidRequest) {
-            int id = newMeeting.getMeetingId();
-            Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
-            if (findMeeting == null) {
-                this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
+            try {
+                Pme00Meeting pme00Meeting = this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
                 result.setStatus(HttpStatus.OK.value());
                 result.setMessage("The meeting has been created successfully");
-            } else {
+
+                //register EmployeeMeeting
+                List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
+
+                listMember = listMember.stream().map(i -> {
+                    i.setMeetingId(pme00Meeting.getMeetingId());
+                    return i;}
+                ).collect(Collectors.toList());
+
+                Set<String> setId =  listMember.stream().map(Pme00EmployeeMeeting::getEmpId).collect(Collectors.toSet());
+                System.out.println("setEmpId: " + setId);
+
+
+                for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
+                    if(setId.contains(pme00EmployeeMeeting.getEmpId())){
+                        this.serviceLifecycle.requestPme00EmployeeMeetingService().register(pme00EmployeeMeeting);
+                        setId.remove(pme00EmployeeMeeting.getEmpId());
+                    }
+                }
+            } catch(Exception e) {
                 result.setStatus(HttpStatus.NOT_FOUND.value());
                 result.setMessage("This meeting has been created");
             }
