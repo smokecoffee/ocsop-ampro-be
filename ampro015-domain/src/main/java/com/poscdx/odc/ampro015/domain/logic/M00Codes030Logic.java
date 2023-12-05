@@ -38,4 +38,9 @@ public class M00Codes030Logic implements M00Codes030Service{
     public void remove(M00Codes030Id id){
         this.store.delete(id);
     }
+
+    @Override
+    public int getMaxSeqInquiry(int cdTpId, int cateGroupId){
+        return this.store.getMaxSeqInquiry(cdTpId, cateGroupId);
+    }
 }

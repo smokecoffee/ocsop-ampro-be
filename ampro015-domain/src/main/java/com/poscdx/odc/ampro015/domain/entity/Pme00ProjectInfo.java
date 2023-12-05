@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pme00ProjectInfo extends PoscoEntity {
+public class Pme00ProjectInfo {
     private String cdV;
     private int period;
     private String koreaPm;

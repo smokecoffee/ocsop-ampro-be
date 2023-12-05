@@ -17,4 +17,5 @@ public interface M00Codes030Service {
 
     void remove(M00Codes030Id id);
 
+    int getMaxSeqInquiry(int cdTpId, int cateGroupId);
 }

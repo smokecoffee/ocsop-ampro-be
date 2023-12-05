@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import org.apache.commons.lang3.StringUtils;
@@ -191,6 +192,24 @@ public class Level2Logic implements Level2Service {
     @Override
     public Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){
 
+        // Insert data M00Codes030
+        M00Codes030 entityCodes030 = new M00Codes030();
+
+        int seq = serviceLifecycle.requestM00Codes030Service().getMaxSeqInquiry(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID) + 1;
+
+        entityCodes030.setCdTpId(dto.getCdTpId());
+        entityCodes030.setCategoryGroupId(dto.getCategoryGroupId());
+        entityCodes030.setCdV(dto.getCdV());
+        entityCodes030.setCdvMeaning(dto.getCdvMeaning());
+        entityCodes030.setCdVExplain(dto.getCdVExplain());
+        entityCodes030.setCdVInquirySeq(seq);
+        entityCodes030.setCreatedProgramId(dto.getCreatedProgramId());
+        entityCodes030.setCreationTimestamp(dto.getCreationTimestamp());
+        entityCodes030.setLastUpdateProgramId(dto.getLastUpdateProgramId());
+        entityCodes030.setLastUpdateTimestamp(dto.getLastUpdateTimestamp());
+
+        serviceLifecycle.requestM00Codes030Service().register(entityCodes030);
+
         // Insert data Pme00ProjectInfo
         Pme00ProjectInfo entityInfo = new Pme00ProjectInfo();
         entityInfo.setCdV(dto.getCdV());
@@ -203,20 +222,6 @@ public class Level2Logic implements Level2Service {
         entityInfo.setFramework(dto.getFramework());
 
         serviceLifecycle.requestPme00ProjectInfoService().register(entityInfo);
-
-        // Insert data M00Codes030
-        M00Codes030 entityCodes030 = new M00Codes030();
-        entityCodes030.setCdTpId(dto.getCdTpId());
-        entityCodes030.setCategoryGroupId(dto.getCategoryGroupId());
-        entityCodes030.setCdV(dto.getCdV());
-        entityCodes030.setCdvMeaning(dto.getCdvMeaning());
-        entityCodes030.setCdVExplain(dto.getCdVExplain());
-        entityCodes030.setCreatedProgramId(dto.getCreatedProgramId());
-        entityCodes030.setCreationTimestamp(dto.getCreationTimestamp());
-        entityCodes030.setLastUpdateProgramId(dto.getLastUpdateProgramId());
-        entityCodes030.setLastUpdateTimestamp(dto.getLastUpdateTimestamp());
-
-        serviceLifecycle.requestM00Codes030Service().register(entityCodes030);
 
         // Insert data Pme00Member
         Pme00Member entityMember;
@@ -232,9 +237,34 @@ public class Level2Logic implements Level2Service {
         return dto;
     }
 
+    /**
+     * Modify project info
+     *
+     * @param serviceLifecycle
+     * @param dto
+     * @return
+     */
     public Pme00ProjectListDto modifyProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){
 
-        // Insert data Pme00ProjectInfo
+        // Update data M00Codes030
+        List<M00Codes030> lstCodes030 = new ArrayList<>();
+        M00Codes030 entityCodes030 = new M00Codes030();
+
+        entityCodes030.setCdTpId(dto.getCdTpId());
+        entityCodes030.setCategoryGroupId(dto.getCategoryGroupId());
+        entityCodes030.setCdV(dto.getCdV());
+        entityCodes030.setCdvMeaning(dto.getCdvMeaning());
+        entityCodes030.setCdVExplain(dto.getCdVExplain());
+        entityCodes030.setCdVInquirySeq(dto.getCdVInquirySeq());
+        entityCodes030.setCreatedProgramId(dto.getCreatedProgramId());
+        entityCodes030.setCreationTimestamp(dto.getCreationTimestamp());
+        entityCodes030.setLastUpdateProgramId(dto.getLastUpdateProgramId());
+        entityCodes030.setLastUpdateTimestamp(dto.getLastUpdateTimestamp());
+        lstCodes030.add(entityCodes030);
+
+        serviceLifecycle.requestM00Codes030Service().modify(lstCodes030);
+
+        // Update data Pme00ProjectInfo
         List<Pme00ProjectInfo> lstProjectInfo = new ArrayList<>();
         Pme00ProjectInfo entityInfo = new Pme00ProjectInfo();
         entityInfo.setCdV(dto.getCdV());
@@ -249,23 +279,11 @@ public class Level2Logic implements Level2Service {
 
         serviceLifecycle.requestPme00ProjectInfoService().modify(lstProjectInfo);
 
-        // Insert data M00Codes030
-        List<M00Codes030> lstCodes030 = new ArrayList<>();
-        M00Codes030 entityCodes030 = new M00Codes030();
-        entityCodes030.setCdTpId(dto.getCdTpId());
-        entityCodes030.setCategoryGroupId(dto.getCategoryGroupId());
-        entityCodes030.setCdV(dto.getCdV());
-        entityCodes030.setCdvMeaning(dto.getCdvMeaning());
-        entityCodes030.setCdVExplain(dto.getCdVExplain());
-        entityCodes030.setCreatedProgramId(dto.getCreatedProgramId());
-        entityCodes030.setCreationTimestamp(dto.getCreationTimestamp());
-        entityCodes030.setLastUpdateProgramId(dto.getLastUpdateProgramId());
-        entityCodes030.setLastUpdateTimestamp(dto.getLastUpdateTimestamp());
-        lstCodes030.add(entityCodes030);
+        // Update data Pme00Member
+        // Delete old member
+        serviceLifecycle.requestPme00MemberService().deleteMemberById(dto.getCdV(), null);
 
-        serviceLifecycle.requestM00Codes030Service().modify(lstCodes030);
-
-        // Insert data Pme00Member
+        // Insert new Pme00Member
         Pme00Member entityMember;
         for (Pme00Member member : dto.getLstMember()) {
             entityMember = new Pme00Member();
