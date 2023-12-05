@@ -81,7 +81,8 @@ public class Pme00MeetingResource {
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
         Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
-        List<Pme00EmployeeMeeting> listMember = this.serviceLifecycle.requestPme00EmployeeMeetingService().findByMeetingId(id);
+        List<Pme00EmployeeMeeting> listMember = this.serviceLifecycle.requestPme00EmployeeMeetingService()
+                                                                    .findByMeetingId(id);
         if(findMeeting == null) {
             result.setStatus(HttpStatus.NOT_FOUND.value());
             result.setData(null);
