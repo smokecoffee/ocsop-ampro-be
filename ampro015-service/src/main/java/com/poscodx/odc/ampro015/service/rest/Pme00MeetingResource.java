@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/meeting")
 public class Pme00MeetingResource {
-    
+
     private final ServiceLifecycler serviceLifecycle;
 
     @GetMapping("/listMeeting")
@@ -42,7 +42,6 @@ public class Pme00MeetingResource {
                 Pme00Meeting pme00Meeting = this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
                 result.setStatus(HttpStatus.OK.value());
                 result.setMessage("The meeting has been created successfully");
-
                 //register EmployeeMeeting
                 List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
 
@@ -53,7 +52,6 @@ public class Pme00MeetingResource {
 
                 Set<String> setId =  listMember.stream().map(Pme00EmployeeMeeting::getEmpId).collect(Collectors.toSet());
                 System.out.println("setEmpId: " + setId);
-
 
                 for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
                     if(setId.contains(pme00EmployeeMeeting.getEmpId())){
