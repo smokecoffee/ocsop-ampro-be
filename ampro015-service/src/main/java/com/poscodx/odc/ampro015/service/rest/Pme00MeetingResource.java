@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/meeting")
 public class Pme00MeetingResource {
+    
     private final ServiceLifecycler serviceLifecycle;
 
     @GetMapping("/listMeeting")
