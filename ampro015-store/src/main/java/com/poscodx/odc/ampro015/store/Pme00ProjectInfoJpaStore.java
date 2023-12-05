@@ -1,11 +1,13 @@
 package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectListDto;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00ProjectInfoJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00ProjectInfoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,4 +52,15 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
         return this.repository.getActiveEmployee();
     }
 
+    @Override
+    public List<Pme00ProjectListDto> getProjectList(Pme00ProjectListDto dto){
+        List<Object[]> lst = this.repository.getProjectList();
+        List<Pme00ProjectListDto> lstRs = new ArrayList<>();
+        for(Object[] obj: lst){
+            Pme00ProjectListDto rsDto = new Pme00ProjectListDto(obj);
+            lstRs.add(rsDto);
+        }
+
+        return lstRs;
+    };
 }

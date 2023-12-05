@@ -159,4 +159,13 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
 
         return dto;
     }
+
+    @Override
+    public List<Pme00ProjectListDto> getProjectList(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto) {
+        List<Pme00ProjectListDto> ProjectList = this.store.getProjectList(dto);
+        for (Pme00ProjectListDto rsDto : ProjectList) {
+            //ProjectList.add(new Pme00ProjectListDto(obj));
+        }
+        return ProjectList;
+    }
 }

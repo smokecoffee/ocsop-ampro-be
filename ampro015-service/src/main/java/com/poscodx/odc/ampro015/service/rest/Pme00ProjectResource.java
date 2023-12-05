@@ -29,14 +29,12 @@ public class Pme00ProjectResource {
      * @param
      * @return
      */
-//    @CrossOrigin
-//    @PostMapping("/search")
-//    public List<Pme00ProjectListDto> findProjectList(@RequestBody Pme00ProjectListDto projectList) {
-//        PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + projectList, this);
-//        String cdV = projectList.getCdV();
-//        String status = projectList.getStatus();
-//        return this.serviceLifecycle.requestLevel2Service().findAssetList(serviceLifecycle, cdV);
-//    }
+    @CrossOrigin
+    @PostMapping("/search")
+    public List<Pme00ProjectListDto> findProjectList(@RequestBody Pme00ProjectListDto dto) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
+        return this.serviceLifecycle.requestPme00ProjectInfoService().getProjectList(serviceLifecycle, dto);
+    }
 
     @CrossOrigin
     @PostMapping("")
