@@ -46,4 +46,9 @@ public class M00Codes030JpaStore implements M00Codes030Store {
     public void delete(M00Codes030Id id){
         this.repository.deleteById(id);
     }
+
+    @Override
+    public int getMaxSeqInquiry(int cdTpId, int cateGroupId){
+        return this.repository.getMaxSeqInquiry(cdTpId, cateGroupId);
+    }
 }

@@ -16,4 +16,6 @@ public interface M00Codes030Store {
     M00Codes030 create(M00Codes030 entity);
 
     void delete(M00Codes030Id id);
+
+    int getMaxSeqInquiry(int cdTpId, int cateGroupId);
 }

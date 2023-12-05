@@ -7,6 +7,8 @@ import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +25,34 @@ public class A01Resource {
 
     private final ServiceLifecycle serviceLifecycle;
 
+    @CrossOrigin
+    @GetMapping(path = "/")
+    public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
+        return this.serviceLifecycle.requestLevel2Service().getAsset(serviceLifecycle, token);
+    }
+
+    /**
+     * createAsset
+     * @author 202293 - Trieu Le
+     * @since 2023-11-23
+     *
+     * @param request AssetInfoDto
+     * @return
+     */
+    @PostMapping("/asset")
+    public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "[amp] create Asset -> " +JsonUtil.toJson(request), this);
+        ResponseEntity<?> response = null;
+        try {
+            response = this.serviceLifecycle.requestLevel2Service().createAsset(serviceLifecycle, request);
+        } catch (Exception e) {
+            response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return response;
+    }
+
     /**
      *
      * @param assetInfoDto
@@ -31,14 +61,6 @@ public class A01Resource {
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
         this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
-    }
-
-
-    @CrossOrigin
-    @GetMapping(path = "/")
-    public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
-        return this.serviceLifecycle.requestLevel2Service().getAsset(serviceLifecycle, token);
     }
 
     @CrossOrigin
