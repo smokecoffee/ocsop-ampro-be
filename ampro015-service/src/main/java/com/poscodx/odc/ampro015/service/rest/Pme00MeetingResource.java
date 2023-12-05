@@ -51,9 +51,6 @@ public class Pme00MeetingResource {
                 ).collect(Collectors.toList());
 
                 Set<String> setId =  listMember.stream().map(Pme00EmployeeMeeting::getEmpId).collect(Collectors.toSet());
-                System.out.println("setEmpId: " + setId);
-
-
                 for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
                     if(setId.contains(pme00EmployeeMeeting.getEmpId())){
                         this.serviceLifecycle.requestPme00EmployeeMeetingService().register(pme00EmployeeMeeting);
@@ -75,14 +72,16 @@ public class Pme00MeetingResource {
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
         Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
+        List<Pme00EmployeeMeeting> listMember = this.serviceLifecycle.requestPme00EmployeeMeetingService().findByMeetingId(id);
         if(findMeeting == null) {
             result.setStatus(HttpStatus.NOT_FOUND.value());
             result.setData(null);
             result.setMessage("This meeting room could not be found");
         } else {
-        result.setStatus(HttpStatus.OK.value());
-        result.setData(findMeeting);
-        result.setMessage("find successfully");
+            result.setStatus(HttpStatus.OK.value());
+            findMeeting.setListMember(listMember);
+            result.setData(findMeeting);
+            result.setMessage("find successfully");
         }
         return result;
     }
