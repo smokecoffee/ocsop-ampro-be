@@ -36,7 +36,11 @@ public class Pme00MeetingResource {
     @PostMapping("/addMeeting")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        boolean checkValidRequest = newMeeting.getMeetingId() > 0 && newMeeting.getCd_tp_id() == 65 && newMeeting.getCreatorId() != "" && newMeeting.getRequesterId() != "" && newMeeting.getCategoryMeeting() != "" ;
+        boolean checkValidRequest = newMeeting.getMeetingId() > 0
+                && newMeeting.getCd_tp_id() == 65
+                && newMeeting.getCreatorId() != ""
+                && newMeeting.getRequesterId() != ""
+                && newMeeting.getCategoryMeeting() != "" ;
         if(checkValidRequest) {
             try {
                 Pme00Meeting pme00Meeting = this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
@@ -96,9 +100,16 @@ public class Pme00MeetingResource {
             @RequestParam("requesterId") String  requesterId,
             @RequestParam("categoryMeeting") String categoryMeeting,
             @RequestParam("status") String status
-
             ) {
-       return this.serviceLifecycle.requestPme00MeetingService().findAllByAssetId(cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status);
+       return this.serviceLifecycle.requestPme00MeetingService()
+               .findAllByAssetId(cd_tp_id,
+                                title,
+                                startTime,
+                                endTime,
+                                creatorId,
+                                requesterId,
+                                categoryMeeting,
+                                status);
     }
 
     @PutMapping("/editMeeting")

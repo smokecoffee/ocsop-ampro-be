@@ -41,13 +41,22 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
     }
 
     @Override
-    public List<Pme00Meeting> findAllByAssetId(int cd_tp_id, String title,
-                                               String startTime, String endTime,
-                                               String creatorId, String requesterId,
-                                               String categoryMeeting, String status) {
-        return this.store.findAllByAssetId(cd_tp_id, title,
-                                        startTime, endTime, creatorId, requesterId,
-                                        categoryMeeting, status);
+    public List<Pme00Meeting> findAllByAssetId(int cd_tp_id,
+                                               String title,
+                                               String startTime,
+                                               String endTime,
+                                               String creatorId,
+                                               String requesterId,
+                                               String categoryMeeting,
+                                               String status) {
+        return this.store.findAllByAssetId(cd_tp_id,
+                                           title,
+                                           startTime,
+                                           endTime,
+                                           creatorId,
+                                           requesterId,
+                                           categoryMeeting,
+                                           status);
     }
 
 }

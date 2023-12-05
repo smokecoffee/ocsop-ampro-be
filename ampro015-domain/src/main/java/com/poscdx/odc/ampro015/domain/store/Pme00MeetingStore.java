@@ -17,5 +17,13 @@ public interface Pme00MeetingStore {
 
     public void delete(int id);
 
-    public List<Pme00Meeting> findAllByAssetId(Integer cd_tp_id, String title, String startTime, String endTime, String creatorId, String requesterId, String categoryMeeting, String status);
+    public List<Pme00Meeting> findAllByAssetId(
+            Integer cd_tp_id,
+            String title,
+            String startTime,
+            String endTime,
+            String creatorId,
+            String requesterId,
+            String categoryMeeting,
+            String status);
 }
