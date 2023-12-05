@@ -23,17 +23,16 @@ public class Pme00MeetingResource {
 
     private final ServiceLifecycler serviceLifecycle;
 
-    @GetMapping("/listMeeting")
     public List<Pme00Meeting> getListMeeting() {
         return this.serviceLifecycle.requestPme00MeetingService().findAll();
     }
 
-    @DeleteMapping("/deleteMeeting")
+    @DeleteMapping("/")
     public void deleteMeeting(@RequestParam("meetingId") int meetingId) {
         this.serviceLifecycle.requestPme00MeetingService().remove(meetingId);
     }
 
-    @PostMapping("/addMeeting")
+    @PostMapping("/")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
         boolean checkValidRequest = newMeeting.getMeetingId() > 0
@@ -77,7 +76,7 @@ public class Pme00MeetingResource {
         return result;
     }
 
-    @GetMapping("/meetings/{id}")
+    @GetMapping("/{id}")
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
         Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
@@ -96,7 +95,7 @@ public class Pme00MeetingResource {
         return result;
     }
 
-    @GetMapping("/meetings")
+    @GetMapping("/search")
     public List<Pme00Meeting> searchListMeetings(
             @RequestParam("cd_tp_id") int cd_tp_id,
             @RequestParam("title") String title,
@@ -117,7 +116,7 @@ public class Pme00MeetingResource {
                                 status);
     }
 
-    @PutMapping("/editMeeting")
+    @PutMapping("/")
     public Pme00MeetingResponse editMeetingRoom(@RequestBody Pme00Meeting newMeeting) {
         int id = newMeeting.getMeetingId();
         Pme00MeetingResponse result = new Pme00MeetingResponse();
