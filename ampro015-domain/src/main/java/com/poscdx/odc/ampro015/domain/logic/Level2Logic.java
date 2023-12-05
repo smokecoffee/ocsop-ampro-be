@@ -33,6 +33,8 @@ public class Level2Logic implements Level2Service {
 
         //Update asset entity
         Asset asset = assetInfoDto.getAsset();
+        Pme00ProjectInfo info = new Pme00ProjectInfo();
+
         serviceLifecycle.requestAssetService().modify(asset);
 
         //Update list field
