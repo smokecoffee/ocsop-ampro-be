@@ -1,9 +1,12 @@
 package com.poscodx.odc.ampro015.store.repository;
 
+
 import com.poscodx.odc.ampro015.store.jpo.FieldJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface FieldRepository extends JpaRepository<FieldJpo, Integer> {
 
@@ -13,4 +16,6 @@ public interface FieldRepository extends JpaRepository<FieldJpo, Integer> {
             "AND f.ASSET_ID = :assetId\n" +
             "AND f.DELETE_AT IS NULL", nativeQuery = true)
     Iterable<FieldJpo> findAllByAssetId(@Param("assetId") Integer assetId);
+
+    List<FieldJpo> findByAssetId(int assetId);
 }

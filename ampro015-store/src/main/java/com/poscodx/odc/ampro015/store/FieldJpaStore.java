@@ -53,4 +53,9 @@ public class FieldJpaStore implements FieldStore {
     public List<Field> retrieveList(Integer assetId) {
         return FieldJpo.toDomains(this.repository.findAllByAssetId(assetId));
     }
+
+    @Override
+    public List<Field> findByAssetId(int id) {
+        return FieldJpo.toDomains(this.repository.findByAssetId(id));
+    }
 }

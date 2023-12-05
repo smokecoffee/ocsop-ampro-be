@@ -16,6 +16,7 @@ public class Pme00Member {
     private int memberId;
     private String cdVId;
     private String empId;
+    private String empName;
 
     public String toJson() {
         return JsonUtil.toJson(this);

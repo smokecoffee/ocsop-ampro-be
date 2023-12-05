@@ -43,4 +43,9 @@ public class AssetLogic implements AssetService {
         return this.store.retrieveByOwnerAndStatus(owner,status);
     }
 
+    @Override
+    public Asset findByToken(String token) {
+        return this.store.findByToken(token);
+    }
+
 }
