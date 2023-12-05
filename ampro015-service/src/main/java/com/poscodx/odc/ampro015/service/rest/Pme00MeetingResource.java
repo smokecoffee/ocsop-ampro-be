@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/meeting")
 public class Pme00MeetingResource {
+
     private final ServiceLifecycler serviceLifecycle;
 
     @GetMapping("/listMeeting")
@@ -35,25 +36,33 @@ public class Pme00MeetingResource {
     @PostMapping("/addMeeting")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        boolean checkValidRequest = newMeeting.getMeetingId() > 0 && newMeeting.getCd_tp_id() == 65 && newMeeting.getCreatorId() != "" && newMeeting.getRequesterId() != "" && newMeeting.getCategoryMeeting() != "" ;
+        boolean checkValidRequest = newMeeting.getMeetingId() > 0
+                && newMeeting.getCd_tp_id() == 65
+                && newMeeting.getCreatorId() != ""
+                && newMeeting.getRequesterId() != ""
+                && newMeeting.getCategoryMeeting() != "" ;
         if(checkValidRequest) {
             try {
                 Pme00Meeting pme00Meeting = this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
                 result.setStatus(HttpStatus.OK.value());
                 result.setMessage("The meeting has been created successfully");
-
                 //register EmployeeMeeting
                 List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
 
                 listMember = listMember.stream().map(i -> {
-                    i.setMeetingId(pme00Meeting.getMeetingId());
-                    return i;}
-                ).collect(Collectors.toList());
+                                                i.setMeetingId(pme00Meeting.getMeetingId());
+                                                 return i;})
+                                                .collect(Collectors.toList());
 
-                Set<String> setId =  listMember.stream().map(Pme00EmployeeMeeting::getEmpId).collect(Collectors.toSet());
+                Set<String> setId =  listMember.stream()
+                                               .map(Pme00EmployeeMeeting::getEmpId)
+                                               .collect(Collectors.toSet());
+                System.out.println("setEmpId: " + setId);
+
                 for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
                     if(setId.contains(pme00EmployeeMeeting.getEmpId())){
-                        this.serviceLifecycle.requestPme00EmployeeMeetingService().register(pme00EmployeeMeeting);
+                        this.serviceLifecycle.requestPme00EmployeeMeetingService()
+                                             .register(pme00EmployeeMeeting);
                         setId.remove(pme00EmployeeMeeting.getEmpId());
                     }
                 }
@@ -95,10 +104,16 @@ public class Pme00MeetingResource {
             @RequestParam("creatorId") String creatorId,
             @RequestParam("requesterId") String  requesterId,
             @RequestParam("categoryMeeting") String categoryMeeting,
-            @RequestParam("status") String status
-
-            ) {
-       return this.serviceLifecycle.requestPme00MeetingService().findAllByAssetId(cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status);
+            @RequestParam("status") String status) {
+       return this.serviceLifecycle.requestPme00MeetingService()
+               .findAllByAssetId(cd_tp_id,
+                                title,
+                                startTime,
+                                endTime,
+                                creatorId,
+                                requesterId,
+                                categoryMeeting,
+                                status);
     }
 
     @PutMapping("/editMeeting")
