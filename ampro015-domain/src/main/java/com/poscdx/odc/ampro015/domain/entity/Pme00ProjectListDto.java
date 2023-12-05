@@ -23,7 +23,7 @@ public class Pme00ProjectListDto {
     private String KoreaPmName;
     private String VietNamPl;
     private String VietNamName;
-    private int status;
+    private String status;
     private String framework;
     private String description;
     private int cdTpId;
@@ -54,7 +54,7 @@ public class Pme00ProjectListDto {
         this.KoreaPmName = (String) objects[5];
         this.VietNamPl = (String) objects[6];
         this.VietNamName = (String) objects[7];
-        this.status = (int) objects[8];
+        this.status = (String) objects[8];
         this.framework = (String) objects[9];
         this.description = (String) objects[10];
         this.cdTpId = (int) objects[11];
