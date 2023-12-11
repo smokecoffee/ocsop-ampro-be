@@ -51,6 +51,13 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         return employeeDtoList;
     }
 
+    /**
+     * Insert infor project
+     *
+     * @param serviceLifecycle
+     * @param dto
+     * @return
+     */
     @Override
     public Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){
 
@@ -160,19 +167,39 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         return dto;
     }
 
+    /**
+     * Delete project
+     *
+     * @param serviceLifecycle
+     * @param id
+     */
     @Override
-    public List<Object[]> getProjectList(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto) {
-        return this.store.getProjectList(dto);
-//        List<Pme00ProjectListDto> lstRs = new ArrayList<>();
-//        for(Object[] obj: ProjectList){
-//            Pme00ProjectListDto rsDto = new Pme00ProjectListDto(obj);
-//
-//            lstRs.add(rsDto);
-//        }
-//
-//        for (Pme00ProjectListDto rsDto : ProjectList) {
-//            //ProjectList.add(new Pme00ProjectListDto(obj));
-//        }
-//        return ProjectList;
+    public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id){
+
+        // Delete member in Pme00Member
+        serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
+
+        // Delete project Pme00ProjectInfo
+        serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
+
+        // Delete project M00Codes030
+        serviceLifecycle.requestM00Codes030Service().remove(id);
+    }
+
+    @Override
+    public List<Pme00ProjectListDto> getProjectList(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto) {
+        //return this.store.getProjectList(dto);
+        List<Pme00ProjectListDto> lstRs = new ArrayList<>();
+        List<Object[]> ProjectList = this.store.getProjectList(dto);
+        for(Object[] obj: ProjectList){
+            Pme00ProjectListDto rsDto = new Pme00ProjectListDto(obj);
+
+            lstRs.add(rsDto);
+        }
+
+        for (Pme00ProjectListDto rsDto : lstRs) {
+            //ProjectList.add(new Pme00ProjectListDto(obj));
+        }
+        return lstRs;
     }
 }

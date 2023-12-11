@@ -22,7 +22,7 @@ public interface Pme00ProjectInfoService {
 
     Pme00ProjectListDto modifyProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
 
-//    List<Pme00ProjectListDto> getProjectList (ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
+    void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id);
 
-    List<Object[]> getProjectList (ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
+    List<Pme00ProjectListDto> getProjectList (ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto);
 }
