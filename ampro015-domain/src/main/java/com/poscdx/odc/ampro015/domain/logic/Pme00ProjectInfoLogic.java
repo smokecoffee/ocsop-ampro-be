@@ -5,7 +5,10 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +62,14 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
      * @return
      */
     @Override
-    public Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){
+    @Transactional(rollbackFor = { SQLException.class })
+    public Pme00ProjectListDto registerProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto) throws SQLException {
+
+        // Check project code exists
+        if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getCdV())
+                && checkExistsPme00ProjectInfo(serviceLifecycle, dto.getCdV())){
+            return  null;
+        }
 
         // Insert data M00Codes030
         M00Codes030 entityCodes030 = new M00Codes030();
@@ -114,7 +124,14 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
      * @return
      */
     @Override
-    public Pme00ProjectListDto modifyProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto){
+    @Transactional(rollbackFor = { SQLException.class })
+    public Pme00ProjectListDto modifyProject(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto) throws SQLException {
+
+        // Check project code exists
+        if(!checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getCdV())
+                || !checkExistsPme00ProjectInfo(serviceLifecycle, dto.getCdV())){
+            return  null;
+        }
 
         // Update data M00Codes030
         List<M00Codes030> lstCodes030 = new ArrayList<>();
@@ -150,7 +167,7 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         serviceLifecycle.requestPme00ProjectInfoService().modify(lstProjectInfo);
 
         // Update data Pme00Member
-        // Delete old member
+        // Delete old Pme00Member
         serviceLifecycle.requestPme00MemberService().deleteMemberById(dto.getCdV(), null);
 
         // Insert new Pme00Member
@@ -174,7 +191,8 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
      * @param id
      */
     @Override
-    public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id){
+    @Transactional(rollbackFor = { SQLException.class })
+    public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
 
         // Delete member in Pme00Member
         serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
@@ -184,6 +202,7 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
 
         // Delete project M00Codes030
         serviceLifecycle.requestM00Codes030Service().remove(id);
+
     }
 
     @Override
@@ -193,5 +212,39 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
             //ProjectList.add(new Pme00ProjectListDto(obj));
         }
         return ProjectList;
+    }
+
+    /**
+     * Check exists project code
+     * @param serviceLifecycle
+     * @param cdTpId
+     * @param cateGroupId
+     * @param cdV
+     * @return
+     */
+    private boolean checkExistsM00Codes030(ServiceLifecycle serviceLifecycle, int cdTpId, int cateGroupId, String cdV){
+
+        M00Codes030Id codes030Id = new M00Codes030Id();
+        codes030Id.setCdTpId(cdTpId);
+        codes030Id.setCategoryGroupId(cateGroupId);
+        codes030Id.setCdV(cdV);
+
+        M00Codes030 codes030 = serviceLifecycle.requestM00Codes030Service().find(codes030Id);
+
+        return codes030 != null;
+    }
+
+    /**
+     * Check exists project info code
+     * @param serviceLifecycle
+     * @param cdV
+     * @return
+     */
+    private boolean checkExistsPme00ProjectInfo(ServiceLifecycle serviceLifecycle, String cdV){
+        Pme00ProjectInfo projectInfo = new Pme00ProjectInfo();
+
+        projectInfo = serviceLifecycle.requestPme00ProjectInfoService().find(cdV);
+
+        return projectInfo != null;
     }
 }
