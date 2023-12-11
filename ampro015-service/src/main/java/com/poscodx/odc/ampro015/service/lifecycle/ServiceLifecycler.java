@@ -21,10 +21,16 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00ProjectInfoService pme00ProjectInfoService;
     private final Pme00AnnouncementService pme00AnnouncementService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
+    private final  BookingMeetingRoomService bookingMeetingRoomService;
 
     @Override
     public Level2Service requestLevel2Service() {
         return this.level2Service;
+    }
+
+    @Override
+    public BookingMeetingRoomService bookingMeetingRoomService() {
+        return this.bookingMeetingRoomService;
     }
 
     @Override

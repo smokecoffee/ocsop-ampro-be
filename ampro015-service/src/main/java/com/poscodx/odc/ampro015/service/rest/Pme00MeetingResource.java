@@ -23,23 +23,17 @@ public class Pme00MeetingResource {
 
     @DeleteMapping("/{meetingId}")
     public void deleteMeeting(@PathVariable("meetingId") int meetingId) {
-        List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
-        for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
-            if(pme00EmployeeMeeting.getMeetingId() == meetingId){
-                this.serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
-            }
-        }
-        this.serviceLifecycle.requestPme00MeetingService().remove(meetingId);
+        this.serviceLifecycle.bookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
 
     @PostMapping("/")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
-       return this.serviceLifecycle.requestLevel2Service().addMeeting(serviceLifecycle, newMeeting);
+       return this.serviceLifecycle.bookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting);
     }
 
     @GetMapping("/{id}")
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
-       return this.serviceLifecycle.requestLevel2Service().getInforBookingRoom(serviceLifecycle,id);
+       return this.serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
     }
 
     @GetMapping("/search")

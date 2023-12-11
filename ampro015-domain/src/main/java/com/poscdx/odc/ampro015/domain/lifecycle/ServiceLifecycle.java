@@ -20,4 +20,6 @@ public interface ServiceLifecycle {
     Pme00AnnouncementService requestPme00AnnouncementService();
 
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
+
+    BookingMeetingRoomService bookingMeetingRoomService();
 }

@@ -28,7 +28,4 @@ public interface Level2Service {
 
     ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request);
 
-    Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting);
-
-    public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int id);
 }
