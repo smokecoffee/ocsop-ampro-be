@@ -44,12 +44,6 @@ public class Level2Resource {
         this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
     }
 
-    @GetMapping(path = "/dashboard")
-    @CrossOrigin(origins = "*")
-    public Pme00Dashboard loadDashboard() {
-        return this.serviceLifecycle.requestLevel2Service().loadDashboard(serviceLifecycle);
-    }
-
     /**
      *
      * @param assetSearch

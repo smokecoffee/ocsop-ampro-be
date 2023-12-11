@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Announcement")
+@RequestMapping("/announcement")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Pme00AnnouncementResource {
     private final Pme00AnnouncementService service;
@@ -17,7 +17,7 @@ public class Pme00AnnouncementResource {
         this.service = service;
     }
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/list")
     public List<Pme00Announcement> getAll() {
         return this.service.findAll();
     }
@@ -27,7 +27,7 @@ public class Pme00AnnouncementResource {
         return this.service.register(announcement);
     }
 
-    @PostMapping(path = "/edit")
+    @PutMapping(path = "")
     public void edit(@RequestBody List<Pme00Announcement> announcements) {
         this.service.modify(announcements);
     }
