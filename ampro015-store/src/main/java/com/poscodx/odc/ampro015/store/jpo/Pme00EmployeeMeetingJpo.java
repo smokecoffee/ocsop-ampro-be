@@ -45,4 +45,5 @@ public class Pme00EmployeeMeetingJpo {
     public static List<Pme00EmployeeMeeting> toDomains(Iterable<Pme00EmployeeMeetingJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00EmployeeMeetingJpo::toDomain).collect(Collectors.toList());
     }
+
 }

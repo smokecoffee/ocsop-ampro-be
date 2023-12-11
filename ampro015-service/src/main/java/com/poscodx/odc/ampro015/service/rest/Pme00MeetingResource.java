@@ -2,19 +2,13 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
-import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
-import com.poscdx.odc.ampro015.domain.spec.Pme00MeetingService;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -27,72 +21,25 @@ public class Pme00MeetingResource {
         return this.serviceLifecycle.requestPme00MeetingService().findAll();
     }
 
-    @DeleteMapping("/")
-    public void deleteMeeting(@RequestParam("meetingId") int meetingId) {
+    @DeleteMapping("/{meetingId}")
+    public void deleteMeeting(@PathVariable("meetingId") int meetingId) {
+        List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
+        for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
+            if(pme00EmployeeMeeting.getMeetingId() == meetingId){
+                this.serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
+            }
+        }
         this.serviceLifecycle.requestPme00MeetingService().remove(meetingId);
     }
 
     @PostMapping("/")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
-        Pme00MeetingResponse result = new Pme00MeetingResponse();
-        boolean checkValidRequest = newMeeting.getMeetingId() > 0
-                && newMeeting.getCd_tp_id() == 65
-                && newMeeting.getCreatorId() != ""
-                && newMeeting.getRequesterId() != ""
-                && newMeeting.getCategoryMeeting() != "" ;
-        if(checkValidRequest) {
-            try {
-                Pme00Meeting pme00Meeting = this.serviceLifecycle.requestPme00MeetingService().register(newMeeting);
-                result.setStatus(HttpStatus.OK.value());
-                result.setMessage("The meeting has been created successfully");
-                //register EmployeeMeeting
-                List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
-
-                listMember = listMember.stream().map(i -> {
-                                                i.setMeetingId(pme00Meeting.getMeetingId());
-                                                 return i;})
-                                                .collect(Collectors.toList());
-
-                Set<String> setId =  listMember.stream()
-                                               .map(Pme00EmployeeMeeting::getEmpId)
-                                               .collect(Collectors.toSet());
-                System.out.println("setEmpId: " + setId);
-
-                for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
-                    if(setId.contains(pme00EmployeeMeeting.getEmpId())){
-                        this.serviceLifecycle.requestPme00EmployeeMeetingService()
-                                             .register(pme00EmployeeMeeting);
-                        setId.remove(pme00EmployeeMeeting.getEmpId());
-                    }
-                }
-            } catch(Exception e) {
-                result.setStatus(HttpStatus.NOT_FOUND.value());
-                result.setMessage("This meeting has been created");
-            }
-        } else {
-            result.setStatus(HttpStatus.NOT_FOUND.value());
-            result.setMessage("Not valid request");
-        }
-        return result;
+       return this.serviceLifecycle.requestLevel2Service().addMeeting(serviceLifecycle, newMeeting);
     }
 
     @GetMapping("/{id}")
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
-        Pme00MeetingResponse result = new Pme00MeetingResponse();
-        Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
-        List<Pme00EmployeeMeeting> listMember = this.serviceLifecycle.requestPme00EmployeeMeetingService()
-                                                                    .findByMeetingId(id);
-        if(findMeeting == null) {
-            result.setStatus(HttpStatus.NOT_FOUND.value());
-            result.setData(null);
-            result.setMessage("This meeting room could not be found");
-        } else {
-            result.setStatus(HttpStatus.OK.value());
-            findMeeting.setListMember(listMember);
-            result.setData(findMeeting);
-            result.setMessage("find successfully");
-        }
-        return result;
+       return this.serviceLifecycle.requestLevel2Service().getInforBookingRoom(serviceLifecycle,id);
     }
 
     @GetMapping("/search")

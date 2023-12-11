@@ -9,10 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Level2Logic implements Level2Service {
 
@@ -186,5 +188,66 @@ public class Level2Logic implements Level2Service {
         }
         return response;
     }
+
+    @Override
+    public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) {
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
+        boolean checkValidRequest = newMeeting.getCd_tp_id() == 65;
+        if (checkValidRequest) {
+            try {
+                Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
+                result.setStatus(HttpStatus.OK.value());
+                result.setMessage("The meeting has been created successfully");
+                //register EmployeeMeeting
+                List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
+
+                listMember = listMember.stream().map(i -> {
+                            i.setMeetingId(pme00Meeting.getMeetingId());
+                            return i;
+                        })
+                        .collect(Collectors.toList());
+
+                Set<String> setId = listMember.stream()
+                        .map(Pme00EmployeeMeeting::getEmpId)
+                        .collect(Collectors.toSet());
+                System.out.println("setEmpId: " + setId);
+
+                for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
+                    if (setId.contains(pme00EmployeeMeeting.getEmpId())) {
+                        serviceLifecycle.requestPme00EmployeeMeetingService()
+                                .register(pme00EmployeeMeeting);
+                        setId.remove(pme00EmployeeMeeting.getEmpId());
+                    }
+                }
+            } catch (Exception e) {
+                result.setStatus(HttpStatus.NOT_FOUND.value());
+                result.setMessage("This meeting has been created");
+            }
+        } else {
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setMessage("Not valid request");
+        }
+        return result;
+    }
+    @Override
+    public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int id) {
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
+        Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(id);
+        List<Pme00EmployeeMeeting> listMember = serviceLifecycle.requestPme00EmployeeMeetingService()
+                .findByMeetingId(id);
+        if(findMeeting == null) {
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setData(null);
+            result.setMessage("This meeting room could not be found");
+        } else {
+            result.setStatus(HttpStatus.OK.value());
+            findMeeting.setListMember(listMember);
+            result.setData(findMeeting);
+            result.setMessage("find successfully");
+        }
+        return result;
+    }
+
+
 
 }

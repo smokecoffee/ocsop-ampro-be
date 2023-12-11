@@ -17,4 +17,6 @@ public interface Pme00EmployeeMeetingService {
     void remove(int id);
 
     List<Pme00EmployeeMeeting> findByMeetingId(int id);
+
+    void deleteAllByMeetingId(int meetingId);
 }

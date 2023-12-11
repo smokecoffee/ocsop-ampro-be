@@ -43,4 +43,9 @@ public class Pme00EmployeeMeetingLogic implements Pme00EmployeeMeetingService {
        return this.store.findByMeetingId(id);
     }
 
+    @Override
+    public void deleteAllByMeetingId(int meetingId){
+        this.store.deleteAllByMeetingId(meetingId);
+    }
+
 }
