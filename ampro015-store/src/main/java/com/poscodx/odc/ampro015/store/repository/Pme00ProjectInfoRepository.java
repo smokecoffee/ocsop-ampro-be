@@ -41,15 +41,13 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
             "WHERE  1= 1 \n" +
                 "AND (:meaning IS NULL OR ( PRO.CD_V_MEANING LIKE CONCAT('%', :meaning)))\n" +
                 "AND (:cdV IS NULL OR (PRO.CD_V LIKE CONCAT('%', :cdV)))\n" +
-                "AND (:period IS NULL OR (INFO.PERIOD LIKE CONCAT('%', :period))\n" +
+                "AND (:period IS NULL OR (INFO.PERIOD LIKE CONCAT('%', :period)))\n" +
                 "AND (:koreaPM IS NULL OR ( INFO.KOREA_PM LIKE CONCAT('%', :koreaPM)))\n" +
                 "AND (:vietnamPL IS NULL OR (INFO.VIETNAM_PL LIKE CONCAT('%', :vietnamPL)))\n" +
                 "AND (:framework IS NULL OR (INFO.FRAMEWORK LIKE CONCAT('%', :framework)))\n" +
                 "AND (:status IS NULL OR (INFO.STATUS LIKE CONCAT('%', :status)))\n" +
-//                "AND (:startDate = '' OR (INFO.START_DATE >= :startDate))\n" +
-//                "AND (:endDate = '' OR (INFO.END_DATE <= :endDate))"
-            "AND (INFO.START_DATE >= :startDate)\n" +
-            "AND (INFO.END_DATE <= :endDate)"
+                "AND (:startDate = '' OR (INFO.START_DATE >= :startDate))\n" +
+                "AND (:endDate = '' OR (INFO.END_DATE <= :endDate))"
             , nativeQuery = true)
     List<Object[]> getProjectList(@Param("cdV") String cdV, @Param("meaning") String meaning,
                                   @Param("period") int period, @Param("koreaPM") String koreaPM,

@@ -203,6 +203,8 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         // Delete project M00Codes030
         serviceLifecycle.requestM00Codes030Service().remove(id);
 
+        // TODO
+        // Delete tasks
     }
 
     @Override
