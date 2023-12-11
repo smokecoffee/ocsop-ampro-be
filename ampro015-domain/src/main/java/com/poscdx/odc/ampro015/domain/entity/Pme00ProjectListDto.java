@@ -25,7 +25,6 @@ public class Pme00ProjectListDto {
     private String VietNamName;
     private String status;
     private String framework;
-    private String description;
     private int cdTpId;
     private int categoryGroupId;
     private String cdvMeaning;
@@ -48,23 +47,22 @@ public class Pme00ProjectListDto {
     public Pme00ProjectListDto(Object[] objects) {
         this.cdV = (String) objects[0];
         this.period = (int) objects[1];
-        this.startDate = (Date) objects[2];
-        this.endDate = (Date) objects[3];
-        this.KoreaPm = (String) objects[4];
-        this.KoreaPmName = (String) objects[5];
-        this.VietNamPl = (String) objects[6];
-        this.VietNamName = (String) objects[7];
-        this.status = (String) objects[8];
-        this.framework = (String) objects[9];
-        this.description = (String) objects[10];
-        this.cdTpId = (int) objects[11];
-        this.categoryGroupId = (int) objects[12];
-        this.cdvMeaning = (String) objects[13];
-        this.cdVExplain = (String) objects[14];
-        this.cdVInquirySeq = (int) objects[15];
-        this.createdProgramId = (String) objects[16];
-        this.creationTimestamp = (Date) objects[17];
-        this.lastUpdateProgramId = (String) objects[18];
-        this.lastUpdateTimestamp = (Date) objects[19];
+        this.KoreaPm = (String) objects[2];
+        this.VietNamPl = (String) objects[3];
+        this.status = (String) objects[4];
+        this.framework = (String) objects[5];
+        this.startDate = (Date) objects[6];
+        this.endDate = (Date) objects[7];
+        this.KoreaPmName = (String) objects[8];
+        this.VietNamName = (String) objects[9];
+        this.cdvMeaning = (String) objects[10];
+        this.cdVExplain = (String) objects[11];
+        this.cdTpId = (int) objects[12];
+        this.categoryGroupId = (int) objects[13];
+        this.cdVInquirySeq = (int) objects[14];
+        this.createdProgramId = (String) objects[15];
+        this.creationTimestamp = (Date) objects[16];
+        this.lastUpdateProgramId = (String) objects[17];
+        this.lastUpdateTimestamp = (Date) objects[18];
     }
 }

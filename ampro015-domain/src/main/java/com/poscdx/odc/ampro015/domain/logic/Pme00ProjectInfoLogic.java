@@ -198,7 +198,9 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         }
 
         for (Pme00ProjectListDto rsDto : lstRs) {
-            //ProjectList.add(new Pme00ProjectListDto(obj));
+            List<Pme00Member> lstMember = new ArrayList<>();
+            lstMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(rsDto.getCdV());
+            rsDto.setLstMember(lstMember);
         }
         return lstRs;
     }
