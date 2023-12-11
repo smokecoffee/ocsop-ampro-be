@@ -31,7 +31,7 @@ public class Pme00ProjectResource {
      */
     @CrossOrigin
     @PostMapping("/search")
-    public List<Pme00ProjectListDto> findProjectList(@RequestBody Pme00ProjectListDto dto) {
+    public List<Object[]> findProjectList(@RequestBody Pme00ProjectListDto dto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
         return this.serviceLifecycle.requestPme00ProjectInfoService().getProjectList(serviceLifecycle, dto);
     }

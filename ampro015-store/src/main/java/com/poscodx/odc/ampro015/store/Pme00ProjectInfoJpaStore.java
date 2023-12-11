@@ -53,14 +53,8 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Pme00ProjectListDto> getProjectList(Pme00ProjectListDto dto){
-        List<Object[]> lst = this.repository.getProjectList();
-        List<Pme00ProjectListDto> lstRs = new ArrayList<>();
-        for(Object[] obj: lst){
-            Pme00ProjectListDto rsDto = new Pme00ProjectListDto(obj);
-            lstRs.add(rsDto);
-        }
-
-        return lstRs;
+    public List<Object[]> getProjectList(Pme00ProjectListDto dto){
+        return this.repository.getProjectList(dto.getCdV(), dto.getCdvMeaning(), dto.getPeriod(),
+                dto.getKoreaPm(), dto.getVietNamPl(), dto.getFramework(), dto.getStatus(), dto.getStartDate(), dto.getEndDate());
     };
 }
