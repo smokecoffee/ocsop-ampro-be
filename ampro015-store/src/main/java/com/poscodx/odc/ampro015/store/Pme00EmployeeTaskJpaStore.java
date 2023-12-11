@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
+import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeTaskStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
@@ -55,5 +56,28 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
         List<Pme00EmployeeTaskJpo> responseList = this.repository.saveAll(newPme00EmployeeTaskJpos);
 
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Pme00EmployeeTask> retrieveAllByTaskId(M00TaskId reqM00TaskId) {
+        List<Pme00EmployeeTaskJpo> responseList = this.repository.findAllByM00TaskId(reqM00TaskId.getProjectNumber(), reqM00TaskId.getTaskName());
+        return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteByListEmployeeTask(List<Pme00EmployeeTask> listRemove) {
+        StringBuilder condition = new StringBuilder();
+        condition.append("(");
+        listRemove.stream().forEach(pme00EmployeeTask -> {
+            condition.append(" ('");
+            condition.append(String.join("','", pme00EmployeeTask.getProjectNumber(), pme00EmployeeTask.getTaskName(), pme00EmployeeTask.getTaskName(), pme00EmployeeTask.getEmpId(), pme00EmployeeTask.getEmpName()));
+            condition.append("')");
+        });
+
+        condition.append(")");
+        System.out.println("deleteQuery: "+ condition.toString());
+        this.repository.deleteMultipleRowById(condition.toString());
+
+
     }
 }

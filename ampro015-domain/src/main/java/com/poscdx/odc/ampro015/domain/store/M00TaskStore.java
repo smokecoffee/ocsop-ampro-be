@@ -14,5 +14,5 @@ public interface M00TaskStore {
 
     void delete(M00TaskId id);
 
-    public List<M00Task> retrieveAll(String projectNumber,  int pageNo, int pageSize, String sortBy, String sortDirection);
+    public List<Object[]> retrieveAll(String projectNumber, String taskName, String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy, String sortDirection);
 }

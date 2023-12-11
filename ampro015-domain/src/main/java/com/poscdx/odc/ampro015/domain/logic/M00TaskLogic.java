@@ -1,11 +1,14 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
+import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.spec.M00TaskService;
 import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class M00TaskLogic implements M00TaskService {
     private final M00TaskStore store;
@@ -20,8 +23,14 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findAll(String projectNumber, int pageNo, int pageSize, String sortBy, String sortDirection) {
-        return store.retrieveAll(projectNumber, pageNo, pageSize, sortBy, sortDirection);
+    public List<M00TaskDto> findAll(String projectNumber, String taskName, String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy, String sortDirection) {
+        List<Object[]> resutlList = store.retrieveAll(projectNumber, taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
+        List<M00TaskDto> result = new ArrayList<>();
+        resutlList.forEach(item ->{
+            M00TaskDto entity = new M00TaskDto(item);
+            result.add(entity);
+        });
+        return result;
     }
 
     @Override
