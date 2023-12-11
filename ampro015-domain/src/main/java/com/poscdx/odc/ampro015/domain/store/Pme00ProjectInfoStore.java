@@ -19,6 +19,6 @@ public interface Pme00ProjectInfoStore {
 
     List<Object[]> getActiveEmployee();
 
-    List<Pme00ProjectListDto> getProjectList(Pme00ProjectListDto dto);
+    List<Object[]> getProjectList(Pme00ProjectListDto dto);
 
 }

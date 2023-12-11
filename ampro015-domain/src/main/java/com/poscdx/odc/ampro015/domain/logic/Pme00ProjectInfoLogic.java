@@ -207,11 +207,19 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
 
     @Override
     public List<Pme00ProjectListDto> getProjectList(ServiceLifecycle serviceLifecycle, Pme00ProjectListDto dto) {
-        List<Pme00ProjectListDto> ProjectList = this.store.getProjectList(dto);
-        for (Pme00ProjectListDto rsDto : ProjectList) {
+        //return this.store.getProjectList(dto);
+        List<Pme00ProjectListDto> lstRs = new ArrayList<>();
+        List<Object[]> ProjectList = this.store.getProjectList(dto);
+        for(Object[] obj: ProjectList){
+            Pme00ProjectListDto rsDto = new Pme00ProjectListDto(obj);
+
+            lstRs.add(rsDto);
+        }
+
+        for (Pme00ProjectListDto rsDto : lstRs) {
             //ProjectList.add(new Pme00ProjectListDto(obj));
         }
-        return ProjectList;
+        return lstRs;
     }
 
     /**
