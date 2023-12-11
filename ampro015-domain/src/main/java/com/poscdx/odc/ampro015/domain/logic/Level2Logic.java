@@ -78,4 +78,16 @@ public class Level2Logic implements Level2Service {
         ExportExcel exportExcel = new ExportExcel(result);
         exportExcel.export(response);
     }
+
+    @Override
+    public Pme00Dashboard loadDashboard(ServiceLifecycle serviceLifecycle) {
+        List<Pme00Announcement> announcements = serviceLifecycle.requestPme00AnnouncementService().findAll();
+        List<Pme00Meeting> meetings = serviceLifecycle.requestPme00MeetingService().findAll();
+        List<Pme00ProjectInfo> projectInfoList = serviceLifecycle.requestPme00ProjectInfoService().findAll();
+        Pme00Dashboard dashboard = new Pme00Dashboard();
+        dashboard.setAnnouncements(announcements);
+        dashboard.setMeetings(meetings);
+        dashboard.setProjectInfoList(projectInfoList);
+        return dashboard;
+    }
 }

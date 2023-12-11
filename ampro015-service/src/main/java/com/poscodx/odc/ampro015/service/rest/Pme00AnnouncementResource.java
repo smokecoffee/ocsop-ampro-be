@@ -1,0 +1,35 @@
+package com.poscodx.odc.ampro015.service.rest;
+
+import com.poscdx.odc.ampro015.domain.entity.Pme00Announcement;
+import com.poscdx.odc.ampro015.domain.spec.Pme00AnnouncementService;
+import com.sun.deploy.net.HttpResponse;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/Announcement")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+public class Pme00AnnouncementResource {
+    private final Pme00AnnouncementService service;
+
+    public Pme00AnnouncementResource(Pme00AnnouncementService service) {
+        this.service = service;
+    }
+
+    @GetMapping(path = "")
+    public List<Pme00Announcement> getAll() {
+        return this.service.findAll();
+    }
+
+    @PostMapping(path = "")
+    public Pme00Announcement add(@RequestBody Pme00Announcement announcement) {
+        return this.service.register(announcement);
+    }
+
+    @PostMapping(path = "/edit")
+    public void edit(@RequestBody List<Pme00Announcement> announcements) {
+        this.service.modify(announcements);
+    }
+
+}

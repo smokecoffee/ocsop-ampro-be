@@ -2,6 +2,7 @@ package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Dashboard;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,5 +18,7 @@ public interface Level2Service {
     public List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle, String emplName, int status);
 
     void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException;
+
+    Pme00Dashboard loadDashboard(ServiceLifecycle serviceLifecycle);
 
 }
