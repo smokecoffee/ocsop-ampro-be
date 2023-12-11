@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -35,19 +36,19 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @PostMapping("")
-    public Pme00ProjectListDto register(@RequestBody Pme00ProjectListDto dto){
+    public Pme00ProjectListDto register(@RequestBody Pme00ProjectListDto dto) throws SQLException {
         return this.serviceLifecycle.requestPme00ProjectInfoService().registerProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
     @PutMapping("")
-    public Pme00ProjectListDto modify(@RequestBody Pme00ProjectListDto dto){
+    public Pme00ProjectListDto modify(@RequestBody Pme00ProjectListDto dto) throws SQLException {
         return this.serviceLifecycle.requestPme00ProjectInfoService().modifyProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
     @DeleteMapping("")
-    public void delete(@RequestBody M00Codes030Id id){
+    public void delete(@RequestBody M00Codes030Id id) throws SQLException {
         this.serviceLifecycle.requestPme00ProjectInfoService().deleteProject(serviceLifecycle, id);
     }
 }

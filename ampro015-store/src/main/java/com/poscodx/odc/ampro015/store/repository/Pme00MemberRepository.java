@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface Pme00MemberRepository extends JpaRepository<Pme00MemberJpo, Integer> {
 
-    @Query(value = "SELECT * FROM TB_PME00_MEMBER WHERE (CD_V_ID IS NULL OR CD_V_ID =:cdVId)", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_PME00_MEMBER WHERE (:cdVId IS NULL OR CD_V_ID =:cdVId)", nativeQuery = true)
     List<Pme00MemberJpo> getListMemberByCdVId(@Param("cdVId") String cdVId);
 
     @Modifying
