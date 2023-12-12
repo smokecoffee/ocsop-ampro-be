@@ -59,7 +59,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(id);
         List<Pme00EmployeeMeeting> listMember = serviceLifecycle.requestPme00EmployeeMeetingService()
                 .findByMeetingId(id);
-        if(findMeeting == null) {
+        if(findMeeting==null) {
             result.setStatus(HttpStatus.NOT_FOUND.value());
             result.setData(null);
             result.setMessage("This meeting room could not be found");
@@ -81,7 +81,7 @@ public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int
     }else{
         List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
         for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
-            if(pme00EmployeeMeeting.getMeetingId() == meetingId){
+            if(pme00EmployeeMeeting.getMeetingId()==meetingId){
                 serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
             }
         }
@@ -96,7 +96,7 @@ public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, L
     int id = listMeeting.get(0).getMeetingId();
     Pme00MeetingResponse result = new Pme00MeetingResponse();
     Pme00MeetingResponse findMeeting = serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
-    if(findMeeting == null) {
+    if(findMeeting==null) {
         result.setStatus(HttpStatus.NOT_FOUND.value());
         result.setMessage("This meeting room could not be found");
     } else {
