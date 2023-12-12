@@ -6,6 +6,8 @@ import com.poscdx.odc.ampro015.domain.spec.*;
 public interface ServiceLifecycle {
     Level2Service requestLevel2Service();
 
+    Level2DashboardService requestLevel2DashboardService();
+
     AssetService requestAssetService();
     FieldService requestFieldService();
     ImageService requestImageService();

@@ -19,6 +19,4 @@ public interface Level2Service {
 
     void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException;
 
-    Pme00Dashboard loadDashboard(ServiceLifecycle serviceLifecycle);
-
 }
