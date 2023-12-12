@@ -11,7 +11,7 @@ public class Level2DashboardLogic implements Level2DashboardService {
         // Get all announcements
         List<Pme00Announcement> announcements = serviceLifecycle.requestPme00AnnouncementService().findAll();
         // Get all meetings
-        List<Pme00Meeting> meetings = serviceLifecycle.requestPme00MeetingService().findAll();
+//        List<Pme00Meeting> meetings = serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom();
         // Create list projects dto
         List<Pme00ProjectInfo> projectInfoList = serviceLifecycle.requestPme00ProjectInfoService().findAll();
         List<Pme00Member> memberList = serviceLifecycle.requestPme00MemberService().findAll();
@@ -24,7 +24,7 @@ public class Level2DashboardLogic implements Level2DashboardService {
         List<Pme00EmployeeMeeting> employeeMeetingList = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
         Pme00Dashboard dashboard = new Pme00Dashboard();
         dashboard.setAnnouncementList(announcements);
-        dashboard.setMeetingList(meetings);
+//        dashboard.setMeetingList(meetings);
         dashboard.setProjectInfoList(projectInfoList);
         dashboard.setMemberList(memberList);
         dashboard.setEmployeeTaskList(employeeTaskList);

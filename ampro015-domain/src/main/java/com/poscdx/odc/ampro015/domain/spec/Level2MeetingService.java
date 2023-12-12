@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
@@ -16,4 +17,6 @@ public interface Level2MeetingService {
     Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId);
 
     Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting);
+
+    Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle);
 }

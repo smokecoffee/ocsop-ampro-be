@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
@@ -113,5 +114,18 @@ public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, L
     }
     return result;
 }
+@Override
+public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
+    Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
+    List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
+    for(int i=0;i< pme00MeetingList.size();i++){
+        int meetingId = pme00MeetingList.get(i).getMeetingId();
+        pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService().findByMeetingId(meetingId));
+    }
+    result.setStatus(HttpStatus.OK.value());
+    result.setListData(pme00MeetingList);
+    result.setMessage("Get all meeting successfully");
+    return result;
+};
 
 }

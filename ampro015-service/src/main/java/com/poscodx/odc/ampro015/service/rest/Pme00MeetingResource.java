@@ -1,8 +1,10 @@
 package com.poscodx.odc.ampro015.service.rest;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -14,8 +16,9 @@ public class Pme00MeetingResource {
 
     private final ServiceLifecycler serviceLifecycle;
 
-    public List<Pme00Meeting> getListMeeting() {
-        return this.serviceLifecycle.requestPme00MeetingService().findAll();
+    @GetMapping("/")
+    public Pme00AllMeetingResponse getListMeeting() {
+        return this.serviceLifecycle.bookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
 
     @DeleteMapping("/{meetingId}")
