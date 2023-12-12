@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/dashboard")
+@CrossOrigin(origins = "*")
 public class Pme00DashboardResource {
     private final ServiceLifecycle serviceLifecycle;
 
