@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,19 +58,35 @@ public class Pme00MeetingResource {
                                 status);
     }
 
-    @PutMapping("/")
-    public Pme00MeetingResponse editMeetingRoom(@RequestBody Pme00Meeting newMeeting) {
-        int id = newMeeting.getMeetingId();
-        Pme00MeetingResponse result = new Pme00MeetingResponse();
-        Pme00Meeting findMeeting = this.serviceLifecycle.requestPme00MeetingService().find(id);
-        if(findMeeting == null) {
-            result.setStatus(HttpStatus.NOT_FOUND.value());
-            result.setMessage("This meeting room could not be found");
-        } else {
-            result.setStatus(HttpStatus.OK.value());
-            result.setData(newMeeting);
-            result.setMessage("Edit meeting room successfully");
-        }
-        return result;
-    }
+//    @PutMapping("/")
+//    public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> pme00MeetingList) {
+//        for (Pme00Meeting pme : pme00MeetingList) {
+//            List<Pme00EmployeeMeeting> listMember = pme.getListMember();
+//
+//            //Update Pme00Meeting
+//            this.serviceLifecycle.requestPme00MeetingService().modify(pme00MeetingList);
+//
+//
+//            //Update listMember
+//            this.serviceLifecycle.requestPme00EmployeeMeetingService().modify(listMember);
+//
+//        }
+////        int id = newMeeting.get(0).getMeetingId();
+////        Pme00MeetingResponse result = new Pme00MeetingResponse();
+////        Pme00MeetingResponse findMeeting = this.serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
+////        if(findMeeting == null) {
+////            result.setStatus(HttpStatus.NOT_FOUND.value());
+////            result.setMessage("This meeting room could not be found");
+////        } else {
+////            result.setStatus(HttpStatus.OK.value());
+////            List<Pme00EmployeeMeeting> pme00EmployeeMeetings = new ArrayList<>();
+////            newMeeting.get(0).getListMember().forEach(item ->{
+////
+////            });
+////            this.serviceLifecycle.requestPme00MeetingService().modify(newMeeting);
+////            result.setData(newMeeting.get(0));
+////            result.setMessage("Edit meeting room successfully");
+////        }
+//        return result;
+//    }
 }

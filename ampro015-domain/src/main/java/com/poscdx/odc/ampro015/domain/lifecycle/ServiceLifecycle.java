@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.lifecycle;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.*;
 
 public interface ServiceLifecycle {
@@ -21,5 +20,5 @@ public interface ServiceLifecycle {
 
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
 
-    BookingMeetingRoomService bookingMeetingRoomService();
+    Level2MeetingService bookingMeetingRoomService();
 }

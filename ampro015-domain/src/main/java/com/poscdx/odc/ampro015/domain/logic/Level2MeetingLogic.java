@@ -4,14 +4,14 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.spec.BookingMeetingRoomService;
+import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BookingMeetingRoomLogic implements BookingMeetingRoomService {
+public class Level2MeetingLogic implements Level2MeetingService {
 
     @Override
     public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) {
