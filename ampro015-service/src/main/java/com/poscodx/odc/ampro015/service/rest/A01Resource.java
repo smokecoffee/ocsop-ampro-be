@@ -29,7 +29,7 @@ public class A01Resource {
     @GetMapping(path = "/")
     public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
-        return this.serviceLifecycle.requestLevel2Service().getAsset(serviceLifecycle, token);
+        return this.serviceLifecycle.requestLevel2QrCodeService().getAsset(serviceLifecycle, token);
     }
 
     /**
@@ -45,7 +45,7 @@ public class A01Resource {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[amp] create Asset -> " +JsonUtil.toJson(request), this);
         ResponseEntity<?> response = null;
         try {
-            response = this.serviceLifecycle.requestLevel2Service().createAsset(serviceLifecycle, request);
+            response = this.serviceLifecycle.requestLevel2QrCodeService().createAsset(serviceLifecycle, request);
         } catch (Exception e) {
             response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -60,14 +60,14 @@ public class A01Resource {
     @PutMapping(path = "/")
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
-        this.serviceLifecycle.requestLevel2Service().updateAsset(serviceLifecycle, assetInfoDto);
+        this.serviceLifecycle.requestLevel2QrCodeService().updateAsset(serviceLifecycle, assetInfoDto);
     }
 
     @CrossOrigin
     @DeleteMapping(path = "/")
     public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) int userId) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] Asset Token : " +JsonUtil.toJson(token), this);
-        this.serviceLifecycle.requestLevel2Service().deleteAsset(serviceLifecycle, token, userId);
+        this.serviceLifecycle.requestLevel2QrCodeService().deleteAsset(serviceLifecycle, token, userId);
     }
 
     /**
@@ -81,7 +81,7 @@ public class A01Resource {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
         String owner = assetSearch.getOwner();
         int status = assetSearch.getStatus();
-        return this.serviceLifecycle.requestLevel2Service().findAssetList(serviceLifecycle, owner, status);
+        return this.serviceLifecycle.requestLevel2QrCodeService().findAssetList(serviceLifecycle, owner, status);
     }
 
     /**
@@ -108,8 +108,6 @@ public class A01Resource {
 
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
 
-        this.serviceLifecycle.requestLevel2Service().exportExcel(serviceLifecycle, response, assetSearch);
+        this.serviceLifecycle.requestLevel2QrCodeService().exportExcel(serviceLifecycle, response, assetSearch);
     }
-
-
 }
