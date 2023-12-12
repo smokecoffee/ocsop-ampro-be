@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class ServiceLifecycler implements ServiceLifecycle {
 
     private final Level2Service level2Service;
+    private final Level2DashboardService level2DashboardService;
     private final AssetService assetService;
     private final FieldService fieldService;
     private final ImageService imageService;
@@ -25,6 +26,11 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Level2Service requestLevel2Service() {
         return this.level2Service;
+    }
+
+    @Override
+    public Level2DashboardService requestLevel2DashboardService() {
+        return this.level2DashboardService;
     }
 
     @Override

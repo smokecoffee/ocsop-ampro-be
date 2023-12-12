@@ -19,6 +19,6 @@ public class Pme00DashboardResource {
 
     @GetMapping(path = "")
     public Pme00Dashboard loadDashboard() {
-        return this.serviceLifecycle.requestLevel2Service().loadDashboard(serviceLifecycle);
+        return this.serviceLifecycle.requestLevel2DashboardService().loadDashboard(serviceLifecycle);
     }
 }
