@@ -14,4 +14,12 @@ import java.io.Serializable;
 public class M00TaskId implements Serializable {
     private String projectNumber;
     private String taskName;
+
+    @Override
+    public String toString() {
+        return "M00TaskId{" +
+                "projectNumber='" + projectNumber + '\'' +
+                ", taskName='" + taskName + '\'' +
+                '}';
+    }
 }

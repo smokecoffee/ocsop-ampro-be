@@ -1,20 +1,21 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
+import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 import java.util.List;
-import java.util.Map;
 
 public interface Level2TaskService {
 
-    M00Task find(ServiceLifecycle serviceLifecycle, M00TaskId id);
+    M00TaskDto findTaskByProjectNumberAndTaskName(ServiceLifecycle serviceLifecycle, M00TaskId id);
 
-    Map<String, Object> findAll(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String planDate, String actualEndDate,
+    List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String planDate, String actualEndDate,
                                 int pageNo, int pageSize, String sortBy, String sortDirection);
 
-    void modify(ServiceLifecycle serviceLifecycle, List<M00Task> entityList);
+    M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto newTaskRequest);
+    void modifyList(ServiceLifecycle serviceLifecycle, List<M00Task> entityList);
 
     M00Task register(ServiceLifecycle serviceLifecycle, M00Task entity);
 

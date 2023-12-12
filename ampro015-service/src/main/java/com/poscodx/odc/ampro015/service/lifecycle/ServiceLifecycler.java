@@ -1,6 +1,5 @@
 package com.poscodx.odc.ampro015.service.lifecycle;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.*;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00ProjectInfoService pme00ProjectInfoService;
     private final Pme00AnnouncementService pme00AnnouncementService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
-    private final ObjectMapper objectMapper;
     private final Level2TaskService level2TaskService;
 
     @Override
@@ -82,11 +80,6 @@ public class ServiceLifecycler implements ServiceLifecycle {
 
     @Override
     public Pme00AnnouncementService requestPme00AnnouncementService() { return this.pme00AnnouncementService; }
-
-    @Override
-    public ObjectMapper reqObjectMapper() {
-        return this.objectMapper;
-    }
 
     @Override
     public Level2TaskService requestLevel2TaskService() {

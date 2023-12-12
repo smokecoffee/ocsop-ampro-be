@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.servlet.ServletException;
+
 /**
  * ProductHistoryExceptionHandler.java
  *
@@ -73,6 +75,18 @@ public class TaskExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleJsonProcessingException(Exception exception) {
         PosLogger.developerLog(PosLogWriterIF.ERROR, "=====handleJsonProcessingException=====", this);
+        logException(exception);
+        PosBaseException posBaseException = new PosBaseException(exception);
+
+        ResponseEntity retVal = ResponseEntity.status(posBaseException.getCode()).body(posBaseException.getMessage());
+
+        return retVal;
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleNullPointerException(Exception exception) {
+        PosLogger.developerLog(PosLogWriterIF.ERROR, "=====handleNullPointerException=====", this);
         logException(exception);
         PosBaseException posBaseException = new PosBaseException(exception);
 

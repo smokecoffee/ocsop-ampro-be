@@ -1,7 +1,5 @@
 package com.poscdx.odc.ampro015.domain.lifecycle;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.*;
 
 public interface ServiceLifecycle {
@@ -21,8 +19,6 @@ public interface ServiceLifecycle {
     Pme00AnnouncementService requestPme00AnnouncementService();
 
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
-
-    ObjectMapper reqObjectMapper();
 
     Level2TaskService requestLevel2TaskService();
 }

@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,9 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class M00TaskDto {
+    private M00Task task;
+    private List<Pme00EmployeeTask> members;
 
-    private M00Task m00Task;
-    private List<Pme00EmployeeTask> pme00EmployeeTaskList;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
