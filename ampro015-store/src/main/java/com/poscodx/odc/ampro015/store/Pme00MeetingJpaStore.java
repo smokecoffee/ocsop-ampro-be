@@ -3,8 +3,10 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.store.Pme00MeetingStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00MeetingJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00MeetingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +44,10 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
     @Override
     public void delete(int id) {
         this.repository.deleteById(id);
+    }
+
+    @Override
+    public List<Pme00Meeting> findAllByAssetId(Integer cd_tp_id, String title, String startTime, String endTime, String creatorId, String requesterId, String categoryMeeting, String status) {
+        return Pme00MeetingJpo.toDomains(this.repository.findAllByAssetId(cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status));
     }
 }
