@@ -82,4 +82,27 @@ public void deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
     serviceLifecycle.requestPme00MeetingService().remove(meetingId);
 }
 
+@Override
+public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
+    int id = listMeeting.get(0).getMeetingId();
+    Pme00MeetingResponse result = new Pme00MeetingResponse();
+    Pme00MeetingResponse findMeeting = serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
+    if(findMeeting == null) {
+        result.setStatus(HttpStatus.NOT_FOUND.value());
+        result.setMessage("This meeting room could not be found");
+    } else {
+        result.setStatus(HttpStatus.OK.value());
+        List<Pme00EmployeeMeeting> editEmpMeets = listMeeting.get(0).getListMember();
+        for(int i = 0; i<editEmpMeets.size(); i++){
+            editEmpMeets.get(i).setEmpId(listMeeting.get(0).getListMember().get(i).getEmpId());
+            editEmpMeets.get(i).setEmpName(listMeeting.get(0).getListMember().get(i).getEmpName());
+        }
+        serviceLifecycle.requestPme00EmployeeMeetingService().modify(editEmpMeets);
+        serviceLifecycle.requestPme00MeetingService().modify(listMeeting);
+        result.setData(listMeeting.get(0));
+        result.setMessage("Edit meeting room successfully");
+    }
+    return result;
+}
+
 }
