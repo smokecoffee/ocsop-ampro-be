@@ -8,6 +8,7 @@ import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00EmployeeTaskRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,7 +53,12 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     @Override
     public List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> pme00EmployeeTaskList) {
 
-        List<Pme00EmployeeTaskJpo> newPme00EmployeeTaskJpos = pme00EmployeeTaskList.stream().map(pme00EmployeeTask -> new Pme00EmployeeTaskJpo(pme00EmployeeTask)).collect(Collectors.toList());
+        List<Pme00EmployeeTaskJpo> newPme00EmployeeTaskJpos = new ArrayList<>();
+
+        pme00EmployeeTaskList.stream().forEach(pme00EmployeeTask -> {
+
+        });
+
         List<Pme00EmployeeTaskJpo> responseList = this.repository.saveAll(newPme00EmployeeTaskJpos);
 
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());

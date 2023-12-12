@@ -29,69 +29,42 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @GetMapping(path = "/getAll")
-    public ResponseEntity<?> findAll(@RequestParam String projectNumber,
-                                     @RequestParam(required = false, defaultValue = "") String taskName,
-                                     @RequestParam(required = false, defaultValue = "") String planDate,
-                                     @RequestParam(required = false, defaultValue = "") String actualEndDate,
-                                     @RequestParam(defaultValue = "0", required = false) int pageNo,
-                                     @RequestParam(defaultValue = "20", required = false) int pageSize,
-                                     @RequestParam(defaultValue = "TASK_NAME", required = false) String sortBy,
-                                     @RequestParam(defaultValue = "ASC", required = false) String sortDirection) {
-
-        Map response = new HashMap<>();
-        List<M00TaskDto> responseData = this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber, taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
-        if (responseData.isEmpty()) {
-            response.put(DATA_KEY, "");
-            response.put(DESCRIPTION_KEY, String.format("Not found any task with projectNumber %s", projectNumber));
-            response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(response);
-        } else {
-            response.put(DATA_KEY, responseData);
-            response.put(DESCRIPTION_KEY, "List task");
-            response.put(STATUS_KEY, HttpStatus.OK.value());
-            return ResponseEntity.ok(response);
-
-        }
+    public List<M00TaskDto> findAll(@RequestParam String projectNumber,
+                                    @RequestParam(required = false, defaultValue = "") String taskName,
+                                    @RequestParam(required = false, defaultValue = "") String planDate,
+                                    @RequestParam(required = false, defaultValue = "") String actualEndDate,
+                                    @RequestParam(defaultValue = "0", required = false) int pageNo,
+                                    @RequestParam(defaultValue = "20", required = false) int pageSize,
+                                    @RequestParam(defaultValue = "TASK_NAME", required = false) String sortBy,
+                                    @RequestParam(defaultValue = "ASC", required = false) String sortDirection) {
+        return this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber, taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
     }
 
     @CrossOrigin
     @GetMapping(path = "/getById")
-    public ResponseEntity<?> find(@RequestParam(value = "projectNumber") String projectNumber, @RequestParam(value = "taskName") String taskName) {
+    public M00TaskDto find(@RequestParam(value = "projectNumber") String projectNumber, @RequestParam(value = "taskName") String taskName) {
         M00TaskId requestId = new M00TaskId(projectNumber, taskName);
-
-        Map response = new HashMap<>();
-        Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().findTaskByProjectNumberAndTaskName(serviceLifecycle, requestId));
-        if (responseData.isPresent()) {
-            response.put(DATA_KEY, responseData);
-            response.put(DESCRIPTION_KEY, "List task by taskId");
-            response.put(STATUS_KEY, HttpStatus.OK.value());
-            return ResponseEntity.ok(response);
-        } else {
-            response.put(DATA_KEY, "");
-            response.put(DESCRIPTION_KEY, String.format("Not found any task with taskId %s", requestId.toString()));
-            response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(response);
-
-        }
-
+        return this.serviceLifecycle.requestLevel2TaskService().findTaskByProjectNumberAndTaskName(serviceLifecycle, requestId);
     }
 
     @CrossOrigin
     @PostMapping("")
-    public Map insertTask(@RequestBody Map<String, Object> newTaskRequest) {
+    public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
 
-        //convert json to DTO
-        //insert task
+        Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest));
 
-
-        //inset to task member
-
-        // return new list
         Map response = new HashMap<>();
-        response.put(TASK_KEY, "");
-        response.put(MEMBERS_KEY, "");
-
-        return response;
+        if (responseData.isPresent()) {
+            response.put(DATA_KEY, responseData.get());
+            response.put(DESCRIPTION_KEY, "Add new task success");
+            response.put(STATUS_KEY, HttpStatus.OK.value());
+            return ResponseEntity.ok(response);
+        } else {
+            response.put(DATA_KEY, "");
+            response.put(DESCRIPTION_KEY, String.format("The task with taskId  %s is already existed", newTaskRequest.toString()));
+            response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @CrossOrigin

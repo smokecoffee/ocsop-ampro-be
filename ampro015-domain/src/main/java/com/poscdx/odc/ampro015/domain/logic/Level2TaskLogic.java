@@ -1,4 +1,4 @@
-package com.poscodx.odc.ampro015.service.logic;
+package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
@@ -6,14 +6,12 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
 public class Level2TaskLogic implements Level2TaskService {
     @Override
     public M00TaskDto findTaskByProjectNumberAndTaskName(ServiceLifecycle serviceLifecycle, M00TaskId searchTaskId) {
@@ -46,7 +44,7 @@ public class Level2TaskLogic implements Level2TaskService {
             response.setMembers(pme00EmployeeTasks);
             responseList.add(response);
         });
-        return  responseList;
+        return responseList;
     }
 
     @Override
@@ -63,17 +61,17 @@ public class Level2TaskLogic implements Level2TaskService {
 
         //TODO: add biz for Pme00EmployeeTask
         /*
-            List<Pme00EmployeeTask> pme00EmployeeTask = new ArrayList<>();
-            List<Object> pme00EmployeeTasksList = objectMapper.convertValue(newTaskRequest.get(MEMBERS_KEY), List.class);
+        List<Pme00EmployeeTask> pme00EmployeeTask = new ArrayList<>();
+        List<Object> pme00EmployeeTasksList = objectMapper.convertValue(newTaskRequest.get(MEMBERS_KEY), List.class);
 
-            pme00EmployeeTasksList.forEach(pme00EmployeeTask1 -> {
-                pme00EmployeeTask.add(objectMapper.convertValue(pme00EmployeeTask1, Pme00EmployeeTask.class));
-            });
-            //insert task
-            M00Task newM00TaskRegisted = this.serviceLifecycle.requestTaskService().register(newTask);
+        pme00EmployeeTasksList.forEach(pme00EmployeeTask1 -> {
+            pme00EmployeeTask.add(objectMapper.convertValue(pme00EmployeeTask1, Pme00EmployeeTask.class));
+        });
+        //insert task
+        M00Task newM00TaskRegisted = this.serviceLifecycle.requestTaskService().register(newTask);
 
-            //inset to task member
-            List<Pme00EmployeeTask> pme00EmployeeTaskResponse = this.serviceLifecycle.requestPme00EmployeeTaskService().createFromList(pme00EmployeeTask);
+        //inset to task member
+        List<Pme00EmployeeTask> pme00EmployeeTaskResponse = this.serviceLifecycle.requestPme00EmployeeTaskService().createFromList(pme00EmployeeTask);
          */
 
         if (existedTask.isPresent()) {
@@ -92,7 +90,6 @@ public class Level2TaskLogic implements Level2TaskService {
             responseUpdateTask.setTask(updatedTask);
             return responseUpdateTask;
         }
-
         return null;
     }
 
@@ -102,13 +99,33 @@ public class Level2TaskLogic implements Level2TaskService {
     }
 
     @Override
-    public M00Task register(ServiceLifecycle serviceLifecycle, M00Task entity) {
-        return null;
+    public M00TaskDto register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
+        //check this already existed yet?
+        M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(newTaskId));
+        if (existedTask.isPresent()) {
+            return null;
+        } else {
+            // map M00TaskDto -> Jpo
+            M00Task newTaskJpo = new M00Task(); //serviceLifecycle.reqObjectMapper().convertValue(newTask.getTask(), M00Task.class);
+            M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
+
+            // map Emp
+
+            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
+
+            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
+
+            M00TaskDto newReponse = new M00TaskDto();
+            newReponse.setTask(savedTask);
+            newReponse.setMembers(savedPme00EmployeeTaskList);
+
+            return newReponse;
+        }
     }
 
     @Override
     public void remove(ServiceLifecycle serviceLifecycle, M00TaskId id) {
 
     }
-
 }
