@@ -18,7 +18,7 @@ public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00Employee
     void deleteMultipleRowById(@Param("requestId") String requestId);
 
 
-    @Query(value = "SELECT * FROM tb_pme00_employee_task WHERE PROJECT_NUMBER = :projectNumber" + " AND TASK_NAME = :taskName", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_pme00_employee_task WHERE PROJECT_NUMBER = :projectNumber" + " AND (:taskName = '' OR TASK_NAME = :taskName)", nativeQuery = true)
     List<Pme00EmployeeTaskJpo> findAllByM00TaskId(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);
 
 }
