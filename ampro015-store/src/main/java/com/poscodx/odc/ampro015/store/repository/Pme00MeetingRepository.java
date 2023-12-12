@@ -7,16 +7,16 @@ import org.springframework.data.repository.query.Param;
 public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, Integer> {
 
     @Query(value = "SELECT *\n" +
-           "FROM tb_pme00_meeting f\n" +
-            "WHERE 1=1\n" +
-            "AND f.CD_TP_ID LIKE CONCAT('%',:cd_tp_id,'%')\n" +
-            "AND f.TITLE LIKE CONCAT('%',:title,'%')\n" +
-            "AND f.START_TIME LIKE CONCAT('%',:startTime,'%')\n" +
-            "AND f.END_TIME LIKE CONCAT('%',:endTime,'%')\n" +
-            "AND f.CREATOR_ID LIKE CONCAT('%',:creatorId,'%')\n" +
-            "AND f.REQUESTER_ID LIKE CONCAT('%',:requesterId,'%')\n" +
-            "AND f.CATEGORY_MEETING LIKE CONCAT('%',:categoryMeeting,'%')\n" +
-            "AND f.STATUS LIKE CONCAT('%',:status,'%')\n", nativeQuery = true)
+                   "FROM tb_pme00_meeting f\n" +
+                   "WHERE 1=1\n" +
+                         "AND f.CD_TP_ID LIKE CONCAT('%',:cd_tp_id,'%')\n" +
+                         "AND f.TITLE LIKE CONCAT('%',:title,'%')\n" +
+                         "AND f.START_TIME LIKE CONCAT('%',:startTime,'%')\n" +
+                         "AND f.END_TIME LIKE CONCAT('%',:endTime,'%')\n" +
+                         "AND f.CREATOR_ID LIKE CONCAT('%',:creatorId,'%')\n" +
+                         "AND f.REQUESTER_ID LIKE CONCAT('%',:requesterId,'%')\n" +
+                         "AND f.CATEGORY_MEETING LIKE CONCAT('%',:categoryMeeting,'%')\n" +
+                         "AND f.STATUS LIKE CONCAT('%',:status,'%')\n", nativeQuery = true)
 
 
 

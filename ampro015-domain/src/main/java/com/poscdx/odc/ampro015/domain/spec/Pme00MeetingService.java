@@ -18,8 +18,13 @@ public interface Pme00MeetingService {
     void remove(int id);
 
 
-    List<Pme00Meeting> findAllByAssetId(int cd_tp_id, String title,
-                                        String startTime, String endTime,
-                                        String creatorId, String requesterId,
-                                        String categoryMeeting, String status);
+    List<Pme00Meeting> findAllByAssetId(
+                                int cd_tp_id,
+                                String title,
+                                String startTime,
+                                String endTime,
+                                String creatorId,
+                                String requesterId,
+                                String categoryMeeting,
+                                String status);
 }
