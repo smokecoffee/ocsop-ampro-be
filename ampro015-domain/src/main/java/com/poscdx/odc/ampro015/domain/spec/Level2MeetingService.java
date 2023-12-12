@@ -13,7 +13,7 @@ public interface Level2MeetingService {
 
     Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int id);
 
-    void deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId);
+    Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId);
 
     Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting);
 }

@@ -72,14 +72,23 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return result;
     }
 @Override
-public void deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
-    List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
-    for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
-        if(pme00EmployeeMeeting.getMeetingId() == meetingId){
-            serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
+public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
+    Pme00MeetingResponse result = new Pme00MeetingResponse();
+    Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
+    if(findMeeting==null){
+        result.setStatus(HttpStatus.NOT_FOUND.value());
+        result.setMessage("This meeting room could not be found");
+    }else{
+        List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
+        for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
+            if(pme00EmployeeMeeting.getMeetingId() == meetingId){
+                serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
+            }
         }
+        serviceLifecycle.requestPme00MeetingService().remove(meetingId);
+        result.setMessage("Delete meeting room successfully");
     }
-    serviceLifecycle.requestPme00MeetingService().remove(meetingId);
+    return result;
 }
 
 @Override

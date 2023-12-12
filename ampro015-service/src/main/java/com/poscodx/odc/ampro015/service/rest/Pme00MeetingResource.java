@@ -23,8 +23,8 @@ public class Pme00MeetingResource {
     }
 
     @DeleteMapping("/{meetingId}")
-    public void deleteMeeting(@PathVariable("meetingId") int meetingId) {
-        this.serviceLifecycle.bookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
+    public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
+        return this.serviceLifecycle.bookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
 
     @PostMapping("/")
