@@ -2,7 +2,6 @@ package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectListDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.http.ResponseEntity;
 

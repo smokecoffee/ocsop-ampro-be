@@ -51,4 +51,10 @@ public class M00Codes030JpaStore implements M00Codes030Store {
     public int getMaxSeqInquiry(int cdTpId, int cateGroupId){
         return this.repository.getMaxSeqInquiry(cdTpId, cateGroupId);
     }
+
+    @Override
+    public List<M00Codes030>  findM00Codes030(String cdV, String meaning){
+        return M00Codes030Jpo.toDomains(this.repository.findM00Codes030(cdV, meaning));
+    }
+
 }

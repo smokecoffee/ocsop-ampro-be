@@ -20,4 +20,6 @@ public interface ServiceLifecycle {
     Pme00AnnouncementService requestPme00AnnouncementService();
 
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
+
+    Level2ProjectService requestLevel2ProjectService();
 }

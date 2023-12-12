@@ -18,4 +18,6 @@ public interface M00Codes030Store {
     void delete(M00Codes030Id id);
 
     int getMaxSeqInquiry(int cdTpId, int cateGroupId);
+
+    List<M00Codes030> findM00Codes030(String cdV, String meaning);
 }

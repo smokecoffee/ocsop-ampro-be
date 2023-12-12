@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ServiceLifecycler implements ServiceLifecycle {
 
+    private final Level2ProjectService level2ProjectService;
     private final Level2Service level2Service;
     private final AssetService assetService;
     private final FieldService fieldService;
@@ -21,6 +22,9 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00ProjectInfoService pme00ProjectInfoService;
     private final Pme00AnnouncementService pme00AnnouncementService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
+
+    @Override
+    public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
 
     @Override
     public Level2Service requestLevel2Service() {

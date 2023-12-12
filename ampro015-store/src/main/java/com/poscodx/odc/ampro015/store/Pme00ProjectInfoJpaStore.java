@@ -1,13 +1,12 @@
 package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectListDto;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00ProjectInfoJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00ProjectInfoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +52,10 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Object[]> getProjectList(Pme00ProjectListDto dto){
-        return this.repository.getProjectList(dto.getCdV(), dto.getCdvMeaning(), dto.getPeriod(),
-                dto.getKoreaPm(), dto.getVietNamPl(), dto.getFramework(), dto.getStatus(), dto.getStartDate(), dto.getEndDate());
-    };
+    public List<Pme00ProjectInfo> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
+                                                  String framework, String status, Date startDate, Date endDate){
+        return Pme00ProjectInfoJpo.toDomains(
+                this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate)
+        );
+    }
 }

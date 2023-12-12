@@ -43,4 +43,9 @@ public class M00Codes030Logic implements M00Codes030Service{
     public int getMaxSeqInquiry(int cdTpId, int cateGroupId){
         return this.store.getMaxSeqInquiry(cdTpId, cateGroupId);
     }
+
+    @Override
+    public List<M00Codes030>  findM00Codes030(String cdV, String meaning){
+        return this.store.findM00Codes030(cdV, meaning);
+    }
 }

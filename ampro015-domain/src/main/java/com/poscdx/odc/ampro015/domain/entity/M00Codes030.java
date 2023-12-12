@@ -28,7 +28,7 @@ public class M00Codes030 {
         return JsonUtil.toJson(this);
     }
 
-    public static Asset fromJson(String json) {
-        return JsonUtil.fromJson(json, Asset.class);
+    public static M00Codes030 fromJson(String json) {
+        return JsonUtil.fromJson(json, M00Codes030.class);
     }
 }
