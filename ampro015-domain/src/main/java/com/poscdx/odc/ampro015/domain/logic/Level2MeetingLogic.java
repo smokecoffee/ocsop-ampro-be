@@ -80,7 +80,8 @@ public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int
         result.setStatus(HttpStatus.NOT_FOUND.value());
         result.setMessage("This meeting room could not be found");
     }else{
-        List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle.requestPme00EmployeeMeetingService().findAll();
+        List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle
+                .requestPme00EmployeeMeetingService().findAll();
         for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
             if(pme00EmployeeMeeting.getMeetingId()==meetingId){
                 serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
@@ -96,7 +97,8 @@ public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int
 public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
     int id = listMeeting.get(0).getMeetingId();
     Pme00MeetingResponse result = new Pme00MeetingResponse();
-    Pme00MeetingResponse findMeeting = serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
+    Pme00MeetingResponse findMeeting = serviceLifecycle.bookingMeetingRoomService()
+            .getInforBookingRoom(serviceLifecycle,id);
     if(findMeeting==null) {
         result.setStatus(HttpStatus.NOT_FOUND.value());
         result.setMessage("This meeting room could not be found");
@@ -120,7 +122,8 @@ public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle)
     List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
     for(int i=0;i< pme00MeetingList.size();i++){
         int meetingId = pme00MeetingList.get(i).getMeetingId();
-        pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService().findByMeetingId(meetingId));
+        pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
+                .findByMeetingId(meetingId));
     }
     result.setStatus(HttpStatus.OK.value());
     result.setListData(pme00MeetingList);
