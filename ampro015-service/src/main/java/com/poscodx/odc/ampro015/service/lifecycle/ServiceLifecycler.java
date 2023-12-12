@@ -23,6 +23,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00AnnouncementService pme00AnnouncementService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
     private final ObjectMapper objectMapper;
+    private final Level2TaskService level2TaskService;
 
     @Override
     public Level2Service requestLevel2Service() {
@@ -85,5 +86,10 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public ObjectMapper reqObjectMapper() {
         return this.objectMapper;
+    }
+
+    @Override
+    public Level2TaskService requestLevel2TaskService() {
+        return this.level2TaskService;
     }
 }

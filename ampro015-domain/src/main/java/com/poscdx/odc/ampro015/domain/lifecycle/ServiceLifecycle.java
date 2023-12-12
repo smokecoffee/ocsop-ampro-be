@@ -23,4 +23,6 @@ public interface ServiceLifecycle {
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
 
     ObjectMapper reqObjectMapper();
+
+    Level2TaskService requestLevel2TaskService();
 }

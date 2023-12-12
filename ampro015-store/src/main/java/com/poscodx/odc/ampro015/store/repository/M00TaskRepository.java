@@ -1,5 +1,6 @@
 package com.poscodx.odc.ampro015.store.repository;
 
+import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscodx.odc.ampro015.store.jpo.M00TaskJpo;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import org.springframework.data.domain.Pageable;
@@ -34,11 +35,11 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             " AND (:actualEndDate = '' or t.ACTUAL_END_DATE = CAST (:actualEndDate as DATE))\n" +
             " AND (:projectNumber = '' or t.PROJECT_NUMBER = :projectNumber) \n" +
             " AND (:taskName = '' or t.TASK_NAME = :taskName)\n", nativeQuery = true)
-    List<Object[]> findAllByProjectNumber(@Param("projectNumber") String projectNumber,
-                                            @Param("actualEndDate") String actualEndDate,
-                                            @Param("planDate") String planDate,
-                                            @Param("taskName") String taskName,
-                                            Pageable pageable);
+    List<M00TaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber,
+                                           @Param("actualEndDate") String actualEndDate,
+                                           @Param("planDate") String planDate,
+                                           @Param("taskName") String taskName,
+                                           Pageable pageable);
 
     @Query(value = "SELECT * FROM tb_m00_task WHERE PROJECT_NUMBER = :projectNumber" + " AND TASK_NAME = :taskName", nativeQuery = true)
     Optional<M00TaskJpo> findOneTask(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);

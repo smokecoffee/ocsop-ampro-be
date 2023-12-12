@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class M00TaskJpaStore implements M00TaskStore {
@@ -46,12 +47,12 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<Object[]> retrieveAll(String projectNumber, String taskName, String planDate, String actualEndDate,  int pageNo, int pageSize, String sortBy, String sortDirection) {
+    public List<M00Task> retrieveAll(String projectNumber, String taskName, String planDate, String actualEndDate,  int pageNo, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
         //create pageable
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        return this.repository.findAllByProjectNumber(projectNumber, taskName, planDate, actualEndDate, pageable);
+        return this.repository.findAllByProjectNumber(projectNumber, taskName, planDate, actualEndDate, pageable).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 }
