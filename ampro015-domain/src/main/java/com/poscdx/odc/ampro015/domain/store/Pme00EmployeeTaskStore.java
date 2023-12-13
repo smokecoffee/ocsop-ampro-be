@@ -17,4 +17,9 @@ public interface Pme00EmployeeTaskStore {
 
     void delete(M00EmployeeTaskId m00EmployeeTaskId);
 
+    List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> entity);
+
+    List<Pme00EmployeeTask> retrieveAllByTaskId(M00TaskId reqM00TaskId);
+    void deleteEmployeeTaskListByTaskId(String projectNumber, String taskName);
+
 }

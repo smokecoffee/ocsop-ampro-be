@@ -40,4 +40,19 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
         this.store.delete(m00EmployeeTaskId);
     }
 
+    @Override
+    public List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> employeeTaskList) {
+        return this.store.createFromList(employeeTaskList);
+    }
+
+    @Override
+    public List<Pme00EmployeeTask> findAllByTaskId(M00TaskId requestTaskId) {
+        return this.store.retrieveAllByTaskId(requestTaskId);
+    }
+
+    @Override
+    public void removeMultipleEmployeeTaskByTaskId(String projectNumber, String taskName) {
+
+        this.store.deleteEmployeeTaskListByTaskId(projectNumber, taskName);
+    }
 }
