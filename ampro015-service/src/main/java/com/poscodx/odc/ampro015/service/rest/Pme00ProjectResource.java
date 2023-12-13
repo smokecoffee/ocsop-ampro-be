@@ -47,7 +47,8 @@ public class Pme00ProjectResource {
         if (projectList != null) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
 
-                List<M00Task> taskList = this.serviceLifecycle.requestTaskService().findAll(pme00ProjectInfo.getCdV());
+                List<M00Task> taskList = this.serviceLifecycle.requestTaskService().findAll(pme00ProjectInfo.getCdV(), null, null, null,
+                                                                                        0, 0, "taskName", null);
 
                 Pme00ProjectMonitoringDto newObject = new Pme00ProjectMonitoringDto(pme00ProjectInfo, taskList);
 
