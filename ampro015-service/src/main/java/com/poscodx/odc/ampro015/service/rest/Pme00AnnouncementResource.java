@@ -32,4 +32,9 @@ public class Pme00AnnouncementResource {
         this.service.modify(announcements);
     }
 
+    @DeleteMapping(path = "/{id}")
+    public void delete(@PathVariable("id") int id) {
+        this.service.remove(id);
+    }
+
 }
