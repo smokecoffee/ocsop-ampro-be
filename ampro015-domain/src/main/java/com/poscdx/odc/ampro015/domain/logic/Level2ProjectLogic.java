@@ -180,8 +180,10 @@ public class Level2ProjectLogic implements Level2ProjectService {
                                 , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
                                 , dto.getPme00ProjectInfo().getStartDate(), dto.getPme00ProjectInfo().getEndDate());
 
+
         for (M00Codes030 project : m00Codes030List) {
             for (Pme00ProjectInfo projectInfo : pme00ProjectInfoList) {
+
                 ProjectManagementDto rsDto = new ProjectManagementDto();
                 if (project.getCdV().equals(projectInfo.getCdV())){
                     rsDto.setM00Codes030(project);

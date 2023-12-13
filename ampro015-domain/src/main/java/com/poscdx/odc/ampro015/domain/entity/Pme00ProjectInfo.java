@@ -4,6 +4,7 @@ import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Getter
@@ -20,6 +21,8 @@ public class Pme00ProjectInfo {
     private String framework;
     private Date startDate;
     private Date endDate;
+    private String koreaPmName;
+    private String vietnamPlName;
 
     public String toJson() {
         return JsonUtil.toJson(this);
@@ -27,5 +30,19 @@ public class Pme00ProjectInfo {
 
     public static Pme00ProjectInfo fromJson(String json) {
         return JsonUtil.fromJson(json, Pme00ProjectInfo.class);
+    }
+
+    public Pme00ProjectInfo(Object[] objects) {
+
+        this.cdV = (String) objects[0];
+        this.period = (int) objects[1];
+        this.koreaPm = (String) objects[2];
+        this.vietnamPl = (String) objects[3];
+        this.status = (String) objects[4];
+        this.framework = (String) objects[5];
+        this.startDate = (Date) objects[6];
+        this.endDate = (Date) objects[7];
+        this.koreaPmName = (String) objects[8];
+        this.vietnamPlName = (String) objects[9];
     }
 }

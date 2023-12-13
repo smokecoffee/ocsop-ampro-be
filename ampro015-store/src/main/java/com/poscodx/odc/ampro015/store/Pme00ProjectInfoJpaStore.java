@@ -52,10 +52,9 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Pme00ProjectInfo> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
+    public List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
                                                   String framework, String status, Date startDate, Date endDate){
-        return Pme00ProjectInfoJpo.toDomains(
-                this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate)
+        return this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate
         );
     }
 }

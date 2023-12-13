@@ -59,6 +59,12 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
                                                   String status,
                                                   Date startDate,
                                                   Date endDate){
-        return this.store.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate);
+        List<Object[]> resultList = this.store.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate);
+        List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
+        for(Object[] obj : resultList){
+            pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));
+        }
+
+        return pme00ProjectInfoList;
     }
 }

@@ -16,6 +16,7 @@ public class ProjectManagementDto {
     private M00Codes030 m00Codes030;
     private Pme00ProjectInfo pme00ProjectInfo;
     private List<Pme00Member> lstMember;
+
 //    private List<M00TaskDto> lstTask;
 
 //    private String cdV;
@@ -28,15 +29,6 @@ public class ProjectManagementDto {
 //    private String VietNamName;
 //    private String status;
 //    private String framework;
-//    private int cdTpId;
-//    private int categoryGroupId;
-//    private String cdvMeaning;
-//    private String cdVExplain;
-//    private int cdVInquirySeq;
-//    private String createdProgramId;
-//    private Date creationTimestamp;
-//    private String lastUpdateProgramId;
-//    private Date lastUpdateTimestamp;
 
 
     public String toJson() {

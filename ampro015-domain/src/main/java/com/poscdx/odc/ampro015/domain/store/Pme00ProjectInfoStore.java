@@ -19,6 +19,6 @@ public interface Pme00ProjectInfoStore {
 
     List<Object[]> getActiveEmployee();
 
-    List<Pme00ProjectInfo> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
+    List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
                                            String framework, String status, Date startDate, Date endDate);
 }
