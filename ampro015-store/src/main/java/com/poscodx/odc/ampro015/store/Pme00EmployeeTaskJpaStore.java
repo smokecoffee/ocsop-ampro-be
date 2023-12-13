@@ -6,6 +6,8 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeTaskStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00EmployeeTaskRepository;
+import com.poscoict.base.share.util.string.StringUtil;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -53,13 +55,19 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     @Override
     public List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> pme00EmployeeTaskList) {
 
-        List<Pme00EmployeeTaskJpo> newPme00EmployeeTaskJpos = new ArrayList<>();
+        //TODO: convert dto -> jpo for Pme00EmployeeTask
+        List<Pme00EmployeeTaskJpo> requestEmployeeTaskJpoList = new ArrayList<>();
 
         pme00EmployeeTaskList.stream().forEach(pme00EmployeeTask -> {
-
+            Pme00EmployeeTaskJpo pme00EmployeeTaskJpo = new Pme00EmployeeTaskJpo();
+            pme00EmployeeTaskJpo.setProjectNumber(pme00EmployeeTask.getProjectNumber());
+            pme00EmployeeTaskJpo.setTaskName(pme00EmployeeTask.getTaskName());
+            pme00EmployeeTaskJpo.setEmpId(pme00EmployeeTask.getEmpId());
+            pme00EmployeeTaskJpo.setEmpName(StringUtil.defaultIfBlank(pme00EmployeeTask.getEmpName(), ""));
+            requestEmployeeTaskJpoList.add(pme00EmployeeTaskJpo);
         });
 
-        List<Pme00EmployeeTaskJpo> responseList = this.repository.saveAll(newPme00EmployeeTaskJpos);
+        List<Pme00EmployeeTaskJpo> responseList = this.repository.saveAll(requestEmployeeTaskJpoList);
 
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
     }

@@ -107,11 +107,10 @@ public class Level2TaskLogic implements Level2TaskService {
             return null;
         } else {
             // map M00TaskDto -> Jpo
-            M00Task newTaskJpo = new M00Task(); //serviceLifecycle.reqObjectMapper().convertValue(newTask.getTask(), M00Task.class);
+            M00Task newTaskJpo = newTask.getTask();
             M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
 
             // map Emp
-
             List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
 
             List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
