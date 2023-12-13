@@ -40,33 +40,32 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @GetMapping(path = "/project_monitoring/all")
-    public List<Pme00ProjectMonitoringDto> findAllProjectMonitoring() {
-        List<Pme00ProjectMonitoringDto> result = new ArrayList<>();
+    public List<ProjectManagementDto> findAllProjectMonitoring() {
+        List<ProjectManagementDto> result = new ArrayList<>();
 
         List<Pme00ProjectInfo> projectList = this.serviceLifecycle.requestPme00ProjectInfoService().findAll();
 
         if (projectList != null) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
 
-                List<M00Task> taskList = this.serviceLifecycle.requestTaskService().findAll(pme00ProjectInfo.getCdV(), "", "", "",
-                                                                                        0, 20, "TASK_NAME", Sort.Direction.DESC.name());
+                List<M00TaskDto> taskDtoList = new ArrayList<>();
 
-                Pme00ProjectMonitoringDto newObject = new Pme00ProjectMonitoringDto(pme00ProjectInfo, taskList);
+                List<M00TaskDto> taskList = this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, "", "", "","",
+                                                                                                    0, 20, "TASK_NAME",Sort.Direction.DESC.name());
+
+                ProjectManagementDto newObject = new ProjectManagementDto();
+
+                newObject.setPme00ProjectInfo(pme00ProjectInfo);
+
+                newObject.setLstTask(taskList);
 
                 result.add(newObject);
             }
         }
 
-
-
         return result;
     }
 
-//    @CrossOrigin
-//    @GetMapping(path = "/find")
-//    public List<Pme00ProjectDto> find(@RequestParam(required = true) String projectNumber) {
-//
-//    }
     @CrossOrigin
     @PostMapping("")
     public ProjectManagementDto register(@RequestBody ProjectManagementDto dto) throws SQLException {
