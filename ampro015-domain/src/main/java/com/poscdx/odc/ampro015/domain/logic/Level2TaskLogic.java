@@ -124,7 +124,18 @@ public class Level2TaskLogic implements Level2TaskService {
     }
 
     @Override
-    public void remove(ServiceLifecycle serviceLifecycle, M00TaskId id) {
-
+    public void remove(ServiceLifecycle serviceLifecycle, M00TaskId requestDeleteTaskId) {
+        //check this already existed yet?
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestDeleteTaskId));
+        if (existedTask.isPresent()) {
+            //find empTask
+            List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestDeleteTaskId);
+            if (!pme00EmployeeTaskExistedList.isEmpty()) {
+                //remove pmeEmployeeTask
+                serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestDeleteTaskId.getProjectNumber(), requestDeleteTaskId.getTaskName());
+            }
+            //Delete task
+            serviceLifecycle.requestTaskService().remove(requestDeleteTaskId);
+        }
     }
 }

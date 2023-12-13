@@ -3,7 +3,6 @@ package com.poscdx.odc.ampro015.domain.spec;
 import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 
 import java.util.List;
 
@@ -23,5 +22,5 @@ public interface Pme00EmployeeTaskService {
 
     List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> entity);
 
-    void removeByListEmployeeTask(List<Pme00EmployeeTask> listRemove);
+    void removeMultipleEmployeeTaskByTaskId(String projectNumber, String taskName);
 }

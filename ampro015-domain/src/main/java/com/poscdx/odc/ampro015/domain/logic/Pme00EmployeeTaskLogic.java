@@ -51,7 +51,8 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     }
 
     @Override
-    public void removeByListEmployeeTask(List<Pme00EmployeeTask> listRemove) {
-        this.store.deleteByListEmployeeTask(listRemove);
+    public void removeMultipleEmployeeTaskByTaskId(String projectNumber, String taskName) {
+
+        this.store.deleteEmployeeTaskListByTaskId(projectNumber, taskName);
     }
 }

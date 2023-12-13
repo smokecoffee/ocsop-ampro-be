@@ -7,7 +7,6 @@ import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeTaskStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00EmployeeTaskRepository;
 import com.poscoict.base.share.util.string.StringUtil;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -79,19 +78,7 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     }
 
     @Override
-    public void deleteByListEmployeeTask(List<Pme00EmployeeTask> listRemove) {
-        StringBuilder condition = new StringBuilder();
-        condition.append("(");
-        listRemove.stream().forEach(pme00EmployeeTask -> {
-            condition.append(" ('");
-            condition.append(String.join("','", pme00EmployeeTask.getProjectNumber(), pme00EmployeeTask.getTaskName(), pme00EmployeeTask.getTaskName(), pme00EmployeeTask.getEmpId(), pme00EmployeeTask.getEmpName()));
-            condition.append("')");
-        });
-
-        condition.append(")");
-        System.out.println("deleteQuery: "+ condition.toString());
-        this.repository.deleteMultipleRowById(condition.toString());
-
-
+    public void deleteEmployeeTaskListByTaskId(String projectNumber, String taskName) {
+        this.repository.deleteMultipleRowById(projectNumber, taskName);
     }
 }

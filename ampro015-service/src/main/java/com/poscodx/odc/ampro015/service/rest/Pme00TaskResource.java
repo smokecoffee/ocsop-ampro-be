@@ -89,33 +89,7 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @DeleteMapping("")
-    public ResponseEntity<?> deleteTask(@RequestBody M00TaskId m00TaskId) {
-        Optional<M00Task> existedTask = Optional.ofNullable(this.serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(m00TaskId));
-        if (existedTask.isPresent()) {
-            //delete data tb_pme00_employee_task
-            List<Pme00EmployeeTask> pme00EmployeeTasksExisted = this.serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(m00TaskId);
-            if (!pme00EmployeeTasksExisted.isEmpty()) {
-                //M00EmployeeTaskId requestM00EmployeeTaskId = new M00EmployeeTaskId(existedTask.get().getProjectNumber(), existedTask.get().getTaskName(), existedTask.get().getEmpId());
-                this.serviceLifecycle.requestPme00EmployeeTaskService().removeByListEmployeeTask(pme00EmployeeTasksExisted);
-                this.serviceLifecycle.requestTaskService().remove(m00TaskId);
-                Map response = new HashMap<>();
-                response.put(DATA_KEY, "");
-                response.put(DESCRIPTION_KEY, "Delete task success!!!");
-                response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-                return ResponseEntity.ok(response);
-            } else {
-                Map response = new HashMap<>();
-                response.put(DATA_KEY, "");
-                response.put(DESCRIPTION_KEY, "Can't delete task success!!!");
-                response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-                return ResponseEntity.badRequest().body(response);
-            }
-        } else{
-            Map response = new HashMap<>();
-            response.put(DATA_KEY, "");
-            response.put(DESCRIPTION_KEY, "Can't delete task success!!!");
-            response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(response);
-        }
+    public void deleteTask(@RequestBody M00TaskId m00TaskId) {
+        this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId);
     }
 }
