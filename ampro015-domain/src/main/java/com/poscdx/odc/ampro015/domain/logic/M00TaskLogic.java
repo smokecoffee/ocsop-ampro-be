@@ -4,9 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.spec.M00TaskService;
 import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 public class M00TaskLogic implements M00TaskService {

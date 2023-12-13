@@ -1,19 +1,13 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,11 +15,6 @@ import java.util.Optional;
 @RequestMapping("/task")
 public class Pme00TaskResource {
     private final ServiceLifecycle serviceLifecycle;
-    private static final String TASK_KEY = "task";
-    private static final String DATA_KEY = "data";
-    private static final String STATUS_KEY = "status";
-    private static final String DESCRIPTION_KEY = "description";
-    private static final String MEMBERS_KEY = "members";
 
     @CrossOrigin
     @GetMapping(path = "/getAll")
@@ -49,42 +38,16 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @PostMapping("")
-    public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
-
+    public M00TaskDto insertTask(@RequestBody M00TaskDto newTaskRequest) {
         Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest));
-
-        Map response = new HashMap<>();
-        if (responseData.isPresent()) {
-            response.put(DATA_KEY, responseData.get());
-            response.put(DESCRIPTION_KEY, "Add new task success");
-            response.put(STATUS_KEY, HttpStatus.OK.value());
-            return ResponseEntity.ok(response);
-        } else {
-            response.put(DATA_KEY, "");
-            response.put(DESCRIPTION_KEY, String.format("The task with taskId  %s is already existed", newTaskRequest.toString()));
-            response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(response);
-        }
+        return responseData.get();
     }
 
     @CrossOrigin
     @PutMapping("")
-    public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) throws JsonProcessingException {
-
+    public M00TaskDto updateTask(@RequestBody M00TaskDto newTaskRequest) throws JsonProcessingException {
         Optional<M00TaskDto> updatedTask = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest));
-
-        Map response = new HashMap<>();
-        if (updatedTask.isPresent()) {
-            response.put(DATA_KEY, updatedTask.get());
-            response.put(DESCRIPTION_KEY, "Updated task success!!!");
-            response.put(STATUS_KEY, HttpStatus.OK.value());
-            return ResponseEntity.ok(response);
-        } else {
-            response.put(DATA_KEY, "");
-            response.put(DESCRIPTION_KEY, "Can't update task!!!");
-            response.put(STATUS_KEY, HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(response);
-        }
+        return updatedTask.get();
     }
 
     @CrossOrigin

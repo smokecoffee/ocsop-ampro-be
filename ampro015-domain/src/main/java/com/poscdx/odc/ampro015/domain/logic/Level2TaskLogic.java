@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 public class Level2TaskLogic implements Level2TaskService {
     @Override
     public M00TaskDto findTaskByProjectNumberAndTaskName(ServiceLifecycle serviceLifecycle, M00TaskId searchTaskId) {
-        Optional<M00Task> m00Task = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(searchTaskId));
+        Optional<M00Task> m00Task = Optional.ofNullable(
+                serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(searchTaskId));
         if (m00Task.isPresent()) {
             List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(searchTaskId);
             M00TaskDto taskResponse = new M00TaskDto();
@@ -31,7 +32,9 @@ public class Level2TaskLogic implements Level2TaskService {
     }
 
     @Override
-    public List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy, String sortDirection) {
+    public List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
+                                    String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy,
+                                    String sortDirection) {
         //findAllTask
 
         Optional<M00TaskJpoComlumnName> columnSort = M00TaskJpoComlumnName.getColumnName(sortBy);
@@ -49,7 +52,10 @@ public class Level2TaskLogic implements Level2TaskService {
         //append member to task
         m00TaskDtoList.forEach(m00Task -> {
             M00TaskDto response = new M00TaskDto();
-            List<Pme00EmployeeTask> pme00EmployeeTasks = pme00EmployeeTaskList.stream().filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName()) && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber())).collect(Collectors.toList());
+            List<Pme00EmployeeTask> pme00EmployeeTasks = pme00EmployeeTaskList.stream().
+                    filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
+                            && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
+                    .collect(Collectors.toList());
             response.setTask(m00Task);
             response.setMembers(pme00EmployeeTasks);
             responseList.add(response);
