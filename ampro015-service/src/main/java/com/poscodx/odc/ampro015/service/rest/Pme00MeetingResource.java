@@ -4,10 +4,8 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -17,26 +15,31 @@ public class Pme00MeetingResource {
     private final ServiceLifecycler serviceLifecycle;
 
     @GetMapping("/")
+    @CrossOrigin
     public Pme00AllMeetingResponse getListMeeting() {
         return this.serviceLifecycle.bookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
 
     @DeleteMapping("/{meetingId}")
+    @CrossOrigin
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
         return this.serviceLifecycle.bookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
 
     @PostMapping("/")
+    @CrossOrigin
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) {
        return this.serviceLifecycle.bookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting);
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
        return this.serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
     }
 
     @GetMapping("/search")
+    @CrossOrigin
     public List<Pme00Meeting> searchListMeetings(
             @RequestParam("cd_tp_id") int cd_tp_id,
             @RequestParam("title") String title,
@@ -58,6 +61,7 @@ public class Pme00MeetingResource {
     }
 
     @PutMapping("/")
+    @CrossOrigin
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.bookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }

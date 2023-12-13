@@ -1,13 +1,12 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,7 +16,23 @@ public class Level2MeetingLogic implements Level2MeetingService {
     @Override
     public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        boolean checkValidRequest = newMeeting.getCd_tp_id() == 65;
+        //get CheckDateMeeting(StartDate and EndDate)
+        Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
+                .getListMeeting(serviceLifecycle);
+        List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
+        List<CheckDateBookMeeting> listDatecheck = new ArrayList<>();
+        for(int i=0; i<pme00MeetingList.size(); i++){
+            CheckDateBookMeeting checkDateBookMeeting = new CheckDateBookMeeting();
+            checkDateBookMeeting.setStartTime(pme00MeetingList.get(i).getStartTime());
+            checkDateBookMeeting.setEndTime(pme00MeetingList.get(i).getEndTime());
+            listDatecheck.add(checkDateBookMeeting);
+            System.out.println(": pme00MeetingList" + checkDateBookMeeting);
+        }
+        //validate Input
+        Date date=java.util.Calendar.getInstance().getTime();
+        boolean checkValidRequest = newMeeting.getCd_tp_id()==65 && (newMeeting.getStartTime()
+                .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(date)>0);
+
         if (checkValidRequest) {
             try {
                 Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
