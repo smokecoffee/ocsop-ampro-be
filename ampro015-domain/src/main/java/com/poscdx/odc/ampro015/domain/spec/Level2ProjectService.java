@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface Level2ProjectService {
 
-    ProjectManagementDto registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
+    boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
 
-    ProjectManagementDto modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
+    boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
 
     void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
 

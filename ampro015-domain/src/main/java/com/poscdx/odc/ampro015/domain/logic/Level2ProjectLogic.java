@@ -21,12 +21,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public ProjectManagementDto registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
+    public boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
 
         // Check project code exists
         if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                 && checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-            return  null;
+            return  false;
         }
 
         // Insert data M00Codes030
@@ -71,7 +71,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
 
-        return dto;
+        return true;
     }
 
     /**
@@ -83,12 +83,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public ProjectManagementDto modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
+    public boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
 
         // Check project code exists
         if(!checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                 || !checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-            return  null;
+            return  false;
         }
 
         // Update data M00Codes030
@@ -139,7 +139,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
 
-        return dto;
+        return true;
     }
 
     /**
