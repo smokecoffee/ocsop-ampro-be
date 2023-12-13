@@ -1,11 +1,15 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +33,16 @@ public class Level2TaskLogic implements Level2TaskService {
     @Override
     public List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy, String sortDirection) {
         //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(projectNumber, taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
+
+        Optional<M00TaskJpoComlumnName> columnSort = M00TaskJpoComlumnName.getColumnName(sortBy);
+        String columnName = columnSort.isPresent() ? columnSort.get().name() : "";
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(columnName).ascending()
+                : Sort.by(columnName).descending();
+        //create pageable
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(projectNumber, taskName, planDate, actualEndDate, pageable);
         //findAllEmplTask
         M00TaskId requestTaskId = new M00TaskId(projectNumber, taskName);
-        // TODO: update query find findAllByTaskId, when task searching send only projectNumber
         List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
 
         List<M00TaskDto> responseList = new ArrayList<>();

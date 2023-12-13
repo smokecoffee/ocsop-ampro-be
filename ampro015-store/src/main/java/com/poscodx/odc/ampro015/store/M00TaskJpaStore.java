@@ -47,12 +47,7 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<M00Task> retrieveAll(String projectNumber, String taskName, String planDate, String actualEndDate,  int pageNo, int pageSize, String sortBy, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        //create pageable
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+    public List<M00Task> retrieveAll(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
         return this.repository.findAllByProjectNumber(projectNumber, taskName, planDate, actualEndDate, pageable).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 }

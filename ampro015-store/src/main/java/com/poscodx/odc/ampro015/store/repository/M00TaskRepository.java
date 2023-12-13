@@ -31,9 +31,9 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
 
             " FROM tb_m00_task AS t \n" +
             " WHERE 1=1 \n"+
-            " AND (:planDate = '' or t.PLAN_DATE = CAST (:planDate as DATE))\n" +
-            " AND (:actualEndDate = '' or t.ACTUAL_END_DATE = CAST (:actualEndDate as DATE))\n" +
-            " AND (:projectNumber = '' or t.PROJECT_NUMBER = :projectNumber) \n" +
+            " AND (:planDate = '' or t.PLAN_DATE = :planDate)\n" +
+            " AND (:actualEndDate = '' or t.ACTUAL_END_DATE = :actualEndDate )\n" +
+            " AND (:projectNumber = '' or t.PROJECT_NUMBER = :projectNumber)\n" +
             " AND (:taskName = '' or t.TASK_NAME = :taskName)\n", nativeQuery = true)
     List<M00TaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber,
                                            @Param("actualEndDate") String actualEndDate,
