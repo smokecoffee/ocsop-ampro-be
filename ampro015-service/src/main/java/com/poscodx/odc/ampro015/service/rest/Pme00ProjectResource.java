@@ -68,13 +68,13 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @PostMapping("")
-    public ProjectManagementDto register(@RequestBody ProjectManagementDto dto) throws SQLException {
+    public boolean register(@RequestBody ProjectManagementDto dto) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().registerProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
     @PutMapping("")
-    public ProjectManagementDto modify(@RequestBody ProjectManagementDto dto) throws SQLException {
+    public boolean modify(@RequestBody ProjectManagementDto dto) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().modifyProject(serviceLifecycle, dto);
     }
 
