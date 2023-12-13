@@ -1,12 +1,19 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.*;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
-<<<<<<< HEAD
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
-=======
->>>>>>> 79dc41173bbc70a7fcbf0bc47e6b3161a0370da7
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
 
 public class Level2Logic implements Level2Service {
 
@@ -24,7 +31,6 @@ public class Level2Logic implements Level2Service {
 
         //Update asset entity
         Asset asset = assetInfoDto.getAsset();
-        Pme00ProjectInfo info = new Pme00ProjectInfo();
 
         serviceLifecycle.requestAssetService().modify(asset);
 

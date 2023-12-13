@@ -5,6 +5,7 @@ import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
@@ -47,8 +48,8 @@ public class Pme00ProjectResource {
         if (projectList != null) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
 
-                List<M00Task> taskList = this.serviceLifecycle.requestTaskService().findAll(pme00ProjectInfo.getCdV(), null, null, null,
-                                                                                        0, 0, "taskName", null);
+                List<M00Task> taskList = this.serviceLifecycle.requestTaskService().findAll(pme00ProjectInfo.getCdV(), "", "", "",
+                                                                                        0, 20, "TASK_NAME", Sort.Direction.DESC.name());
 
                 Pme00ProjectMonitoringDto newObject = new Pme00ProjectMonitoringDto(pme00ProjectInfo, taskList);
 
