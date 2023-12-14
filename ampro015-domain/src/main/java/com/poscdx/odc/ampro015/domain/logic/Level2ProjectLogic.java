@@ -215,9 +215,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
                 ProjectManagementDto dto = new ProjectManagementDto();
 
-                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,
-                        pme00ProjectInfo.getCdV(), "", "","", 0, 20,
-                        "TASK_NAME","");
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
 
                 List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
 
@@ -231,9 +229,14 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
                 ProjectManagementDto newObject = new ProjectManagementDto();
 
-                double completionPercentage = ((double) taskList.stream().filter(item -> item.getTask().getStatus().equals("O"))
-                                                                          .count() / taskList.size()) * 100;
+                long completedTasks = taskList.stream()
+                        .filter(item -> "O".equals(item.getTask().getStatus()))
+                        .count();
+
+                double completionPercentage = (completedTasks * 100.0) / taskList.size();
                 int progress = (int) completionPercentage;
+
+                System.out.println("Completion Percentage: " + completionPercentage);
 
                 newObject.setPme00ProjectInfo(pme00ProjectInfo);
 
