@@ -5,36 +5,99 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Level2MeetingLogic implements Level2MeetingService {
 
     @Override
-    public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) {
+    public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) throws ParseException {
+        
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        //get CheckDateMeeting(StartDate and EndDate)
+        //get CheckDateMeeting(StartDate and EndDate) match with input
         Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
                 .getListMeeting(serviceLifecycle);
         List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
         List<CheckDateBookMeeting> listDatecheck = new ArrayList<>();
         for(int i=0; i<pme00MeetingList.size(); i++){
             CheckDateBookMeeting checkDateBookMeeting = new CheckDateBookMeeting();
-            checkDateBookMeeting.setStartTime(pme00MeetingList.get(i).getStartTime());
-            checkDateBookMeeting.setEndTime(pme00MeetingList.get(i).getEndTime());
-            listDatecheck.add(checkDateBookMeeting);
-            System.out.println(": pme00MeetingList" + checkDateBookMeeting);
+            Date startDateCheck = pme00MeetingList.get(i).getStartTime();
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String strDateCheck = dateFormat.format(startDateCheck);
+            Date startDateInputCheck = newMeeting.getStartTime();
+            String strDateInputCheck = dateFormat.format(startDateInputCheck);
+            if(strDateCheck.equals(strDateInputCheck)) {
+                checkDateBookMeeting.setStartTime(pme00MeetingList.get(i).getStartTime());
+                checkDateBookMeeting.setEndTime(pme00MeetingList.get(i).getEndTime());
+                listDatecheck.add(checkDateBookMeeting);
+                System.out.println(": pme00MeetingList" + checkDateBookMeeting);
+            }
+
         }
+        // sort by StartDate and EndDate
+        listDatecheck.sort(Comparator.comparing(CheckDateBookMeeting::getStartTime));
+        System.out.println("listDatecheck" + listDatecheck);
+
+        List<ValidateTimeCheckMeeting> validateTimeCheckMeetings = new ArrayList<>();
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+//        SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyy-MM-DD HH:mm:ss");
+        Date startTimeCheckInput = newMeeting.getStartTime();
+
+        //create list space time: validateTimeCheckMeetings
+        int listSpaceSize = listDatecheck.size();
+        for(int i=0 ; i < listSpaceSize ; i++){
+            String strStartTimeCheckInput = dateFormat1.format(startTimeCheckInput);
+            String strtoDateS = strStartTimeCheckInput + " 00:00:00.000";
+            String strtoDateE = strStartTimeCheckInput + " 23:59:00.000";
+            Date startDayTime = dateFormat2.parse(strtoDateS);
+            Date endDayTime = dateFormat2.parse(strtoDateE);
+
+            ValidateTimeCheckMeeting validateTimeCheckMeeting = new ValidateTimeCheckMeeting();
+            if(i==0){
+
+                if(!startDayTime.equals(listDatecheck.get(i).getStartTime())){
+                    //add first
+                    validateTimeCheckMeeting.setStartTimeCheck(startDayTime);
+                    validateTimeCheckMeeting.setEndTimeCheck(listDatecheck.get(i).getStartTime());
+                    validateTimeCheckMeetings.add(validateTimeCheckMeeting);
+
+                    //add second
+                    validateTimeCheckMeeting.setStartTimeCheck(listDatecheck.get(i).getEndTime());
+                    validateTimeCheckMeeting.setEndTimeCheck(listDatecheck.get(i + 1).getStartTime());
+                    validateTimeCheckMeetings.add(validateTimeCheckMeeting);
+                } else {
+                    validateTimeCheckMeeting.setStartTimeCheck(listDatecheck.get(i).getEndTime());
+                    validateTimeCheckMeeting.setEndTimeCheck(listDatecheck.get(i + 1).getStartTime());
+                    validateTimeCheckMeetings.add(validateTimeCheckMeeting);
+                }
+            } else {
+                if(i == listSpaceSize - 1){
+                    validateTimeCheckMeeting.setStartTimeCheck(listDatecheck.get(i).getEndTime());
+                    validateTimeCheckMeeting.setEndTimeCheck(endDayTime);
+                    validateTimeCheckMeetings.add(validateTimeCheckMeeting);
+                } else if (i < listSpaceSize){
+                    validateTimeCheckMeeting.setStartTimeCheck(listDatecheck.get(i).getEndTime());
+                    validateTimeCheckMeeting.setEndTimeCheck(listDatecheck.get(i + 1).getStartTime());
+                    validateTimeCheckMeetings.add(validateTimeCheckMeeting);
+                } else {
+                    //do nothing
+                }
+            }
+        }
+        System.out.println("validateTimeCheckMeetings: " + validateTimeCheckMeetings);
         //validate Input
+        //add Api get MeetingRoom
         Date date=java.util.Calendar.getInstance().getTime();
         boolean checkValidRequest = newMeeting.getCd_tp_id()==65 && (newMeeting.getStartTime()
                 .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(date)>0);
 
         if (checkValidRequest) {
             try {
+
                 Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
                 result.setStatus(HttpStatus.OK.value());
                 result.setMessage("The meeting has been created successfully");

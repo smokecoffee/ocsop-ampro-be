@@ -6,11 +6,12 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface Level2MeetingService {
 
-    Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting);
+    Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) throws ParseException;
 
     Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int id);
 
