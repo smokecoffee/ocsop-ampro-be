@@ -17,4 +17,6 @@ public interface Level2ProjectService {
 
     List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto);
 
+    List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle);
+
 }

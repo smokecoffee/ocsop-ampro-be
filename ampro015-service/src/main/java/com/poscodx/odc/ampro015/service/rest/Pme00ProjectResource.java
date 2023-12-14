@@ -41,29 +41,7 @@ public class Pme00ProjectResource {
     @CrossOrigin
     @GetMapping(path = "/project_monitoring/all")
     public List<ProjectManagementDto> findAllProjectMonitoring() {
-        List<ProjectManagementDto> result = new ArrayList<>();
-
-        List<Pme00ProjectInfo> projectList = this.serviceLifecycle.requestPme00ProjectInfoService().findAll();
-
-        if (projectList != null) {
-            for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
-
-                List<M00TaskDto> taskDtoList = new ArrayList<>();
-
-                List<M00TaskDto> taskList = this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, "", "", "","",
-                                                                                                    0, 20, "TASK_NAME",Sort.Direction.DESC.name());
-
-                ProjectManagementDto newObject = new ProjectManagementDto();
-
-                newObject.setPme00ProjectInfo(pme00ProjectInfo);
-
-                newObject.setLstTask(taskList);
-
-                result.add(newObject);
-            }
-        }
-
-        return result;
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle);
     }
 
     @CrossOrigin
