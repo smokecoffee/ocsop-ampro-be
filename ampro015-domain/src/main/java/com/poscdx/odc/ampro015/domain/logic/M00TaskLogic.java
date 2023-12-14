@@ -20,8 +20,8 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findAll(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
-        return store.retrieveAll(projectNumber, taskName, planDate, actualEndDate, pageable);
+    public List<M00Task> findAll(String projectNumber) {
+        return store.retrieveAll(projectNumber);
     }
 
     @Override

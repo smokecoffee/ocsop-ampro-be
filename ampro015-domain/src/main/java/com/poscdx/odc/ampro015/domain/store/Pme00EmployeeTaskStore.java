@@ -10,6 +10,7 @@ public interface Pme00EmployeeTaskStore {
     Pme00EmployeeTask retrieve(M00EmployeeTaskId m00EmployeeTaskId);
 
     List<Pme00EmployeeTask> retrieveAll();
+    List<Pme00EmployeeTask> retrieveAllByProjectNumber(String projectNumber);
 
     Pme00EmployeeTask update(Pme00EmployeeTask Pme00EmployeeTask);
 

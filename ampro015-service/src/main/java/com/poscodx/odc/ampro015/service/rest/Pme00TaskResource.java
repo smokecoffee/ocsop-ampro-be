@@ -18,15 +18,8 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @GetMapping(path = "/getAll")
-    public List<M00TaskDto> findAll(@RequestParam String projectNumber,
-                                    @RequestParam(required = false, defaultValue = "") String taskName,
-                                    @RequestParam(required = false, defaultValue = "") String planDate,
-                                    @RequestParam(required = false, defaultValue = "") String actualEndDate,
-                                    @RequestParam(defaultValue = "0", required = false) int pageNo,
-                                    @RequestParam(defaultValue = "20", required = false) int pageSize,
-                                    @RequestParam(defaultValue = "TASK_NAME", required = false) String sortBy,
-                                    @RequestParam(defaultValue = "ASC", required = false) String sortDirection) {
-        return this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber, taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
+    public List<M00TaskDto> findAll(@RequestParam String projectNumber) {
+        return this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber);
     }
 
     @CrossOrigin

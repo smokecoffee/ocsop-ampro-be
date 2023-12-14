@@ -47,7 +47,7 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<M00Task> retrieveAll(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
-        return this.repository.findAllByProjectNumber(projectNumber, taskName, planDate, actualEndDate, pageable).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    public List<M00Task> retrieveAll(String projectNumber) {
+        return this.repository.findAllByProjectNumber(projectNumber).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 }
