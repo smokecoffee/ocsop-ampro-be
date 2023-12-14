@@ -18,6 +18,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Level2TaskLogic implements Level2TaskService {
+
+    /**
+     * This function gets an existing tasks and its associated employeeTask based on the taskId
+     *
+     * @param serviceLifecycle
+     * @param searchTaskId
+     * @return M00TaskDto
+     */
     @Override
     public M00TaskDto findTaskByProjectNumberAndTaskName(ServiceLifecycle serviceLifecycle, M00TaskId searchTaskId) {
         Optional<M00Task> m00Task = Optional.ofNullable(
@@ -29,9 +37,16 @@ public class Level2TaskLogic implements Level2TaskService {
             taskResponse.setMembers(pme00EmployeeTaskList);
             return taskResponse;
         }
-        return null;
+        return new M00TaskDto();
     }
 
+    /**
+     * This function gets all tasks and its associated employeeTask based on the project number
+     *
+     * @param serviceLifecycle
+     * @param projectNumber
+     * @return List<M00TaskDto>
+     */
     @Override
     public List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber) {
         //findAllTask
@@ -54,41 +69,47 @@ public class Level2TaskLogic implements Level2TaskService {
         return responseList;
     }
 
+    /**
+     * This function updates task and its associated employeeTask the value based on the M00TaskDto
+     *
+     * @param serviceLifecycle
+     * @param updateTaskRequest
+     * @return M00TaskDto
+     */
     @Override
-    public M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto newTaskRequest) {
+    public M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest) {
         //convert json to DTO
-        M00Task requestTask = newTaskRequest.getTask();
-
+        M00Task requestTask = updateTaskRequest.getTask();
         // find exitedTask
         M00TaskId requestUpdatedTask = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestUpdatedTask));
 
-        List<Pme00EmployeeTask> pme00EmployeeTasksList = newTaskRequest.getMembers();
-
-
-        //TODO: add biz for Pme00EmployeeTask
-        /*
-        List<Pme00EmployeeTask> pme00EmployeeTask = new ArrayList<>();
-        List<Object> pme00EmployeeTasksList = objectMapper.convertValue(newTaskRequest.get(MEMBERS_KEY), List.class);
-
-        pme00EmployeeTasksList.forEach(pme00EmployeeTask1 -> {
-            pme00EmployeeTask.add(objectMapper.convertValue(pme00EmployeeTask1, Pme00EmployeeTask.class));
-        });
-        //insert task
-        M00Task newM00TaskRegisted = this.serviceLifecycle.requestTaskService().register(newTask);
-
-        //inset to task member
-        List<Pme00EmployeeTask> pme00EmployeeTaskResponse = this.serviceLifecycle.requestPme00EmployeeTaskService().createFromList(pme00EmployeeTask);
-         */
+        List<Pme00EmployeeTask> pme00EmployeeTasksList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
             // find existedEmplTask
-
+            M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
+            List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
+            if (!pme00EmployeeTaskList.isEmpty()) {
+                //modify
+                serviceLifecycle.requestPme00EmployeeTaskService().modify(updateTaskRequest.getMembers());
+            } else {
+                //insert new emplTaskList
+                serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
+            }
             // modify info task
             existedTask.get().setCategory(requestTask.getCategory());
             existedTask.get().setTaskExplain(requestTask.getTaskExplain());
-
-            // TODO: add more column
+            existedTask.get().setEmpId(requestTask.getEmpId());
+            existedTask.get().setStatus(requestTask.getStatus());
+            existedTask.get().setPlanDate(requestTask.getPlanDate());
+            existedTask.get().setActualEndDate(requestTask.getActualEndDate());
+            existedTask.get().setRemark(requestTask.getRemark());
+            existedTask.get().setCreationTimestamp(requestTask.getCreationTimestamp());
+            existedTask.get().setLastUpdateTimestamp(requestTask.getLastUpdateTimestamp());
+            existedTask.get().setLastUpdateId(requestTask.getLastUpdateId());
+            existedTask.get().setWriter(requestTask.getWriter());
+            existedTask.get().setPassword(requestTask.getPassword());
 
             // save DB
             M00Task updatedTask = serviceLifecycle.requestTaskService().modify(requestTask);
@@ -100,11 +121,13 @@ public class Level2TaskLogic implements Level2TaskService {
         return null;
     }
 
-    @Override
-    public void modifyList(ServiceLifecycle serviceLifecycle, List<M00Task> entityList) {
-
-    }
-
+    /**
+     * This function inserts a new task and its associated employeeTask the value based on the M00TaskDto
+     *
+     * @param serviceLifecycle
+     * @param newTask
+     * @return M00TaskDto
+     */
     @Override
     public M00TaskDto register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
         //check this already existed yet?
@@ -130,6 +153,12 @@ public class Level2TaskLogic implements Level2TaskService {
         }
     }
 
+    /**
+     * This function removes an existing task and its associated employeeTask based on value from the M00TaskDto.
+     *
+     * @param serviceLifecycle
+     * @param requestDeleteTaskId
+     */
     @Override
     public void remove(ServiceLifecycle serviceLifecycle, M00TaskId requestDeleteTaskId) {
         //check this already existed yet?

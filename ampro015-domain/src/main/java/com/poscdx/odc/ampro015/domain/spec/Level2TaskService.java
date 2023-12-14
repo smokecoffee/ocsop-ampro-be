@@ -14,7 +14,6 @@ public interface Level2TaskService {
     List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber);
 
     M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest);
-    void modifyList(ServiceLifecycle serviceLifecycle, List<M00Task> entityList);
 
     M00TaskDto register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask);
 
