@@ -33,14 +33,20 @@ public class Pme00TaskResource {
     @PostMapping("")
     public M00TaskDto insertTask(@RequestBody M00TaskDto newTaskRequest) {
         Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest));
-        return responseData.get();
+        if(responseData.isPresent()){
+            return responseData.get();
+        }
+        return new M00TaskDto();
     }
 
     @CrossOrigin
     @PutMapping("")
     public M00TaskDto updateTask(@RequestBody M00TaskDto newTaskRequest) throws JsonProcessingException {
         Optional<M00TaskDto> updatedTask = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest));
-        return updatedTask.get();
+        if(updatedTask.isPresent()){
+            return updatedTask.get();
+        }
+        return new M00TaskDto();
     }
 
     @CrossOrigin
