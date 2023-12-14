@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 public class Level2MeetingLogic implements Level2MeetingService {
 
     @Override
-    public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) throws ParseException {
-        
+    public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting)
+            throws ParseException {
+
         Pme00MeetingResponse result = new Pme00MeetingResponse();
         //get CheckDateMeeting(StartDate and EndDate) match with input
         Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
@@ -75,11 +76,11 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     validateTimeCheckMeetings.add(validateTimeCheckMeeting);
                 }
             } else {
-                if(i == listSpaceSize - 1){
+                if(i==listSpaceSize-1){
                     validateTimeCheckMeeting.setStartTimeCheck(listDatecheck.get(i).getEndTime());
                     validateTimeCheckMeeting.setEndTimeCheck(endDayTime);
                     validateTimeCheckMeetings.add(validateTimeCheckMeeting);
-                } else if (i < listSpaceSize){
+                } else if (i<listSpaceSize){
                     validateTimeCheckMeeting.setStartTimeCheck(listDatecheck.get(i).getEndTime());
                     validateTimeCheckMeeting.setEndTimeCheck(listDatecheck.get(i + 1).getStartTime());
                     validateTimeCheckMeetings.add(validateTimeCheckMeeting);
@@ -89,11 +90,26 @@ public class Level2MeetingLogic implements Level2MeetingService {
             }
         }
         System.out.println("validateTimeCheckMeetings: " + validateTimeCheckMeetings);
+
+        //check time booking in timespace
+        Date startTimeCheckInputCheckTimeSpaceStart = newMeeting.getStartTime();
+        Date startTimeCheckInputCheckTimeSpaceEnd = newMeeting.getEndTime();
+        int flag=0;
+        for(int i=0; i<validateTimeCheckMeetings.size(); i++){
+           boolean checkTimeSpace= (startTimeCheckInputCheckTimeSpaceStart.compareTo(validateTimeCheckMeetings.get(i)
+                   .getStartTimeCheck())>0)
+                    && (startTimeCheckInputCheckTimeSpaceEnd.compareTo(validateTimeCheckMeetings.get(i)
+                   .getEndTimeCheck())<0);
+           if(checkTimeSpace){
+               flag = flag+1;
+           }
+        }
         //validate Input
         //add Api get MeetingRoom
         Date date=java.util.Calendar.getInstance().getTime();
         boolean checkValidRequest = newMeeting.getCd_tp_id()==65 && (newMeeting.getStartTime()
-                .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(date)>0);
+                .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(date)<0)
+                && flag>0;
 
         if (checkValidRequest) {
             try {
