@@ -16,8 +16,10 @@ public class ProjectManagementDto {
     private M00Codes030 m00Codes030;
     private Pme00ProjectInfo pme00ProjectInfo;
     private List<Pme00Member> lstMember;
+    private int progress;
 
     private List<M00TaskDto> lstTask;
+
 
 //    private String cdV;
 //    private int period;

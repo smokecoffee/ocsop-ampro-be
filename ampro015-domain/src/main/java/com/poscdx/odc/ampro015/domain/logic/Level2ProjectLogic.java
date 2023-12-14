@@ -213,14 +213,37 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
                 List<M00TaskDto> taskDtoList = new ArrayList<>();
 
-                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, pme00ProjectInfo.getCdV(), "", "","",
-                                                                                                    0, 20, "TASK_NAME","");
+                ProjectManagementDto dto = new ProjectManagementDto();
+
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,
+                        pme00ProjectInfo.getCdV(), "", "","", 0, 20,
+                        "TASK_NAME","");
+
+                List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
+
+                M00Codes030Id m00Codes030Id = new M00Codes030Id(63, 56, pme00ProjectInfo.getCdV());
+
+                String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
+
+                M00Codes030 m00Codes030 = new M00Codes030();
+
+                m00Codes030.setCdvMeaning(projectName);
 
                 ProjectManagementDto newObject = new ProjectManagementDto();
+
+                double completionPercentage = ((double) taskList.stream().filter(item -> item.getTask().getStatus().equals("O"))
+                                                                          .count() / taskList.size()) * 100;
+                int progress = (int) completionPercentage;
 
                 newObject.setPme00ProjectInfo(pme00ProjectInfo);
 
                 newObject.setLstTask(taskList);
+
+                newObject.setProgress(progress);
+
+                newObject.setLstMember(listMember);
+
+                newObject.setM00Codes030(m00Codes030);
 
                 result.add(newObject);
             }
