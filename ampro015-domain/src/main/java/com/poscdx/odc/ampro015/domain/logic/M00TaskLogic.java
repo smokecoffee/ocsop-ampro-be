@@ -4,12 +4,9 @@ import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.spec.M00TaskService;
 import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
+import org.springframework.data.domain.Pageable;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
 public class M00TaskLogic implements M00TaskService {
     private final M00TaskStore store;
 
@@ -18,7 +15,7 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public M00Task find(M00TaskId id) {
+    public M00Task findTaskByProjectNumberAndTaskName(M00TaskId id) {
         return store.retrieve(id);
     }
 
@@ -28,7 +25,12 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public void modify(List<M00Task> entityList) {
+    public M00Task modify(M00Task requestUpdateTask) {
+        return this.store.update(requestUpdateTask);
+    }
+
+    @Override
+    public void modifyByList(List<M00Task> entityList) {
         entityList.forEach(this.store::update);
     }
 

@@ -2,26 +2,20 @@ package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.spec.Level2Service;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.spec.Level2QrCodeService;
 import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-public class Level2Logic implements Level2Service {
+public class Level2QrCodeLogic implements Level2QrCodeService {
 
-    @Override
-    public String renderQRcode(String token) {
-        QRCodeRender qrCodeRender = new QRCodeRender();
-        return qrCodeRender.generateEmbeddedQRCodenBase64(token);
-    }
     /**
      * @param serviceLifecycle ServiceLifecycle
      * @param assetInfoDto     AssetInfoDto
@@ -31,7 +25,6 @@ public class Level2Logic implements Level2Service {
 
         //Update asset entity
         Asset asset = assetInfoDto.getAsset();
-
         serviceLifecycle.requestAssetService().modify(asset);
 
         //Update list field
@@ -49,11 +42,11 @@ public class Level2Logic implements Level2Service {
     }
 
     @Override
-    public List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle,String owner, int status) {
+    public List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle, String owner, int status) {
         List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(owner, status));
-        List<AssetInfoDto>  result = new ArrayList<>();
-        if (!ObjectUtils.isEmpty(assetList)){
-            for (Asset asset: assetList){
+        List<AssetInfoDto> result = new ArrayList<>();
+        if (!ObjectUtils.isEmpty(assetList)) {
+            for (Asset asset : assetList) {
                 AssetInfoDto item = new AssetInfoDto();
                 item.setAsset(asset);
                 item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
@@ -67,9 +60,9 @@ public class Level2Logic implements Level2Service {
     @Override
     public void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException {
         List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(assetSearch.getOwner(), assetSearch.getStatus()));
-        List<AssetInfoDto>  result = new ArrayList<>();
-        if (!ObjectUtils.isEmpty(assetList)){
-            for (Asset asset: assetList){
+        List<AssetInfoDto> result = new ArrayList<>();
+        if (!ObjectUtils.isEmpty(assetList)) {
+            for (Asset asset : assetList) {
                 AssetInfoDto item = new AssetInfoDto();
                 item.setAsset(asset);
                 item.setImages(serviceLifecycle.requestImageService().findImageInfos(asset.getId()));
@@ -82,9 +75,8 @@ public class Level2Logic implements Level2Service {
     }
 
     /**
-     *
-     * @param serviceLifecycle
-     * @param token
+     * @param serviceLifecycle ServiceLifecycle
+     * @param token            String
      * @return
      */
     @Override
@@ -106,10 +98,9 @@ public class Level2Logic implements Level2Service {
     }
 
     /**
-     *
-     * @param serviceLifecycle
-     * @param token
-     * @param userId
+     * @param serviceLifecycle serviceLifecycle
+     * @param token            String
+     * @param userId           int
      */
     @Override
     public void deleteAsset(ServiceLifecycle serviceLifecycle, String token, int userId) {
@@ -143,12 +134,11 @@ public class Level2Logic implements Level2Service {
 
     /**
      * createAsset
-     * @author 202293 - Trieu Le
      *
      * @param serviceLifecycle ServiceLifecycle
      * @param request          AssetInfoDto
      * @return
-     *
+     * @author 202293 - Trieu Le
      */
     @Override
     public ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request) {
@@ -186,4 +176,5 @@ public class Level2Logic implements Level2Service {
         }
         return response;
     }
+
 }

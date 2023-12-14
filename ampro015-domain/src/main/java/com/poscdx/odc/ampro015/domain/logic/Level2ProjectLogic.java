@@ -21,12 +21,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public ProjectManagementDto registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
+    public boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
 
         // Check project code exists
         if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                 && checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-            return  null;
+            return  false;
         }
 
         // Insert data M00Codes030
@@ -71,7 +71,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
 
-        return dto;
+        return true;
     }
 
     /**
@@ -83,12 +83,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public ProjectManagementDto modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
+    public boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException {
 
         // Check project code exists
         if(!checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                 || !checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-            return  null;
+            return  false;
         }
 
         // Update data M00Codes030
@@ -139,7 +139,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
 
-        return dto;
+        return true;
     }
 
     /**
@@ -199,6 +199,60 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
         }
         return projectList;
+    }
+
+    @Override
+    public List<ProjectManagementDto> getProjectList(ServiceLifecycle serviceLifecycle) {
+
+        List<ProjectManagementDto> result = new ArrayList<>();
+
+        List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findAll();
+
+        if (!projectList.isEmpty()) {
+            for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
+
+                List<M00TaskDto> taskDtoList = new ArrayList<>();
+
+                ProjectManagementDto dto = new ProjectManagementDto();
+
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
+
+                List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
+
+                M00Codes030Id m00Codes030Id = new M00Codes030Id(63, 56, pme00ProjectInfo.getCdV());
+
+                String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
+
+                M00Codes030 m00Codes030 = new M00Codes030();
+
+                m00Codes030.setCdvMeaning(projectName);
+
+                ProjectManagementDto newObject = new ProjectManagementDto();
+
+                long completedTasks = taskList.stream()
+                        .filter(item -> "O".equals(item.getTask().getStatus()))
+                        .count();
+
+                double completionPercentage = (completedTasks * 100.0) / taskList.size();
+                int progress = (int) completionPercentage;
+
+                System.out.println("Completion Percentage: " + completionPercentage);
+
+                newObject.setPme00ProjectInfo(pme00ProjectInfo);
+
+//                newObject.setLstTask(taskList);
+
+                newObject.setProgress(progress);
+
+                newObject.setLstMember(listMember);
+
+                newObject.setM00Codes030(m00Codes030);
+
+                result.add(newObject);
+            }
+        }
+
+        return result;
     }
 
     /**
