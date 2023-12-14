@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.spec.M00TaskService;
 import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 public class M00TaskLogic implements M00TaskService {
@@ -19,9 +20,8 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findAll(String projectNumber, String taskName, String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy, String sortDirection) {
-        List<M00Task> resutlList = store.retrieveAll(projectNumber, taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
-        return resutlList;
+    public List<M00Task> findAll(String projectNumber) {
+        return store.retrieveAll(projectNumber);
     }
 
     @Override

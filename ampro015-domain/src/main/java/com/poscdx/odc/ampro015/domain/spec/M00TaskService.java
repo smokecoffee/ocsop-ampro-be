@@ -8,8 +8,7 @@ import java.util.List;
 public interface M00TaskService {
     M00Task findTaskByProjectNumberAndTaskName(M00TaskId id);
 
-    List<M00Task> findAll(String projectNumber, String taskName, String planDate, String actualEndDate,
-                             int pageNo, int pageSize, String sortBy, String sortDirection);
+    List<M00Task> findAll(String projectNumber);
 
     M00Task modify(M00Task requestUpdateTask);
     void modifyByList(List<M00Task> entityList);

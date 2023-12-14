@@ -35,6 +35,11 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     }
 
     @Override
+    public List<Pme00EmployeeTask> retrieveAllByProjectNumber(String projectNumber) {
+        return Pme00EmployeeTaskJpo.toDomains(this.repository.findAllByProjectNumber(projectNumber));
+    }
+
+    @Override
     public Pme00EmployeeTask update(Pme00EmployeeTask Pme00EmployeeTask) {
         Pme00EmployeeTaskJpo jpoToUpdate = new Pme00EmployeeTaskJpo(Pme00EmployeeTask);
         Pme00EmployeeTaskJpo updatedJpo = this.repository.save(jpoToUpdate);
