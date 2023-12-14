@@ -208,12 +208,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findAll();
 
-        if (projectList != null) {
+        if (!projectList.isEmpty()) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
 
                 List<M00TaskDto> taskDtoList = new ArrayList<>();
 
-                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, "", "", "","",
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, pme00ProjectInfo.getCdV(), "", "","",
                                                                                                     0, 20, "TASK_NAME","");
 
                 ProjectManagementDto newObject = new ProjectManagementDto();
