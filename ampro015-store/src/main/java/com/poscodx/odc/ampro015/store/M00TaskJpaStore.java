@@ -2,14 +2,17 @@ package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
-import com.poscodx.odc.ampro015.store.jpo.M00Codes030Jpo;
 import com.poscodx.odc.ampro015.store.jpo.M00TaskJpo;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscodx.odc.ampro015.store.repository.M00TaskRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class M00TaskJpaStore implements M00TaskStore {
@@ -21,7 +24,7 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public M00Task retrieve(M00TaskId id) {
-        Optional<M00TaskJpo> taskResult = this.repository.findById(id);
+        Optional<M00TaskJpo> taskResult = this.repository.findOneTask(id.getProjectNumber(), id.getTaskName());
         return taskResult.map(M00TaskJpo::toDomain).orElse(null);
     }
 
@@ -44,7 +47,7 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<M00Task> retrieveAll() {
-        return M00TaskJpo.toDomains(this.repository.findAll());
+    public List<M00Task> retrieveAll(String projectNumber) {
+        return this.repository.findAllByProjectNumber(projectNumber).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 }

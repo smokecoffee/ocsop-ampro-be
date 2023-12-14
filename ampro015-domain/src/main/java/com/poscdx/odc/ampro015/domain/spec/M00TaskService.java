@@ -6,11 +6,12 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import java.util.List;
 
 public interface M00TaskService {
-    M00Task find(M00TaskId id);
+    M00Task findTaskByProjectNumberAndTaskName(M00TaskId id);
 
-    List<M00Task> findAll();
+    List<M00Task> findAll(String projectNumber);
 
-    void modify(List<M00Task> entityList);
+    M00Task modify(M00Task requestUpdateTask);
+    void modifyByList(List<M00Task> entityList);
 
     M00Task register(M00Task entity);
 
