@@ -236,6 +236,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 double completionPercentage = (completedTasks * 100.0) / taskList.size();
                 int progress = (int) completionPercentage;
 
+                System.out.println("Completion Percentage: " + completionPercentage);
+
                 newObject.setPme00ProjectInfo(pme00ProjectInfo);
 
 //                newObject.setLstTask(taskList);
