@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Project")
+@RequestMapping("/project")
 @RequiredArgsConstructor
 public class Pme00ProjectResource {
     private final ServiceLifecycle serviceLifecycle;
@@ -39,25 +39,25 @@ public class Pme00ProjectResource {
     }
 
     @CrossOrigin
-    @GetMapping(path = "/project_monitoring/all")
+    @GetMapping(path = "/monitoring")
     public List<ProjectManagementDto> findAllProjectMonitoring() {
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle);
     }
 
     @CrossOrigin
-    @PostMapping("")
+    @PostMapping("/create")
     public boolean register(@RequestBody ProjectManagementDto dto) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().registerProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
-    @PutMapping("")
+    @PutMapping("/update")
     public boolean modify(@RequestBody ProjectManagementDto dto) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().modifyProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
-    @DeleteMapping("")
+    @DeleteMapping("/delete")
     public void delete(@RequestBody M00Codes030Id id) throws SQLException {
         this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
     }
