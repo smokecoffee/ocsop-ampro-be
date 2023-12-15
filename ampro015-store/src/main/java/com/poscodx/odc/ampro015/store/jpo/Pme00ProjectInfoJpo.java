@@ -44,6 +44,10 @@ public class Pme00ProjectInfoJpo {
     @Column(name = "END_DATE")
     private Date endDate;
 
+    @Column(name = "IMAGE")
+    private String image;
+
+
     @Transient
     private String koreaPmName;
 
