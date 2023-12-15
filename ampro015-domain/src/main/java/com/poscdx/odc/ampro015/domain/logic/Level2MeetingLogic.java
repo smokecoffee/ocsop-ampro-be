@@ -19,7 +19,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
             throws ParseException {
 
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        //get CheckDateMeeting(StartDate and EndDate) match with input
+        //get CheckDateMeeting(StartDate and EndDate) match with Date input
         Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
                 .getListMeeting(serviceLifecycle);
         List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
@@ -107,7 +107,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         //validate Input
         //add Api get MeetingRoom
         //validate MeetingRoomId
-        Date date=java.util.Calendar.getInstance().getTime();
+        Date dateNow=java.util.Calendar.getInstance().getTime();
         List<M00Codes020> m00Codes020s = serviceLifecycle.m00Codes020Service().findAll();
         int flagCheckMeetingId=0;
         int checkMeetingId = newMeeting.getCd_tp_id();
@@ -120,7 +120,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         }
         //validate Input newMeeting Room
         boolean checkValidRequest = flagCheckMeetingId>0 && (newMeeting.getStartTime()
-                .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(date)<0)
+                .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(dateNow)<0)
                 && flagCheckTimeSpace>0;
 
         if (checkValidRequest) {
