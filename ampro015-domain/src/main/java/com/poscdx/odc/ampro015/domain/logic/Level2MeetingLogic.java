@@ -23,12 +23,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
                 .getListMeeting(serviceLifecycle);
         List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
         List<CheckDateBookMeeting> listDatecheck = new ArrayList<>();
+        Date startDateInputCheck = newMeeting.getStartTime();
+
         for(int i=0; i<pme00MeetingList.size(); i++){
             CheckDateBookMeeting checkDateBookMeeting = new CheckDateBookMeeting();
             Date startDateCheck = pme00MeetingList.get(i).getStartTime();
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String strDateCheck = dateFormat.format(startDateCheck);
-            Date startDateInputCheck = newMeeting.getStartTime();
             String strDateInputCheck = dateFormat.format(startDateInputCheck);
             if(strDateCheck.equals(strDateInputCheck)) {
                 checkDateBookMeeting.setStartTime(pme00MeetingList.get(i).getStartTime());
@@ -36,7 +37,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
                 listDatecheck.add(checkDateBookMeeting);
                 System.out.println(": pme00MeetingList" + checkDateBookMeeting);
             }
-
         }
         // sort by StartDate and EndDate
         listDatecheck.sort(Comparator.comparing(CheckDateBookMeeting::getStartTime));
@@ -56,7 +56,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
             String strtoDateE = strStartTimeCheckInput + " 23:59:00.000";
             Date startDayTime = dateFormat2.parse(strtoDateS);
             Date endDayTime = dateFormat2.parse(strtoDateE);
-
             ValidateTimeCheckMeeting validateTimeCheckMeeting = new ValidateTimeCheckMeeting();
             if(i==0){
 
