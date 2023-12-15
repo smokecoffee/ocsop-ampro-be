@@ -7,7 +7,6 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -174,4 +173,53 @@ public class Level2TaskLogic implements Level2TaskService {
             serviceLifecycle.requestTaskService().remove(requestDeleteTaskId);
         }
     }
+
+    /**
+     * This function gets all tasks and its associated employeeTask based on condition search
+     *
+     * @param serviceLifecycle
+     * @param projectNumber (required)
+     * @param taskName
+     * @param planDate
+     * @param actualEndDate
+     * @param pageNo
+     * @param pageSize
+     * @param sortBy (required)
+     * @param sortDirection (required)
+     * @return
+     */
+    @Override
+    public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
+                                                 String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy,
+                                                 String sortDirection) {
+
+        Optional<M00TaskJpoComlumnName> columnSort = M00TaskJpoComlumnName.getColumnName(sortBy);
+        String columnName = columnSort.isPresent() ? columnSort.get().name() : "";
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(columnName).ascending()
+                : Sort.by(columnName).descending();
+
+        //create pageable
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        //findAllTask
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable);
+
+        //findAllEmplTask
+        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectMumber(projectNumber);
+
+        List<M00TaskDto> responseList = new ArrayList<>();
+
+        //append member to task
+        m00TaskDtoList.forEach(m00Task -> {
+            M00TaskDto response = new M00TaskDto();
+            List<Pme00EmployeeTask> pme00EmployeeTasks = pme00EmployeeTaskList.stream().
+                    filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
+                            && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
+                    .collect(Collectors.toList());
+            response.setTask(m00Task);
+            response.setMembers(pme00EmployeeTasks);
+            responseList.add(response);
+        });
+        return responseList;
+    }
+
 }
