@@ -160,11 +160,11 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return result;
     }
     @Override
-    public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int id) {
+    public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId) {
         Pme00MeetingResponse result = new Pme00MeetingResponse();
-        Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(id);
+        Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
         List<Pme00EmployeeMeeting> listMember = serviceLifecycle.requestPme00EmployeeMeetingService()
-                .findByMeetingId(id);
+                .findByMeetingId(meetingId);
         if(findMeeting==null) {
             result.setStatus(HttpStatus.NOT_FOUND.value());
             result.setData(null);

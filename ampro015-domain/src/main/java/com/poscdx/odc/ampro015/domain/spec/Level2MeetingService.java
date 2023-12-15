@@ -13,7 +13,7 @@ public interface Level2MeetingService {
 
     Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting) throws ParseException;
 
-    Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int id);
+    Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId);
 
     Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId);
 
