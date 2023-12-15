@@ -31,7 +31,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 "ON EMP2.EMP_ID = INFO.VIETNAM_PL \n" +
             "WHERE  1= 1 \n" +
                 "AND (:cdV IS NULL OR (INFO.CD_V LIKE CONCAT('%', :cdV)))\n" +
-                "AND (:period IS NULL OR (INFO.PERIOD LIKE CONCAT('%', :period)))\n" +
+                "AND (:period IS NULL OR :period = 0 OR (INFO.PERIOD = :period))\n" +
                 "AND (:koreaPM IS NULL OR ( INFO.KOREA_PM LIKE CONCAT('%', :koreaPM)))\n" +
                 "AND (:vietnamPL IS NULL OR (INFO.VIETNAM_PL LIKE CONCAT('%', :vietnamPL)))\n" +
                 "AND (:framework IS NULL OR (INFO.FRAMEWORK LIKE CONCAT('%', :framework)))\n" +
