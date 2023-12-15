@@ -5,7 +5,8 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class CheckDateBookMeeting {
-    private Date startTime;
-    private Date endTime;
+public class ListTimeCheckMeeting {
+
+    private Date startTimeCheck;
+    private Date endTimeCheck;
 }
