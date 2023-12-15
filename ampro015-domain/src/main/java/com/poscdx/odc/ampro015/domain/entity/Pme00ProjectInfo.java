@@ -21,8 +21,11 @@ public class Pme00ProjectInfo {
     private String framework;
     private Date startDate;
     private Date endDate;
+    private String image;
+
     private String koreaPmName;
     private String vietnamPlName;
+
 
     public String toJson() {
         return JsonUtil.toJson(this);
