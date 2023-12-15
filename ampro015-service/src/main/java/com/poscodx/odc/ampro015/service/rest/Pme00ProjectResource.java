@@ -45,19 +45,19 @@ public class Pme00ProjectResource {
     }
 
     @CrossOrigin
-    @PostMapping("/create")
+    @PostMapping("")
     public boolean register(@RequestBody ProjectManagementDto dto) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().registerProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
-    @PutMapping("/update")
+    @PutMapping("")
     public boolean modify(@RequestBody ProjectManagementDto dto) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().modifyProject(serviceLifecycle, dto);
     }
 
     @CrossOrigin
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     public void delete(@RequestBody M00Codes030Id id) throws SQLException {
         this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
     }
