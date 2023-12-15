@@ -23,4 +23,6 @@ public interface ServiceLifecycle {
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
 
     Level2MeetingService bookingMeetingRoomService();
+
+    M00Codes020Service m00Codes020Service();
 }

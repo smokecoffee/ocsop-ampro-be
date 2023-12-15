@@ -31,7 +31,7 @@ public class Pme00MeetingResource {
     @PostMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) throws ParseException {
-       return this.serviceLifecycle.bookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting);
+       return this.serviceLifecycle.bookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
     }
 
     @GetMapping("/{id}")

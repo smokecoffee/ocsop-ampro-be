@@ -23,6 +23,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00AnnouncementService pme00AnnouncementService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
     private final Level2MeetingService bookingMeetingRoomService;
+    private final M00Codes020Service m00Codes020Service;
 
     @Override
     public Level2Service requestLevel2Service() {
@@ -90,4 +91,6 @@ public class ServiceLifecycler implements ServiceLifecycle {
 
     @Override
     public Pme00AnnouncementService requestPme00AnnouncementService() { return this.pme00AnnouncementService; }
+    @Override
+    public M00Codes020Service m00Codes020Service(){return this.m00Codes020Service;};
 }

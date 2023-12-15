@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
+import com.poscdx.odc.ampro015.domain.spec.M00Codes020Service;
 import org.springframework.http.HttpStatus;
 
 import java.text.DateFormat;
@@ -93,22 +94,34 @@ public class Level2MeetingLogic implements Level2MeetingService {
         //check time booking in timespace
         Date startTimeCheckInputCheckTimeSpaceStart = newMeeting.getStartTime();
         Date startTimeCheckInputCheckTimeSpaceEnd = newMeeting.getEndTime();
-        int flag=0;
+        int flagCheckTimeSpace=0;
         for(int i=0; i<validateTimeCheckMeetings.size(); i++){
            boolean checkTimeSpace= (startTimeCheckInputCheckTimeSpaceStart.compareTo(validateTimeCheckMeetings.get(i)
                    .getStartTimeCheck())>0)
                     && (startTimeCheckInputCheckTimeSpaceEnd.compareTo(validateTimeCheckMeetings.get(i)
                    .getEndTimeCheck())<0);
            if(checkTimeSpace){
-               flag = flag+1;
+               flagCheckTimeSpace = flagCheckTimeSpace+1;
            }
         }
         //validate Input
         //add Api get MeetingRoom
+        //validate MeetingRoomId
         Date date=java.util.Calendar.getInstance().getTime();
-        boolean checkValidRequest = newMeeting.getCd_tp_id()==65 && (newMeeting.getStartTime()
+        List<M00Codes020> m00Codes020s = serviceLifecycle.m00Codes020Service().findAll();
+        int flagCheckMeetingId=0;
+        int checkMeetingId = newMeeting.getCd_tp_id();
+        for(int i=0; i<m00Codes020s.size(); i++){
+            if("MEETING_ROOM".equals(m00Codes020s.get(i).getCdTp())){
+                if(checkMeetingId==m00Codes020s.get(i).getCdTpId()){
+                    flagCheckMeetingId = flagCheckMeetingId+1;
+                }
+            }
+        }
+        //validate Input newMeeting Room
+        boolean checkValidRequest = flagCheckMeetingId>0 && (newMeeting.getStartTime()
                 .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(date)<0)
-                && flag>0;
+                && flagCheckTimeSpace>0;
 
         if (checkValidRequest) {
             try {
