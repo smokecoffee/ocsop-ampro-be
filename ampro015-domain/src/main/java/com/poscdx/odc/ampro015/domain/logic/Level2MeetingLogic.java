@@ -38,6 +38,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
                 System.out.println(": pme00MeetingList" + checkOnlyDateBookMeeting);
             }
         }
+
         // sort by StartDate and EndDate
         listOnlyDatecheck.sort(Comparator.comparing(CheckOnlyDateBookMeeting::getStartOnlyDate));
         System.out.println("listDatecheck" + listOnlyDatecheck);
@@ -120,7 +121,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
         //validate Input newMeeting Room
         boolean checkValidRequest = flagCheckMeetingId>0 && (newMeeting.getStartTime()
                 .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(dateNow)<0)
-                && flagCheckTimeSpace>0;
+                && (flagCheckTimeSpace>0 || listOnlyDatecheck.isEmpty());
+
+
 
         if (checkValidRequest) {
             try {
