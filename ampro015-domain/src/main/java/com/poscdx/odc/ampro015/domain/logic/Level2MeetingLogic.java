@@ -39,7 +39,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
                 System.out.println(": pme00MeetingList" + checkOnlyDateBookMeeting);
             }
         }
-
         // sort by StartDate and EndDate
         listOnlyDateCheck.sort(Comparator.comparing(CheckOnlyDateBookMeeting::getStartOnlyDate));
         System.out.println("listDatecheck" + listOnlyDateCheck);
@@ -52,7 +51,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
 
         //create list space time: validateTimeCheckMeetings
         int listSpaceSize = listOnlyDateCheck.size();
-        for(int i=0 ; i < listSpaceSize ; i++){
+        for(int i=0; i <listSpaceSize; i++){
             String strStartTimeCheckInput = dateFormat1.format(startTimeCheckInput);
             String strtoDateS = strStartTimeCheckInput + " 00:00:00.000";
             String strtoDateE = strStartTimeCheckInput + " 23:59:00.000";
@@ -60,17 +59,24 @@ public class Level2MeetingLogic implements Level2MeetingService {
             Date endDayTime = dateFormat2.parse(strtoDateE);
             ListTimeCheckMeeting listTimeCheckMeeting = new ListTimeCheckMeeting();
             if(i==0){
-
                 if(!startDayTime.equals(listOnlyDateCheck.get(i).getStartOnlyDate())){
                     //add first
                     listTimeCheckMeeting.setStartTimeCheck(startDayTime);
                     listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i).getStartOnlyDate());
                     listTimeCheckMeetings.add(listTimeCheckMeeting);
 
-                    //add second
-                    listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
-                    listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i + 1).getStartOnlyDate());
-                    listTimeCheckMeetings.add(listTimeCheckMeeting);
+                    if(listSpaceSize == 1) {
+                        //add second
+                        listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
+                        listTimeCheckMeeting.setEndTimeCheck(endDayTime);
+                        listTimeCheckMeetings.add(listTimeCheckMeeting);
+                    } else {
+                        //add second
+                        listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
+                        listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i + 1).getStartOnlyDate());
+                        listTimeCheckMeetings.add(listTimeCheckMeeting);
+                    }
+
                 } else {
                     listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
                     listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i + 1).getStartOnlyDate());
