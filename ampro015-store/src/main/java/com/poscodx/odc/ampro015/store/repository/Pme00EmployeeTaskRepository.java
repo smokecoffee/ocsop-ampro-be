@@ -27,7 +27,7 @@ public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00Employee
 
     @Query(value = "SELECT * " +
             "FROM tb_pme00_employee_task " +
-            "WHERE PROJECT_NUMBER = :projectNumber", nativeQuery = true)
+            "WHERE PROJECT_NUMBER LIKE CONCAT('%',:projectNumber,'%')", nativeQuery = true)
     List<Pme00EmployeeTaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber);
 
 }
