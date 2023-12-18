@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Level2ProjectLogic implements Level2ProjectService {
@@ -208,13 +210,11 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
                 0, null, null, null, null, null, null);
+        
+        Collections.sort(projectList, Comparator.comparing(Pme00ProjectInfo::getStatus));
 
         if (!projectList.isEmpty()) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
-
-                List<M00TaskDto> taskDtoList = new ArrayList<>();
-
-                ProjectManagementDto dto = new ProjectManagementDto();
 
                 List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
 
