@@ -16,4 +16,6 @@ public interface M00TaskStore {
     void delete(M00TaskId id);
 
     List<M00Task> retrieveAll(String projectNumber);
+
+    List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable);
 }

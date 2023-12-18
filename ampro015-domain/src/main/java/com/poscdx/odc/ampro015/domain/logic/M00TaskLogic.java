@@ -43,4 +43,9 @@ public class M00TaskLogic implements M00TaskService {
     public void remove(M00TaskId id) {
         store.delete(id);
     }
+
+    @Override
+    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
+        return store.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable);
+    }
 }
