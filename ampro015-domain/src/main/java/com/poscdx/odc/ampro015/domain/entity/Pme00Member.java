@@ -25,4 +25,11 @@ public class Pme00Member {
     public static Pme00Member fromJson(String json) {
         return JsonUtil.fromJson(json, Pme00Member.class);
     }
+
+    public Pme00Member(Object[] objects) {
+        this.memberId = (int) objects[0];
+        this.cdVId = (String) objects[1];
+        this.empId = (String) objects[2];
+        this.empName = (String) objects[3];
+    }
 }

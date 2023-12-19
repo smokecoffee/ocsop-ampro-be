@@ -5,16 +5,14 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Level2Logic implements Level2Service {
 
@@ -22,9 +20,7 @@ public class Level2Logic implements Level2Service {
     public String renderQRcode(String token) {
         QRCodeRender qrCodeRender = new QRCodeRender();
         return qrCodeRender.generateEmbeddedQRCodenBase64(token);
-
     }
-
     /**
      * @param serviceLifecycle ServiceLifecycle
      * @param assetInfoDto     AssetInfoDto
@@ -34,6 +30,7 @@ public class Level2Logic implements Level2Service {
 
         //Update asset entity
         Asset asset = assetInfoDto.getAsset();
+
         serviceLifecycle.requestAssetService().modify(asset);
 
         //Update list field

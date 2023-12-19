@@ -5,9 +5,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,21 +16,15 @@ public class Level2MeetingLogic implements Level2MeetingService {
             throws ParseException {
 
         Pme00MeetingResponse result = new Pme00MeetingResponse();
+
         // validate timespace meeting room
         int count1 = serviceLifecycle.requestPme00MeetingService()
-                .findMetingByStartAndEnd(newMeeting.getStartTime(),newMeeting.getEndTime());
-        Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
+                .findMetingByStartAndEnd(newMeeting.getCd_tp_id() ,newMeeting.getStartTime(),newMeeting.getEndTime());
+        Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.requestBookingMeetingRoomService()
                 .getListMeeting(serviceLifecycle);
-        //validate meeting room exits in meeting
-        List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
-        int flagCheckMeetingId=0;
-        for(int i=0; i<pme00MeetingList.size(); i++){
-            if(newMeeting.getMeetingId()==pme00MeetingList.get(i).getMeetingId()){
-                flagCheckMeetingId = flagCheckMeetingId+1;
-            }
-        }
+        // validate timespace meeting room
         //validate meetingId in tb_moo_codes020
-        List<M00Codes020> m00Codes020s = serviceLifecycle.m00Codes020Service().findAll();
+        List<M00Codes020> m00Codes020s = serviceLifecycle.requestM00Codes020Service().findAll();
         int flagCheckMeetingIdOfM00Codes020 =0;
         int checkMeetingIdOfM00Codes020 = newMeeting.getCd_tp_id();
         for(int i=0; i<m00Codes020s.size(); i++){
@@ -47,9 +39,8 @@ public class Level2MeetingLogic implements Level2MeetingService {
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
                 && (newMeeting.getStartTime().compareTo(dateNow)<0);
 
-        if(flagCheckMeetingIdOfM00Codes020>0) {
-            if(checkDateInput){
-              if (flagCheckMeetingId == 0) {
+        if(flagCheckMeetingIdOfM00Codes020>0&&checkDateInput) {
+            if (count1 == 0) {
                 try {
 
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
@@ -80,56 +71,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     result.setStatus(HttpStatus.NOT_FOUND.value());
                     result.setMessage("This meeting has been created");
                 }
-
             } else {
-                result.setStatus(HttpStatus.OK.value());
-                result.setMessage("This meeting is exist!!!");
-            }
-            if (flagCheckMeetingId > 0) {
-                if (count1 == 0) {
-                    try {
-
-                        Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
-                        result.setStatus(HttpStatus.OK.value());
-                        result.setMessage("The meeting has been created successfully");
-                        //register EmployeeMeeting
-                        List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
-
-                        listMember = listMember.stream().map(i -> {
-                                    i.setMeetingId(pme00Meeting.getMeetingId());
-                                    return i;
-                                })
-                                .collect(Collectors.toList());
-
-                        Set<String> setId = listMember.stream()
-                                .map(Pme00EmployeeMeeting::getEmpId)
-                                .collect(Collectors.toSet());
-                        System.out.println("setEmpId: " + setId);
-
-                        for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
-                            if (setId.contains(pme00EmployeeMeeting.getEmpId())) {
-                                serviceLifecycle.requestPme00EmployeeMeetingService()
-                                        .register(pme00EmployeeMeeting);
-                                setId.remove(pme00EmployeeMeeting.getEmpId());
-                            }
-                        }
-                    } catch (Exception e) {
-                        result.setStatus(HttpStatus.NOT_FOUND.value());
-                        result.setMessage("This meeting has been created");
-                    }
-
-                } else {
-                    result.setStatus(HttpStatus.OK.value());
-                    result.setMessage("This meeting is exist!!!");
-                }
-            }
-             }else {
                 result.setStatus(HttpStatus.NOT_FOUND.value());
-                result.setMessage("Date Booking Not Valid");
-             }
+                result.setMessage("Timespace not match");
+            }
         }else {
             result.setStatus(HttpStatus.NOT_FOUND.value());
-            result.setMessage("Not Found Meeting Room");
+            result.setMessage("This room or date input not match");
         }
         return result;
     }
@@ -176,7 +124,7 @@ public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int
 public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
     int id = listMeeting.get(0).getMeetingId();
     Pme00MeetingResponse result = new Pme00MeetingResponse();
-    Pme00MeetingResponse findMeeting = serviceLifecycle.bookingMeetingRoomService()
+    Pme00MeetingResponse findMeeting = serviceLifecycle.requestBookingMeetingRoomService()
             .getInforBookingRoom(serviceLifecycle,id);
     if(findMeeting==null) {
         result.setStatus(HttpStatus.NOT_FOUND.value());
