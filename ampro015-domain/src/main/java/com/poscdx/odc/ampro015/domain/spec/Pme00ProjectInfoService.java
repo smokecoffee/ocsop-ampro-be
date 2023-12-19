@@ -1,9 +1,10 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.*;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public interface Pme00ProjectInfoService {
@@ -18,4 +19,7 @@ public interface Pme00ProjectInfoService {
     void remove(String cdVId);
 
     List<EmployeeDto> getActiveEmployee();
+
+    List<Pme00ProjectInfo> findProjectInfo (String cdV, int period, String koreaPM, String vietnamPL,
+                                            String framework, String status, Date startDate, Date endDate);
 }

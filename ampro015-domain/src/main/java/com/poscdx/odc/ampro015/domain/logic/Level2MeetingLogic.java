@@ -5,9 +5,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,10 +20,11 @@ public class Level2MeetingLogic implements Level2MeetingService {
         // validate timespace meeting room
         int count1 = serviceLifecycle.requestPme00MeetingService()
                 .findMetingByStartAndEnd(newMeeting.getCd_tp_id() ,newMeeting.getStartTime(),newMeeting.getEndTime());
-        Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
+        Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.requestBookingMeetingRoomService()
                 .getListMeeting(serviceLifecycle);
+        // validate timespace meeting room
         //validate meetingId in tb_moo_codes020
-        List<M00Codes020> m00Codes020s = serviceLifecycle.m00Codes020Service().findAll();
+        List<M00Codes020> m00Codes020s = serviceLifecycle.requestM00Codes020Service().findAll();
         int flagCheckMeetingIdOfM00Codes020 =0;
         int checkMeetingIdOfM00Codes020 = newMeeting.getCd_tp_id();
         for(int i=0; i<m00Codes020s.size(); i++){
@@ -40,8 +39,8 @@ public class Level2MeetingLogic implements Level2MeetingService {
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
                 && (newMeeting.getStartTime().compareTo(dateNow)<0);
 
-        if(flagCheckMeetingIdOfM00Codes020>0){
-            if(count1==0){
+        if(flagCheckMeetingIdOfM00Codes020>0&&checkDateInput) {
+            if (count1 == 0) {
                 try {
 
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
@@ -72,13 +71,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     result.setStatus(HttpStatus.NOT_FOUND.value());
                     result.setMessage("This meeting has been created");
                 }
-            }else {
+            } else {
                 result.setStatus(HttpStatus.NOT_FOUND.value());
                 result.setMessage("Timespace not match");
             }
         }else {
             result.setStatus(HttpStatus.NOT_FOUND.value());
-            result.setMessage("This room not match");
+            result.setMessage("This room or date input not match");
         }
         return result;
     }
@@ -125,7 +124,7 @@ public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int
 public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
     int id = listMeeting.get(0).getMeetingId();
     Pme00MeetingResponse result = new Pme00MeetingResponse();
-    Pme00MeetingResponse findMeeting = serviceLifecycle.bookingMeetingRoomService()
+    Pme00MeetingResponse findMeeting = serviceLifecycle.requestBookingMeetingRoomService()
             .getInforBookingRoom(serviceLifecycle,id);
     if(findMeeting==null) {
         result.setStatus(HttpStatus.NOT_FOUND.value());

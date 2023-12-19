@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ServiceLifecycler implements ServiceLifecycle {
 
+    private final Level2ProjectService level2ProjectService;
     private final Level2Service level2Service;
     private final Level2DashboardService level2DashboardService;
     private final AssetService assetService;
@@ -24,6 +25,11 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
     private final Level2MeetingService bookingMeetingRoomService;
     private final M00Codes020Service m00Codes020Service;
+    private final Level2TaskService level2TaskService;
+    private final Level2QrCodeService level2QrCodeService;
+
+    @Override
+    public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
 
     @Override
     public Level2Service requestLevel2Service() {
@@ -35,7 +41,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
         return this.level2DashboardService;
     }
      @Override
-    public Level2MeetingService bookingMeetingRoomService() {
+    public Level2MeetingService requestBookingMeetingRoomService() {
         return this.bookingMeetingRoomService;
     }
 
@@ -92,5 +98,15 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Pme00AnnouncementService requestPme00AnnouncementService() { return this.pme00AnnouncementService; }
     @Override
-    public M00Codes020Service m00Codes020Service(){return this.m00Codes020Service;};
+    public M00Codes020Service requestM00Codes020Service(){return this.m00Codes020Service;};
+
+    @Override
+    public Level2TaskService requestLevel2TaskService() {
+        return this.level2TaskService;
+    }
+
+    @Override
+    public Level2QrCodeService requestLevel2QrCodeService() {
+        return this.level2QrCodeService;
+    }
 }

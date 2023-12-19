@@ -2,6 +2,7 @@ package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,5 +15,7 @@ public interface M00TaskStore {
 
     void delete(M00TaskId id);
 
-    public List<M00Task> retrieveAll();
+    List<M00Task> retrieveAll(String projectNumber);
+
+    List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable);
 }

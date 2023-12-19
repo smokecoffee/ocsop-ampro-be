@@ -6,6 +6,7 @@ import com.poscodx.odc.ampro015.store.jpo.Pme00ProjectInfoJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00ProjectInfoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,4 +51,10 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
         return this.repository.getActiveEmployee();
     }
 
+    @Override
+    public List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
+                                                  String framework, String status, Date startDate, Date endDate){
+        return this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate
+        );
+    }
 }

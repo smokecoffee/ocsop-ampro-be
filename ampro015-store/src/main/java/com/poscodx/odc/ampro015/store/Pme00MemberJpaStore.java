@@ -46,4 +46,15 @@ public class Pme00MemberJpaStore implements Pme00MemberStore {
         this.repository.deleteById(id);
     }
 
+    @Override
+    public List<Pme00Member> getListMemberByCdVId(String cdVId){
+        List<Pme00MemberJpo> retVal = this.repository.getListMemberByCdVId(cdVId);;
+        return Pme00MemberJpo.toDomains(retVal);
+    }
+
+    @Override
+    public void deleteMemberById(String cdVId, String empId){
+        this.repository.deleteMemberById(cdVId, empId);
+    }
+
 }
