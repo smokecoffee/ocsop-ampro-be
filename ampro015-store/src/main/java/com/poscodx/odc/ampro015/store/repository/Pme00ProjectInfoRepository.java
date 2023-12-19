@@ -12,7 +12,8 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
 
     @Query(value = "SELECT\n" +
                 "E.EMP_ID,\n" +
-                "E.NAME\n" +
+                "E.NAME,\n" +
+                "E.PHOTO\n" +
                 "FROM\n" +
                 "POSCTZN.TB_M00_EMPLOYEE AS E\n" +
                 "WHERE\n" +
