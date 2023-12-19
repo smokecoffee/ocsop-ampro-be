@@ -38,6 +38,7 @@ public class Level2Resource {
         return this.serviceLifecycle.requestPme00ProjectInfoService().getActiveEmployee();
     }
 
+    @CrossOrigin
     @GetMapping(path = "/getTaskStatus")
     public List<TaskStatusDto> getTaskStatus() {
         return this.serviceLifecycle.requestPme00ProjectInfoService().getTaskStatus();
