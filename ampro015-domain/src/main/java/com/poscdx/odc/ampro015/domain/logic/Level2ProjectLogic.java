@@ -203,53 +203,53 @@ public class Level2ProjectLogic implements Level2ProjectService {
         return projectList;
     }
 
+    /**
+     * Get project info
+     *
+     * @param serviceLifecycle
+     * @return
+     */
     @Override
     public List<ProjectManagementDto> getProjectList(ServiceLifecycle serviceLifecycle) {
 
         List<ProjectManagementDto> result = new ArrayList<>();
 
+        //Get project list
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
                 0, null, null, null, null, null, null);
-        
+
+        //Sort projects by status
         Collections.sort(projectList, Comparator.comparing(Pme00ProjectInfo::getStatus));
 
         if (!projectList.isEmpty()) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
-
-                List<M00TaskDto> taskDtoList = new ArrayList<>();
-
-                ProjectManagementDto dto = new ProjectManagementDto();
-
-                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
-
-                List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
-
-                M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, pme00ProjectInfo.getCdV());
-
-                String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
-
-                M00Codes030 m00Codes030 = new M00Codes030();
-
-                m00Codes030.setCdvMeaning(projectName);
-
                 ProjectManagementDto newObject = new ProjectManagementDto();
 
+                //Set project info
+                newObject.setPme00ProjectInfo(pme00ProjectInfo);
+
+                //Get task list
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
+
+                //Set member list
+                List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
+                newObject.setLstMember(listMember);
+
+                //Set project name
+                M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, pme00ProjectInfo.getCdV());
+                String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
+                M00Codes030 m00Codes030 = new M00Codes030();
+                m00Codes030.setCdvMeaning(projectName);
+                newObject.setM00Codes030(m00Codes030);
+
+                //Set project progress
                 long completedTasks = taskList.stream()
                         .filter(item -> "O".equals(item.getTask().getStatus()))
                         .count();
-
                 double completionPercentage = (completedTasks * 100.0) / taskList.size();
                 int progress = (int) completionPercentage;
-
-                System.out.println("Completion Percentage: " + completionPercentage);
-
-                newObject.setPme00ProjectInfo(pme00ProjectInfo);
-
                 newObject.setProgress(progress);
-
-                newObject.setLstMember(listMember);
-
-                newObject.setM00Codes030(m00Codes030);
+                System.out.println("Completion Percentage: " + completionPercentage);
 
                 result.add(newObject);
             }
