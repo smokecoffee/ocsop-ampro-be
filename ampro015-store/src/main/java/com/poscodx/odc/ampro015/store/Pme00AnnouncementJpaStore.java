@@ -1,5 +1,6 @@
 package com.poscodx.odc.ampro015.store;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Announcement;
 import com.poscdx.odc.ampro015.domain.store.Pme00AnnouncementStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00AnnouncementJpo;
@@ -7,7 +8,9 @@ import com.poscodx.odc.ampro015.store.repository.Pme00AnnouncementRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class Pme00AnnouncementJpaStore implements Pme00AnnouncementStore {
@@ -26,7 +29,9 @@ public class Pme00AnnouncementJpaStore implements Pme00AnnouncementStore {
 
     @Override
     public List<Pme00Announcement> retrieveAll() {
-        return Pme00AnnouncementJpo.toDomains(this.repository.findAll());
+        List<Map<String, String>> mapList = this.repository.findAllAnnouncement();
+        ObjectMapper mapper = new ObjectMapper();
+        return mapList.stream().map(item -> mapper.convertValue(item, Pme00Announcement.class)).collect(Collectors.toList());
     }
 
     @Override
