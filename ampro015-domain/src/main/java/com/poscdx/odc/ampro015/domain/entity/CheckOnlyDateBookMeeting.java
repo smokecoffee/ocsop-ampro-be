@@ -8,4 +8,5 @@ import java.util.Date;
 public class CheckOnlyDateBookMeeting {
     private Date startOnlyDate;
     private Date endOnlyDate;
+    private int bookingId;
 }

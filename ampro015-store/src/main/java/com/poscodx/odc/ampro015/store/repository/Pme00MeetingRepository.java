@@ -35,12 +35,13 @@ public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, I
 
     @Query(value = "SELECT count(MEETING_ID)\n" +
             "FROM tb_pme00_meeting \n" +
-            "WHERE (START_TIME >=  :startDate \n" +
-            "AND START_TIME <= :endDate ) \n" +
+            "WHERE CD_TP_ID = :cdTpId " +
+            "AND ((START_TIME >=  :startDate \n" +
+            "    AND START_TIME <= :endDate ) \n" +
             "OR (END_TIME >=  :startDate \n" +
-            "AND END_TIME <= :endDate )"
+            "   AND END_TIME <= :endDate ))"
             , nativeQuery = true)
 
-    int findMetingByStartAndEnd(@Param("startDate") Date startDate,
+    int findMetingByStartAndEnd(@Param("cdTpId") int cdTpId, @Param("startDate") Date startDate,
                                                @Param("endDate") Date endDate);
 }

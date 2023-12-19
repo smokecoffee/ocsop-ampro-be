@@ -28,6 +28,7 @@ public interface Pme00MeetingStore {
             String status);
 
     public int findMetingByStartAndEnd(
+            int cdTpId,
             Date startDate,
             Date endDate);
 }

@@ -18,55 +18,30 @@ public class Level2MeetingLogic implements Level2MeetingService {
             throws ParseException {
 
         Pme00MeetingResponse result = new Pme00MeetingResponse();
+
+        // validate timespace meeting room
         int count1 = serviceLifecycle.requestPme00MeetingService()
-                .findMetingByStartAndEnd(newMeeting.getStartTime(), newMeeting.getEndTime());
+                .findMetingByStartAndEnd(newMeeting.getCd_tp_id() ,newMeeting.getStartTime(),newMeeting.getEndTime());
         Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
                 .getListMeeting(serviceLifecycle);
-        List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
-        int flagCheckMeetingId=0;
-        for(int i=0; i<pme00MeetingList.size(); i++){
-            if(newMeeting.getMeetingId() == pme00MeetingList.get(i).getMeetingId()){
-                flagCheckMeetingId = flagCheckMeetingId+1;
-            }
-        }
-        if(flagCheckMeetingId==0){
-            try {
-
-                Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
-                result.setStatus(HttpStatus.OK.value());
-                result.setMessage("The meeting has been created successfully");
-                //register EmployeeMeeting
-                List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
-
-                listMember = listMember.stream().map(i -> {
-                            i.setMeetingId(pme00Meeting.getMeetingId());
-                            return i;
-                        })
-                        .collect(Collectors.toList());
-
-                Set<String> setId = listMember.stream()
-                        .map(Pme00EmployeeMeeting::getEmpId)
-                        .collect(Collectors.toSet());
-                System.out.println("setEmpId: " + setId);
-
-                for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
-                    if (setId.contains(pme00EmployeeMeeting.getEmpId())) {
-                        serviceLifecycle.requestPme00EmployeeMeetingService()
-                                .register(pme00EmployeeMeeting);
-                        setId.remove(pme00EmployeeMeeting.getEmpId());
-                    }
+        //validate meetingId in tb_moo_codes020
+        List<M00Codes020> m00Codes020s = serviceLifecycle.m00Codes020Service().findAll();
+        int flagCheckMeetingIdOfM00Codes020 =0;
+        int checkMeetingIdOfM00Codes020 = newMeeting.getCd_tp_id();
+        for(int i=0; i<m00Codes020s.size(); i++){
+            if("MEETING_ROOM".equals(m00Codes020s.get(i).getCdTp())){
+                if(checkMeetingIdOfM00Codes020==m00Codes020s.get(i).getCdTpId()){
+                    flagCheckMeetingIdOfM00Codes020= flagCheckMeetingIdOfM00Codes020+1;
                 }
-            } catch (Exception e) {
-                result.setStatus(HttpStatus.NOT_FOUND.value());
-                result.setMessage("This meeting has been created");
             }
-
-        } else {
-            result.setStatus(HttpStatus.OK.value());
-            result.setMessage("This meeting is exist!!!");
         }
-        if (flagCheckMeetingId>0) {
-            if (count1 == 0) {
+        //validate startTime and endtime
+        Date dateNow = java.util.Calendar.getInstance().getTime();
+        boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
+                && (newMeeting.getStartTime().compareTo(dateNow)<0);
+
+        if(flagCheckMeetingIdOfM00Codes020>0){
+            if(count1==0){
                 try {
 
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
@@ -97,159 +72,14 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     result.setStatus(HttpStatus.NOT_FOUND.value());
                     result.setMessage("This meeting has been created");
                 }
-
-            } else {
-                result.setStatus(HttpStatus.OK.value());
-                result.setMessage("This meeting is exist!!!");
+            }else {
+                result.setStatus(HttpStatus.NOT_FOUND.value());
+                result.setMessage("Timespace not match");
             }
+        }else {
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setMessage("This room not match");
         }
-        //get CheckDateMeeting(StartDate and EndDate) match with Date input
-        //viet ham dung chung truyen tham so
-//        Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.bookingMeetingRoomService()
-//                .getListMeeting(serviceLifecycle);
-//        List<Pme00Meeting> pme00MeetingList = pme00AllMeetingResponse.getListData();
-//        List<CheckOnlyDateBookMeeting> listOnlyDateCheck = new ArrayList<>();
-//        Date startDateInputCheck = newMeeting.getStartTime();
-//
-//        for(int i=0; i<pme00MeetingList.size(); i++){
-//            CheckOnlyDateBookMeeting checkOnlyDateBookMeeting = new CheckOnlyDateBookMeeting();
-//            Date startDateCheck = pme00MeetingList.get(i).getStartTime();
-//            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-//            String strDateCheck = dateFormat.format(startDateCheck);
-//            String strDateInputCheck = dateFormat.format(startDateInputCheck);
-//            if(strDateCheck.equals(strDateInputCheck)) {
-//                checkOnlyDateBookMeeting.setStartOnlyDate(pme00MeetingList.get(i).getStartTime());
-//                checkOnlyDateBookMeeting.setEndOnlyDate(pme00MeetingList.get(i).getEndTime());
-//                listOnlyDateCheck.add(checkOnlyDateBookMeeting);
-//                System.out.println(": pme00MeetingList" + checkOnlyDateBookMeeting);
-//            }
-//        }
-//        // sort by StartDate and EndDate
-//        listOnlyDateCheck.sort(Comparator.comparing(CheckOnlyDateBookMeeting::getStartOnlyDate));
-//        System.out.println("listDatecheck" + listOnlyDateCheck);
-//
-//        List<ListTimeCheckMeeting> listTimeCheckMeetings = new ArrayList<>();
-//        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-//        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-////        SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyy-MM-DD HH:mm:ss");
-//        Date startTimeCheckInput = newMeeting.getStartTime();
-//
-//        //create list space time: validateTimeCheckMeetings
-//        int listSpaceSize = listOnlyDateCheck.size();
-//        for(int i=0; i <listSpaceSize; i++){
-//            String strStartTimeCheckInput = dateFormat1.format(startTimeCheckInput);
-//            String strtoDateS = strStartTimeCheckInput + " 00:00:00.000";
-//            String strtoDateE = strStartTimeCheckInput + " 23:59:00.000";
-//            Date startDayTime = dateFormat2.parse(strtoDateS);
-//            Date endDayTime = dateFormat2.parse(strtoDateE);
-//            ListTimeCheckMeeting listTimeCheckMeeting = new ListTimeCheckMeeting();
-//            if(i==0){
-//                if(!startDayTime.equals(listOnlyDateCheck.get(i).getStartOnlyDate())){
-//                    //add first
-//                    listTimeCheckMeeting.setStartTimeCheck(startDayTime);
-//                    listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i).getStartOnlyDate());
-//                    listTimeCheckMeetings.add(listTimeCheckMeeting);
-//
-//                    if(listSpaceSize == 1) {
-//                        //add second
-//                        listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
-//                        listTimeCheckMeeting.setEndTimeCheck(endDayTime);
-//                        listTimeCheckMeetings.add(listTimeCheckMeeting);
-//                    } else {
-//                        //add second
-//                        listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
-//                        listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i + 1).getStartOnlyDate());
-//                        listTimeCheckMeetings.add(listTimeCheckMeeting);
-//                    }
-//
-//                } else {
-//                    listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
-//                    listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i + 1).getStartOnlyDate());
-//                    listTimeCheckMeetings.add(listTimeCheckMeeting);
-//                }
-//            } else {
-//                if(i==listSpaceSize-1){
-//                    listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
-//                    listTimeCheckMeeting.setEndTimeCheck(endDayTime);
-//                    listTimeCheckMeetings.add(listTimeCheckMeeting);
-//                } else if (i<listSpaceSize){
-//                    listTimeCheckMeeting.setStartTimeCheck(listOnlyDateCheck.get(i).getEndOnlyDate());
-//                    listTimeCheckMeeting.setEndTimeCheck(listOnlyDateCheck.get(i + 1).getStartOnlyDate());
-//                    listTimeCheckMeetings.add(listTimeCheckMeeting);
-//                } else {
-//                    //do nothing
-//                }
-//            }
-//        }
-//        System.out.println("validateTimeCheckMeetings: " + listTimeCheckMeetings);
-//
-//        //check time booking in timespace
-//        Date startTimeCheckInputCheckTimeSpaceStart = newMeeting.getStartTime();
-//        Date startTimeCheckInputCheckTimeSpaceEnd = newMeeting.getEndTime();
-//        int flagCheckTimeSpace=0;
-//        for(int i=0; i<listTimeCheckMeetings.size(); i++){
-//           boolean checkTimeSpace=(startTimeCheckInputCheckTimeSpaceStart.compareTo(listTimeCheckMeetings.get(i)
-//                   .getStartTimeCheck())>0)
-//                    && (startTimeCheckInputCheckTimeSpaceEnd.compareTo(listTimeCheckMeetings.get(i)
-//                   .getEndTimeCheck())<0);
-//           if(checkTimeSpace){
-//               flagCheckTimeSpace = flagCheckTimeSpace+1;
-//           }
-//        }
-//        //validate Input
-//        //add Api get MeetingRoom
-//        //validate MeetingRoomId
-//        Date dateNow=java.util.Calendar.getInstance().getTime();
-//        List<M00Codes020> m00Codes020s = serviceLifecycle.m00Codes020Service().findAll();
-//        int flagCheckMeetingId=0;
-//        int checkMeetingId = newMeeting.getCd_tp_id();
-//        for(int i=0; i<m00Codes020s.size(); i++){
-//            if("MEETING_ROOM".equals(m00Codes020s.get(i).getCdTp())){
-//                if(checkMeetingId==m00Codes020s.get(i).getCdTpId()){
-//                    flagCheckMeetingId = flagCheckMeetingId+1;
-//                }
-//            }
-//        }
-//        //validate Input newMeeting Room
-//        boolean checkValidRequest = flagCheckMeetingId>0 && (newMeeting.getStartTime()
-//                .compareTo(newMeeting.getEndTime()) < 0) && (newMeeting.getEndTime().compareTo(dateNow)<0)
-//                && (flagCheckTimeSpace>0||listOnlyDateCheck.isEmpty());
-//
-//        if (checkValidRequest) {
-//            try {
-//
-//                Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
-//                result.setStatus(HttpStatus.OK.value());
-//                result.setMessage("The meeting has been created successfully");
-//                //register EmployeeMeeting
-//                List<Pme00EmployeeMeeting> listMember = newMeeting.getListMember();
-//
-//                listMember = listMember.stream().map(i -> {
-//                            i.setMeetingId(pme00Meeting.getMeetingId());
-//                            return i;
-//                        })
-//                        .collect(Collectors.toList());
-//
-//                Set<String> setId = listMember.stream()
-//                        .map(Pme00EmployeeMeeting::getEmpId)
-//                        .collect(Collectors.toSet());
-//                System.out.println("setEmpId: " + setId);
-//
-//                for (Pme00EmployeeMeeting pme00EmployeeMeeting : listMember) {
-//                    if (setId.contains(pme00EmployeeMeeting.getEmpId())) {
-//                        serviceLifecycle.requestPme00EmployeeMeetingService()
-//                                .register(pme00EmployeeMeeting);
-//                        setId.remove(pme00EmployeeMeeting.getEmpId());
-//                    }
-//                }
-//            } catch (Exception e) {
-//                result.setStatus(HttpStatus.NOT_FOUND.value());
-//                result.setMessage("This meeting has been created");
-//            }
-//        } else {
-//            result.setStatus(HttpStatus.NOT_FOUND.value());
-//            result.setMessage("Not valid request");
-//        }
         return result;
     }
     @Override

@@ -52,7 +52,7 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
     }
 
     @Override
-    public int findMetingByStartAndEnd(Date startDate, Date endDate) {
-        return this.repository.findMetingByStartAndEnd(startDate, endDate);
+    public int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate) {
+        return this.repository.findMetingByStartAndEnd(cdTpId, startDate, endDate);
     }
 }
