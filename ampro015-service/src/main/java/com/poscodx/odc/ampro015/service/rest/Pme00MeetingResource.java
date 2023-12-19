@@ -19,25 +19,25 @@ public class Pme00MeetingResource {
     @GetMapping("/")
     @CrossOrigin
     public Pme00AllMeetingResponse getListMeeting() {
-        return this.serviceLifecycle.bookingMeetingRoomService().getListMeeting(serviceLifecycle);
+        return this.serviceLifecycle.requestBookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
 
     @DeleteMapping("/{meetingId}")
     @CrossOrigin
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
-        return this.serviceLifecycle.bookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
+        return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
 
     @PostMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) throws ParseException {
-       return this.serviceLifecycle.bookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
+       return this.serviceLifecycle.requestBookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
     }
 
     @GetMapping("/{id}")
     @CrossOrigin
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
-       return this.serviceLifecycle.bookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
+       return this.serviceLifecycle.requestBookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
     }
 
     @GetMapping("/search")
@@ -65,6 +65,6 @@ public class Pme00MeetingResource {
     @PutMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
-        return this.serviceLifecycle.bookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
+        return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
 }
