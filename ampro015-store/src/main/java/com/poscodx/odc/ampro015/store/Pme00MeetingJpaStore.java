@@ -50,4 +50,9 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
     public List<Pme00Meeting> findAllByAssetId(Integer cd_tp_id, String title, String startTime, String endTime, String creatorId, String requesterId, String categoryMeeting, String status) {
         return Pme00MeetingJpo.toDomains(this.repository.findAllByAssetId(cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status));
     }
+
+    @Override
+    public int findMetingByStartAndEnd(Date startDate, Date endDate) {
+        return this.repository.findMetingByStartAndEnd(startDate, endDate);
+    }
 }

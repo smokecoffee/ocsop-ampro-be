@@ -59,4 +59,9 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
                                            status);
     }
 
+    @Override
+    public int findMetingByStartAndEnd(Date startDate, Date endDate) {
+        return this.store.findMetingByStartAndEnd(startDate, endDate);
+    }
+
 }

@@ -27,4 +27,6 @@ public interface Pme00MeetingService {
                                 String requesterId,
                                 String categoryMeeting,
                                 String status);
+
+    int findMetingByStartAndEnd(Date startDate, Date endDate);
 }

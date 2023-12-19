@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
+
 public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, Integer> {
 
     @Query(value = "SELECT *\n" +
@@ -29,4 +31,16 @@ public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, I
                                                @Param("categoryMeeting") String categoryMeeting,
                                                @Param("status") String status
                                                );
+
+
+    @Query(value = "SELECT count(MEETING_ID)\n" +
+            "FROM tb_pme00_meeting \n" +
+            "WHERE (START_TIME >=  :startDate \n" +
+            "AND START_TIME <= :endDate ) \n" +
+            "OR (END_TIME >=  :startDate \n" +
+            "AND END_TIME <= :endDate )"
+            , nativeQuery = true)
+
+    int findMetingByStartAndEnd(@Param("startDate") Date startDate,
+                                               @Param("endDate") Date endDate);
 }

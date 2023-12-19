@@ -26,4 +26,8 @@ public interface Pme00MeetingStore {
             String requesterId,
             String categoryMeeting,
             String status);
+
+    public int findMetingByStartAndEnd(
+            Date startDate,
+            Date endDate);
 }
