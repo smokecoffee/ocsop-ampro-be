@@ -18,6 +18,7 @@ public class EmployeeDto extends PoscoEntity {
     private String name;
     private String avatar;
 
+
     public EmployeeDto(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
