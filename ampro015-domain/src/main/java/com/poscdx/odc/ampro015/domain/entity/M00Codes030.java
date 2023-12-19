@@ -23,6 +23,9 @@ public class M00Codes030 {
     private String lastUpdateProgramId;
     private Date lastUpdateTimestamp;
 
+    public M00Codes030(String cdV) {
+        this.cdV = cdV;
+    }
 
     public String toJson() {
         return JsonUtil.toJson(this);

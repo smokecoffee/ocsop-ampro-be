@@ -26,6 +26,9 @@ public class Pme00ProjectInfo {
     private String koreaPmName;
     private String vietnamPlName;
 
+    public Pme00ProjectInfo(String cdV) {
+        this.cdV = cdV;
+    }
 
     public String toJson() {
         return JsonUtil.toJson(this);

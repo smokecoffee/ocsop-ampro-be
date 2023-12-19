@@ -4,9 +4,7 @@ import com.poscdx.odc.ampro015.domain.spec.*;
 
 public interface ServiceLifecycle {
     Level2Service requestLevel2Service();
-
-    Level2DashboardService requestLevel2DashboardService();
-
+    Level3DashboardService requestLevel2DashboardService();
     AssetService requestAssetService();
     FieldService requestFieldService();
     ImageService requestImageService();
@@ -17,6 +15,7 @@ public interface ServiceLifecycle {
     Pme00MemberService requestPme00MemberService();
     Pme00ProjectInfoService requestPme00ProjectInfoService();
     Pme00AnnouncementService requestPme00AnnouncementService();
+    Pme00DashboardSettingService requestPme00DashboardSettingService();
     Pme00EmployeeTaskService requestPme00EmployeeTaskService();
     Level2MeetingService requestBookingMeetingRoomService();
     M00Codes020Service requestM00Codes020Service();
