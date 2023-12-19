@@ -16,4 +16,12 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 "WHERE\n" +
                 "E.END_DATE IS NULL", nativeQuery = true)
     List<Object[]> getActiveEmployee();
+
+    @Query(value = "SELECT CD_V\n" +
+            ",CD_V_MEANING\n" +
+            ",CD_V_EXPLAIN\n" +
+            "from VI_M00_CODE_ACCESS\n" +
+            "WHERE CD_TP = 'TASK_STATUS'\n" +
+            "AND CATEGORY_GROUP_NM = 'EN0000'", nativeQuery = true)
+    List<Object[]> getTaskStatus();
 }

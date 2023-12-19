@@ -50,4 +50,8 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
         return this.repository.getActiveEmployee();
     }
 
+    public List<Object[]> getTaskStatus() {
+        return this.repository.getTaskStatus();
+    }
+
 }

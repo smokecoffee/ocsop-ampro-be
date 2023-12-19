@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.spec;
 import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface Pme00ProjectInfoService {
     void remove(String cdVId);
 
     List<EmployeeDto> getActiveEmployee();
+
+    List<TaskStatusDto> getTaskStatus();
 }

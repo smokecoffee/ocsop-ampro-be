@@ -16,4 +16,6 @@ public interface Pme00ProjectInfoStore {
     void delete (String cdVId);
 
     List<Object[]> getActiveEmployee();
+
+    List<Object[]> getTaskStatus();
 }
