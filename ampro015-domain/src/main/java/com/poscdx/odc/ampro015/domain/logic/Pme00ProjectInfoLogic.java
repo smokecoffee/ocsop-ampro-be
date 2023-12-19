@@ -1,6 +1,9 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.*;
+import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
+import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 
@@ -66,5 +69,15 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         }
 
         return pme00ProjectInfoList;
+    }
+
+    @Override
+    public List<TaskStatusDto> getTaskStatus() {
+        List<Object[]> resultList = this.store.getTaskStatus();
+        List<TaskStatusDto> taskStatusDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            taskStatusDtoList.add(new TaskStatusDto(obj));
+        }
+        return taskStatusDtoList;
     }
 }

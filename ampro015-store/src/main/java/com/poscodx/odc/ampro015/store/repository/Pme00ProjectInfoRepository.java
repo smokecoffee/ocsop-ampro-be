@@ -44,4 +44,12 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                                               @Param("framework") String framework, @Param("status") String status,
                                               @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+
+    @Query(value = "SELECT CD_V\n" +
+            ",CD_V_MEANING\n" +
+            ",CD_V_EXPLAIN\n" +
+            "from VI_M00_CODE_ACCESS\n" +
+            "WHERE CD_TP = 'TASK_STATUS'\n" +
+            "AND CATEGORY_GROUP_NM = 'EN0000'", nativeQuery = true)
+    List<Object[]> getTaskStatus();
 }

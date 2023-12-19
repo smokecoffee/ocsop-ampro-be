@@ -57,4 +57,8 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
         return this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate
         );
     }
+    public List<Object[]> getTaskStatus() {
+        return this.repository.getTaskStatus();
+    }
+
 }
