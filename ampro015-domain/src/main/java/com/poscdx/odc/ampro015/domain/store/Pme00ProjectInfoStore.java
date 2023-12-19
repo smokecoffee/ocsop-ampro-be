@@ -23,4 +23,8 @@ public interface Pme00ProjectInfoStore {
                                            String framework, String status, Date startDate, Date endDate);
 
     List<Object[]> getTaskStatus();
+
+    List<Object[]> getKoreaPM();
+
+    List<Object[]> getVietnamPL();
 }

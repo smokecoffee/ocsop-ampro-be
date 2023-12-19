@@ -52,4 +52,29 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
             "WHERE CD_TP = 'TASK_STATUS'\n" +
             "AND CATEGORY_GROUP_NM = 'EN0000'", nativeQuery = true)
     List<Object[]> getTaskStatus();
+
+    @Query(value =
+            "SELECT DISTINCT \n" +
+                "EMP.EMP_ID \n" +
+                ", EMP.NAME \n" +
+            "FROM \n" +
+                "TB_PME00_PROJECT_INFO AS INFO\n" +
+            "JOIN \n" +
+                "TB_M00_EMPLOYEE AS EMP\n" +
+            "ON \n" +
+                "INFO.KOREA_PM = EMP.EMP_ID", nativeQuery = true)
+    List<Object[]> getKoreaPM();
+
+    @Query(value =
+            "SELECT DISTINCT \n" +
+                "EMP.EMP_ID \n" +
+                ", EMP.NAME \n" +
+            "FROM \n" +
+                "TB_PME00_PROJECT_INFO AS INFO\n" +
+            "JOIN \n" +
+                "TB_M00_EMPLOYEE AS EMP\n" +
+            "ON \n" +
+                "INFO.VIETNAM_PL = EMP.EMP_ID", nativeQuery = true)
+    List<Object[]> getVietnamPL();
+
 }

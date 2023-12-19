@@ -28,4 +28,8 @@ public interface Pme00ProjectInfoService {
                                             String framework, String status, Date startDate, Date endDate);
 
     List<TaskStatusDto> getTaskStatus();
+
+    List<EmployeeDto> getKoreaPM();
+
+    List<EmployeeDto> getVietnamPL();
 }

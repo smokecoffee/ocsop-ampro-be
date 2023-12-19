@@ -60,4 +60,16 @@ public class Pme00ProjectResource {
     public void delete(@RequestBody M00Codes030Id id) throws SQLException {
         this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
     }
+
+    @CrossOrigin
+    @PostMapping("/search_KoreaPM")
+    public List<EmployeeDto> getKoreaPM () {
+        return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
+    }
+
+    @CrossOrigin
+    @PostMapping("/search_VietnamPL")
+    public List<EmployeeDto> getVietnamPL () {
+        return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL();
+    }
 }

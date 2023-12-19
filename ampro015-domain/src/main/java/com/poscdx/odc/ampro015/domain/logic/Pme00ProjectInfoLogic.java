@@ -80,4 +80,24 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         }
         return taskStatusDtoList;
     }
+
+    @Override
+    public List<EmployeeDto> getKoreaPM() {
+        List<Object[]> resultList = this.store.getKoreaPM();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            employeeDtoList.add(new EmployeeDto(obj));
+        }
+        return employeeDtoList;
+    }
+
+    @Override
+    public List<EmployeeDto> getVietnamPL() {
+        List<Object[]> resultList = this.store.getVietnamPL();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            employeeDtoList.add(new EmployeeDto(obj));
+        }
+        return employeeDtoList;
+    }
 }
