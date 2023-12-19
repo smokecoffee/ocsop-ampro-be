@@ -6,8 +6,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.posco.reuse.common.logging.PosLogWriterIF;
-import com.posco.reuse.common.logging.PosLogger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -109,9 +107,6 @@ public class QRCodeRender {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        System.out.println("Url QrCode : " + urlQRCode);
-        PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] QrCode render -> " + urlQRCode, this);
         return "data:image/png;base64," + imageString;
     }
 }

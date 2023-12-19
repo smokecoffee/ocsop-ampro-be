@@ -14,6 +14,7 @@ public class Pme00EmployeeTask {
     private String taskName;
     private String empId;
     private String empName;
+    private String avatar;
 
     public String toJson() {
         return JsonUtil.toJson(this);
