@@ -33,4 +33,5 @@ public interface Pme00MeetingStore {
             Date startDate,
             Date endDate);
 
+    public List<Pme00Meeting> findByEndDate();
 }

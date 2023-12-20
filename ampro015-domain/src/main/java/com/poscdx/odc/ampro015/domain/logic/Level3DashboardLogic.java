@@ -31,9 +31,8 @@ public class Level3DashboardLogic implements Level3DashboardService {
                     break;
                 }
                 case 2: {
-                    Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.requestBookingMeetingRoomService()
-                                                                                      .getListMeeting(serviceLifecycle);
-                    settingOrderDto.setMeetingList(pme00AllMeetingResponse.getListData());
+                    settingOrderDto.setMeetingList(serviceLifecycle.requestBookingMeetingRoomService()
+                                                    .getMeetingByEndDate(serviceLifecycle).getListData());
                     break;
                 }
                 case 3: {

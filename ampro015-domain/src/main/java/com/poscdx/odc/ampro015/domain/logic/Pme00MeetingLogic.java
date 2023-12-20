@@ -65,5 +65,10 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
         return this.store.findMetingByStartAndEnd(cdTpId, startDate, endDate);
     }
 
+    @Override
+    public List<Pme00Meeting> findByEndDate() {
+        return this.store.findByEndDate();
+    }
+
 
 }
