@@ -1,4 +1,5 @@
 package com.poscodx.odc.ampro015.store;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.store.Pme00MeetingStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00MeetingJpo;
@@ -55,4 +56,5 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
     public int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate) {
         return this.repository.findMetingByStartAndEnd(cdTpId, startDate, endDate);
     }
+
 }
