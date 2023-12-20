@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pme00EmployeeTask {
+
     private String projectNumber;
     private String taskName;
     private String empId;
