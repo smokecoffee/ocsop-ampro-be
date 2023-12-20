@@ -56,7 +56,7 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     }
 
     @Override
-    public List<Pme00EmployeeTask> findAllByProjectMumber(String projectNumber) {
+    public List<Pme00EmployeeTask> findAllByProjectNumber(String projectNumber) {
         return this.store.retrieveAllByProjectNumber(projectNumber);
     }
 }

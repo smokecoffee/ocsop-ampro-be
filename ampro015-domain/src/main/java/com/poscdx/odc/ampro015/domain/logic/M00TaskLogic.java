@@ -45,12 +45,7 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
-        return store.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable);
-    }
-
-    @Override
-    public List<M00Task> findTaskByConditionsV0(String projectNumber, String taskName, String planDate, String actualEndDate, String status, Pageable pageable) {
-        return store.findTaskByConditionsv0(projectNumber, taskName, planDate, actualEndDate, status, pageable);
+    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, String status, Pageable pageable) {
+        return store.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, pageable);
     }
 }

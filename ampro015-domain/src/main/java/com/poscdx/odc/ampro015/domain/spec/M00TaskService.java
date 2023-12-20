@@ -19,6 +19,5 @@ public interface M00TaskService {
 
     void remove(M00TaskId id);
 
-    List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable);
-    List<M00Task> findTaskByConditionsV0(String projectNumber, String taskName, String planDate, String actualEndDate, String status, Pageable pageable);
+    List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, String status, Pageable pageable);
 }

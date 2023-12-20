@@ -11,7 +11,7 @@ public interface Pme00EmployeeTaskService {
     Pme00EmployeeTask find(M00EmployeeTaskId m00EmployeeTaskId);
 
     List<Pme00EmployeeTask> findAll();
-    List<Pme00EmployeeTask> findAllByProjectMumber(String projectNumber);
+    List<Pme00EmployeeTask> findAllByProjectNumber(String projectNumber);
 
     void modify(List<Pme00EmployeeTask> entityList);
 

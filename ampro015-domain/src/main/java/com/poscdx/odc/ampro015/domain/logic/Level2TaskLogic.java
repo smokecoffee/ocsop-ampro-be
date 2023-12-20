@@ -51,7 +51,7 @@ public class Level2TaskLogic implements Level2TaskService {
         //findAllTask
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(projectNumber);
         //findAllEmplTask
-        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectMumber(projectNumber);
+        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
 
         List<M00TaskDto> responseList = new ArrayList<>();
         //append member to task
@@ -190,12 +190,12 @@ public class Level2TaskLogic implements Level2TaskService {
      */
     @Override
     public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                                 String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy,
+                                                 String planDate, String actualEndDate, String status, int pageNo, int pageSize, String sortBy,
                                                  String sortDirection) {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable);
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, pageable);
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
@@ -206,24 +206,9 @@ public class Level2TaskLogic implements Level2TaskService {
         return responseList;
     }
 
-
-    @Override
-    public List<M00TaskDto> findTaskByConditionsV0(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String planDate, String actualEndDate, String status, int pageNo, int pageSize, String sortBy, String sortDirection) {
-        Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
-        //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditionsV0(projectNumber, taskName, planDate, actualEndDate, status, pageable);
-
-        List<M00TaskDto> responseList = new ArrayList<>();
-
-        if(!m00TaskDtoList.isEmpty()){
-            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList);
-        }
-        return responseList;
-    }
-
     private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber, List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList) {
         //findAllEmplTask
-        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectMumber(projectNumber);
+        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
         //append member to task
         m00TaskDtoList.forEach(m00Task -> {
             M00TaskDto response = new M00TaskDto();
@@ -240,7 +225,7 @@ public class Level2TaskLogic implements Level2TaskService {
 
     private Pageable createPageable(int pageNo, int pageSize, String sortBy, String sortDirection) {
         Optional<M00TaskJpoComlumnName> columnSort = M00TaskJpoComlumnName.getColumnName(sortBy);
-        String columnName = columnSort.isPresent() ? columnSort.get().name() : "";
+        String columnName = columnSort.isPresent() ? columnSort.get().getFieldName() : "";
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(columnName).ascending()
                 : Sort.by(columnName).descending();
 
