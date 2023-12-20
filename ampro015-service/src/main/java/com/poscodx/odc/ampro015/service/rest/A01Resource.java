@@ -40,6 +40,7 @@ public class A01Resource {
      * @param request AssetInfoDto
      * @return
      */
+    @CrossOrigin
     @PostMapping("/asset")
     public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[amp] create Asset -> " +JsonUtil.toJson(request), this);
@@ -57,6 +58,7 @@ public class A01Resource {
      *
      * @param assetInfoDto
      */
+    @CrossOrigin
     @PutMapping(path = "/")
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
@@ -91,6 +93,7 @@ public class A01Resource {
      * @param status
      * @throws IOException
      */
+    @CrossOrigin
     @GetMapping("/export-excel")
     public void exportToExcel(HttpServletResponse response,
                               @RequestParam(required = true) String owner,
