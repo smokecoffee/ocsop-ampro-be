@@ -15,7 +15,11 @@ public class Level3DashboardLogic implements Level3DashboardService {
     @Override
     public Pme00DashboardSettingDto loadDashboard(ServiceLifecycle serviceLifecycle, String empId) {
         Pme00DashboardSettingDto dto = new Pme00DashboardSettingDto();
-        dto.setPme00DashboardSetting(serviceLifecycle.requestPme00DashboardSettingService().findByEmpId(empId));
+        Pme00DashboardSetting setting = serviceLifecycle.requestPme00DashboardSettingService().findByEmpId(empId);
+        if (setting == null) {
+            return null;
+        }
+        dto.setPme00DashboardSetting(setting);
         JsonArray jsonArray = (JsonArray) JsonParser.parseString(dto.getPme00DashboardSetting().getOrder());
         JsonObject jsonObject;
         SettingOrderDto settingOrderDto;
