@@ -164,21 +164,23 @@ public class Level2MeetingLogic implements Level2MeetingService {
     public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle) throws ParseException {
         Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
         Date dateNow = java.util.Calendar.getInstance().getTime();
-
+        //format current date to standard
         SimpleDateFormat formatDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         String dateToStr = formatDateNow.format(dateNow);
-
+        //convert current date to type String
         SimpleDateFormat dateFormatStrToDate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         Date dateNowToDate = dateFormatStrToDate1.parse(dateToStr);
+        //get date now only date, not time
         DateFormat dateFormatDateToStr = new SimpleDateFormat("yyyy-MM-dd");
-
         String dateToStringOnlyDate = dateFormatDateToStr.format(dateNow);
+        //set time finish in current date
         SimpleDateFormat dateFormatStrToDate2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         String strToDate = dateToStringOnlyDate + " 23:59:00.000";
         Date formatStrtoDate = dateFormatStrToDate2.parse(strToDate);
 
         List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
 
+        //get list meeting by endDate at current date
         for(int i=0;i< pme00MeetingList.size();i++){
             boolean timeCheck = (pme00MeetingList.get(i).getEndTime().compareTo(dateNowToDate)>0)
                     &&(pme00MeetingList.get(i).getEndTime().compareTo(formatStrtoDate)<0);
