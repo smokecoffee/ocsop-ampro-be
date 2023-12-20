@@ -190,8 +190,10 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     .findByMeetingId(meetingId));}
         }
 
-        List<Pme00Meeting> tmp = pme00MeetingList.stream()
-                .filter(i -> i.getListMember() != null && !i.getListMember().isEmpty()).collect(Collectors.toList());
+        List<Pme00Meeting> tmp = pme00MeetingList
+                .stream()
+                .filter(i -> i.getListMember() != null && !i.getListMember().isEmpty())
+                .collect(Collectors.toList());
 
         result.setStatus(HttpStatus.OK.value());
         boolean timecheck1 = false;
