@@ -68,4 +68,19 @@ public class Pme00TaskResource {
     public void deleteTask(@RequestBody M00TaskId m00TaskId) {
         this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId);
     }
+
+    @CrossOrigin
+    @GetMapping(path = "/v0/search")
+    public List<M00TaskDto> searchTaskV0(@RequestParam(name = "projectNumber") String projectNumber,
+                                       @RequestParam(required = false, defaultValue = "", name = "taskName") String taskName,
+                                       @RequestParam(required = false, defaultValue = "", name = "planDate") String planDate,
+                                       @RequestParam(required = false, defaultValue = "", name = "actualEndDate") String actualEndDate,
+                                       @RequestParam(defaultValue = "", required = false, name = "status") String status,
+                                       @RequestParam(defaultValue = "0", required = false, name = "pageNo") int pageNo,
+                                       @RequestParam(defaultValue = "20", required = false, name = "pageSize") int pageSize,
+                                       @RequestParam(defaultValue = "t.LAST_UPDATE_TIMESTAMP", required = false, name = "sortBy") String sortBy,
+                                       @RequestParam(defaultValue = "ASC", required = false, name = "sortDirection") String sortDirection) {
+        return this.serviceLifecycle.requestLevel2TaskService().findTaskByConditionsV0(serviceLifecycle, projectNumber,
+                taskName, planDate, actualEndDate, status, pageNo, pageSize, sortBy, sortDirection);
+    }
 }

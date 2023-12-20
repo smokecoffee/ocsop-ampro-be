@@ -36,9 +36,13 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
                                           @Param("taskName") String taskName,
                                           @Param("planDate") String planDate,
                                           @Param("actualEndDate") String actualEndDate, Pageable pageable);
+    
+    List<M00TaskJpo> findAllByProjectNumberContains(String projectNumber);
+
+    Optional<M00TaskJpo> findByProjectNumberContainsAndTaskNameContains(String projectNumber, String taskName);
 
     @Query(value = "SELECT t.PROJECT_NUMBER \n" +
-            ", t.TASK_NAME \n" +
+            ",t.TASK_NAME \n" +
             ",t.CATEGORY \n" +
             ",t.EMP_ID \n" +
             ",t.LAST_UPDATE_ID \n" +
@@ -52,15 +56,16 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             ",t.LAST_UPDATE_TIMESTAMP \n" +
             ",t.CREATION_TIMESTAMP \n" +
             " FROM tb_m00_task AS t \n" +
-            " WHERE 1=1 \n"+
-            " AND (:projectNumber = '' or t.PROJECT_NUMBER = :projectNumber)\n", nativeQuery = true)
-    List<M00TaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber);
-
-    @Query(value = "SELECT * " +
-            "FROM tb_m00_task " +
-            "WHERE " +
-            " PROJECT_NUMBER = :projectNumber" +
-            " AND TASK_NAME = :taskName", nativeQuery = true)
-    Optional<M00TaskJpo> findOneTask(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);
+            " WHERE 1=1 \n" +
+            " AND (:projectNumber = '' OR t.PROJECT_NUMBER = :projectNumber)\n" +
+            " AND (:taskName = '' OR t.TASK_NAME = :taskName)\n" +
+            " AND (:planDate = '' OR t.PLAN_DATE = :planDate)\n" +
+            " AND (:status = '' OR t.STATUS = :status)\n" +
+            " AND (:actualEndDate = '' OR t.ACTUAL_END_DATE = :actualEndDate)\n", nativeQuery = true)
+    Page<M00TaskJpo> findTaskByConditionsV0(@Param("projectNumber") String projectNumber,
+                                          @Param("taskName") String taskName,
+                                          @Param("planDate") String planDate,
+                                          @Param("actualEndDate") String actualEndDate,
+                                          @Param("status") String status, Pageable pageable);
 
 }

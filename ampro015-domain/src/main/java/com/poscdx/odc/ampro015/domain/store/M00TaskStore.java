@@ -18,4 +18,6 @@ public interface M00TaskStore {
     List<M00Task> retrieveAll(String projectNumber);
 
     List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable);
+
+    List<M00Task> findTaskByConditionsv0(String projectNumber, String taskName, String planDate, String actualEndDate, String status, Pageable pageable);
 }

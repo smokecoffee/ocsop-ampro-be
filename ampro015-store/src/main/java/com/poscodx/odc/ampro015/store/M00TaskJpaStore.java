@@ -22,7 +22,7 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public M00Task retrieve(M00TaskId id) {
-        Optional<M00TaskJpo> taskResult = this.repository.findOneTask(id.getProjectNumber(), id.getTaskName());
+        Optional<M00TaskJpo> taskResult = this.repository.findByProjectNumberContainsAndTaskNameContains(id.getProjectNumber(), id.getTaskName());
         return taskResult.map(M00TaskJpo::toDomain).orElse(null);
     }
 
@@ -46,11 +46,16 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public List<M00Task> retrieveAll(String projectNumber) {
-        return this.repository.findAllByProjectNumber(projectNumber).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+        return this.repository.findAllByProjectNumberContains(projectNumber).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
         return this.repository.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<M00Task> findTaskByConditionsv0(String projectNumber, String taskName, String planDate, String actualEndDate, String status, Pageable pageable) {
+        return this.repository.findTaskByConditionsV0(projectNumber, taskName, planDate, actualEndDate, status, pageable).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 }
