@@ -161,6 +161,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
         serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
 
         // Delete project M00Codes030
+        id.setCdTpId(ConstantUtil.CD_TP_ID);
+        id.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
         serviceLifecycle.requestM00Codes030Service().remove(id);
 
         // TODO
