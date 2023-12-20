@@ -11,7 +11,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
 
     private final Level2ProjectService level2ProjectService;
     private final Level2Service level2Service;
-    private final Level3DashboardService level2DashboardService;
+    private final Level3DashboardService level3DashboardService;
     private final AssetService assetService;
     private final FieldService fieldService;
     private final ImageService imageService;
@@ -38,8 +38,8 @@ public class ServiceLifecycler implements ServiceLifecycle {
     }
 
     @Override
-    public Level3DashboardService requestLevel2DashboardService() {
-        return this.level2DashboardService;
+    public Level3DashboardService requestLevel3DashboardService() {
+        return this.level3DashboardService;
     }
      @Override
     public Level2MeetingService requestBookingMeetingRoomService() {

@@ -58,4 +58,16 @@ public class Level3DashboardLogic implements Level3DashboardService {
         dto.setSettingOrderDtoList(list);
         return dto;
     }
+
+    @Override
+    public Pme00DashboardSettingDto modifyDashboard(ServiceLifecycle serviceLifecycle, Pme00DashboardSetting entity) {
+        String empId = entity.getEmpId();
+        Pme00DashboardSetting setting = serviceLifecycle.requestPme00DashboardSettingService().findByEmpId(empId);
+        if (setting == null) {
+            setting = serviceLifecycle.requestPme00DashboardSettingService().register(entity);
+        } else {
+            setting = serviceLifecycle.requestPme00DashboardSettingService().modify(entity);
+        }
+        return (setting != null) ? loadDashboard(serviceLifecycle, empId) : null;
+    }
 }

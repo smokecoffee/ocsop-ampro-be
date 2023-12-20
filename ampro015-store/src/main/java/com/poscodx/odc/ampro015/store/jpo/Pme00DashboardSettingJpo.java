@@ -27,7 +27,7 @@ public class Pme00DashboardSettingJpo {
     @Column(name = "EMP_ID")
     private String empId;
 
-    @Column(name = "ORDER")
+    @Column(name = "DASHBOARD_ORDER")
     private String order;
 
     public Pme00DashboardSettingJpo(Pme00DashboardSetting domainEntity) {
