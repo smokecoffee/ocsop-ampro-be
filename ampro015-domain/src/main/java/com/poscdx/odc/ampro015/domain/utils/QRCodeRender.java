@@ -20,7 +20,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class QRCodeRender {
-    String qrcodeDomain = "http://localhost:3000/asset?token=";
+    String qrcodeDomain = "http://localhost:3000/web/challenge/AMPRO002VIEW.do/?token=";
 
     private  BufferedImage resize(BufferedImage img, int newW, int newH) {
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
