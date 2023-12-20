@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.store;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 
 import java.util.Date;
@@ -31,4 +32,5 @@ public interface Pme00MeetingStore {
             int cdTpId,
             Date startDate,
             Date endDate);
+
 }

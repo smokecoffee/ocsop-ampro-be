@@ -20,4 +20,6 @@ public interface Level2MeetingService {
     Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting);
 
     Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle);
+
+    Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle);
 }

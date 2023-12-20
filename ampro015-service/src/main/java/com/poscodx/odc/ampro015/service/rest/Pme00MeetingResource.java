@@ -67,4 +67,11 @@ public class Pme00MeetingResource {
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
+
+    @GetMapping("/findMeetingByEndDate")
+    @CrossOrigin
+    public Pme00AllMeetingResponse findMeetingRoomByEndDate(){
+        return this.serviceLifecycle.requestBookingMeetingRoomService().findMeetingRoomByEndDate(serviceLifecycle);
+    }
+
 }

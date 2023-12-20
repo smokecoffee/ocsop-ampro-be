@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
 
@@ -29,4 +30,5 @@ public interface Pme00MeetingService {
                                 String status);
 
     int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate);
+
 }
