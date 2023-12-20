@@ -5,7 +5,9 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -156,6 +158,22 @@ public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle)
     result.setListData(pme00MeetingList);
     result.setMessage("Get all meeting successfully");
     return result;
-};
+}
+
+@Override
+public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle){
+    Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
+    Date dateNow = java.util.Calendar.getInstance().getTime();
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    String strDateCheck = dateFormat.format(dateNow);
+    SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
+    for(int i=0;i< pme00MeetingList.size();i++){
+        int meetingId = pme00MeetingList.get(i).getMeetingId();
+        pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
+                .findByMeetingId(meetingId));
+    }
+    return result;
+}
 
 }

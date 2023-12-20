@@ -14,7 +14,6 @@ public class Pme00EmployeeMeeting {
     private int meetingId;
     private String empId;
     private String empName;
-
     public String toJson() {
         return JsonUtil.toJson(this);
     }
