@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/meeting")
 public class Pme00MeetingResource {
 
+    @Autowired
     private final ServiceLifecycler serviceLifecycle;
 
     @GetMapping("/")
@@ -70,7 +72,7 @@ public class Pme00MeetingResource {
 
     @GetMapping("/findMeetingByEndDate")
     @CrossOrigin
-    public Pme00AllMeetingResponse findMeetingRoomByEndDate(){
+    public Pme00AllMeetingResponse findMeetingRoomByEndDate() throws ParseException {
         return this.serviceLifecycle.requestBookingMeetingRoomService().findMeetingRoomByEndDate(serviceLifecycle);
     }
 
