@@ -38,4 +38,14 @@ public class Pme00MemberLogic implements Pme00MemberService {
         this.store.delete(id);
     }
 
+    @Override
+    public List<Pme00Member> getListMemberByCdVId(String cdVId){
+        return this.store.getListMemberByCdVId(cdVId);
+    }
+
+    @Override
+    public void deleteMemberById(String cdVId, String empId){
+        this.store.deleteMemberById(cdVId, empId);
+    }
+
 }

@@ -16,4 +16,7 @@ public interface Pme00MemberService {
 
     void remove(int id);
 
+    List<Pme00Member> getListMemberByCdVId(String cdVId);
+
+    void deleteMemberById(String cdVId, String empId);
 }
