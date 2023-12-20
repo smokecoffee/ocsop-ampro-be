@@ -62,14 +62,16 @@ public class Pme00ProjectResource {
     }
 
     @CrossOrigin
-    @PostMapping("/search_KoreaPM")
-    public List<EmployeeDto> getKoreaPM () {
-        return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
-    }
+    @PostMapping("/search-pm-pl")
+    public List<EmployeeDto> getKoreaPM (String type) {
+        if (type.equals("pm")){
+            return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
+        }
+        else if (type.equals("pl")) {
+            return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL();
+        }
+        else
+            return new ArrayList<>();
 
-    @CrossOrigin
-    @PostMapping("/search_VietnamPL")
-    public List<EmployeeDto> getVietnamPL () {
-        return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL();
     }
 }
