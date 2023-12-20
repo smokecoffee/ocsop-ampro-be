@@ -39,7 +39,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         //validate startTime and endtime
         Date dateNow = java.util.Calendar.getInstance().getTime();
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
-                && (newMeeting.getStartTime().compareTo(dateNow)<0);
+                && (newMeeting.getStartTime().compareTo(dateNow)>=0);
 
         if(flagCheckMeetingIdOfM00Codes020>0&&checkDateInput) {
             if (count1 == 0) {
@@ -101,80 +101,109 @@ public class Level2MeetingLogic implements Level2MeetingService {
         }
         return result;
     }
-@Override
-public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
-    Pme00MeetingResponse result = new Pme00MeetingResponse();
-    Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
-    if(findMeeting==null){
-        result.setStatus(HttpStatus.NOT_FOUND.value());
-        result.setMessage("This meeting room could not be found");
-    }else{
-        List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle
-                .requestPme00EmployeeMeetingService().findAll();
-        for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
-            if(pme00EmployeeMeeting.getMeetingId()==meetingId){
-                serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
+    @Override
+    public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
+        Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
+        if(findMeeting==null){
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setMessage("This meeting room could not be found");
+        }else{
+            List<Pme00EmployeeMeeting> pme00EmployeeMeetings = serviceLifecycle
+                    .requestPme00EmployeeMeetingService().findAll();
+            for(Pme00EmployeeMeeting pme00EmployeeMeeting : pme00EmployeeMeetings){
+                if(pme00EmployeeMeeting.getMeetingId()==meetingId){
+                    serviceLifecycle.requestPme00EmployeeMeetingService().deleteAllByMeetingId(meetingId);
+                }
             }
+            serviceLifecycle.requestPme00MeetingService().remove(meetingId);
+            result.setMessage("Delete meeting room successfully");
         }
-        serviceLifecycle.requestPme00MeetingService().remove(meetingId);
-        result.setMessage("Delete meeting room successfully");
+        return result;
     }
-    return result;
-}
 
-@Override
-public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
-    int id = listMeeting.get(0).getMeetingId();
-    Pme00MeetingResponse result = new Pme00MeetingResponse();
-    Pme00MeetingResponse findMeeting = serviceLifecycle.requestBookingMeetingRoomService()
-            .getInforBookingRoom(serviceLifecycle,id);
-    if(findMeeting==null) {
-        result.setStatus(HttpStatus.NOT_FOUND.value());
-        result.setMessage("This meeting room could not be found");
-    } else {
+    @Override
+    public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
+        int id = listMeeting.get(0).getMeetingId();
+        Pme00MeetingResponse result = new Pme00MeetingResponse();
+        Pme00MeetingResponse findMeeting = serviceLifecycle.requestBookingMeetingRoomService()
+                .getInforBookingRoom(serviceLifecycle,id);
+        if(findMeeting==null) {
+            result.setStatus(HttpStatus.NOT_FOUND.value());
+            result.setMessage("This meeting room could not be found");
+        } else {
+            result.setStatus(HttpStatus.OK.value());
+            List<Pme00EmployeeMeeting> editEmpMeets = listMeeting.get(0).getListMember();
+            for(int i = 0; i<editEmpMeets.size(); i++){
+                editEmpMeets.get(i).setEmpId(listMeeting.get(0).getListMember().get(i).getEmpId());
+                editEmpMeets.get(i).setEmpName(listMeeting.get(0).getListMember().get(i).getEmpName());
+            }
+            serviceLifecycle.requestPme00EmployeeMeetingService().modify(editEmpMeets);
+            serviceLifecycle.requestPme00MeetingService().modify(listMeeting);
+            result.setData(listMeeting.get(0));
+            result.setMessage("Edit meeting room successfully");
+        }
+        return result;
+    }
+    @Override
+    public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
+        Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
+        List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
+        for(int i=0;i< pme00MeetingList.size();i++){
+            int meetingId = pme00MeetingList.get(i).getMeetingId();
+            pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
+                    .findByMeetingId(meetingId));
+        }
         result.setStatus(HttpStatus.OK.value());
-        List<Pme00EmployeeMeeting> editEmpMeets = listMeeting.get(0).getListMember();
-        for(int i = 0; i<editEmpMeets.size(); i++){
-            editEmpMeets.get(i).setEmpId(listMeeting.get(0).getListMember().get(i).getEmpId());
-            editEmpMeets.get(i).setEmpName(listMeeting.get(0).getListMember().get(i).getEmpName());
-        }
-        serviceLifecycle.requestPme00EmployeeMeetingService().modify(editEmpMeets);
-        serviceLifecycle.requestPme00MeetingService().modify(listMeeting);
-        result.setData(listMeeting.get(0));
-        result.setMessage("Edit meeting room successfully");
+        result.setListData(pme00MeetingList);
+        result.setMessage("Get all meeting successfully");
+        return result;
     }
-    return result;
-}
-@Override
-public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
-    Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
-    List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
-    for(int i=0;i< pme00MeetingList.size();i++){
-        int meetingId = pme00MeetingList.get(i).getMeetingId();
-        pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
-                .findByMeetingId(meetingId));
-    }
-    result.setStatus(HttpStatus.OK.value());
-    result.setListData(pme00MeetingList);
-    result.setMessage("Get all meeting successfully");
-    return result;
-}
 
-@Override
-public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle){
-    Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
-    Date dateNow = java.util.Calendar.getInstance().getTime();
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    String strDateCheck = dateFormat.format(dateNow);
-    SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-    List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
-    for(int i=0;i< pme00MeetingList.size();i++){
-        int meetingId = pme00MeetingList.get(i).getMeetingId();
-        pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
-                .findByMeetingId(meetingId));
+    @Override
+    public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle) throws ParseException {
+        Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
+        Date dateNow = java.util.Calendar.getInstance().getTime();
+
+        SimpleDateFormat formatDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        String dateToStr = formatDateNow.format(dateNow);
+
+        SimpleDateFormat dateFormatStrToDate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        Date dateNowToDate = dateFormatStrToDate1.parse(dateToStr);
+        DateFormat dateFormatDateToStr = new SimpleDateFormat("yyyy-MM-dd");
+
+        String dateToStringOnlyDate = dateFormatDateToStr.format(dateNow);
+        SimpleDateFormat dateFormatStrToDate2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        String strToDate = dateToStringOnlyDate + " 23:59:00.000";
+        Date formatStrtoDate = dateFormatStrToDate2.parse(strToDate);
+
+        List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
+
+        for(int i=0;i< pme00MeetingList.size();i++){
+            boolean timeCheck = (pme00MeetingList.get(i).getEndTime().compareTo(dateNowToDate)>0)
+                    &&(pme00MeetingList.get(i).getEndTime().compareTo(formatStrtoDate)<0);
+            if(timeCheck){
+            int meetingId = pme00MeetingList.get(i).getMeetingId();
+            pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
+                    .findByMeetingId(meetingId));}
+        }
+
+        List<Pme00Meeting> tmp = pme00MeetingList.stream()
+                .filter(i -> i.getListMember() != null && !i.getListMember().isEmpty()).collect(Collectors.toList());
+
+        result.setStatus(HttpStatus.OK.value());
+        boolean timecheck1 = false;
+        for(int j = 0; j<tmp.size(); j++){
+            timecheck1 = (tmp.get(j).getEndTime().compareTo(dateNowToDate)>0)
+                    &&(tmp.get(j).getEndTime().compareTo(formatStrtoDate)<0);
+
+        }
+        if(timecheck1){
+            result.setListData(tmp);
+        }
+        result.setMessage("Get all meeting by endDate successfully");
+        return result;
     }
-    return result;
-}
 
     @Override
     public Pme00AllMeetingResponse getMeetingByEndDate(ServiceLifecycle serviceLifecycle) {
@@ -190,5 +219,4 @@ public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle service
         result.setMessage("Get meetings successfully");
         return result;
     }
-
 }
