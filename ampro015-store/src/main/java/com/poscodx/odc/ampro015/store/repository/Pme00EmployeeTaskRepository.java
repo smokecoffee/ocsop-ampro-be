@@ -10,16 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00EmployeeTaskJpo, M00EmployeeTaskId> {
-
-
-    @Query(value =
-            "DELETE " +
-            "FROM tb_pme00_employee_task \n" +
-            "WHERE (PROJECT_NUMBER = :projectNumber \n" +
-            " AND TASK_NAME = :taskName)", nativeQuery = true)
-    void deleteMultipleRowById(@Param("projectNumber") String projectNumber, @Param("taskName") String taskName);
-
-
     @Query(value = "SELECT * " +
             "FROM tb_pme00_employee_task " +
             "WHERE PROJECT_NUMBER = :projectNumber" +
@@ -30,14 +20,4 @@ public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00Employee
             "FROM tb_pme00_employee_task " +
             "WHERE PROJECT_NUMBER LIKE CONCAT('%',:projectNumber,'%')", nativeQuery = true)
     List<Pme00EmployeeTaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber);
-
-    /**
-     * This function use for commit transaction trick!!
-     * https://stackoverflow.com/questions/57064953/spring-boot-manually-commit-transaction
-     *
-     */
-    @Modifying
-    @Query(value = "ALTER TABLE tb_pme00_employee_task auto_increment = 1", nativeQuery = true)
-    void doThing();
-
 }

@@ -51,17 +51,7 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     }
 
     @Override
-    public void removeMultipleEmployeeTaskByTaskId(String projectNumber, String taskName) {
-        this.store.deleteEmployeeTaskListByTaskId(projectNumber, taskName);
-    }
-
-    @Override
     public List<Pme00EmployeeTask> findAllByProjectNumber(String projectNumber) {
         return this.store.retrieveAllByProjectNumber(projectNumber);
-    }
-
-    @Override
-    public void commitTransactionManual() {
-        this.store.commitTransactionManual();
     }
 }

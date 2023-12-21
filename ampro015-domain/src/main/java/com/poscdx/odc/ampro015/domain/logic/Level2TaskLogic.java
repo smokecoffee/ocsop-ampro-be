@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
+import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
@@ -89,17 +90,14 @@ public class Level2TaskLogic implements Level2TaskService {
             // find existedEmplTask
             M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
             if (updateTaskRequest.getMembers().isEmpty()) {
-                serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
+                remove(serviceLifecycle, requestTaskId);
             } else {
                 List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
                 if (!pme00EmployeeTaskExistedList.isEmpty()) {
-                    serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
-                    serviceLifecycle.requestPme00EmployeeTaskService().commitTransactionManual();
-                    serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
-                } else {
-                    //insert new emplTaskList
-                    serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
+                    removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
                 }
+                //insert new emplTaskList
+                serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
             }
 
             // modify info task
@@ -171,9 +169,10 @@ public class Level2TaskLogic implements Level2TaskService {
         if (existedTask.isPresent()) {
             //find empTask
             List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestDeleteTaskId);
+
             if (!pme00EmployeeTaskExistedList.isEmpty()) {
                 //remove pmeEmployeeTask
-                serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestDeleteTaskId.getProjectNumber(), requestDeleteTaskId.getTaskName());
+                removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
             }
             //Delete task
             serviceLifecycle.requestTaskService().remove(requestDeleteTaskId);
@@ -237,6 +236,14 @@ public class Level2TaskLogic implements Level2TaskService {
 
         //create pageable
         return PageRequest.of(pageNo, pageSize, sort);
+    }
+
+    public void removeMultipleEmployeeTask(ServiceLifecycle serviceLifecycle, List<Pme00EmployeeTask> pme00EmployeeTasksRequestList) {
+        pme00EmployeeTasksRequestList.forEach(pme00EmployeeTask -> {
+            M00EmployeeTaskId deleteM00EmployeeTaskId = new M00EmployeeTaskId(pme00EmployeeTask.getProjectNumber(),
+                    pme00EmployeeTask.getTaskName(), pme00EmployeeTask.getEmpId());
+            serviceLifecycle.requestPme00EmployeeTaskService().remove(deleteM00EmployeeTaskId);
+        });
     }
 
 }
