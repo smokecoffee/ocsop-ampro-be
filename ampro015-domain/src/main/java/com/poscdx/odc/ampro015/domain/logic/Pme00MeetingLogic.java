@@ -1,4 +1,5 @@
 package com.poscdx.odc.ampro015.domain.logic;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
 import com.poscdx.odc.ampro015.domain.spec.Pme00MeetingService;
@@ -63,5 +64,11 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
     public int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate) {
         return this.store.findMetingByStartAndEnd(cdTpId, startDate, endDate);
     }
+
+    @Override
+    public List<Pme00Meeting> findByEndDate() {
+        return this.store.findByEndDate();
+    }
+
 
 }

@@ -32,6 +32,9 @@ public class Pme00EmployeeMeetingJpo {
     @Column(name = "EMP_NAME")
     private String empName;
 
+    @Column(name = "AVATAR")
+    private String avatar;
+
     public Pme00EmployeeMeetingJpo(Pme00EmployeeMeeting domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }
