@@ -92,7 +92,7 @@ public class M00TaskJpaStore implements M00TaskStore {
             taskSpecification.add(new SearchCriteria(STATUS.getFieldName(), status, SearchOperation.MATCH));
         }
         if (StringUtil.isNotBlank(empId)) {
-            taskSpecification.add(new SearchCriteria(EMP_ID.getFieldName(), status, SearchOperation.MATCH));
+            taskSpecification.add(new SearchCriteria(EMP_ID.getFieldName(), empId, SearchOperation.EQUAL));
         }
         //TODO:
         if (StringUtil.isNotBlank(planDate)) {
