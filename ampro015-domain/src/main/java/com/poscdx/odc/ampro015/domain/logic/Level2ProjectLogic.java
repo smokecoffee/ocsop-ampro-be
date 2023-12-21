@@ -154,19 +154,30 @@ public class Level2ProjectLogic implements Level2ProjectService {
     @Transactional(rollbackFor = { SQLException.class })
     public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
 
-        // Delete member in Pme00Member
-        serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
+        // Check project code exists
+        if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, id.getCdV())
+                 && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
+            // TODO
+            // Delete tasks
+            List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(id.getCdV());
+            M00TaskId taskId = new M00TaskId();
+            taskId.setProjectNumber(id.getCdV());
+            for(M00Task task : m00TaskDtoList) {
+                taskId.setTaskName(task.getTaskName());
+                serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, taskId);
+            }
 
-        // Delete project Pme00ProjectInfo
-        serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
+            // Delete member in Pme00Member
+            serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
 
-        // Delete project M00Codes030
-        id.setCdTpId(ConstantUtil.CD_TP_ID);
-        id.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
-        serviceLifecycle.requestM00Codes030Service().remove(id);
+            // Delete project Pme00ProjectInfo
+            serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
 
-        // TODO
-        // Delete tasks
+            // Delete project M00Codes030
+            id.setCdTpId(ConstantUtil.CD_TP_ID);
+            id.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
+            serviceLifecycle.requestM00Codes030Service().remove(id);
+        }
     }
 
     @Override
