@@ -10,6 +10,7 @@ import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,5 +41,12 @@ public class Level2Resource {
     @GetMapping(path = "/getTaskStatus")
     public List<TaskStatusDto> getTaskStatus() {
         return this.serviceLifecycle.requestPme00ProjectInfoService().getTaskStatus();
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/upload/{service}")
+    public String uploadFile(@PathVariable("service") String serviceName,
+                             @RequestParam ("file") MultipartFile image) {
+        return this.serviceLifecycle.requestLevel2Service().uploadFile(serviceName, image);
     }
 }
