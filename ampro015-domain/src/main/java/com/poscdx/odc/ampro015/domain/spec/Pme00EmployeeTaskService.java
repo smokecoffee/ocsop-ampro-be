@@ -24,4 +24,6 @@ public interface Pme00EmployeeTaskService {
     List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> entity);
 
     void removeMultipleEmployeeTaskByTaskId(String projectNumber, String taskName);
+
+    void commitTransactionManual();
 }

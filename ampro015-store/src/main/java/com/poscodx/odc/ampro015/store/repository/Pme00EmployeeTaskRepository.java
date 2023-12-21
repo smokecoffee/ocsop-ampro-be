@@ -3,6 +3,7 @@ package com.poscodx.odc.ampro015.store.repository;
 import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -29,5 +30,14 @@ public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00Employee
             "FROM tb_pme00_employee_task " +
             "WHERE PROJECT_NUMBER LIKE CONCAT('%',:projectNumber,'%')", nativeQuery = true)
     List<Pme00EmployeeTaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber);
+
+    /**
+     * This function use for commit transaction trick!!
+     * https://stackoverflow.com/questions/57064953/spring-boot-manually-commit-transaction
+     *
+     */
+    @Modifying
+    @Query(value = "ALTER TABLE tb_pme00_employee_task auto_increment = 1", nativeQuery = true)
+    void doThing();
 
 }

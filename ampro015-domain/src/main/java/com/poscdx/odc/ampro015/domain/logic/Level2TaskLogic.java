@@ -83,19 +83,25 @@ public class Level2TaskLogic implements Level2TaskService {
         M00TaskId requestUpdatedTask = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestUpdatedTask));
 
-        List<Pme00EmployeeTask> pme00EmployeeTasksList = updateTaskRequest.getMembers();
+        List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
             // find existedEmplTask
             M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
-            List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
-            if (!pme00EmployeeTaskList.isEmpty()) {
-                //modify
-                serviceLifecycle.requestPme00EmployeeTaskService().modify(updateTaskRequest.getMembers());
+            if (updateTaskRequest.getMembers().isEmpty()) {
+                serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
             } else {
-                //insert new emplTaskList
-                serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
+                List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
+                if (!pme00EmployeeTaskExistedList.isEmpty()) {
+                    serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
+                    serviceLifecycle.requestPme00EmployeeTaskService().commitTransactionManual();
+                    serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
+                } else {
+                    //insert new emplTaskList
+                    serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
+                }
             }
+
             // modify info task
             existedTask.get().setCategory(requestTask.getCategory());
             existedTask.get().setTaskExplain(requestTask.getTaskExplain());
@@ -113,7 +119,7 @@ public class Level2TaskLogic implements Level2TaskService {
             // save DB
             M00Task updatedTask = serviceLifecycle.requestTaskService().modify(requestTask);
             M00TaskDto responseUpdateTask = new M00TaskDto();
-            responseUpdateTask.setMembers(pme00EmployeeTasksList);
+            responseUpdateTask.setMembers(pme00EmployeeTasksRequestList);
             responseUpdateTask.setTask(updatedTask);
             return responseUpdateTask;
         }

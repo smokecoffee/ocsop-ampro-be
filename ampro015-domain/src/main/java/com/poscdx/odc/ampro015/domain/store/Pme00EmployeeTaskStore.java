@@ -24,4 +24,6 @@ public interface Pme00EmployeeTaskStore {
 
     void deleteEmployeeTaskListByTaskId(String projectNumber, String taskName);
 
+    void commitTransactionManual();
+
 }

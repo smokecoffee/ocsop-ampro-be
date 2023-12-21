@@ -43,8 +43,15 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public M00Task retrieve(M00TaskId id) {
-        Optional<M00TaskJpo> taskResult = this.repository.findByProjectNumberContainsAndTaskNameContains(id.getProjectNumber(), id.getTaskName());
-        return taskResult.map(M00TaskJpo::toDomain).orElse(null);
+        TaskSpecification taskSpecification = new TaskSpecification<M00TaskJpo>();
+        if (StringUtil.isNotBlank(id.getProjectNumber())) {
+            taskSpecification.add(new SearchCriteria(PROJECT_NUMBER.getFieldName(), id.getProjectNumber(), SearchOperation.EQUAL));
+        }
+        if (StringUtil.isNotBlank(id.getTaskName())) {
+            taskSpecification.add(new SearchCriteria(TASK_NAME.getFieldName(), id.getTaskName(), SearchOperation.EQUAL));
+        }
+        Optional<M00TaskJpo> results = this.repository.findOne(taskSpecification);
+        return results.isPresent()? results.get().toDomain() : null;
     }
 
     @Override

@@ -86,4 +86,9 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     public void deleteEmployeeTaskListByTaskId(String projectNumber, String taskName) {
         this.repository.deleteMultipleRowById(projectNumber, taskName);
     }
+
+    @Override
+    public void commitTransactionManual() {
+        this.repository.doThing();
+    }
 }
