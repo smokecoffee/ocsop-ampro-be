@@ -21,7 +21,7 @@ public class Level2Logic implements Level2Service {
     @Override
     public String uploadFile(String serviceName, MultipartFile image) {
         String projectPath = System.getProperty("user.dir");
-        String fileName = Calendar.getInstance().getTime().getTime() + image.getOriginalFilename();
+        String fileName = image.getOriginalFilename();
         Path root = Paths.get(projectPath + Constants.UPLOAD_FILE_PATH + serviceName + "\\" + fileName);
         try {
             image.transferTo(root);
