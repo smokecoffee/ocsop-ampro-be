@@ -124,9 +124,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
 
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
 
-        int id = listMeeting.get(0).getMeetingId();
+        int meetingId = listMeeting.get(0).getMeetingId();
         Pme00MeetingResponse findMeeting = serviceLifecycle.requestBookingMeetingRoomService()
-                .getInforBookingRoom(serviceLifecycle,id);
+                .getInforBookingRoom(serviceLifecycle,meetingId);
         if(findMeeting==null) {
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
             responseEntity.setMessage("This meeting room could not be found");
