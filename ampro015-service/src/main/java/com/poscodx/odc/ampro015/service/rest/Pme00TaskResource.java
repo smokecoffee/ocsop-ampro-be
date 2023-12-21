@@ -29,12 +29,13 @@ public class Pme00TaskResource {
                                        @RequestParam(required = false, defaultValue = "", name = "planDate") String planDate,
                                        @RequestParam(required = false, defaultValue = "", name = "actualEndDate") String actualEndDate,
                                        @RequestParam(required = false, defaultValue = "", name = "status") String status,
+                                       @RequestParam(required = false, defaultValue = "", name = "empId") String empId,
                                        @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                        @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize,
                                        @RequestParam(required = false, defaultValue = "lastUpdateTimestamp", name = "sortBy") String sortBy,
                                        @RequestParam(required = false, defaultValue = "ASC", name = "sortDirection") String sortDirection) {
         return this.serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle, projectNumber,
-                taskName, planDate, actualEndDate, status, pageNo, pageSize, sortBy, sortDirection);
+                taskName, planDate, actualEndDate, status, empId, pageNo, pageSize, sortBy, sortDirection);
     }
 
     @CrossOrigin

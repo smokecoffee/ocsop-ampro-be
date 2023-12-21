@@ -196,12 +196,12 @@ public class Level2TaskLogic implements Level2TaskService {
      */
     @Override
     public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                                 String planDate, String actualEndDate, String status, int pageNo, int pageSize, String sortBy,
+                                                 String planDate, String actualEndDate, String status, String empId, int pageNo, int pageSize, String sortBy,
                                                  String sortDirection) {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, pageable);
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, empId, pageable);
 
         List<M00TaskDto> responseList = new ArrayList<>();
 

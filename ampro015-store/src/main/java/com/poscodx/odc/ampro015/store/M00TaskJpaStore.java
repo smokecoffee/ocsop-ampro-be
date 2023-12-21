@@ -28,6 +28,7 @@ import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import static com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName.ACTUAL_END_DATE;
+import static com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName.EMP_ID;
 import static com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName.PROJECT_NUMBER;
 import static com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName.TASK_NAME;
 import static com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName.STATUS;
@@ -79,7 +80,7 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate,
-                                                String actualEndDate, String status, Pageable pageable) {
+                                                String actualEndDate, String status, String empId, Pageable pageable) {
         TaskSpecification taskSpecification = new TaskSpecification<M00TaskJpo>();
         if (StringUtil.isNotBlank(projectNumber)) {
             taskSpecification.add(new SearchCriteria(PROJECT_NUMBER.getFieldName(), projectNumber, SearchOperation.MATCH));
@@ -89,6 +90,9 @@ public class M00TaskJpaStore implements M00TaskStore {
         }
         if (StringUtil.isNotBlank(status)) {
             taskSpecification.add(new SearchCriteria(STATUS.getFieldName(), status, SearchOperation.MATCH));
+        }
+        if (StringUtil.isNotBlank(empId)) {
+            taskSpecification.add(new SearchCriteria(EMP_ID.getFieldName(), status, SearchOperation.MATCH));
         }
         //TODO:
         if (StringUtil.isNotBlank(planDate)) {
