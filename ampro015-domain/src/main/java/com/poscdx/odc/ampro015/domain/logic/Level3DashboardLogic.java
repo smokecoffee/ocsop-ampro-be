@@ -66,7 +66,8 @@ public class Level3DashboardLogic implements Level3DashboardService {
         if (setting == null) {
             setting = serviceLifecycle.requestPme00DashboardSettingService().register(entity);
         } else {
-            setting = serviceLifecycle.requestPme00DashboardSettingService().modify(entity);
+            setting.setOrder(entity.getOrder());
+            setting = serviceLifecycle.requestPme00DashboardSettingService().modify(setting);
         }
         return (setting != null) ? loadDashboard(serviceLifecycle, empId) : null;
     }
