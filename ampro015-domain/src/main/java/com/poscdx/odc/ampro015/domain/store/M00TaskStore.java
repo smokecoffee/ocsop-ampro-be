@@ -2,7 +2,6 @@ package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
-import com.poscdx.odc.ampro015.domain.spec.TaskSpecification;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

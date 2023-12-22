@@ -25,11 +25,11 @@ public class Pme00TaskResource {
     @CrossOrigin
     @GetMapping(path = "/search")
     public List<M00TaskDto> searchTask(@RequestParam(required = false, name = "projectNumber") String projectNumber,
-                                       @RequestParam(required = false, defaultValue = "", name = "taskName") String taskName,
-                                       @RequestParam(required = false, defaultValue = "", name = "planDate") String planDate,
-                                       @RequestParam(required = false, defaultValue = "", name = "actualEndDate") String actualEndDate,
-                                       @RequestParam(required = false, defaultValue = "", name = "status") String status,
-                                       @RequestParam(required = false, defaultValue = "", name = "empId") String empId,
+                                       @RequestParam(required = false, name = "taskName") String taskName,
+                                       @RequestParam(required = false, name = "planDate") String planDate,
+                                       @RequestParam(required = false, name = "actualEndDate") String actualEndDate,
+                                       @RequestParam(required = false, name = "status") String status,
+                                       @RequestParam(required = false, name = "empId") String empId,
                                        @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                        @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize,
                                        @RequestParam(required = false, defaultValue = "lastUpdateTimestamp", name = "sortBy") String sortBy,
