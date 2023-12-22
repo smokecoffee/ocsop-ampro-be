@@ -58,6 +58,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
             "SELECT DISTINCT \n" +
                 "EMP.EMP_ID \n" +
                 ", EMP.NAME \n" +
+                ", EMP.PHOTO \n" +
             "FROM \n" +
                 "TB_PME00_PROJECT_INFO AS INFO\n" +
             "JOIN \n" +
@@ -70,6 +71,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
             "SELECT DISTINCT \n" +
                 "EMP.EMP_ID \n" +
                 ", EMP.NAME \n" +
+                ", EMP.PHOTO \n" +
             "FROM \n" +
                 "TB_PME00_PROJECT_INFO AS INFO\n" +
             "JOIN \n" +
