@@ -138,6 +138,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             entityMember.setCdVId(dto.getM00Codes030().getCdV());
             entityMember.setEmpId(member.getEmpId());
             entityMember.setEmpName(member.getEmpName());
+            entityMember.setAvatar(member.getAvatar());
 
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
