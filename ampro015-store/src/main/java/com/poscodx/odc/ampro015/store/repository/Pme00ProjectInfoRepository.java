@@ -15,7 +15,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 "E.NAME,\n" +
                 "E.PHOTO\n" +
                 "FROM\n" +
-                "POSCTZN.TB_M00_EMPLOYEE AS E\n" +
+                "TB_M00_EMPLOYEE AS E\n" +
                 "WHERE\n" +
                 "E.END_DATE IS NULL", nativeQuery = true)
     List<Object[]> getActiveEmployee();

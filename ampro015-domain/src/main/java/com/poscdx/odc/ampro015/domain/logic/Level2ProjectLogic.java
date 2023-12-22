@@ -154,12 +154,11 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
+    public boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
 
         // Check project code exists
         if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, id.getCdV())
                  && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
-            // TODO
             // Delete tasks
             List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(id.getCdV());
             M00TaskId taskId = new M00TaskId();
@@ -179,7 +178,11 @@ public class Level2ProjectLogic implements Level2ProjectService {
             id.setCdTpId(ConstantUtil.CD_TP_ID);
             id.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
             serviceLifecycle.requestM00Codes030Service().remove(id);
+
+            return true;
         }
+
+        return false;
     }
 
     @Override

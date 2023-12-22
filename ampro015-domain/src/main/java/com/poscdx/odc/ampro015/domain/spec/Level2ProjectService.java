@@ -13,7 +13,7 @@ public interface Level2ProjectService {
 
     boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
 
-    void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
+    boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
 
     List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto);
 

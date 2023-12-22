@@ -57,8 +57,8 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @DeleteMapping("")
-    public void delete(@RequestBody M00Codes030Id id) throws SQLException {
-        this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
+    public boolean delete(@RequestBody M00Codes030Id id) throws SQLException {
+        return this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
     }
 
     @CrossOrigin
