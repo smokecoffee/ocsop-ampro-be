@@ -5,12 +5,10 @@ import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
 import com.poscodx.odc.ampro015.store.jpo.M00TaskJpo;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscodx.odc.ampro015.store.repository.M00TaskRepository;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,7 +52,9 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, String status, String empId, Pageable pageable) {
-        return this.repository.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate,
+                                              String actualEndDate, String status, String empId, Pageable pageable) {
+        return this.repository.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate)
+                .stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
 }
