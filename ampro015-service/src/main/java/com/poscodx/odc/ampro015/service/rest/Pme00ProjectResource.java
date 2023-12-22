@@ -62,8 +62,8 @@ public class Pme00ProjectResource {
     }
 
     @CrossOrigin
-    @PostMapping("/search-pm-pl")
-    public List<EmployeeDto> getKoreaPM (String type) {
+    @GetMapping("/search-pm-pl/{type}")
+    public List<EmployeeDto> getKoreaPM (@PathVariable("type") String type) {
         if (type.equals("pm")){
             return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
         }
