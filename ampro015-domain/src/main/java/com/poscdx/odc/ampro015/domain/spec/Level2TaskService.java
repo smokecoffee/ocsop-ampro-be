@@ -19,6 +19,6 @@ public interface Level2TaskService {
     void remove(ServiceLifecycle serviceLifecycle, M00TaskId id);
 
     List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                          String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy,
+                                          String planDate, String actualEndDate, String status, String empId, int pageNo, int pageSize, String sortBy,
                                           String sortDirection);
 }

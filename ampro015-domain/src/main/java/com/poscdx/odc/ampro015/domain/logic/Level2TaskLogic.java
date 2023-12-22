@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
+import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
@@ -51,7 +52,7 @@ public class Level2TaskLogic implements Level2TaskService {
         //findAllTask
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(projectNumber);
         //findAllEmplTask
-        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectMumber(projectNumber);
+        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
 
         List<M00TaskDto> responseList = new ArrayList<>();
         //append member to task
@@ -83,19 +84,22 @@ public class Level2TaskLogic implements Level2TaskService {
         M00TaskId requestUpdatedTask = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestUpdatedTask));
 
-        List<Pme00EmployeeTask> pme00EmployeeTasksList = updateTaskRequest.getMembers();
+        List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
             // find existedEmplTask
             M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
-            List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
-            if (!pme00EmployeeTaskList.isEmpty()) {
-                //modify
-                serviceLifecycle.requestPme00EmployeeTaskService().modify(updateTaskRequest.getMembers());
+            if (updateTaskRequest.getMembers().isEmpty()) {
+                remove(serviceLifecycle, requestTaskId);
             } else {
+                List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
+                if (!pme00EmployeeTaskExistedList.isEmpty()) {
+                    removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
+                }
                 //insert new emplTaskList
                 serviceLifecycle.requestPme00EmployeeTaskService().createFromList(updateTaskRequest.getMembers());
             }
+
             // modify info task
             existedTask.get().setCategory(requestTask.getCategory());
             existedTask.get().setTaskExplain(requestTask.getTaskExplain());
@@ -113,7 +117,7 @@ public class Level2TaskLogic implements Level2TaskService {
             // save DB
             M00Task updatedTask = serviceLifecycle.requestTaskService().modify(requestTask);
             M00TaskDto responseUpdateTask = new M00TaskDto();
-            responseUpdateTask.setMembers(pme00EmployeeTasksList);
+            responseUpdateTask.setMembers(pme00EmployeeTasksRequestList);
             responseUpdateTask.setTask(updatedTask);
             return responseUpdateTask;
         }
@@ -165,9 +169,10 @@ public class Level2TaskLogic implements Level2TaskService {
         if (existedTask.isPresent()) {
             //find empTask
             List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestDeleteTaskId);
+
             if (!pme00EmployeeTaskExistedList.isEmpty()) {
                 //remove pmeEmployeeTask
-                serviceLifecycle.requestPme00EmployeeTaskService().removeMultipleEmployeeTaskByTaskId(requestDeleteTaskId.getProjectNumber(), requestDeleteTaskId.getTaskName());
+                removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
             }
             //Delete task
             serviceLifecycle.requestTaskService().remove(requestDeleteTaskId);
@@ -190,24 +195,25 @@ public class Level2TaskLogic implements Level2TaskService {
      */
     @Override
     public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                                 String planDate, String actualEndDate, int pageNo, int pageSize, String sortBy,
+                                                 String planDate, String actualEndDate, String status, String empId, int pageNo, int pageSize, String sortBy,
                                                  String sortDirection) {
-
-        Optional<M00TaskJpoComlumnName> columnSort = M00TaskJpoComlumnName.getColumnName(sortBy);
-        String columnName = columnSort.isPresent() ? columnSort.get().name() : "";
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(columnName).ascending()
-                : Sort.by(columnName).descending();
-
         //create pageable
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable);
-
-        //findAllEmplTask
-        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectMumber(projectNumber);
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, empId, pageable);
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
+        //append member to task
+        if (!m00TaskDtoList.isEmpty()) {
+            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList);
+        }
+        return responseList;
+    }
+
+    private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber, List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList) {
+        //findAllEmplTask
+        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
         //append member to task
         m00TaskDtoList.forEach(m00Task -> {
             M00TaskDto response = new M00TaskDto();
@@ -220,6 +226,24 @@ public class Level2TaskLogic implements Level2TaskService {
             responseList.add(response);
         });
         return responseList;
+    }
+
+    private Pageable createPageable(int pageNo, int pageSize, String sortBy, String sortDirection) {
+        Optional<M00TaskJpoComlumnName> columnSort = M00TaskJpoComlumnName.getColumnName(sortBy);
+        String columnName = columnSort.isPresent() ? columnSort.get().getFieldName() : "";
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(columnName).ascending()
+                : Sort.by(columnName).descending();
+
+        //create pageable
+        return PageRequest.of(pageNo, pageSize, sort);
+    }
+
+    public void removeMultipleEmployeeTask(ServiceLifecycle serviceLifecycle, List<Pme00EmployeeTask> pme00EmployeeTasksRequestList) {
+        pme00EmployeeTasksRequestList.forEach(pme00EmployeeTask -> {
+            M00EmployeeTaskId deleteM00EmployeeTaskId = new M00EmployeeTaskId(pme00EmployeeTask.getProjectNumber(),
+                    pme00EmployeeTask.getTaskName(), pme00EmployeeTask.getEmpId());
+            serviceLifecycle.requestPme00EmployeeTaskService().remove(deleteM00EmployeeTaskId);
+        });
     }
 
 }

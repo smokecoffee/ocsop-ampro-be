@@ -68,10 +68,12 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
             pme00EmployeeTaskJpo.setTaskName(pme00EmployeeTask.getTaskName());
             pme00EmployeeTaskJpo.setEmpId(pme00EmployeeTask.getEmpId());
             pme00EmployeeTaskJpo.setEmpName(StringUtil.defaultIfBlank(pme00EmployeeTask.getEmpName(), ""));
+            pme00EmployeeTaskJpo.setAvatar(StringUtil.defaultIfBlank(pme00EmployeeTask.getAvatar(), ""));
             requestEmployeeTaskJpoList.add(pme00EmployeeTaskJpo);
         });
 
-        List<Pme00EmployeeTaskJpo> responseList = this.repository.saveAll(requestEmployeeTaskJpoList);
+        List<Pme00EmployeeTaskJpo> responseList = new ArrayList<>();
+        this.repository.saveAll(requestEmployeeTaskJpoList);
 
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
     }
@@ -80,10 +82,5 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     public List<Pme00EmployeeTask> retrieveAllByTaskId(M00TaskId reqM00TaskId) {
         List<Pme00EmployeeTaskJpo> responseList = this.repository.findAllByM00TaskId(reqM00TaskId.getProjectNumber(), reqM00TaskId.getTaskName());
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteEmployeeTaskListByTaskId(String projectNumber, String taskName) {
-        this.repository.deleteMultipleRowById(projectNumber, taskName);
     }
 }
