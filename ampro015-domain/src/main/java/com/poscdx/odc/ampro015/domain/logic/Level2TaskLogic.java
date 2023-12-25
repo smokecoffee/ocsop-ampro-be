@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -246,4 +247,24 @@ public class Level2TaskLogic implements Level2TaskService {
         });
     }
 
+    @Override
+    public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String employeeId) {
+        List<Object[]> employeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllEmployeeId(employeeId);
+        List<M00TaskDto> m00TaskDtoList = new ArrayList<>();
+
+        if (employeeTaskList.isEmpty()) {
+            return new ArrayList<M00TaskDto>();
+        } else {
+            for (Object[] obj : employeeTaskList) {
+                M00TaskDto newM00TaskDto = new M00TaskDto();
+                M00Task task = new M00Task(obj);
+                Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
+
+                newM00TaskDto.setTask(task);
+                newM00TaskDto.setMembers(Arrays.asList(member));
+                m00TaskDtoList.add(newM00TaskDto);
+            }
+            return m00TaskDtoList;
+        }
+    }
 }

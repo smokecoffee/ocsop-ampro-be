@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -35,5 +36,21 @@ public class M00Task {
 
     public static M00Task fromJson(String json) {
         return JsonUtil.fromJson(json, M00Task.class);
+    }
+
+    public M00Task(Object[] object) {
+        this.projectNumber = (String) object[0];
+        this.taskName = (String) object[1];
+        this.taskExplain = (String) object[5];
+        this.status = (String) object[6];
+        this.planDate = (Date) object[7];
+        this.actualEndDate = (Date) object[8];
+        this.remark = (String) object[9];
+        this.lastUpdateTimestamp = (Date) object[10];
+        this.lastUpdateId = (String) object[12];
+        this.writer = (String) object[12];
+        this.empId = (String) object[2];
+        this.password = (String) object[13];
+        this.category = (String) object[14];
     }
 }

@@ -21,4 +21,6 @@ public interface Pme00EmployeeTaskStore {
     List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> entity);
 
     List<Pme00EmployeeTask> retrieveAllByTaskId(M00TaskId reqM00TaskId);
+
+    List<Object[]> findAllEmployeeId(String employeeId);
 }

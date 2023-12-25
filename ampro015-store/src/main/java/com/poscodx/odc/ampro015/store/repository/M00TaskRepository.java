@@ -28,12 +28,14 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             " WHERE 1=1 \n"+
             " AND (:projectNumber IS NULL OR t.PROJECT_NUMBER LIKE :projectNumber)\n" +
             " AND (:taskName IS NULL OR t.TASK_NAME LIKE :taskName)\n" +
-            " AND (:planDate IS NULL OR t.PLAN_DATE = :planDate)\n" +
-            " AND (:actualEndDate IS NULL OR t.ACTUAL_END_DATE = :actualEndDate)\n", nativeQuery = true)
+            " AND (:planDate IS NULL OR t.PLAN_DATE LIKE :planDate)\n" +
+            " AND (:actualEndDate IS NULL OR t.ACTUAL_END_DATE LIKE :actualEndDate)\n" +
+            " AND (:status IS NULL OR t.STATUS = :status)\n", nativeQuery = true)
     List<M00TaskJpo> findTaskByConditions(@Param("projectNumber") String projectNumber,
                                           @Param("taskName") String taskName,
                                           @Param("planDate") String planDate,
-                                          @Param("actualEndDate") String actualEndDate);
+                                          @Param("actualEndDate") String actualEndDate,
+                                          @Param("status") String status);
 
     List<M00TaskJpo> findAllByProjectNumberContains(String projectNumber);
 
