@@ -7,7 +7,9 @@ import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -112,5 +114,26 @@ public class A01Resource {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
 
         this.serviceLifecycle.requestLevel2QrCodeService().exportExcel(serviceLifecycle, response, assetSearch);
+    }
+
+    /**
+     *
+     * @param response
+     * @param token
+     * @throws IOException
+     */
+    @CrossOrigin
+    @GetMapping("/export-QRCode")
+    public ResponseEntity<byte[]> exportToExcel1(HttpServletResponse response, @RequestParam(value = "token", required = true) String token) throws IOException{
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String currentDate = dateFormat.format(new Date());
+        String filename = "QRCode-" + currentDate + ".png";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, no-cache");
+
+        byte[] imageData = this.serviceLifecycle.requestLevel2QrCodeService().exportQRCode(serviceLifecycle, response, token);
+        return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
     }
 }

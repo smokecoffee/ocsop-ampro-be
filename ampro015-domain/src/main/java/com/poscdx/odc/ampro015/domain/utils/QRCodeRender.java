@@ -6,6 +6,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.poscdx.odc.ampro015.domain.entity.Asset;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 
@@ -15,9 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
 
 public class QRCodeRender {
     String qrcodeDomain = "http://localhost:3000/web/challenge/AMPRO002VIEW.do/?token=";
@@ -113,5 +112,16 @@ public class QRCodeRender {
 //        System.out.println("Url QrCode : " + urlQRCode);
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] QrCode render -> " + urlQRCode, this);
         return "data:image/png;base64," + imageString;
+    }
+
+    public byte[] exportQRCodeImage(Asset asset) {
+        byte[] imageData = new byte[0];
+        if (asset != null && !asset.getQrcode().isEmpty()) {
+            String pngImageURL = (String) asset.getQrcode();
+            String encodingPrefix = "base64,";
+            int contentStartIndex = ((String) asset.getQrcode()).indexOf(encodingPrefix) + encodingPrefix.length();
+            imageData = org.apache.commons.codec.binary.Base64.decodeBase64(pngImageURL.substring(contentStartIndex));
+        }
+        return imageData;
     }
 }

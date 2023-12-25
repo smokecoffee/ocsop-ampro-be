@@ -22,4 +22,6 @@ public interface Level2QrCodeService {
     void deleteAsset(ServiceLifecycle serviceLifecycle, String token, int userId);
 
     ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request);
+
+    byte[] exportQRCode(ServiceLifecycle serviceLifecycle, HttpServletResponse response, String token) throws IOException;
 }

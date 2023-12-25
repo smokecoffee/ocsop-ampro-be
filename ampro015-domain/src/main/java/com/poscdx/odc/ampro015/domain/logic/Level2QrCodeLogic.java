@@ -177,4 +177,17 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
         return response;
     }
 
+    @Override
+    public byte[] exportQRCode(ServiceLifecycle serviceLifecycle, HttpServletResponse response, String token) throws IOException {
+        byte[] imageData = new byte[0];
+        if (StringUtils.isNotBlank(token)) {
+            Asset asset = serviceLifecycle.requestAssetService().findByToken(token);
+            if (Objects.nonNull(asset)) {
+                QRCodeRender qrCodeRender = new QRCodeRender();
+                imageData = qrCodeRender.exportQRCodeImage(asset);
+            }
+        }
+        return imageData;
+    }
+
 }
