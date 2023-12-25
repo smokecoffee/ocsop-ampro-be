@@ -22,4 +22,6 @@ public interface Pme00EmployeeTaskService {
     void remove(M00EmployeeTaskId m00EmployeeTaskId);
 
     List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> entity);
+
+    List<Object[]> findAllEmployeeId(String employeeId);
 }

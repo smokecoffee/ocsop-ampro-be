@@ -46,6 +46,13 @@ public class Pme00TaskResource {
     }
 
     @CrossOrigin
+    @GetMapping(path = "/getByEmployeeId")
+    public List<M00TaskDto> findByEmployeeId(@RequestParam(value = "employeeId") String employeeId) {
+        List<M00TaskDto> response = this.serviceLifecycle.requestLevel2TaskService().findTaskByEmployeeId(serviceLifecycle, employeeId);
+        return response;
+    }
+
+    @CrossOrigin
     @PostMapping("")
     public M00TaskDto insertTask(@RequestBody M00TaskDto newTaskRequest) {
         Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest));
