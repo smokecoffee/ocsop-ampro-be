@@ -39,7 +39,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
         if(flagCheckMeetingIdOfM00Codes020>0&&checkDateInput) {
             if (count1 == 0) {
                 try {
-
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
                     responseEntity.setStatus(HttpStatus.OK.value());
                     responseEntity.setMessage("The meeting has been created successfully");
