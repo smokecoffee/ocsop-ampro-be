@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;
 import com.poscdx.odc.ampro015.domain.spec.Pme00MeetingService;
 import com.poscdx.odc.ampro015.domain.store.Pme00MeetingStore;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,11 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
 
     @Override
     public List<Pme00Meeting> findByEndDate() {
-        return this.store.findByEndDate();
+        List<Pme00Meeting> meetingList = new ArrayList<>();
+        meetingList.addAll(this.store.findByEndDate(65));
+        meetingList.addAll(this.store.findByEndDate(66));
+        meetingList.addAll(this.store.findByEndDate(67));
+        return meetingList;
     }
 
 
