@@ -57,4 +57,10 @@ public class M00TaskJpaStore implements M00TaskStore {
         return this.repository.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, empId, category)
                 .stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId) {
+        List<Object[]> responseList = this.repository.findAllByEmpId(projectNumber, taskName, status, employeeId);
+        return responseList;
+    }
 }

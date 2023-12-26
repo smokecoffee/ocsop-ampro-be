@@ -250,8 +250,9 @@ public class Level2TaskLogic implements Level2TaskService {
     }
 
     @Override
-    public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String employeeId) {
-        List<Object[]> employeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllEmployeeId(employeeId);
+    public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber,
+                                                 String taskName, String status, String employeeId) {
+        List<Object[]> employeeTaskList = serviceLifecycle.requestTaskService().findAllEmployeeId(projectNumber, taskName, status, employeeId);
         List<M00TaskDto> m00TaskDtoList = new ArrayList<>();
 
         if (employeeTaskList.isEmpty()) {

@@ -22,5 +22,5 @@ public interface Level2TaskService {
                                           String planDate, String actualEndDate, String status, String empId, String category,
                                           int pageNo, int pageSize, String sortBy, String sortDirection);
 
-    List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String employeeId);
+    List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String status, String employeeId);
 }

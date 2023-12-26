@@ -43,5 +43,30 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
 
     List<M00TaskJpo> findAllByProjectNumberContains(String projectNumber);
 
-    Optional<M00TaskJpo> findByProjectNumberContainsAndTaskNameContains(String projectNumber, String taskName);
+    @Query(value = "SELECT \n " +
+            "emp.PROJECT_NUMBER, \n"+
+            "emp.TASK_NAME, \n"+
+            "emp.EMP_ID, \n"+
+            "emp.EMP_NAME, \n"+
+            "emp.AVATAR, \n"+
+            "t.TASK_EXPLAIN, \n"+
+            "t.STATUS, \n"+
+            "t.PLAN_DATE, \n"+
+            "t.ACTUAL_END_DATE, \n"+
+            "t.REMARK, \n"+
+            "t.LAST_UPDATE_TIMESTAMP, \n"+
+            "t.LAST_UPDATE_ID, \n"+
+            "t.WRITER, \n"+
+            "t.PASSWORD, \n"+
+            "t.CATEGORY \n" +
+            "FROM tb_m00_task AS t \n"
+            +" JOIN tb_pme00_employee_task AS emp ON t.PROJECT_NUMBER = emp.PROJECT_NUMBER and t.TASK_NAME = emp.TASK_NAME \n"
+            +" WHERE emp.EMP_ID = :employeeId \n "
+            +" AND (:projectNumber IS NULL OR t.PROJECT_NUMBER LIKE :projectNumber)\n"
+            +" AND (:taskName IS NULL OR t.TASK_NAME LIKE CONCAT('%',:taskName, '%'))\n"
+            +" AND (:status IS NULL OR t.STATUS = :status) \n", nativeQuery = true)
+    List<Object[]> findAllByEmpId(@Param("projectNumber") String projectNumber,
+                                  @Param("taskName") String taskName,
+                                  @Param("status") String status,
+                                  @Param("employeeId") String employeeId);
 }

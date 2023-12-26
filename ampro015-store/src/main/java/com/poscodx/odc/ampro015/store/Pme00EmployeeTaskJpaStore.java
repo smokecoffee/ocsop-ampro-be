@@ -83,11 +83,4 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
         List<Pme00EmployeeTaskJpo> responseList = this.repository.findAllByM00TaskId(reqM00TaskId.getProjectNumber(), reqM00TaskId.getTaskName());
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
     }
-
-
-    @Override
-    public List<Object[]> findAllEmployeeId(String employeeId) {
-        List<Object[]> responseList = this.repository.findAllEmployeeId(employeeId);
-        return responseList;
-    }
 }

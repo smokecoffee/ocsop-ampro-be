@@ -21,4 +21,6 @@ public interface M00TaskService {
 
     List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate,
                                        String actualEndDate, String status, String empId, String category, Pageable pageable);
+
+    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId);
 }
