@@ -70,10 +70,4 @@ public class Pme00MeetingResource {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
 
-    @GetMapping("/findMeetingByEndDate")
-    @CrossOrigin
-    public Pme00AllMeetingResponse findMeetingRoomByEndDate() throws ParseException {
-        return this.serviceLifecycle.requestBookingMeetingRoomService().findMeetingRoomByEndDate(serviceLifecycle);
-    }
-
 }

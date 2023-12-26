@@ -21,5 +21,4 @@ public interface Level2MeetingService {
 
     Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle);
 
-    Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle) throws ParseException;
 }

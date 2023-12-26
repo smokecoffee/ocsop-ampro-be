@@ -154,69 +154,20 @@ public class Level2MeetingLogic implements Level2MeetingService {
     }
     @Override
     public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
-
         Pme00AllMeetingResponse responseEntitys = new Pme00AllMeetingResponse();
-
         List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
         for(int i=0;i< pme00MeetingList.size();i++){
             int meetingId = pme00MeetingList.get(i).getMeetingId();
             pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
                     .findByMeetingId(meetingId));
+            pme00MeetingList.get(i).setEmpNameList(pme00MeetingList.get(i).getListMember().stream()
+                                                                          .map(Pme00EmployeeMeeting::getEmpName)
+                                                                          .collect(Collectors.toList()));
+
         }
         responseEntitys.setStatus(HttpStatus.OK.value());
         responseEntitys.setListData(pme00MeetingList);
         responseEntitys.setMessage("Get all meeting successfully");
-        return responseEntitys;
-    }
-
-    @Override
-    public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle serviceLifecycle) throws ParseException {
-
-        Pme00AllMeetingResponse responseEntitys = new Pme00AllMeetingResponse();
-
-        Date dateNow = java.util.Calendar.getInstance().getTime();
-        //format current date to standard
-        SimpleDateFormat formatDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        String dateToStr = formatDateNow.format(dateNow);
-        //convert current date to type String
-        SimpleDateFormat dateFormatStrToDate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        Date dateNowToDate = dateFormatStrToDate1.parse(dateToStr);
-        //get date now only date, not time
-        DateFormat dateFormatDateToStr = new SimpleDateFormat("yyyy-MM-dd");
-        String dateToStringOnlyDate = dateFormatDateToStr.format(dateNow);
-        //set time finish in current date
-        SimpleDateFormat dateFormatStrToDate2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        String strToDate = dateToStringOnlyDate + " 23:59:00.000";
-        Date formatStrtoDate = dateFormatStrToDate2.parse(strToDate);
-
-        List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
-
-        //get list meeting by endDate at current date
-        for(int i=0;i< pme00MeetingList.size();i++){
-            boolean timeCheck = (pme00MeetingList.get(i).getEndTime().compareTo(dateNowToDate)>0)
-                    &&(pme00MeetingList.get(i).getEndTime().compareTo(formatStrtoDate)<0);
-            if(timeCheck){
-            int meetingId = pme00MeetingList.get(i).getMeetingId();
-            pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
-                    .findByMeetingId(meetingId));}
-        }
-
-        List<Pme00Meeting> tmp = pme00MeetingList
-                .stream()
-                .filter(i -> i.getListMember() != null && !i.getListMember().isEmpty())
-                .collect(Collectors.toList());
-
-        responseEntitys.setStatus(HttpStatus.OK.value());
-        boolean timecheck1 = false;
-        for(int j = 0; j<tmp.size(); j++){
-            timecheck1 = (tmp.get(j).getEndTime().compareTo(dateNowToDate)>0)
-                    &&(tmp.get(j).getEndTime().compareTo(formatStrtoDate)<0);
-
-        }
-        if(timecheck1){
-            responseEntitys.setListData(tmp);
-        }
-        responseEntitys.setMessage("Get all meeting by endDate successfully");
         return responseEntitys;
     }
 }
