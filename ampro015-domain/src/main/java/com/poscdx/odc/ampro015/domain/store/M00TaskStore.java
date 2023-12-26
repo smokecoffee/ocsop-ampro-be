@@ -17,5 +17,8 @@ public interface M00TaskStore {
 
     List<M00Task> retrieveAll(String projectNumber);
 
-    List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, String status, String empId, Pageable pageable);
+    List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate,
+                                       String status, String empId, String category, Pageable pageable);
+
+    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId);
 }
