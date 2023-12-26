@@ -32,6 +32,9 @@ public class AssetJpo extends PoscoEntityJpo {
     @Column(name = "OWNER")
     private String owner;
 
+    @Column(name = "EMP_ID")
+    private String empId;
+
     @Column(name = "DURATION")
     private int duration;
 
