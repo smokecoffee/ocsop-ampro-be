@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/project")
@@ -32,15 +33,18 @@ public class Pme00ProjectResource {
      */
     @CrossOrigin
     @PostMapping("/search")
-    public List<ProjectManagementDto> findProjectList(@RequestBody ProjectManagementDto dto) {
+    public Map<String, Object> findProjectList(@RequestBody ProjectManagementDto dto,
+                                               @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
+                                               @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
-        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, dto);
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, dto, pageNo, pageSize);
     }
 
     @CrossOrigin
     @GetMapping(path = "/monitoring")
-    public List<ProjectManagementDto> findAllProjectMonitoring() {
-        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle);
+    public List<ProjectManagementDto> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
+                                                               @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, pageNo, pageSize);
     }
 
     @CrossOrigin

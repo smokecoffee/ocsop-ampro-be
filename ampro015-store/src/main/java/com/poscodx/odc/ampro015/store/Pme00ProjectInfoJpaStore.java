@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00ProjectInfoJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00ProjectInfoRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -53,9 +54,8 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
 
     @Override
     public List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
-                                                  String framework, String status, Date startDate, Date endDate){
-        return this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate
-        );
+                                          String framework, String status, Date startDate, Date endDate, Pageable pageable){
+        return this.repository.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
     }
     public List<Object[]> getTaskStatus() {
         return this.repository.getTaskStatus();
@@ -70,5 +70,11 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     @Override
     public List<Object[]> getVietnamPL() {
         return this.repository.getVietnamPL();
+    }
+
+    @Override
+    public int getCountProject(String cdV, int period, String koreaPM, String vietnamPL,
+                               String framework, String status, Date startDate, Date endDate){
+        return this.repository.countProject(cdV, period, koreaPM, vietnamPL,framework, status, startDate, endDate);
     }
 }

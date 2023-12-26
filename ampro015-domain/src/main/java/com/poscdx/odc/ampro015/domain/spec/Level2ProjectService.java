@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface Level2ProjectService {
 
@@ -15,8 +16,8 @@ public interface Level2ProjectService {
 
     boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
 
-    List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto);
+    Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize);
 
-    List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle);
+    List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle, int pageNo, int pageSize);
 
 }

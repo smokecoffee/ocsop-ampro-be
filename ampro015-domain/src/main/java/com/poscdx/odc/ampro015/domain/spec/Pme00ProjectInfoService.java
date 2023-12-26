@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
+import org.springframework.data.domain.Pageable;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -25,11 +26,14 @@ public interface Pme00ProjectInfoService {
     List<EmployeeDto> getActiveEmployee();
 
     List<Pme00ProjectInfo> findProjectInfo (String cdV, int period, String koreaPM, String vietnamPL,
-                                            String framework, String status, Date startDate, Date endDate);
+                                            String framework, String status, Date startDate, Date endDate, Pageable pageable);
 
     List<TaskStatusDto> getTaskStatus();
 
     List<EmployeeDto> getKoreaPM();
 
     List<EmployeeDto> getVietnamPL();
+
+    int getCountProject(String cdV, int period, String koreaPM, String vietnamPL,
+                     String framework, String status, Date startDate, Date endDate);
 }
