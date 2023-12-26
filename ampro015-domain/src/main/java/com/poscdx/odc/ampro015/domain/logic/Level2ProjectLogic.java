@@ -247,7 +247,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 newObject.setPme00ProjectInfo(pme00ProjectInfo);
 
                 //Get task list
-                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle,
+                        pme00ProjectInfo.getCdV(), null, null, null, null, null,
+                        0, 20, "lastUpdateTimestamp", "ASC");
 
                 //Set member list
                 List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
