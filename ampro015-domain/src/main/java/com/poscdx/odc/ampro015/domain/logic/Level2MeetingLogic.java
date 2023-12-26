@@ -153,6 +153,10 @@ public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle)
         int meetingId = pme00MeetingList.get(i).getMeetingId();
         pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
                 .findByMeetingId(meetingId));
+        pme00MeetingList.get(i).setEmpNameList(pme00MeetingList.get(i).getListMember().stream()
+                                                                      .map(Pme00EmployeeMeeting::getEmpName)
+                                                                      .collect(Collectors.toList()));
+
     }
     result.setStatus(HttpStatus.OK.value());
     result.setListData(pme00MeetingList);
@@ -172,6 +176,9 @@ public Pme00AllMeetingResponse findMeetingRoomByEndDate(ServiceLifecycle service
         int meetingId = pme00MeetingList.get(i).getMeetingId();
         pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
                 .findByMeetingId(meetingId));
+        pme00MeetingList.get(i).setEmpNameList(pme00MeetingList.get(i).getListMember().stream()
+                .map(Pme00EmployeeMeeting::getEmpName)
+                .collect(Collectors.toList()));
     }
     return result;
 }

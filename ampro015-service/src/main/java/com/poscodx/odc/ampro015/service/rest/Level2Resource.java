@@ -18,11 +18,13 @@ public class Level2Resource {
      * @return
      */
     @GetMapping("/render-qrcode")
+    @CrossOrigin
     public String renderQRcode() {
         return this.serviceLifecycle.requestLevel2Service().renderQRcode("KHUGNSH6CCDS");
     }
 
     @GetMapping(path = "/getActiveEmp")
+    @CrossOrigin
     public List<EmployeeDto> getActiveEmployee() {
         return this.serviceLifecycle.requestPme00ProjectInfoService().getActiveEmployee();
     }

@@ -25,6 +25,8 @@ public class Pme00Meeting {
     private String status;
     private String description;
     private List<Pme00EmployeeMeeting> listMember;
+    private List<String> empNameList;
+
 
     public String toJson() {
         return JsonUtil.toJson(this);
