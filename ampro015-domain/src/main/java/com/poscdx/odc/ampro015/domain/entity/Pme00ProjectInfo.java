@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
@@ -26,7 +27,6 @@ public class Pme00ProjectInfo {
     private String koreaPmName;
     private String vietnamPlName;
 
-
     public String toJson() {
         return JsonUtil.toJson(this);
     }
@@ -45,7 +45,7 @@ public class Pme00ProjectInfo {
         this.framework = (String) objects[5];
         this.startDate = (Date) objects[6];
         this.endDate = (Date) objects[7];
-        this.image = (String) objects[8];
+        this.image = ((String) objects[8]).isEmpty() ? null : Constants.UPLOAD_FILE_PATH + (String) objects[8];
         this.koreaPmName = (String) objects[9];
         this.vietnamPlName = (String) objects[10];
     }

@@ -58,6 +58,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         entityInfo.setVietnamPl(dto.getPme00ProjectInfo().getVietnamPl());
         entityInfo.setStatus(dto.getPme00ProjectInfo().getStatus());
         entityInfo.setFramework(dto.getPme00ProjectInfo().getFramework());
+        entityInfo.setImage(dto.getPme00ProjectInfo().getImage());
 
         serviceLifecycle.requestPme00ProjectInfoService().register(entityInfo);
 
@@ -122,6 +123,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         entityInfo.setVietnamPl(dto.getPme00ProjectInfo().getVietnamPl());
         entityInfo.setStatus(dto.getPme00ProjectInfo().getStatus());
         entityInfo.setFramework(dto.getPme00ProjectInfo().getFramework());
+        entityInfo.setImage(dto.getPme00ProjectInfo().getImage());
         lstProjectInfo.add(entityInfo);
 
         serviceLifecycle.requestPme00ProjectInfoService().modify(lstProjectInfo);
