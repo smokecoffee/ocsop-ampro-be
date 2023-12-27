@@ -21,6 +21,10 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00ProjectInfoService pme00ProjectInfoService;
     private final Pme00AnnouncementService pme00AnnouncementService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
+    private final Pme00RoleService pme00RoleService;
+    private final Pme00RoleUserService pme00RoleUserService;
+    private final Pme00PermissionService pme00PermissionService;
+    private final Pme00PerRoleService pme00PerRoleService;
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
 
@@ -85,6 +89,26 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Level2TaskService requestLevel2TaskService() {
         return this.level2TaskService;
+    }
+
+    @Override
+    public Pme00RoleService requestPme00RoleService() {
+        return this.pme00RoleService;
+    }
+
+    @Override
+    public Pme00RoleUserService requestPme00RoleUserService() {
+        return this.pme00RoleUserService;
+    }
+
+    @Override
+    public Pme00PermissionService requestPme00PermissionService() {
+        return this.pme00PermissionService;
+    }
+
+    @Override
+    public Pme00PerRoleService requestPme00PerRoleService() {
+        return this.pme00PerRoleService;
     }
 
     @Override
