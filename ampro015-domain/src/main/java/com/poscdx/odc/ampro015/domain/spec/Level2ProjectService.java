@@ -18,6 +18,6 @@ public interface Level2ProjectService {
 
     Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize);
 
-    List<ProjectManagementDto> getProjectList (ServiceLifecycle serviceLifecycle, int pageNo, int pageSize);
+    Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, int pageNo, int pageSize);
 
 }
