@@ -236,7 +236,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
      * @return
      */
     @Override
-    public List<ProjectManagementDto> getProjectList(ServiceLifecycle serviceLifecycle, int pageNo, int pageSize) {
+    public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, int pageNo, int pageSize) {
 
         List<ProjectManagementDto> result = new ArrayList<>();
 
@@ -284,7 +284,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
             }
         }
 
-        return result;
+        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(null,0, null,
+                null, null, null, null, null);
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("total", total);
+        rs.put("info", result);
+        return rs;
     }
 
     /**

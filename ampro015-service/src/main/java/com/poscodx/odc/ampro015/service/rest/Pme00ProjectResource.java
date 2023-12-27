@@ -42,8 +42,8 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @GetMapping(path = "/monitoring")
-    public List<ProjectManagementDto> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
-                                                               @RequestParam(required = false, defaultValue = "999", name = "pageSize") int pageSize) {
+    public Map<String, Object> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
+                                                        @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, pageNo, pageSize);
     }
 
