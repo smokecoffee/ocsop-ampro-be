@@ -1,19 +1,6 @@
 package com.poscdx.odc.ampro015.domain.lifecycle;
 
-import com.poscdx.odc.ampro015.domain.spec.AssetService;
-import com.poscdx.odc.ampro015.domain.spec.FieldService;
-import com.poscdx.odc.ampro015.domain.spec.ImageService;
-import com.poscdx.odc.ampro015.domain.spec.Level2QrCodeService;
-import com.poscdx.odc.ampro015.domain.spec.Level2Service;
-import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
-import com.poscdx.odc.ampro015.domain.spec.M00Codes030Service;
-import com.poscdx.odc.ampro015.domain.spec.M00TaskService;
-import com.poscdx.odc.ampro015.domain.spec.Pme00AnnouncementService;
-import com.poscdx.odc.ampro015.domain.spec.Pme00EmployeeMeetingService;
-import com.poscdx.odc.ampro015.domain.spec.Pme00EmployeeTaskService;
-import com.poscdx.odc.ampro015.domain.spec.Pme00MeetingService;
-import com.poscdx.odc.ampro015.domain.spec.Pme00MemberService;
-import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
+import com.poscdx.odc.ampro015.domain.spec.*;
 
 public interface ServiceLifecycle {
     Level2Service requestLevel2Service();
@@ -36,4 +23,8 @@ public interface ServiceLifecycle {
     Level2QrCodeService requestLevel2QrCodeService();
 
     Level2TaskService requestLevel2TaskService();
+    Pme00RoleService requestPme00RoleService();
+    Pme00RoleUserService requestPme00RoleUserService();
+    Pme00PermissionService requestPme00PermissionService();
+    Pme00PerRoleService requestPme00PerRoleService();
 }
