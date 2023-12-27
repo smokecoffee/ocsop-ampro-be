@@ -257,7 +257,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
                 //Get task list
                 List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle,
-                        pme00ProjectInfo.getCdV(), null, null, null, null, null,
+                        pme00ProjectInfo.getCdV(), null, null, null, null, null, null,
                         0, 20, "lastUpdateTimestamp", "ASC");
 
                 //Set member list
