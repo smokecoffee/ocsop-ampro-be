@@ -92,7 +92,17 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @DeleteMapping("")
-    public void deleteTask(@RequestBody Map<String, Object> m00TaskId) {
-        this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId);
+    public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
+        boolean isDeleteSuccess = this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId);
+        Map<String, Object> response = new HashMap<>();
+        if (isDeleteSuccess) {
+            response.put("code", HttpStatus.OK.value());
+            response.put("message", "Delete success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", "Password incorrect!!");
+            response.put("code", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

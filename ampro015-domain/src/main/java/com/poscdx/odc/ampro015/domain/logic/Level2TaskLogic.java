@@ -180,7 +180,7 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param requestDeleteTaskId
      */
     @Override
-    public void remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId) {
+    public boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId) {
         String requestProjectNumber = (String) requestDeleteTaskId.get(PROJECT_NUMBER_FIELD);
         String requestTaskName = (String) requestDeleteTaskId.get(TASK_NAME_FIELD);
         String requestOwnerTaskId = (String) requestDeleteTaskId.get(EMPLOYEE_ID_FIELD);
@@ -197,7 +197,7 @@ public class Level2TaskLogic implements Level2TaskService {
 
             if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
                     && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
-                return;
+                return false;
             }
             //find empTask
             List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(deleteTaskId);
@@ -208,7 +208,9 @@ public class Level2TaskLogic implements Level2TaskService {
             }
             //Delete task
             serviceLifecycle.requestTaskService().remove(deleteTaskId);
+            return true;
         }
+        return false;
     }
 
     /**
