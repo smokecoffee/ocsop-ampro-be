@@ -1,15 +1,18 @@
 package com.poscodx.odc.ampro015.store.repository;
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse; <--- not use, pls remove
 import com.poscodx.odc.ampro015.store.jpo.Pme00MeetingJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
-import java.util.List;
+import java.util.List;<--- not use, pls remove
 
+
+        add comment
 public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, Integer> {
 
+    add comment
     @Query(value = "SELECT *\n" +
                    "FROM tb_pme00_meeting f\n" +
                    "WHERE 1=1\n" +
@@ -21,9 +24,6 @@ public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, I
                          "AND f.REQUESTER_ID LIKE CONCAT('%',:requesterId,'%')\n" +
                          "AND f.CATEGORY_MEETING LIKE CONCAT('%',:categoryMeeting,'%')\n" +
                          "AND f.STATUS LIKE CONCAT('%',:status,'%')\n", nativeQuery = true)
-
-
-
     Iterable<Pme00MeetingJpo> findAllByAssetId(@Param("cd_tp_id") Integer cd_tp_id,
                                                @Param("title") String title,
                                                @Param("startTime") String startTime,
@@ -35,6 +35,7 @@ public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, I
                                                );
 
 
+    add comment
     @Query(value = "SELECT count(MEETING_ID)\n" +
             "FROM tb_pme00_meeting \n" +
             "WHERE CD_TP_ID = :cdTpId " +

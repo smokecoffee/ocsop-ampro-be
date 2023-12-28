@@ -6,9 +6,9 @@ import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 import java.util.*;
 import java.util.stream.Collectors;
-
+add comment info
 public class Level2MeetingLogic implements Level2MeetingService {
-
+    add comment info
     @Override
     public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting){
 
@@ -73,13 +73,15 @@ public class Level2MeetingLogic implements Level2MeetingService {
         }
         return responseEntity;
     }
+
+    add comment info
     @Override
     public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId) {
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
         Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
         List<Pme00EmployeeMeeting> listMember = serviceLifecycle.requestPme00EmployeeMeetingService()
                 .findByMeetingId(meetingId);
-        if(findMeeting==null) {
+        if(findMeeting == null) {
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
             responseEntity.setData(null);
             responseEntity.setMessage("This meeting room could not be found");
@@ -91,13 +93,15 @@ public class Level2MeetingLogic implements Level2MeetingService {
         }
         return responseEntity;
     }
+
+    add comment info
     @Override
     public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
 
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
 
         Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
-        if(findMeeting==null){
+        if(findMeeting == null){
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
             responseEntity.setMessage("This meeting room could not be found");
         }else{
@@ -114,6 +118,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return responseEntity;
     }
 
+    add comment info
     @Override
     public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
 
@@ -148,6 +153,8 @@ public class Level2MeetingLogic implements Level2MeetingService {
         }
         return responseEntity;
     }
+
+    add comment info
     @Override
     public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
         Pme00AllMeetingResponse responseEntitys = new Pme00AllMeetingResponse();

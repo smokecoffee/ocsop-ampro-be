@@ -11,25 +11,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+add comment
 @Repository
 public class Pme00MeetingJpaStore implements Pme00MeetingStore {
     private final Pme00MeetingRepository repository;
 
+    add comment
     public Pme00MeetingJpaStore(Pme00MeetingRepository repository) {
         this.repository = repository;
     }
 
+    add comment
     @Override
     public Pme00Meeting retrieve(int id) {
         Optional<Pme00MeetingJpo> retVal = this.repository.findById(id);
         return retVal.map(Pme00MeetingJpo::toDomain).orElse(null);
     }
 
+    add comment
     @Override
     public List<Pme00Meeting> retrieveAll() {
         return Pme00MeetingJpo.toDomains(this.repository.findAll());
     }
 
+    add comment
     @Override
     public Pme00Meeting update(Pme00Meeting pme00Meeting) {
         Pme00MeetingJpo jpoToUpdate = new Pme00MeetingJpo(pme00Meeting);
@@ -37,21 +42,25 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
         return updatedJpo.toDomain();
     }
 
+    add comment
     @Override
     public Pme00Meeting create(Pme00Meeting entity) {
         return this.repository.save(new Pme00MeetingJpo(entity)).toDomain();
     }
 
+    add comment
     @Override
     public void delete(int id) {
         this.repository.deleteById(id);
     }
 
+    add comment
     @Override
     public List<Pme00Meeting> findAllByAssetId(Integer cd_tp_id, String title, String startTime, String endTime, String creatorId, String requesterId, String categoryMeeting, String status) {
         return Pme00MeetingJpo.toDomains(this.repository.findAllByAssetId(cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status));
     }
 
+    add comment
     @Override
     public int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate) {
         return this.repository.findMetingByStartAndEnd(cdTpId, startDate, endDate);

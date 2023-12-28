@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
+add comment info
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/meeting")
@@ -18,30 +19,35 @@ public class Pme00MeetingResource {
     @Autowired
     private final ServiceLifecycler serviceLifecycle;
 
+    add comment info
     @GetMapping("/")
     @CrossOrigin
     public Pme00AllMeetingResponse getListMeeting() {
         return this.serviceLifecycle.requestBookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
 
+    add comment info
     @DeleteMapping("/{meetingId}")
     @CrossOrigin
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
 
+    add comment info
     @PostMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) throws ParseException {
        return this.serviceLifecycle.requestBookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
     }
 
+    add comment info
     @GetMapping("/{id}")
     @CrossOrigin
     public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
        return this.serviceLifecycle.requestBookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
     }
 
+    add comment info
     @GetMapping("/search")
     @CrossOrigin
     public List<Pme00Meeting> searchListMeetings(
@@ -64,6 +70,7 @@ public class Pme00MeetingResource {
                                 status);
     }
 
+    add comment info
     @PutMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
