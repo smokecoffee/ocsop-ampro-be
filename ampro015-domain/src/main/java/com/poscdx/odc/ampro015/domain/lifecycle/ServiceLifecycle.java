@@ -22,4 +22,8 @@ public interface ServiceLifecycle {
     Level2ProjectService requestLevel2ProjectService();
     Level2QrCodeService requestLevel2QrCodeService();
     Level2TaskService requestLevel2TaskService();
+    Pme00RoleService requestPme00RoleService();
+    Pme00RoleUserService requestPme00RoleUserService();
+    Pme00PermissionService requestPme00PermissionService();
+    Pme00PerRoleService requestPme00PerRoleService();
 }

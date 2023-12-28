@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,4 +26,6 @@ public interface Level2Service {
 
     ResponseEntity<?> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request);
 
+
+    String uploadFile(String serviceName, MultipartFile image);
 }

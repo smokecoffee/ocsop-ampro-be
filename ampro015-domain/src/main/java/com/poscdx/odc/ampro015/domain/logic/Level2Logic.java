@@ -13,6 +13,13 @@ import org.springframework.http.ResponseEntity;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import com.poscdx.odc.ampro015.domain.utils.Constants;
+import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class Level2Logic implements Level2Service {
 
@@ -21,6 +28,7 @@ public class Level2Logic implements Level2Service {
         QRCodeRender qrCodeRender = new QRCodeRender();
         return qrCodeRender.generateEmbeddedQRCodenBase64(token);
     }
+
     /**
      * @param serviceLifecycle ServiceLifecycle
      * @param assetInfoDto     AssetInfoDto
@@ -184,5 +192,10 @@ public class Level2Logic implements Level2Service {
             response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return response;
+    }
+
+    @Override
+    public String uploadFile(String serviceName, MultipartFile image) {
+        return null;
     }
 }
