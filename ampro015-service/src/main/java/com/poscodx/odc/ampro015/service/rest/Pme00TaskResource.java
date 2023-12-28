@@ -6,8 +6,11 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -73,12 +76,18 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @PutMapping("")
-    public M00TaskDto updateTask(@RequestBody M00TaskDto newTaskRequest) throws JsonProcessingException {
+    public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) throws JsonProcessingException {
         Optional<M00TaskDto> updatedTask = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest));
-        if(updatedTask.isPresent()){
-            return updatedTask.get();
+        Map<String, Object> response = new HashMap<>();
+        if (updatedTask.isPresent()) {
+            response.put("code", HttpStatus.OK.value());
+            response.put("message", "update success");
+            response.put("data", updatedTask.get());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-        return new M00TaskDto();
+        response.put("message", "Password incorrect!!");
+        response.put("code", HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @CrossOrigin
