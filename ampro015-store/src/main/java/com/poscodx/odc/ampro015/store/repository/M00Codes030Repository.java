@@ -24,7 +24,7 @@ public interface M00Codes030Repository extends JpaRepository<M00Codes030Jpo, M00
             "FROM \n" +
                 "TB_M00_CODES030 \n" +
             "WHERE  1= 1 \n" +
-                "AND (:cdV IS NULL OR (CD_V LIKE CONCAT('%', :cdV)))\n" +
-                "AND (:meaning IS NULL OR (CD_V_MEANING LIKE CONCAT('%', :meaning)))", nativeQuery = true)
+                "AND (:cdV IS NULL OR (CD_V LIKE CONCAT('%', :cdV, '%')))\n" +
+                "AND (:meaning IS NULL OR (CD_V_MEANING LIKE CONCAT('%', :meaning, '%')))", nativeQuery = true)
     List<M00Codes030Jpo> findM00Codes030(@Param("cdV") String cdV, @Param("meaning") String meaning);
 }
