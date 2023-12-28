@@ -197,10 +197,11 @@ public class Level2ProjectLogic implements Level2ProjectService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         List<Pme00ProjectInfo> pme00ProjectInfoList =
                 serviceLifecycle.requestPme00ProjectInfoService()
-                        .findProjectInfo(dto.getPme00ProjectInfo().getCdV(), dto.getPme00ProjectInfo().getPeriod()
-                                , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
-                                , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
-                                , dto.getPme00ProjectInfo().getStartDate(), dto.getPme00ProjectInfo().getEndDate(), pageable);
+                        .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
+                                , dto.getPme00ProjectInfo().getPeriod(), dto.getPme00ProjectInfo().getKoreaPm()
+                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework()
+                                , dto.getPme00ProjectInfo().getStatus(), dto.getPme00ProjectInfo().getStartDate()
+                                , dto.getPme00ProjectInfo().getEndDate(), pageable);
 
 
         for (M00Codes030 project : m00Codes030List) {
@@ -221,7 +222,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
         }
 
-        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getPme00ProjectInfo().getCdV(), dto.getPme00ProjectInfo().getPeriod()
+        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getM00Codes030().getCdV()
+                , dto.getM00Codes030().getCdvMeaning(), dto.getPme00ProjectInfo().getPeriod()
                 , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
                 , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
                 , dto.getPme00ProjectInfo().getStartDate(), dto.getPme00ProjectInfo().getEndDate());
@@ -245,7 +247,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         //Get project list
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
-                0, null, null, null, null, null, null, pageable);
+                null, 0, null, null, null, null, null, null, pageable);
 
         //Sort projects by status
         Collections.sort(projectList, Comparator.comparing(Pme00ProjectInfo::getStatus));
@@ -286,7 +288,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             }
         }
 
-        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(null,0, null,
+        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(null, null,0, null,
                 null, null, null, null, null);
         Map<String, Object> rs = new HashMap<>();
         rs.put("total", total);
