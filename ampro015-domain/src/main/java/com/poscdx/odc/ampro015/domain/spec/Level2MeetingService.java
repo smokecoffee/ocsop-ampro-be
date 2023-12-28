@@ -9,17 +9,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.text.ParseException;
 import java.util.List;
 
-add comment info
+/**
+ * Interface Level2MeetingService
+ * @author 202261_Son
+ *  @since 2023-11-11
+ */
 public interface Level2MeetingService {
-    add comment info
+    /**
+     * Add List Meeting Booking Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting);
-    add comment info
+    /**
+     * Get Meeting Booking Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId);
-    add comment info
+    /**
+     * Delete Meeting Booking Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId);
-    add comment info
+    /**
+     * Edit List Meeting Booking Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting);
-    add comment info
+    /**
+     * Get Meeting Booking Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle);
 
 }

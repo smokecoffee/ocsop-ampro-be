@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-add comment info
+/**
+ *Router API for meeting booking Class
+ *
+ * @author 202261_Son
+ * @since 2023-11-11
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/meeting")
@@ -19,35 +24,64 @@ public class Pme00MeetingResource {
     @Autowired
     private final ServiceLifecycler serviceLifecycle;
 
-    add comment info
+    /**
+     * Get List Meeting Booking Room function
+     * @return Pme00AllMeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @GetMapping("/")
     @CrossOrigin
     public Pme00AllMeetingResponse getListMeeting() {
         return this.serviceLifecycle.requestBookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
 
-    add comment info
+    /**
+     * Delete Meeting Booking Room By Id function
+     * @Param meetingId
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @DeleteMapping("/{meetingId}")
     @CrossOrigin
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
 
-    add comment info
+    /**
+     * Add Meeting Booking Room By Id function
+     * Param newMeeting
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @PostMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) throws ParseException {
        return this.serviceLifecycle.requestBookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
     }
 
-    add comment info
-    @GetMapping("/{id}")
+    /**
+     * Get Meeting Booking Room By Id function
+     * @Param meetingId
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
+    @GetMapping("/{meetingId}")
     @CrossOrigin
-    public Pme00MeetingResponse getInforBookingRoom(@PathVariable int id) {
-       return this.serviceLifecycle.requestBookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,id);
+    public Pme00MeetingResponse getInforBookingRoom(@PathVariable int meetingId) {
+       return this.serviceLifecycle.requestBookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,meetingId);
     }
 
-    add comment info
+    /**
+     * Search Meeting Booking Room By Id function
+     * @Param cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status
+     * @return List Pme00Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @GetMapping("/search")
     @CrossOrigin
     public List<Pme00Meeting> searchListMeetings(
@@ -70,7 +104,13 @@ public class Pme00MeetingResource {
                                 status);
     }
 
-    add comment info
+    /**
+     * Edit Meeting Booking Room By Id function
+     * @Param listMeeting
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @PutMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {

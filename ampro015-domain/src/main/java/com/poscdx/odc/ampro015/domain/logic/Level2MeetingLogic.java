@@ -6,9 +6,20 @@ import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
 import java.util.*;
 import java.util.stream.Collectors;
-add comment info
+/**
+ * Implements Level2MeetingService
+ * @return Pme00AllMeetingResponse
+ * @author 202261_Son
+ *  @since 2023-11-11
+ */
 public class Level2MeetingLogic implements Level2MeetingService {
-    add comment info
+    /**
+     * Add Meeting Booking Room function
+     * Param newMeeting
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @Override
     public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting){
 
@@ -74,7 +85,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return responseEntity;
     }
 
-    add comment info
+    /**
+     * Get Meeting Booking Room function
+     * @Param meetingId
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @Override
     public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId) {
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
@@ -94,7 +111,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return responseEntity;
     }
 
-    add comment info
+    /**
+     * Delete Meeting Booking Room function
+     * @Param meetingId
+     * @return Pme00MeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @Override
     public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
 
@@ -118,7 +141,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return responseEntity;
     }
 
-    add comment info
+    /**
+     * Edit List Meeting Booking Room function
+     * @Param listMeeting
+     * @return Pme00AllMeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @Override
     public Pme00MeetingResponse editMeetingRoom(ServiceLifecycle serviceLifecycle, List<Pme00Meeting> listMeeting){
 
@@ -154,7 +183,12 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return responseEntity;
     }
 
-    add comment info
+    /**
+     * Get List Meeting Booking Room function
+     * @return Pme00AllMeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @Override
     public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
         Pme00AllMeetingResponse responseEntitys = new Pme00AllMeetingResponse();
