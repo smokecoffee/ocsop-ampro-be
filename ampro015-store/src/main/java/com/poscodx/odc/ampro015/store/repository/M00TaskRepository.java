@@ -58,7 +58,8 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             "t.LAST_UPDATE_ID, \n"+
             "t.WRITER, \n"+
             "t.PASSWORD, \n"+
-            "t.CATEGORY \n" +
+            "t.CATEGORY, \n" +
+            "t.CREATION_TIMESTAMP \n"+
             "FROM tb_m00_task AS t \n"
             +" JOIN tb_pme00_employee_task AS emp ON t.PROJECT_NUMBER = emp.PROJECT_NUMBER and t.TASK_NAME = emp.TASK_NAME \n"
             +" WHERE emp.EMP_ID = :employeeId \n "

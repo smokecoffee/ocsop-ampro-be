@@ -52,5 +52,6 @@ public class M00Task {
         this.empId = (String) object[2];
         this.password = (String) object[13];
         this.category = (String) object[14];
+        this.creationTimestamp = (Date) object[15];
     }
 }
