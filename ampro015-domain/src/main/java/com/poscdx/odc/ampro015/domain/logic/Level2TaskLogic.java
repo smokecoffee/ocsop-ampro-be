@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+add commment
 public class Level2TaskLogic implements Level2TaskService {
 
     static final String PROJECT_NUMBER_FIELD = "projectNumber";
@@ -31,6 +32,7 @@ public class Level2TaskLogic implements Level2TaskService {
     static final String EMPLOYEE_ID_FIELD = "empId";
     static final String PASSWORD_FIELD = "password";
 
+    check format
     /**
      * This function gets an existing tasks and its associated employeeTask based on the taskId
      *
@@ -52,6 +54,7 @@ public class Level2TaskLogic implements Level2TaskService {
         return new M00TaskDto();
     }
 
+    check format
     /**
      * This function gets all tasks and its associated employeeTask based on the project number
      *
@@ -81,6 +84,7 @@ public class Level2TaskLogic implements Level2TaskService {
         return responseList;
     }
 
+    check format comment
     /**
      * This function updates task and its associated employeeTask the value based on the M00TaskDto
      *
@@ -91,7 +95,8 @@ public class Level2TaskLogic implements Level2TaskService {
     @Override
     public M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest) {
         //convert json to DTO
-        M00Task requestTask = updateTaskRequest.getTask();
+
+        M00Task requestTask = updateTaskRequest.getTask(); <--- pls check updateTaskRequest not null before use it
         // find exitedTask
         M00TaskId requestUpdatedTask = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestUpdatedTask));
@@ -213,6 +218,7 @@ public class Level2TaskLogic implements Level2TaskService {
         return false;
     }
 
+    check comment by format
     /**
      * This function gets all tasks and its associated employeeTask based on condition search
      *
