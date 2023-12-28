@@ -8,12 +8,16 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,6 +92,15 @@ public class Level2TaskLogic implements Level2TaskService {
         List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
+            String existedOwnerTaskId = existedTask.get().getEmpId();
+            String existedPasswordTask = existedTask.get().getPassword();
+            String requestOwnerTaskId = requestTask.getEmpId();
+            String requestPasswordTask = requestTask.getPassword();
+
+            if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
+                return null;
+            }
+
             // find existedEmplTask
             M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
             if (updateTaskRequest.getMembers().isEmpty()) {
@@ -102,18 +115,8 @@ public class Level2TaskLogic implements Level2TaskService {
             }
 
             // modify info task
-            existedTask.get().setCategory(requestTask.getCategory());
-            existedTask.get().setTaskExplain(requestTask.getTaskExplain());
-            existedTask.get().setEmpId(requestTask.getEmpId());
-            existedTask.get().setStatus(requestTask.getStatus());
-            existedTask.get().setPlanDate(requestTask.getPlanDate());
-            existedTask.get().setActualEndDate(requestTask.getActualEndDate());
-            existedTask.get().setRemark(requestTask.getRemark());
-            existedTask.get().setCreationTimestamp(requestTask.getCreationTimestamp());
-            existedTask.get().setLastUpdateTimestamp(requestTask.getLastUpdateTimestamp());
-            existedTask.get().setLastUpdateId(requestTask.getLastUpdateId());
-            existedTask.get().setWriter(requestTask.getWriter());
-            existedTask.get().setPassword(requestTask.getPassword());
+            requestTask.setPassword(encodePasswordByBase64(existedPasswordTask));
+            requestTask.setEmpId(existedOwnerTaskId);
 
             // save DB
             M00Task updatedTask = serviceLifecycle.requestTaskService().modify(requestTask);
@@ -142,6 +145,7 @@ public class Level2TaskLogic implements Level2TaskService {
         } else {
             // map M00TaskDto -> Jpo
             M00Task newTaskJpo = newTask.getTask();
+            newTaskJpo.setPassword(encodePasswordByBase64(newTask.getTask().getPassword()));
             M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
 
             // map Emp
@@ -196,14 +200,14 @@ public class Level2TaskLogic implements Level2TaskService {
      */
     @Override
     public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                                 String planDate, String actualEndDate, String status, String empId,
+                                                 String planDate, String actualEndDate, String status, String taskOwnerId,
                                                  String category, int pageNo, int pageSize, String sortBy,
                                                  String sortDirection) {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName,
-                planDate, actualEndDate, status, empId, category, pageable);
+                planDate, actualEndDate, status, taskOwnerId, category, pageable);
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
@@ -269,5 +273,9 @@ public class Level2TaskLogic implements Level2TaskService {
             }
             return m00TaskDtoList;
         }
+    }
+
+    private String encodePasswordByBase64(String requestPassword) {
+        return Base64.getEncoder().withoutPadding().encodeToString(requestPassword.getBytes());
     }
 }

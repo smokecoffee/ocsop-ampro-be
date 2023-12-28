@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,11 +79,16 @@ public class M00TaskJpo implements Serializable {
     public M00Task toDomain() {
         M00Task domainEntity = new M00Task();
         BeanUtils.copyProperties(this, domainEntity);
+        domainEntity.setPassword(decodePasswordByBase64(this.password));
         return domainEntity;
     }
 
     public static List<M00Task> toDomains(Iterable<M00TaskJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    }
+
+    public static String decodePasswordByBase64(String requestPassword) {
+        return new String(Base64.getDecoder().decode(requestPassword));
     }
 
 }
