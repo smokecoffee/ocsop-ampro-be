@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> {
     @Query(value = "SELECT t.PROJECT_NUMBER \n" +
@@ -70,4 +72,9 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
                                   @Param("taskName") String taskName,
                                   @Param("status") String status,
                                   @Param("employeeId") String employeeId);
+
+    @Query(value = "SELECT e.EMP_ID, e.PHOTO \n"+
+                   "FROM posctzn.tb_m00_employee AS e\n"+
+                   "WHERE e.EMP_ID IN :empId", nativeQuery = true)
+    List<Object[]> getImagePathByEmployeeId(@Param("empId") Set<String> empId);
 }

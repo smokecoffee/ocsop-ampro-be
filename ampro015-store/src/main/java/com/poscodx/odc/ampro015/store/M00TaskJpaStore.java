@@ -10,7 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -62,5 +64,10 @@ public class M00TaskJpaStore implements M00TaskStore {
     public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId) {
         List<Object[]> responseList = this.repository.findAllByEmpId(projectNumber, taskName, status, employeeId);
         return responseList;
+    }
+
+    @Override
+    public List<Object[]> getImagePathByEmployeeId(Set<String> empId) {
+        return this.repository.getImagePathByEmployeeId(empId);
     }
 }

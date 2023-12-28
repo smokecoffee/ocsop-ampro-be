@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Level2TaskLogic implements Level2TaskService {
@@ -234,18 +236,32 @@ public class Level2TaskLogic implements Level2TaskService {
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName,
                 planDate, actualEndDate, status, taskOwnerId, category, pageable);
 
+        Set<String> empMap = m00TaskDtoList.stream().map(M00Task::getEmpId).collect(Collectors.toSet());
+
+        List<Object[]> imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
+        //convert map
+        Map<String, String> empIdImgMap = new HashMap<>();
+        for (Object[] imgObj : imgSrc) {
+            String empId = (String) imgObj[0];
+            String empImg = (String) imgObj[1];
+            empIdImgMap.put(empId, empImg);
+        }
+
+
         List<M00TaskDto> responseList = new ArrayList<>();
 
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
-            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList);
+            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
         }
         return responseList;
     }
 
-    private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber, List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList) {
+    private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber,
+                                            List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList, Map<String, String> empIdImgMap) {
         //findAllEmplTask
         List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
+
         //append member to task
         m00TaskDtoList.forEach(m00Task -> {
             M00TaskDto response = new M00TaskDto();
@@ -253,6 +269,12 @@ public class Level2TaskLogic implements Level2TaskService {
                     filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
                             && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
                     .collect(Collectors.toList());
+            String emplId = m00Task.getEmpId();
+            if (empIdImgMap.containsKey(emplId)) {
+                response.setPhoto(empIdImgMap.get(emplId));
+            } else {
+                response.setPhoto(StringUtils.EMPTY);
+            }
             response.setTask(m00Task);
             response.setMembers(pme00EmployeeTasks);
             responseList.add(response);
@@ -287,13 +309,27 @@ public class Level2TaskLogic implements Level2TaskService {
         if (employeeTaskList.isEmpty()) {
             return new ArrayList<M00TaskDto>();
         } else {
+            List<Object[]> imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
+            //convert map
+            Map<String, String> empIdImgMap = new HashMap<>();
+            for (Object[] imgObj : imgSrc) {
+                String empId = (String) imgObj[0];
+                String empImg = (String) imgObj[1];
+                empIdImgMap.put(empId, empImg);
+            }
             for (Object[] obj : employeeTaskList) {
                 M00TaskDto newM00TaskDto = new M00TaskDto();
+                String emplId = (String) obj[2];
                 M00Task task = new M00Task(obj);
                 Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
 
 
                 newM00TaskDto.setTask(task);
+                if (empIdImgMap.containsKey(emplId)) {
+                    newM00TaskDto.setPhoto(empIdImgMap.get(emplId));
+                } else {
+                    newM00TaskDto.setPhoto(StringUtils.EMPTY);
+                }
                 newM00TaskDto.setMembers(Arrays.asList(member));
                 m00TaskDtoList.add(newM00TaskDto);
             }
