@@ -1,31 +1,56 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse; <--- not use, pls remove
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
-import com.poscdx.odc.ampro015.domain.entity.SearchMeetingDto;<--- not use, pls remove
-
 import java.util.Date;
 import java.util.List;
 
-add comment
+/**
+ * Interface Pme00MeetingService
+ * @author 202261_Son
+ *  @since 2023-11-11
+ */
 public interface Pme00MeetingService {
 
-    add comment
+    /**
+     * Interface Find Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00Meeting find(int id);
 
-    add comment
+    /**
+     * Interface Find List Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     List<Pme00Meeting> findAll();
 
-    add comment
+    /**
+     * Interface Modify Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     void modify(List<Pme00Meeting> entityList);
 
-    add comment
+    /**
+     * Interface Register Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00Meeting register(Pme00Meeting entity);
 
-    add comment
+    /**
+     * Interface Remove Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     void remove(int id);
 
-    add comment
+    /**
+     * Interface Search Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     List<Pme00Meeting> findAllByAssetId(
                                 int cd_tp_id,
                                 String title,
@@ -36,7 +61,11 @@ public interface Pme00MeetingService {
                                 String categoryMeeting,
                                 String status);
 
-    add comment
+    /**
+     * Interface FindMetingByStartAndEnd Meeting
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate);
 
 }
