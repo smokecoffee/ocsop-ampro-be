@@ -13,16 +13,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Level2TaskLogic implements Level2TaskService {
+
+    static final String PROJECT_NUMBER_FIELD = "projectNumber";
+    static final String TASK_NAME_FIELD = "taskName";
+    static final String EMPLOYEE_ID_FIELD = "empId";
+    static final String PASSWORD_FIELD = "password";
 
     /**
      * This function gets an existing tasks and its associated employeeTask based on the taskId
@@ -104,7 +109,12 @@ public class Level2TaskLogic implements Level2TaskService {
             // find existedEmplTask
             M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
             if (updateTaskRequest.getMembers().isEmpty()) {
-                remove(serviceLifecycle, requestTaskId);
+                Map<String, Object> requestId = new HashMap<>();
+                requestId.put(PROJECT_NUMBER_FIELD, requestTask.getProjectNumber());
+                requestId.put(TASK_NAME_FIELD, requestTask.getTaskName());
+                requestId.put(EMPLOYEE_ID_FIELD, "");
+                requestId.put(PASSWORD_FIELD, "");
+                remove(serviceLifecycle, requestId);
             } else {
                 List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
                 if (!pme00EmployeeTaskExistedList.isEmpty()) {
@@ -168,19 +178,33 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param requestDeleteTaskId
      */
     @Override
-    public void remove(ServiceLifecycle serviceLifecycle, M00TaskId requestDeleteTaskId) {
+    public void remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId) {
+        String requestProjectNumber = (String) requestDeleteTaskId.get(PROJECT_NUMBER_FIELD);
+        String requestTaskName = (String) requestDeleteTaskId.get(TASK_NAME_FIELD);
+        String requestOwnerTaskId = (String) requestDeleteTaskId.get(EMPLOYEE_ID_FIELD);
+        String requestPasswordTask = (String) requestDeleteTaskId.get(PASSWORD_FIELD);
+
+        M00TaskId deleteTaskId = new M00TaskId(requestProjectNumber, requestTaskName);
+
         //check this already existed yet?
-        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestDeleteTaskId));
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(deleteTaskId));
+        String existedOwnerTaskId = existedTask.get().getEmpId();
+        String existedPasswordTask = existedTask.get().getPassword();
+        if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
+                && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
+            return;
+        }
+
         if (existedTask.isPresent()) {
             //find empTask
-            List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestDeleteTaskId);
+            List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(deleteTaskId);
 
             if (!pme00EmployeeTaskExistedList.isEmpty()) {
                 //remove pmeEmployeeTask
                 removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
             }
             //Delete task
-            serviceLifecycle.requestTaskService().remove(requestDeleteTaskId);
+            serviceLifecycle.requestTaskService().remove(deleteTaskId);
         }
     }
 

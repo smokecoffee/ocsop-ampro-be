@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -64,7 +65,7 @@ public class Pme00TaskResource {
     @PostMapping("")
     public M00TaskDto insertTask(@RequestBody M00TaskDto newTaskRequest) {
         Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest));
-        if(responseData.isPresent()){
+        if (responseData.isPresent()) {
             return responseData.get();
         }
         return new M00TaskDto();
@@ -82,7 +83,7 @@ public class Pme00TaskResource {
 
     @CrossOrigin
     @DeleteMapping("")
-    public void deleteTask(@RequestBody M00TaskId m00TaskId) {
+    public void deleteTask(@RequestBody Map<String, Object> m00TaskId) {
         this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId);
     }
 }

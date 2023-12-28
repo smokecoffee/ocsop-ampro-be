@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
@@ -88,7 +89,7 @@ public class M00TaskJpo implements Serializable {
     }
 
     public static String decodePasswordByBase64(String requestPassword) {
-        return new String(Base64.getDecoder().decode(requestPassword));
+        return new String(Base64.getDecoder().decode(StringUtils.defaultIfBlank(requestPassword, "")));
     }
 
 }
