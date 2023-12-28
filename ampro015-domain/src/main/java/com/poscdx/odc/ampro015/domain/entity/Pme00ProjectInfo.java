@@ -23,9 +23,10 @@ public class Pme00ProjectInfo {
     private Date startDate;
     private Date endDate;
     private String image;
-
     private String koreaPmName;
+    private String koreaPmImage;
     private String vietnamPlName;
+    private String vietnamPlImage;
 
     public String toJson() {
         return JsonUtil.toJson(this);
@@ -47,6 +48,8 @@ public class Pme00ProjectInfo {
         this.endDate = (Date) objects[7];
         this.image = (objects[8] == null || ((String) objects[8]).isEmpty()) ? null : Constants.UPLOAD_FILE_PATH + "Project\\" + (String) objects[8];
         this.koreaPmName = (String) objects[9];
-        this.vietnamPlName = (String) objects[10];
+        this.koreaPmImage = "http://172.25.219.61:8080/img/" + (String) objects[10];
+        this.vietnamPlName = (String) objects[11];
+        this.vietnamPlImage = "http://172.25.219.61:8080/img/" + (String) objects[12];
     }
 }
