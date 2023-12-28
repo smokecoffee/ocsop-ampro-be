@@ -188,14 +188,15 @@ public class Level2TaskLogic implements Level2TaskService {
 
         //check this already existed yet?
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(deleteTaskId));
-        String existedOwnerTaskId = existedTask.get().getEmpId();
-        String existedPasswordTask = existedTask.get().getPassword();
-        if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
-                && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
-            return;
-        }
 
         if (existedTask.isPresent()) {
+            String existedOwnerTaskId = StringUtils.defaultIfBlank(existedTask.get().getEmpId(), "");
+            String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), "");
+
+            if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
+                    && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
+                return;
+            }
             //find empTask
             List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(deleteTaskId);
 
@@ -290,6 +291,7 @@ public class Level2TaskLogic implements Level2TaskService {
                 M00TaskDto newM00TaskDto = new M00TaskDto();
                 M00Task task = new M00Task(obj);
                 Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
+
 
                 newM00TaskDto.setTask(task);
                 newM00TaskDto.setMembers(Arrays.asList(member));
