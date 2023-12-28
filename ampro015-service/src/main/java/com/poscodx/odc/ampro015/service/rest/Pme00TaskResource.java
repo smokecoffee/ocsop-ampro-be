@@ -23,6 +23,20 @@ public class Pme00TaskResource {
     }
 
     @CrossOrigin
+    @GetMapping(path = "/search")
+    public List<M00TaskDto> searchTask(@RequestParam(name = "projectNumber") String projectNumber,
+                                       @RequestParam(required = false, defaultValue = "", name = "taskName") String taskName,
+                                       @RequestParam(required = false, defaultValue = "", name = "planDate") String planDate,
+                                       @RequestParam(required = false, defaultValue = "", name = "actualEndDate") String actualEndDate,
+                                       @RequestParam(defaultValue = "0", required = false, name = "pageNo") int pageNo,
+                                       @RequestParam(defaultValue = "20", required = false, name = "pageSize") int pageSize,
+                                       @RequestParam(defaultValue = "t.LAST_UPDATE_TIMESTAMP", required = false, name = "sortBy") String sortBy,
+                                       @RequestParam(defaultValue = "ASC", required = false, name = "sortDirection") String sortDirection) {
+        return this.serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle, projectNumber,
+                taskName, planDate, actualEndDate, pageNo, pageSize, sortBy, sortDirection);
+    }
+
+    @CrossOrigin
     @GetMapping(path = "/getById")
     public M00TaskDto find(@RequestParam(value = "projectNumber") String projectNumber, @RequestParam(value = "taskName") String taskName) {
         M00TaskId requestId = new M00TaskId(projectNumber, taskName);

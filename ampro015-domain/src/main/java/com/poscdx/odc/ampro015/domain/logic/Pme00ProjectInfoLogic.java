@@ -1,11 +1,11 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
@@ -48,5 +48,23 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
             employeeDtoList.add(new EmployeeDto(obj));
         }
         return employeeDtoList;
+    }
+
+    @Override
+    public List<Pme00ProjectInfo> findProjectInfo(String cdV,
+                                                  int period,
+                                                  String koreaPM,
+                                                  String vietnamPL,
+                                                  String framework,
+                                                  String status,
+                                                  Date startDate,
+                                                  Date endDate){
+        List<Object[]> resultList = this.store.findProjectInfo(cdV, period, koreaPM, vietnamPL, framework, status, startDate, endDate);
+        List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
+        for(Object[] obj : resultList){
+            pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));
+        }
+
+        return pme00ProjectInfoList;
     }
 }
