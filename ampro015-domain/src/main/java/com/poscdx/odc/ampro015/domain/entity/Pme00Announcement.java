@@ -19,6 +19,7 @@ public class Pme00Announcement {
     private String creatorId;
     private String description;
     private String status;
+    private String creatorName;
 
 
     public String toJson() {

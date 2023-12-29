@@ -1,7 +1,9 @@
 package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 
+import java.util.Date;
 import java.util.List;
 
 public interface Pme00ProjectInfoStore {
@@ -17,5 +19,6 @@ public interface Pme00ProjectInfoStore {
 
     List<Object[]> getActiveEmployee();
 
-    List<Object[]> getTaskStatus();
+    List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
+                                           String framework, String status, Date startDate, Date endDate);
 }

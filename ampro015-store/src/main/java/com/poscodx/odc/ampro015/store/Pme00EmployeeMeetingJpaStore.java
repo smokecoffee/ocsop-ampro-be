@@ -46,4 +46,14 @@ public class Pme00EmployeeMeetingJpaStore implements Pme00EmployeeMeetingStore {
         this.repository.deleteById(id);
     }
 
+    @Override
+    public List<Pme00EmployeeMeeting> findByMeetingId(int id) {
+        return Pme00EmployeeMeetingJpo.toDomains(this.repository.findByMeetingId(id));
+    }
+
+    @Override
+    public  void deleteAllByMeetingId(int meetingId){
+        this.repository.deleteAllByMeetingId(meetingId);
+    }
+
 }

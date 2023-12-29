@@ -70,9 +70,6 @@ public class M00TaskJpo implements Serializable {
     @Column(name = "CATEGORY")
     private String category;
 
-//    @Column(name = "LAST_DELETE_TIMESTAMP")
-//    private Date lastDeleteTimestamp;
-
     public M00TaskJpo(M00Task domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }

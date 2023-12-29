@@ -245,11 +245,19 @@ public class Level2TaskLogic implements Level2TaskService {
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName,
                 planDate, actualEndDate, status, taskOwnerId, category, pageable);
 
-        Set<String> empMap = m00TaskDtoList.stream().map(M00Task::getEmpId).collect(Collectors.toSet());
+        Set<String> empMap = m00TaskDtoList.stream()
+                .filter(m00Task -> StringUtils.isNotBlank(m00Task.getEmpId()))
+                .map(M00Task::getEmpId)
+                .collect(Collectors.toSet());
 
-        List<Object[]> imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
-        //convert map
-        Map<String, String> empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+        List<Object[]> imgSrc = new ArrayList<>();
+        Map<String, String> empIdImgMap = new HashMap<>();
+
+        if(!empMap.isEmpty()){
+            imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
+            //convert map
+            empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+        }
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
@@ -312,9 +320,14 @@ public class Level2TaskLogic implements Level2TaskService {
         if (employeeTaskList.isEmpty()) {
             return new ArrayList<M00TaskDto>();
         } else {
-            List<Object[]> imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
-            //convert map
+            List<Object[]> imgSrc = new ArrayList<>();
 
+            if (StringUtils.isNotBlank(employeeId)) {
+                imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
+            } else {
+                imgSrc = serviceLifecycle.requestTaskService().getEmployeeImagePathAll();
+            }
+            //convert map
             Map<String, String> empIdImgMap = convertPhotoEmployeeMap(imgSrc);
             for (Object[] obj : employeeTaskList) {
                 M00TaskDto newM00TaskDto = new M00TaskDto();

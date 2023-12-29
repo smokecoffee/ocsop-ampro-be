@@ -77,4 +77,8 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
                    "FROM posctzn.tb_m00_employee AS e\n"+
                    "WHERE e.EMP_ID IN :empId", nativeQuery = true)
     List<Object[]> getImagePathByEmployeeId(@Param("empId") Set<String> empId);
+
+    @Query(value = "SELECT e.EMP_ID, e.PHOTO \n"+
+            "FROM posctzn.tb_m00_employee AS e\n", nativeQuery = true)
+    List<Object[]> getEmployeeImagePathAll();
 }

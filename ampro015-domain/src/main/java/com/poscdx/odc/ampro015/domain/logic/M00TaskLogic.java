@@ -65,5 +65,8 @@ public class M00TaskLogic implements M00TaskService {
         return store.getImagePathByEmployeeId(empId);
     }
 
-
+    @Override
+    public List<Object[]> getEmployeeImagePathAll() {
+        return store.getEmployeeImagePathAll();
+    }
 }
