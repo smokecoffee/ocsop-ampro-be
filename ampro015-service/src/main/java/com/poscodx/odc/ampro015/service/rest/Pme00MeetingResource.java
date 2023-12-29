@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class Pme00MeetingResource {
      * Get List Meeting Booking Room function
      * @return Pme00AllMeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/")
     @CrossOrigin
@@ -41,7 +42,7 @@ public class Pme00MeetingResource {
      * @Param meetingId
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @DeleteMapping("/{meetingId}")
     @CrossOrigin
@@ -54,7 +55,7 @@ public class Pme00MeetingResource {
      * Param newMeeting
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @PostMapping("/")
     @CrossOrigin
@@ -67,7 +68,7 @@ public class Pme00MeetingResource {
      * @Param meetingId
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/{meetingId}")
     @CrossOrigin
@@ -80,7 +81,7 @@ public class Pme00MeetingResource {
      * @Param cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status
      * @return List Pme00Meeting
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/search")
     @CrossOrigin
@@ -109,12 +110,23 @@ public class Pme00MeetingResource {
      * @Param listMeeting
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @PutMapping("/")
     @CrossOrigin
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
+    }
+    /**
+     * Get List Room function
+     * @return Pme00AllRoomResponse
+     * @author 202261_Son
+     * @since 2023-11-11
+     */
+    @GetMapping("/findAllRoom")
+    @CrossOrigin
+    public Pme00AllRoomResponse getListRoom(){
+        return this.serviceLifecycle.requestBookingMeetingRoomService().getListRoom(serviceLifecycle);
     }
 
 }

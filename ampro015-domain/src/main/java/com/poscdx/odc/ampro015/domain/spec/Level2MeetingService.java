@@ -3,10 +3,9 @@ package com.poscdx.odc.ampro015.domain.spec;
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -45,5 +44,11 @@ public interface Level2MeetingService {
      *  @since 2023-11-11
      */
     Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle);
+    /**
+     * Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
+    Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle);
 
 }
