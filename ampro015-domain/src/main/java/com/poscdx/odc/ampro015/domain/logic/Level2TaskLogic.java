@@ -25,6 +25,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Implements Level2TaskService
+ *
+ * @author 202296_Duong
+ * @since 2023-11-11
+ */
 public class Level2TaskLogic implements Level2TaskService {
 
     static final String PROJECT_NUMBER_FIELD = "projectNumber";
@@ -268,6 +274,16 @@ public class Level2TaskLogic implements Level2TaskService {
         return responseList;
     }
 
+    /**
+     * append task, member to M00TaskDto
+     *
+     * @param serviceLifecycle
+     * @param projectNumber
+     * @param m00TaskDtoList
+     * @param responseList
+     * @param empIdImgMap
+     * @return List<M00TaskDto>
+     */
     private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber,
                                             List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList, Map<String, String> empIdImgMap) {
         //findAllEmplTask
@@ -311,6 +327,16 @@ public class Level2TaskLogic implements Level2TaskService {
         });
     }
 
+    /**
+     * find task by employeeId function
+     *
+     * @param serviceLifecycle
+     * @param projectNumber
+     * @param taskName
+     * @param status
+     * @param employeeId
+     * @return List<M00TaskDto>
+     */
     @Override
     public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber,
                                                  String taskName, String status, String employeeId) {
@@ -348,10 +374,12 @@ public class Level2TaskLogic implements Level2TaskService {
         }
     }
 
-    private String encodePasswordByBase64(String requestPassword) {
-        return Base64.getEncoder().withoutPadding().encodeToString(requestPassword.getBytes());
-    }
-
+    /**
+     * convert Object to Map function
+     *
+     * @param imgSrc
+     * @return Map<String, String>
+     */
     private Map<String, String> convertPhotoEmployeeMap(List<Object[]> imgSrc) {
         //convert map
         Map<String, String> empIdImgMap = new HashMap<>();
