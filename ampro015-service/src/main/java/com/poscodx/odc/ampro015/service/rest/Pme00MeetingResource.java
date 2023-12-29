@@ -29,7 +29,7 @@ public class Pme00MeetingResource {
      * Get List Meeting Booking Room function
      * @return Pme00AllMeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/")
     @CrossOrigin
@@ -42,7 +42,7 @@ public class Pme00MeetingResource {
      * @Param meetingId
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @DeleteMapping("/{meetingId}")
     @CrossOrigin
@@ -55,7 +55,7 @@ public class Pme00MeetingResource {
      * Param newMeeting
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @PostMapping("/")
     @CrossOrigin
@@ -68,7 +68,7 @@ public class Pme00MeetingResource {
      * @Param meetingId
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/{meetingId}")
     @CrossOrigin
@@ -81,7 +81,7 @@ public class Pme00MeetingResource {
      * @Param cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status
      * @return List Pme00Meeting
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/search")
     @CrossOrigin
@@ -110,7 +110,7 @@ public class Pme00MeetingResource {
      * @Param listMeeting
      * @return Pme00MeetingResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @PutMapping("/")
     @CrossOrigin
@@ -121,7 +121,7 @@ public class Pme00MeetingResource {
      * Get List Room function
      * @return Pme00AllRoomResponse
      * @author 202261_Son
-     *  @since 2023-11-11
+     * @since 2023-11-11
      */
     @GetMapping("/findAllRoom")
     @CrossOrigin
