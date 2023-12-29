@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +53,7 @@ public class M00TaskJpo implements Serializable {
     private String remark;
 
     @Column(name = "CREATION_TIMESTAMP")
-    private Date createBy;
+    private Date creationTimestamp;
 
     @Column(name = "LAST_UPDATE_TIMESTAMP")
     private Date lastUpdateTimestamp;
@@ -80,6 +82,10 @@ public class M00TaskJpo implements Serializable {
 
     public static List<M00Task> toDomains(Iterable<M00TaskJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    }
+
+    public static String decodePasswordByBase64(String requestPassword) {
+        return new String(Base64.getDecoder().decode(StringUtils.defaultIfBlank(requestPassword, "")));
     }
 
 }

@@ -23,4 +23,12 @@ public class Pme00EmployeeTask {
     public static Pme00EmployeeTask fromJson(String json) {
         return JsonUtil.fromJson(json, Pme00EmployeeTask.class);
     }
+
+    public Pme00EmployeeTask(Object[] obj) {
+        this.projectNumber = (String) obj[0];
+        this.taskName = (String) obj[1];
+        this.empId = (String) obj[2];
+        this.empName = (String) obj[3];
+        this.avatar = (String) obj[4];
+    }
 }
