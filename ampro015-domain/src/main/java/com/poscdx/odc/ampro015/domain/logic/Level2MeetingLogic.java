@@ -28,15 +28,16 @@ public class Level2MeetingLogic implements Level2MeetingService {
         int count1 = serviceLifecycle.requestPme00MeetingService()
                 .findMetingByStartAndEnd(newMeeting.getCd_tp_id() ,newMeeting.getStartTime(),newMeeting.getEndTime());
         //validate meetingId in tb_moo_codes020
-        List<M00Codes020> m00Codes020s = serviceLifecycle.requestM00Codes020Service().findAll();
+//        List<M00Codes020> m00Codes020s = serviceLifecycle.requestM00Codes020Service().findAll();
+        final int CD_TP_ID = 65;
+        List<M00Codes030> pme00Rooms = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(CD_TP_ID);
+
         int flagCheckMeetingIdOfM00Codes020 = 0;
         int checkMeetingIdOfM00Codes020 = newMeeting.getCd_tp_id();
-        for(int i=0; i<m00Codes020s.size(); i++){
-            if("MEETING_ROOM".equals(m00Codes020s.get(i).getCdTp())){
-                if(checkMeetingIdOfM00Codes020==m00Codes020s.get(i).getCdTpId()){
+        for(int i=0; i<pme00Rooms.size(); i++){
+                if(checkMeetingIdOfM00Codes020==pme00Rooms.get(i).getCdTpId()){
                     flagCheckMeetingIdOfM00Codes020= flagCheckMeetingIdOfM00Codes020+1;
                 }
-            }
         }
         //validate startTime and endtime
         Date dateNow = java.util.Calendar.getInstance().getTime();
@@ -205,6 +206,27 @@ public class Level2MeetingLogic implements Level2MeetingService {
         responseEntitys.setStatus(HttpStatus.OK.value());
         responseEntitys.setListData(pme00MeetingList);
         responseEntitys.setMessage("Get all meeting successfully");
+        return responseEntitys;
+    }
+
+    @Override
+    public Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle){
+
+        Pme00AllRoomResponse responseEntitys = new Pme00AllRoomResponse();
+
+        final int CD_TP_ID = 65;
+        List<M00Codes030> pme00Rooms = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(CD_TP_ID);
+        List<Pme00Room> roomList = new ArrayList<>();
+        for(int i=0; i<pme00Rooms.size(); i++){
+            Pme00Room pme00Room = new Pme00Room();
+            pme00Room.setCdTpId(pme00Rooms.get(i).getCdTpId());
+            pme00Room.setCdV(pme00Rooms.get(i).getCdV());
+            pme00Room.setCdvMeaning(pme00Rooms.get(i).getCdvMeaning());
+            roomList.add(pme00Room);
+        }
+        responseEntitys.setStatus(HttpStatus.OK.value());
+        responseEntitys.setData(roomList);
+        responseEntitys.setMessage("Get all room successfully");
         return responseEntitys;
     }
 }

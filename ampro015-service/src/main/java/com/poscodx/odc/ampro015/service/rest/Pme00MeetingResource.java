@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,12 @@ public class Pme00MeetingResource {
     @CrossOrigin
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
+    }
+
+    @GetMapping("/findAllRoom")
+    @CrossOrigin
+    public Pme00AllRoomResponse getListRoom(){
+        return this.serviceLifecycle.requestBookingMeetingRoomService().getListRoom(serviceLifecycle);
     }
 
 }
