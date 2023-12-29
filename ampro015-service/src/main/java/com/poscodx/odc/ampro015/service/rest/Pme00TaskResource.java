@@ -43,6 +43,7 @@ public class Pme00TaskResource {
     /**
      * Get List Task function
      *
+     * @param projectNumber, taskName, planDate, actualEndDate, status, employeeId, category
      * @return M00TaskDto
      * @author 202296_Duong
      * @since 2023-11-11
@@ -70,6 +71,7 @@ public class Pme00TaskResource {
     /**
      * Get List Task function
      *
+     * @param projectNumber, taskName
      * @return M00TaskDto
      * @author 202296_Duong
      * @since 2023-11-11
@@ -102,7 +104,6 @@ public class Pme00TaskResource {
     /**
      * Get List Task function
      *
-     * @param M00TaskDto
      * @return M00TaskDto
      * @author 202296_Duong
      * @since 2023-11-11
@@ -120,7 +121,6 @@ public class Pme00TaskResource {
     /**
      * Update Task function
      *
-     * @param M00TaskDto
      * @return M00TaskDto
      * @author 202296_Duong
      * @since 2023-11-11
@@ -144,7 +144,6 @@ public class Pme00TaskResource {
     /**
      * Delete Task function
      *
-     * @Param m00TaskId
      * @return ResponseEntity
      * @author 202296_Duong
      * @since 2023-11-11

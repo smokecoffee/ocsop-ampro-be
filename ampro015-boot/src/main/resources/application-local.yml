@@ -13,8 +13,3 @@ datasource:
   password: 123456
   driver-class-name: org.mariadb.jdbc.Driver
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type: TRACE
-    org.hibernate.descriptor.sql: TRACE
