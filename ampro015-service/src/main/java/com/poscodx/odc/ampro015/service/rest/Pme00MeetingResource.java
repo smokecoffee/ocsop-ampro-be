@@ -117,7 +117,12 @@ public class Pme00MeetingResource {
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
-
+    /**
+     * Get List Room function
+     * @return Pme00AllRoomResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @GetMapping("/findAllRoom")
     @CrossOrigin
     public Pme00AllRoomResponse getListRoom(){

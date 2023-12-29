@@ -44,7 +44,11 @@ public interface Level2MeetingService {
      *  @since 2023-11-11
      */
     Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle);
-
+    /**
+     * Room function
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle);
 
 }

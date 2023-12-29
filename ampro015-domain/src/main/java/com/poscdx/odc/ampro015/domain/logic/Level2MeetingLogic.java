@@ -209,6 +209,12 @@ public class Level2MeetingLogic implements Level2MeetingService {
         return responseEntitys;
     }
 
+    /**
+     * Get List  Room function
+     * @return Pme00AllMeetingResponse
+     * @author 202261_Son
+     *  @since 2023-11-11
+     */
     @Override
     public Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle){
 
