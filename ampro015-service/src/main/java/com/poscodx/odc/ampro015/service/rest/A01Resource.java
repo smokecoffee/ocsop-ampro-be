@@ -3,6 +3,7 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -135,5 +137,13 @@ public class A01Resource {
 
         byte[] imageData = this.serviceLifecycle.requestLevel2QrCodeService().exportQRCode(serviceLifecycle, response, token);
         return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/uploadImage/Assets/{folderName}")
+    public String uploadFile(@PathVariable("folderName") String folderAssetName,
+            @RequestParam("file") MultipartFile image) {
+        // http://localhost:9720/asset/uploadImage/Assets/assetId
+        return this.serviceLifecycle.requestLevel2QrCodeService().uploadFile(folderAssetName, image);
     }
 }
