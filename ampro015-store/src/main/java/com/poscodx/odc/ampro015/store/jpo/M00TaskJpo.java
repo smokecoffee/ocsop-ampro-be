@@ -51,7 +51,7 @@ public class M00TaskJpo implements Serializable {
     private String remark;
 
     @Column(name = "CREATION_TIMESTAMP")
-    private Date createBy;
+    private Date creationTimestamp;
 
     @Column(name = "LAST_UPDATE_TIMESTAMP")
     private Date lastUpdateTimestamp;
