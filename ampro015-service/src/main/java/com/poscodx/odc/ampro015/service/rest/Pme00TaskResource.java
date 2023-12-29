@@ -93,7 +93,7 @@ public class Pme00TaskResource {
     @CrossOrigin
     @DeleteMapping("")
     public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
-        boolean isDeleteSuccess = this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId);
+        boolean isDeleteSuccess = this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
         Map<String, Object> response = new HashMap<>();
         if (isDeleteSuccess) {
             response.put("code", HttpStatus.OK.value());

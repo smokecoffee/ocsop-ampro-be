@@ -80,7 +80,6 @@ public class M00TaskJpo implements Serializable {
     public M00Task toDomain() {
         M00Task domainEntity = new M00Task();
         BeanUtils.copyProperties(this, domainEntity);
-        domainEntity.setPassword(decodePasswordByBase64(this.password));
         return domainEntity;
     }
 

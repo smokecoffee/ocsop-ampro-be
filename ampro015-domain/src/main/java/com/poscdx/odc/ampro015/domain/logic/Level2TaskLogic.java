@@ -8,6 +8,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,7 @@ public class Level2TaskLogic implements Level2TaskService {
     static final String PROJECT_NUMBER_FIELD = "projectNumber";
     static final String TASK_NAME_FIELD = "taskName";
     static final String EMPLOYEE_ID_FIELD = "empId";
-    static final String PASSWORD_FIELD = "password";
+    static final String PASSWORD_REQUEST_FIELD = "passwordRequest";
 
     /**
      * This function gets an existing tasks and its associated employeeTask based on the taskId
@@ -102,7 +103,8 @@ public class Level2TaskLogic implements Level2TaskService {
             String existedOwnerTaskId = existedTask.get().getEmpId();
             String existedPasswordTask = existedTask.get().getPassword();
             String requestOwnerTaskId = requestTask.getEmpId();
-            String requestPasswordTask = requestTask.getPassword();
+            String requestPasswordTask = DigestUtils.md5Hex(requestTask.getPasswordRequest()).toUpperCase();
+
 
             if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
                 return null;
@@ -115,8 +117,8 @@ public class Level2TaskLogic implements Level2TaskService {
                 requestId.put(PROJECT_NUMBER_FIELD, requestTask.getProjectNumber());
                 requestId.put(TASK_NAME_FIELD, requestTask.getTaskName());
                 requestId.put(EMPLOYEE_ID_FIELD, "");
-                requestId.put(PASSWORD_FIELD, "");
-                remove(serviceLifecycle, requestId);
+                requestId.put(PASSWORD_REQUEST_FIELD, "");
+                remove(serviceLifecycle, requestId, false);
             } else {
                 List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
                 if (!pme00EmployeeTaskExistedList.isEmpty()) {
@@ -127,7 +129,7 @@ public class Level2TaskLogic implements Level2TaskService {
             }
 
             // modify info task
-            requestTask.setPassword(encodePasswordByBase64(existedPasswordTask));
+            requestTask.setPassword(existedPasswordTask);
             requestTask.setEmpId(existedOwnerTaskId);
 
             // save DB
@@ -157,7 +159,8 @@ public class Level2TaskLogic implements Level2TaskService {
         } else {
             // map M00TaskDto -> Jpo
             M00Task newTaskJpo = newTask.getTask();
-            newTaskJpo.setPassword(encodePasswordByBase64(newTask.getTask().getPassword()));
+
+            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()).toUpperCase());
             M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
 
             // map Emp
@@ -180,11 +183,12 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param requestDeleteTaskId
      */
     @Override
-    public boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId) {
+    public boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId, boolean isCheck) {
         String requestProjectNumber = (String) requestDeleteTaskId.get(PROJECT_NUMBER_FIELD);
         String requestTaskName = (String) requestDeleteTaskId.get(TASK_NAME_FIELD);
         String requestOwnerTaskId = (String) requestDeleteTaskId.get(EMPLOYEE_ID_FIELD);
-        String requestPasswordTask = (String) requestDeleteTaskId.get(PASSWORD_FIELD);
+        String requestPasswordTask = (String) requestDeleteTaskId.get(PASSWORD_REQUEST_FIELD);
+        requestPasswordTask = DigestUtils.md5Hex(requestPasswordTask).toUpperCase();
 
         M00TaskId deleteTaskId = new M00TaskId(requestProjectNumber, requestTaskName);
 
@@ -192,12 +196,15 @@ public class Level2TaskLogic implements Level2TaskService {
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(deleteTaskId));
 
         if (existedTask.isPresent()) {
-            String existedOwnerTaskId = StringUtils.defaultIfBlank(existedTask.get().getEmpId(), "");
-            String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), "");
 
-            if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
-                    && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
-                return false;
+            if (isCheck) {
+                String existedOwnerTaskId = StringUtils.defaultIfBlank(existedTask.get().getEmpId(), StringUtils.EMPTY);
+                String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), StringUtils.EMPTY);
+
+                if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
+                        && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
+                    return false;
+                }
             }
             //find empTask
             List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(deleteTaskId);
@@ -242,13 +249,7 @@ public class Level2TaskLogic implements Level2TaskService {
 
         List<Object[]> imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
         //convert map
-        Map<String, String> empIdImgMap = new HashMap<>();
-        for (Object[] imgObj : imgSrc) {
-            String empId = (String) imgObj[0];
-            String empImg = (String) imgObj[1];
-            empIdImgMap.put(empId, empImg);
-        }
-
+        Map<String, String> empIdImgMap = convertPhotoEmployeeMap(imgSrc);
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
@@ -313,18 +314,13 @@ public class Level2TaskLogic implements Level2TaskService {
         } else {
             List<Object[]> imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
             //convert map
-            Map<String, String> empIdImgMap = new HashMap<>();
-            for (Object[] imgObj : imgSrc) {
-                String empId = (String) imgObj[0];
-                String empImg = (String) imgObj[1];
-                empIdImgMap.put(empId, empImg);
-            }
+
+            Map<String, String> empIdImgMap = convertPhotoEmployeeMap(imgSrc);
             for (Object[] obj : employeeTaskList) {
                 M00TaskDto newM00TaskDto = new M00TaskDto();
                 String emplId = (String) obj[2];
                 M00Task task = new M00Task(obj);
                 Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
-
 
                 newM00TaskDto.setTask(task);
                 if (empIdImgMap.containsKey(emplId)) {
@@ -341,5 +337,16 @@ public class Level2TaskLogic implements Level2TaskService {
 
     private String encodePasswordByBase64(String requestPassword) {
         return Base64.getEncoder().withoutPadding().encodeToString(requestPassword.getBytes());
+    }
+
+    private Map<String, String> convertPhotoEmployeeMap(List<Object[]> imgSrc) {
+        //convert map
+        Map<String, String> empIdImgMap = new HashMap<>();
+        for (Object[] imgObj : imgSrc) {
+            String empId = (String) imgObj[0];
+            String empImg = (String) imgObj[1];
+            empIdImgMap.put(empId, empImg);
+        }
+        return empIdImgMap;
     }
 }

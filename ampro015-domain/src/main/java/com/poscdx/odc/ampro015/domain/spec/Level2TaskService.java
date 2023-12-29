@@ -17,7 +17,7 @@ public interface Level2TaskService {
 
     M00TaskDto register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask);
 
-    boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> m00TaskId);
+    boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> m00TaskId, boolean isCheck);
 
     List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
                                           String planDate, String actualEndDate, String status, String empId, String category,
