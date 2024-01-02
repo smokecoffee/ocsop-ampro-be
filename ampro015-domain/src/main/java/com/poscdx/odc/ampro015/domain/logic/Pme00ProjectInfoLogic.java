@@ -107,4 +107,16 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status, Date startDate, Date endDate){
         return this.store.getCountProject(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate);
     }
+
+//    @Override
+//    public List<Pme00ProjectInfo> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL, String framework, String status, Date startDate, Date endDate) {
+//
+//        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
+//        List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
+//        for(Object[] obj : resultList){
+//            pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));
+//        }
+//
+//        return pme00ProjectInfoList;
+//    }
 }
