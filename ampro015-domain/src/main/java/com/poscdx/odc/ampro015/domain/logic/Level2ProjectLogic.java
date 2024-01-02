@@ -247,10 +247,13 @@ public class Level2ProjectLogic implements Level2ProjectService {
     }
 
     /**
-     * Get project info
      *
      * @param serviceLifecycle
+     * @param pageNo
+     * @param pageSize
      * @return
+     * @author : 202285_Tuan
+     * @since : 2023-12-12
      */
     @Override
     public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, int pageNo, int pageSize) {
