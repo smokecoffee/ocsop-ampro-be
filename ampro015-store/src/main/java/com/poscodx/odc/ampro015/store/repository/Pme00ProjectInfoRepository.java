@@ -54,7 +54,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
 
     @Query(value = "SELECT CD_V\n" +
             ",CD_V_MEANING\n" +
-            ",CD_V_EXPLAIN\n" +
+            ",CD_V_EXPLAIN AS CD_V_COLOR\n" +
             "from VI_M00_CODE_ACCESS\n" +
             "WHERE CD_TP = 'TASK_STATUS'\n" +
             "AND CATEGORY_GROUP_NM = 'EN0000'", nativeQuery = true)
