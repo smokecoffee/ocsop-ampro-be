@@ -9,7 +9,7 @@ public interface Pme00DashboardSettingService {
 
     List<Pme00DashboardSetting> findAll();
 
-    void modify(Pme00DashboardSetting entity);
+    Pme00DashboardSetting modify(Pme00DashboardSetting entity);
 
     Pme00DashboardSetting register(Pme00DashboardSetting entity);
 

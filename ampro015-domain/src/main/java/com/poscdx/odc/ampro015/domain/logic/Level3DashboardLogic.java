@@ -15,7 +15,11 @@ public class Level3DashboardLogic implements Level3DashboardService {
     @Override
     public Pme00DashboardSettingDto loadDashboard(ServiceLifecycle serviceLifecycle, String empId) {
         Pme00DashboardSettingDto dto = new Pme00DashboardSettingDto();
-        dto.setPme00DashboardSetting(serviceLifecycle.requestPme00DashboardSettingService().findByEmpId(empId));
+        Pme00DashboardSetting setting = serviceLifecycle.requestPme00DashboardSettingService().findByEmpId(empId);
+        if (setting == null) {
+            return null;
+        }
+        dto.setPme00DashboardSetting(setting);
         JsonArray jsonArray = (JsonArray) JsonParser.parseString(dto.getPme00DashboardSetting().getOrder());
         JsonObject jsonObject;
         SettingOrderDto settingOrderDto;
@@ -31,9 +35,8 @@ public class Level3DashboardLogic implements Level3DashboardService {
                     break;
                 }
                 case 2: {
-                    Pme00AllMeetingResponse pme00AllMeetingResponse = serviceLifecycle.requestBookingMeetingRoomService()
-                                                                                      .getListMeeting(serviceLifecycle);
-                    settingOrderDto.setMeetingList(pme00AllMeetingResponse.getListData());
+                    settingOrderDto.setMeetingList(serviceLifecycle.requestBookingMeetingRoomService()
+                                                    .getMeetingByEndDate(serviceLifecycle).getListData());
                     break;
                 }
                 case 3: {
@@ -54,5 +57,18 @@ public class Level3DashboardLogic implements Level3DashboardService {
         }
         dto.setSettingOrderDtoList(list);
         return dto;
+    }
+
+    @Override
+    public Pme00DashboardSettingDto modifyDashboard(ServiceLifecycle serviceLifecycle, Pme00DashboardSetting entity) {
+        String empId = entity.getEmpId();
+        Pme00DashboardSetting setting = serviceLifecycle.requestPme00DashboardSettingService().findByEmpId(empId);
+        if (setting == null) {
+            setting = serviceLifecycle.requestPme00DashboardSettingService().register(entity);
+        } else {
+            setting.setOrder(entity.getOrder());
+            setting = serviceLifecycle.requestPme00DashboardSettingService().modify(setting);
+        }
+        return (setting != null) ? loadDashboard(serviceLifecycle, empId) : null;
     }
 }

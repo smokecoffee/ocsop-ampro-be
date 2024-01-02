@@ -24,8 +24,8 @@ public class Pme00DashboardSettingLogic implements Pme00DashboardSettingService 
     }
 
     @Override
-    public void modify(Pme00DashboardSetting entity) {
-        this.store.update(entity);
+    public Pme00DashboardSetting modify(Pme00DashboardSetting entity) {
+        return this.store.update(entity);
     }
 
     @Override

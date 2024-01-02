@@ -58,5 +58,14 @@ public interface Pme00MeetingRepository extends JpaRepository<Pme00MeetingJpo, I
     int findMetingByStartAndEnd(@Param("cdTpId") int cdTpId, @Param("startDate") Date startDate,
                                                @Param("endDate") Date endDate);
 
+    @Query(value = "SELECT *\n" +
+                    "FROM tb_pme00_meeting\n" +
+                    "WHERE (END_TIME >= NOW() AND\n" +
+                    "END_TIME <= DATE_FORMAT(NOW(), '%Y-%m-%d 23:59:59'))\n" +
+                    "AND CD_TP_ID = :cdTpId\n" +
+                    "ORDER BY END_TIME \n" +
+                    "LIMIT 4", nativeQuery = true)
+    List<Pme00MeetingJpo> findByEndDate(@Param("cdTpId") int cdTpId);
+
 
 }
