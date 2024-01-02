@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.spec.Level2ProjectService;
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
@@ -261,15 +262,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
         List<ProjectManagementDto> result = new ArrayList<>();
 
         //Get project list
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         if(pageSize == 0){
             pageable = Pageable.unpaged();
         }
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
                 null, 0, null, null, null, null, null, null, pageable);
-
-        //Sort projects by status
-        Collections.sort(projectList, Comparator.comparing(Pme00ProjectInfo::getStatus));
 
         if (!projectList.isEmpty()) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
