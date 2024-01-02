@@ -31,6 +31,6 @@ public interface Pme00ProjectInfoStore {
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                      String framework, String status, Date startDate, Date endDate);
-    List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
-                                           String framework, String status, Date startDate, Date endDate);
+//    List<Object[]> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL,
+//                                           String framework, String status, Date startDate, Date endDate);
 }

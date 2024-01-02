@@ -166,7 +166,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             taskId.setProjectNumber(id.getCdV());
             for(M00Task task : m00TaskDtoList) {
                 taskId.setTaskName(task.getTaskName());
-                serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, taskId);
+//                serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, taskId);
             }
 
             // Delete member in Pme00Member

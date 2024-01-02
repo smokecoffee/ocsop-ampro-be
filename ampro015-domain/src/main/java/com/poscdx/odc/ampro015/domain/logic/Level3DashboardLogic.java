@@ -36,19 +36,19 @@ public class Level3DashboardLogic implements Level3DashboardService {
                     settingOrderDto.setMeetingList(pme00AllMeetingResponse.getListData());
                     break;
                 }
-                case 3: {
-                    String projectNumber = jsonObject.get("projectNumber").getAsString();
-                    ProjectManagementDto projectManagementDto = new ProjectManagementDto();
-                    projectManagementDto.setPme00ProjectInfo(new Pme00ProjectInfo(projectNumber));
-                    projectManagementDto.setM00Codes030(new M00Codes030(projectNumber));
-                    System.out.println(projectNumber);
-                    System.out.println(projectManagementDto.getPme00ProjectInfo().getCdV());
-                    System.out.println(projectManagementDto.getM00Codes030().getCdV());
-                    List<ProjectManagementDto> resultList = serviceLifecycle.requestLevel2ProjectService()
-                                                            .getProjectList(serviceLifecycle, projectManagementDto);
-                    settingOrderDto.setProjectDto(resultList.isEmpty() ? null : resultList.get(0));
-                    break;
-                }
+//                case 3: {
+//                    String projectNumber = jsonObject.get("projectNumber").getAsString();
+//                    ProjectManagementDto projectManagementDto = new ProjectManagementDto();
+//                    projectManagementDto.setPme00ProjectInfo(new Pme00ProjectInfo(projectNumber));
+//                    projectManagementDto.setM00Codes030(new M00Codes030(projectNumber));
+//                    System.out.println(projectNumber);
+//                    System.out.println(projectManagementDto.getPme00ProjectInfo().getCdV());
+//                    System.out.println(projectManagementDto.getM00Codes030().getCdV());
+//                    List<ProjectManagementDto> resultList = serviceLifecycle.requestLevel2ProjectService()
+//                                                            .getProjectList(serviceLifecycle, projectManagementDto);
+//                    settingOrderDto.setProjectDto(resultList.isEmpty() ? null : resultList.get(0));
+//                    break;
+//                }
             }
             list.add(settingOrderDto);
         }
