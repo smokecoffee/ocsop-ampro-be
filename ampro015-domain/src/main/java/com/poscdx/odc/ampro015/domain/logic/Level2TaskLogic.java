@@ -8,17 +8,35 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Implements Level2TaskService
+ *
+ * @author 202296_Duong
+ * @since 2023-11-11
+ */
 public class Level2TaskLogic implements Level2TaskService {
+
+    static final String PROJECT_NUMBER_FIELD = "projectNumber";
+    static final String TASK_NAME_FIELD = "taskName";
+    static final String EMPLOYEE_ID_FIELD = "empId";
+    static final String PASSWORD_REQUEST_FIELD = "passwordRequest";
 
     /**
      * This function gets an existing tasks and its associated employeeTask based on the taskId
@@ -88,10 +106,25 @@ public class Level2TaskLogic implements Level2TaskService {
         List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
+            String existedOwnerTaskId = existedTask.get().getEmpId();
+            String existedPasswordTask = existedTask.get().getPassword();
+            String requestOwnerTaskId = requestTask.getEmpId();
+            String requestPasswordTask = DigestUtils.md5Hex(requestTask.getPasswordRequest()).toUpperCase();
+
+
+            if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
+                return null;
+            }
+
             // find existedEmplTask
             M00TaskId requestTaskId = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
             if (updateTaskRequest.getMembers().isEmpty()) {
-                remove(serviceLifecycle, requestTaskId);
+                Map<String, Object> requestId = new HashMap<>();
+                requestId.put(PROJECT_NUMBER_FIELD, requestTask.getProjectNumber());
+                requestId.put(TASK_NAME_FIELD, requestTask.getTaskName());
+                requestId.put(EMPLOYEE_ID_FIELD, "");
+                requestId.put(PASSWORD_REQUEST_FIELD, "");
+                remove(serviceLifecycle, requestId, false);
             } else {
                 List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
                 if (!pme00EmployeeTaskExistedList.isEmpty()) {
@@ -102,18 +135,8 @@ public class Level2TaskLogic implements Level2TaskService {
             }
 
             // modify info task
-            existedTask.get().setCategory(requestTask.getCategory());
-            existedTask.get().setTaskExplain(requestTask.getTaskExplain());
-            existedTask.get().setEmpId(requestTask.getEmpId());
-            existedTask.get().setStatus(requestTask.getStatus());
-            existedTask.get().setPlanDate(requestTask.getPlanDate());
-            existedTask.get().setActualEndDate(requestTask.getActualEndDate());
-            existedTask.get().setRemark(requestTask.getRemark());
-            existedTask.get().setCreationTimestamp(requestTask.getCreationTimestamp());
-            existedTask.get().setLastUpdateTimestamp(requestTask.getLastUpdateTimestamp());
-            existedTask.get().setLastUpdateId(requestTask.getLastUpdateId());
-            existedTask.get().setWriter(requestTask.getWriter());
-            existedTask.get().setPassword(requestTask.getPassword());
+            requestTask.setPassword(existedPasswordTask);
+            requestTask.setEmpId(existedOwnerTaskId);
 
             // save DB
             M00Task updatedTask = serviceLifecycle.requestTaskService().modify(requestTask);
@@ -142,6 +165,8 @@ public class Level2TaskLogic implements Level2TaskService {
         } else {
             // map M00TaskDto -> Jpo
             M00Task newTaskJpo = newTask.getTask();
+
+            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()).toUpperCase());
             M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
 
             // map Emp
@@ -164,20 +189,41 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param requestDeleteTaskId
      */
     @Override
-    public void remove(ServiceLifecycle serviceLifecycle, M00TaskId requestDeleteTaskId) {
+    public boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId, boolean isCheck) {
+        String requestProjectNumber = (String) requestDeleteTaskId.get(PROJECT_NUMBER_FIELD);
+        String requestTaskName = (String) requestDeleteTaskId.get(TASK_NAME_FIELD);
+        String requestOwnerTaskId = (String) requestDeleteTaskId.get(EMPLOYEE_ID_FIELD);
+        String requestPasswordTask = (String) requestDeleteTaskId.get(PASSWORD_REQUEST_FIELD);
+        requestPasswordTask = DigestUtils.md5Hex(requestPasswordTask).toUpperCase();
+
+        M00TaskId deleteTaskId = new M00TaskId(requestProjectNumber, requestTaskName);
+
         //check this already existed yet?
-        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestDeleteTaskId));
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(deleteTaskId));
+
         if (existedTask.isPresent()) {
+
+            if (isCheck) {
+                String existedOwnerTaskId = StringUtils.defaultIfBlank(existedTask.get().getEmpId(), StringUtils.EMPTY);
+                String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), StringUtils.EMPTY);
+
+                if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
+                        && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
+                    return false;
+                }
+            }
             //find empTask
-            List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestDeleteTaskId);
+            List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(deleteTaskId);
 
             if (!pme00EmployeeTaskExistedList.isEmpty()) {
                 //remove pmeEmployeeTask
                 removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
             }
             //Delete task
-            serviceLifecycle.requestTaskService().remove(requestDeleteTaskId);
+            serviceLifecycle.requestTaskService().remove(deleteTaskId);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -196,27 +242,53 @@ public class Level2TaskLogic implements Level2TaskService {
      */
     @Override
     public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                                 String planDate, String actualEndDate, String status, String empId,
+                                                 String planDate, String actualEndDate, String status, String taskOwnerId,
                                                  String category, int pageNo, int pageSize, String sortBy,
                                                  String sortDirection) {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName,
-                planDate, actualEndDate, status, empId, category, pageable);
+                planDate, actualEndDate, status, taskOwnerId, category, pageable);
+
+        Set<String> empMap = m00TaskDtoList.stream()
+                .filter(m00Task -> StringUtils.isNotBlank(m00Task.getEmpId()))
+                .map(M00Task::getEmpId)
+                .collect(Collectors.toSet());
+
+        List<Object[]> imgSrc = new ArrayList<>();
+        Map<String, String> empIdImgMap = new HashMap<>();
+
+        if(!empMap.isEmpty()){
+            imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
+            //convert map
+            empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+        }
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
-            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList);
+            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
         }
         return responseList;
     }
 
-    private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber, List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList) {
+    /**
+     * append task, member to M00TaskDto
+     *
+     * @param serviceLifecycle
+     * @param projectNumber
+     * @param m00TaskDtoList
+     * @param responseList
+     * @param empIdImgMap
+     * @return List<M00TaskDto>
+     */
+    private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber,
+                                            List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList, Map<String, String> empIdImgMap) {
         //findAllEmplTask
         List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
+
         //append member to task
         m00TaskDtoList.forEach(m00Task -> {
             M00TaskDto response = new M00TaskDto();
@@ -224,6 +296,12 @@ public class Level2TaskLogic implements Level2TaskService {
                     filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
                             && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
                     .collect(Collectors.toList());
+            String emplId = m00Task.getEmpId();
+            if (empIdImgMap.containsKey(emplId)) {
+                response.setPhoto(empIdImgMap.get(emplId));
+            } else {
+                response.setPhoto(StringUtils.EMPTY);
+            }
             response.setTask(m00Task);
             response.setMembers(pme00EmployeeTasks);
             responseList.add(response);
@@ -249,6 +327,16 @@ public class Level2TaskLogic implements Level2TaskService {
         });
     }
 
+    /**
+     * find task by employeeId function
+     *
+     * @param serviceLifecycle
+     * @param projectNumber
+     * @param taskName
+     * @param status
+     * @param employeeId
+     * @return List<M00TaskDto>
+     */
     @Override
     public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber,
                                                  String taskName, String status, String employeeId) {
@@ -258,16 +346,48 @@ public class Level2TaskLogic implements Level2TaskService {
         if (employeeTaskList.isEmpty()) {
             return new ArrayList<M00TaskDto>();
         } else {
+            List<Object[]> imgSrc = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(employeeId)) {
+                imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
+            } else {
+                imgSrc = serviceLifecycle.requestTaskService().getEmployeeImagePathAll();
+            }
+            //convert map
+            Map<String, String> empIdImgMap = convertPhotoEmployeeMap(imgSrc);
             for (Object[] obj : employeeTaskList) {
                 M00TaskDto newM00TaskDto = new M00TaskDto();
+                String emplId = (String) obj[2];
                 M00Task task = new M00Task(obj);
                 Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
 
                 newM00TaskDto.setTask(task);
+                if (empIdImgMap.containsKey(emplId)) {
+                    newM00TaskDto.setPhoto(empIdImgMap.get(emplId));
+                } else {
+                    newM00TaskDto.setPhoto(StringUtils.EMPTY);
+                }
                 newM00TaskDto.setMembers(Arrays.asList(member));
                 m00TaskDtoList.add(newM00TaskDto);
             }
             return m00TaskDtoList;
         }
+    }
+
+    /**
+     * convert Object to Map function
+     *
+     * @param imgSrc
+     * @return Map<String, String>
+     */
+    private Map<String, String> convertPhotoEmployeeMap(List<Object[]> imgSrc) {
+        //convert map
+        Map<String, String> empIdImgMap = new HashMap<>();
+        for (Object[] imgObj : imgSrc) {
+            String empId = (String) imgObj[0];
+            String empImg = (String) imgObj[1];
+            empIdImgMap.put(empId, empImg);
+        }
+        return empIdImgMap;
     }
 }

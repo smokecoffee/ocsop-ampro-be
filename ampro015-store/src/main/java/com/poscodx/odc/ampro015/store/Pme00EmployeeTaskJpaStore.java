@@ -72,8 +72,7 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
             requestEmployeeTaskJpoList.add(pme00EmployeeTaskJpo);
         });
 
-        List<Pme00EmployeeTaskJpo> responseList = new ArrayList<>();
-        this.repository.saveAll(requestEmployeeTaskJpoList);
+        List<Pme00EmployeeTaskJpo> responseList = this.repository.saveAll(requestEmployeeTaskJpoList);
 
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
     }
