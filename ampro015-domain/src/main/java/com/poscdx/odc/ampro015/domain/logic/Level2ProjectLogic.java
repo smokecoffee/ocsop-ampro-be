@@ -162,11 +162,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
                  && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
             // Delete tasks
             List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(id.getCdV());
-            M00TaskId taskId = new M00TaskId();
-            taskId.setProjectNumber(id.getCdV());
+
+            Map<String, Object> requestDeleteTaskId = new HashMap<>();
+            requestDeleteTaskId.put("projectNumber", id.getCdV());
             for(M00Task task : m00TaskDtoList) {
-                taskId.setTaskName(task.getTaskName());
-                serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, taskId);
+                requestDeleteTaskId.put("taskName", id.getCdV());
+                serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, requestDeleteTaskId, false);
             }
 
             // Delete member in Pme00Member
@@ -186,6 +187,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
         return false;
     }
 
+    /**
+     * Get project info
+     *
+     * @param serviceLifecycle
+     * @return
+     */
     @Override
     public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize) {
         //return this.store.getProjectList(dto);
@@ -195,6 +202,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
                         .findM00Codes030(dto.getM00Codes030().getCdV(), dto.getM00Codes030().getCdvMeaning());
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
+        if(pageSize == 0){
+            pageable = Pageable.unpaged();
+        }
         List<Pme00ProjectInfo> pme00ProjectInfoList =
                 serviceLifecycle.requestPme00ProjectInfoService()
                         .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
@@ -246,6 +256,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
         //Get project list
         Pageable pageable = PageRequest.of(pageNo, pageSize);
+        if(pageSize == 0){
+            pageable = Pageable.unpaged();
+        }
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
                 null, 0, null, null, null, null, null, null, pageable);
 

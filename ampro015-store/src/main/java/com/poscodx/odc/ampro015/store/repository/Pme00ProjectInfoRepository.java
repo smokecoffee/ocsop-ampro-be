@@ -21,7 +21,6 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 "E.END_DATE IS NULL", nativeQuery = true)
     List<Object[]> getActiveEmployee();
 
-<<<<<<<<< Temporary merge branch 1
     @Query(value =
             "SELECT INFO.*\n" +
                 ", EMP1.NAME AS KOREA_PM_NAME\n" +
