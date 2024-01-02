@@ -57,4 +57,8 @@ public class M00Codes030JpaStore implements M00Codes030Store {
         return M00Codes030Jpo.toDomains(this.repository.findM00Codes030(cdV, meaning));
     }
 
+    @Override
+    public List<M00Codes030>  findM00Codes030ById(int cdTpId){
+        return M00Codes030Jpo.toDomains(this.repository.findM00Codes030ById(cdTpId));
+    }
 }

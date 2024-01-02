@@ -7,6 +7,9 @@ import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class M00TaskLogic implements M00TaskService {
     private final M00TaskStore store;
 
@@ -45,7 +48,25 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate, String actualEndDate, Pageable pageable) {
-        return store.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, pageable);
+    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate,
+                                              String actualEndDate, String status, String empId,
+                                              String category, Pageable pageable) {
+        return store.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate,
+                status, empId, category, pageable);
+    }
+
+    @Override
+    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId){
+        return store.findAllEmployeeId(projectNumber, taskName, status, employeeId);
+    }
+
+    @Override
+    public List<Object[]> getImagePathByEmployeeId(Set<String> empId) {
+        return store.getImagePathByEmployeeId(empId);
+    }
+
+    @Override
+    public List<Object[]> getEmployeeImagePathAll() {
+        return store.getEmployeeImagePathAll();
     }
 }
