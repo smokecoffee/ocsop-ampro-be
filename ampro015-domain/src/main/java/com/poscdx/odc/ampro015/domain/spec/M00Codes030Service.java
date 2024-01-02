@@ -5,6 +5,12 @@ import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
 
 import java.util.List;
 
+/**
+ * M00Codes030Service
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 public interface M00Codes030Service {
 
     List<M00Codes030> findAll();

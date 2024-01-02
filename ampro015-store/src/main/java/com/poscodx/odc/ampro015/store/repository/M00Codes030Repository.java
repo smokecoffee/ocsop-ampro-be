@@ -9,6 +9,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/**
+ * M00Codes030Repository
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 public interface M00Codes030Repository extends JpaRepository<M00Codes030Jpo, M00Codes030Id> {
 
     @Query(value = "SELECT MAX(CD_V_INQUIRY_SEQ) \n" +

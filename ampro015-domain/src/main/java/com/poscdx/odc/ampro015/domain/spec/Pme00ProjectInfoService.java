@@ -12,6 +12,12 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Pme00ProjectInfoService
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 public interface Pme00ProjectInfoService {
     Pme00ProjectInfo find(String cdVId);
 

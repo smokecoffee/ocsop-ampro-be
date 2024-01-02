@@ -12,7 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.*;
 
-
+/**
+ * Level2ProjectLogic
+ *
+ * @author
+ * @since 2023-12-12
+ */
 public class Level2ProjectLogic implements Level2ProjectService {
 
     /**
@@ -20,7 +25,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @param dto
-     * @return
+     * @return boolean
+     * @author 20284_Lam
+     * @since: 2023-12-12
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
@@ -84,7 +91,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @param dto
-     * @return
+     * @return boolean
+     * @author 202284_Lam
+     * @since 2023-12-12
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
@@ -154,6 +163,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @param id
+     * @return boolean
+     * @author 202284_Lam
+     * @since 2023-12-12
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
@@ -193,7 +205,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
      * Get project info
      *
      * @param serviceLifecycle
-     * @return
+     * @return Map<String, Object>
      * @author : 202301_Duyen
      * @since : 2023-12-12
      */
@@ -248,11 +260,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
     }
 
     /**
-     *
+     * Get project list for monitoring
      * @param serviceLifecycle
      * @param pageNo
      * @param pageSize
-     * @return
+     *
+     * @return Map<String, Object>
      * @author : 202285_Tuan
      * @since : 2023-12-12
      */
@@ -315,11 +328,15 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
     /**
      * Check exists project code
+     *
      * @param serviceLifecycle
      * @param cdTpId
      * @param cateGroupId
      * @param cdV
-     * @return
+     *
+     * @return boolean
+     * @author 202284_Lam
+     * @since 2023-12-12
      */
     private boolean checkExistsM00Codes030(ServiceLifecycle serviceLifecycle, int cdTpId, int cateGroupId, String cdV){
 
@@ -335,9 +352,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
     /**
      * Check exists project info code
+     *
      * @param serviceLifecycle
      * @param cdV
-     * @return
+     * @return boolean
+     * @author 202284_Lam
+     * @since 202284_Lam
      */
     private boolean checkExistsPme00ProjectInfo(ServiceLifecycle serviceLifecycle, String cdV){
         Pme00ProjectInfo projectInfo = new Pme00ProjectInfo();

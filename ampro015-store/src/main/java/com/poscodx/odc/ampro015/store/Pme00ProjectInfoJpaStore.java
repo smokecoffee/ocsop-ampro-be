@@ -11,6 +11,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Pme00ProjectInfoJpaStore
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 @Repository
 public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     private final Pme00ProjectInfoRepository repository;

@@ -8,6 +8,12 @@ import lombok.*;
 import javax.persistence.Transient;
 import java.util.Date;
 
+/**
+ * Pme00ProjectInfo
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 @Getter
 @Setter
 @Builder

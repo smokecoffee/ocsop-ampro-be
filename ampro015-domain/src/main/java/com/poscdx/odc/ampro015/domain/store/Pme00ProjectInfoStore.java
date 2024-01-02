@@ -7,6 +7,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Pme00ProjectInfoStore
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 public interface Pme00ProjectInfoStore {
     Pme00ProjectInfo retrieve(String cdVId);
 

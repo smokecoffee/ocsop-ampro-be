@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Pme00ProjectInfoLogic
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     private final Pme00ProjectInfoStore store;
 
