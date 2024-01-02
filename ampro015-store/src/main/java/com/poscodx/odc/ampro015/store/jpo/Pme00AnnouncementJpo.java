@@ -42,6 +42,9 @@ public class Pme00AnnouncementJpo {
     @Column(name = "STATUS")
     private String status;
 
+    @Transient
+    private String creatorName;
+
     public Pme00AnnouncementJpo(Pme00Announcement domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }

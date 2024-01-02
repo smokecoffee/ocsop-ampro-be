@@ -17,7 +17,6 @@ public class ProjectManagementDto {
     private Pme00ProjectInfo pme00ProjectInfo;
     private List<Pme00Member> lstMember;
     private int progress;
-
     private List<M00TaskDto> lstTask;
 
 

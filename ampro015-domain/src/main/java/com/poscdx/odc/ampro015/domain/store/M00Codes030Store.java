@@ -20,4 +20,6 @@ public interface M00Codes030Store {
     int getMaxSeqInquiry(int cdTpId, int cateGroupId);
 
     List<M00Codes030> findM00Codes030(String cdV, String meaning);
+
+    List<M00Codes030> findM00Codes030ById(int cdTpId);
 }

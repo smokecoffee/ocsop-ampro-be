@@ -28,6 +28,10 @@ public class Pme00ProjectInfo {
     private String vietnamPlName;
     private String vietnamPlImage;
 
+    public Pme00ProjectInfo(String cdV) {
+        this.cdV = cdV;
+    }
+
     public String toJson() {
         return JsonUtil.toJson(this);
     }

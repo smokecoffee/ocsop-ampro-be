@@ -30,6 +30,7 @@ public class M00Task {
     private String writer;
     private String password;
     private String category;
+    private String passwordRequest;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
@@ -52,5 +53,6 @@ public class M00Task {
         this.empId = (String) object[2];
         this.password = (String) object[13];
         this.category = (String) object[14];
+        this.creationTimestamp = (Date) object[15];
     }
 }

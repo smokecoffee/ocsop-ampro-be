@@ -11,4 +11,5 @@ public class Pme00MeetingSpringLogic extends Pme00MeetingLogic {
     public Pme00MeetingSpringLogic(Pme00MeetingStore store) {
         super(store);
     }
+
 }

@@ -11,6 +11,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
 
     private final Level2ProjectService level2ProjectService;
     private final Level2Service level2Service;
+    private final Level3DashboardService level2DashboardService;
     private final AssetService assetService;
     private final FieldService fieldService;
     private final ImageService imageService;
@@ -21,7 +22,10 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00MemberService pme00MemberService;
     private final Pme00ProjectInfoService pme00ProjectInfoService;
     private final Pme00AnnouncementService pme00AnnouncementService;
+    private final Pme00DashboardSettingService pme00DashboardSettingService;
     private final Pme00EmployeeTaskService pme00EmployeeTaskService;
+    private final Level2MeetingService bookingMeetingRoomService;
+    private final M00Codes020Service m00Codes020Service;
     private final Pme00RoleService pme00RoleService;
     private final Pme00RoleUserService pme00RoleUserService;
     private final Pme00PermissionService pme00PermissionService;
@@ -35,6 +39,15 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Level2Service requestLevel2Service() {
         return this.level2Service;
+    }
+
+    @Override
+    public Level3DashboardService requestLevel2DashboardService() {
+        return this.level2DashboardService;
+    }
+     @Override
+    public Level2MeetingService requestBookingMeetingRoomService() {
+        return this.bookingMeetingRoomService;
     }
 
     @Override
@@ -89,6 +102,14 @@ public class ServiceLifecycler implements ServiceLifecycle {
 
     @Override
     public Pme00AnnouncementService requestPme00AnnouncementService() { return this.pme00AnnouncementService; }
+
+    @Override
+    public Pme00DashboardSettingService requestPme00DashboardSettingService() {
+        return this.pme00DashboardSettingService;
+    }
+
+    @Override
+    public M00Codes020Service requestM00Codes020Service(){return this.m00Codes020Service;};
 
     @Override
     public Level2TaskService requestLevel2TaskService() {
