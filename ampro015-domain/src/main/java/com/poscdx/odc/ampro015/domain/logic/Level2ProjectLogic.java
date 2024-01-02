@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.*;
 
+
 public class Level2ProjectLogic implements Level2ProjectService {
 
     /**
@@ -192,6 +193,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @return
+     * @author : 202301_Duyen
+     * @since : 2023-12-12
      */
     @Override
     public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize) {

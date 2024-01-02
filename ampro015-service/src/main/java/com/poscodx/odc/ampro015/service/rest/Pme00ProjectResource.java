@@ -20,17 +20,18 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Router API for project list Class
+ *
+ * @author : 202301_Duyen
+ * @since : 2023-11-30
+ */
 @RestController
 @RequestMapping("/project")
 @RequiredArgsConstructor
 public class Pme00ProjectResource {
     private final ServiceLifecycle serviceLifecycle;
 
-    /**
-     *
-     * @param
-     * @return
-     */
     @CrossOrigin
     @PostMapping("/search")
     public Map<String, Object> findProjectList(@RequestBody ProjectManagementDto dto,

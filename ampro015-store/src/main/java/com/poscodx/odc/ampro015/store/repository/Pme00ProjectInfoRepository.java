@@ -9,6 +9,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * SQL get project list
+ *
+ * @author : 202301_Duyen
+ * @since : 2023-11-28
+ */
 public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectInfoJpo, String> {
 
     @Query(value = "SELECT\n" +
