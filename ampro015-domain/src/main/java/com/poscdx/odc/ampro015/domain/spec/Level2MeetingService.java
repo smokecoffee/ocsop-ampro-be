@@ -51,4 +51,5 @@ public interface Level2MeetingService {
      */
     Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle);
 
+    Pme00AllMeetingResponse getMeetingByEndDate(ServiceLifecycle serviceLifecycle);
 }

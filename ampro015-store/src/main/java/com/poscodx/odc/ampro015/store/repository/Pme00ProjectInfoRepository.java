@@ -18,13 +18,15 @@ import java.util.List;
 public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectInfoJpo, String> {
 
     @Query(value = "SELECT\n" +
-                "E.EMP_ID,\n" +
-                "E.NAME,\n" +
-                "E.PHOTO\n" +
-                "FROM\n" +
-                "TB_M00_EMPLOYEE AS E\n" +
-                "WHERE\n" +
-                "E.END_DATE IS NULL", nativeQuery = true)
+                    " E.EMP_ID\n" +
+                    ",E.NAME\n" +
+                    ",E.PHOTO\n" +
+                    ",E.BIRTH_DATE\n" +
+                    " FROM\n" +
+                    " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
+                    " WHERE\n" +
+                    " E.END_DATE IS NULL", nativeQuery = true)
+
     List<Object[]> getActiveEmployee();
 
     @Query(value =

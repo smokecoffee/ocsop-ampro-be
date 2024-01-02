@@ -294,6 +294,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
                         pme00ProjectInfo.getCdV(), null, null, null, null, null, null,
                         0, 20, "lastUpdateTimestamp", "ASC");
 
+                newObject.setLstTask(taskList);
                 //Set member list
                 List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
                 newObject.setLstMember(listMember);
