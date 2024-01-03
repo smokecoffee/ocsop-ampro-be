@@ -217,9 +217,11 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 serviceLifecycle.requestM00Codes030Service()
                         .findM00Codes030(dto.getM00Codes030().getCdV(), dto.getM00Codes030().getCdvMeaning());
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable;
         if(pageSize == 0){
             pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
         }
         List<Pme00ProjectInfo> pme00ProjectInfoList =
                 serviceLifecycle.requestPme00ProjectInfoService()
@@ -275,10 +277,13 @@ public class Level2ProjectLogic implements Level2ProjectService {
         List<ProjectManagementDto> result = new ArrayList<>();
 
         //Get project list
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
+        Pageable pageable;
         if(pageSize == 0){
             pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         }
+
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
                 null, 0, null, null, null, null, null, null, pageable);
 
