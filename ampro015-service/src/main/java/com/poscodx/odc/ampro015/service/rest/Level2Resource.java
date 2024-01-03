@@ -40,6 +40,6 @@ public class Level2Resource {
     @CrossOrigin
     @GetMapping(path = "/getTaskStatus")
     public List<TaskStatusDto> getTaskStatus() {
-        return this.serviceLifecycle.requestPme00ProjectInfoService().getTaskStatus();
+        return this.serviceLifecycle.requestM00Codes030Service().getTaskStatus();
     }
 }

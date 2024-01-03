@@ -67,4 +67,9 @@ public class M00Codes030JpaStore implements M00Codes030Store {
     public List<M00Codes030>  findM00Codes030ById(int cdTpId){
         return M00Codes030Jpo.toDomains(this.repository.findM00Codes030ById(cdTpId));
     }
+
+    @Override
+    public List<Object[]> getTaskStatus() {
+        return this.repository.getTaskStatus();
+    }
 }

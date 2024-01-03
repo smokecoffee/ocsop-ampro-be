@@ -28,4 +28,6 @@ public interface M00Codes030Store {
     List<M00Codes030> findM00Codes030(String cdV, String meaning);
 
     List<M00Codes030> findM00Codes030ById(int cdTpId);
+
+    List<Object[]> getTaskStatus();
 }
