@@ -25,7 +25,8 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                     " FROM\n" +
                     " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
                     " WHERE\n" +
-                    " E.END_DATE IS NULL", nativeQuery = true)
+                    " E.END_DATE IS NULL\n" +
+                    " ORDER BY E.EMP_ID", nativeQuery = true)
 
     List<Object[]> getActiveEmployee();
 
@@ -58,15 +59,6 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                                               @Param("koreaPM") String koreaPM,  @Param("vietnamPL") String vietnamPL,
                                               @Param("framework") String framework, @Param("status") String status,
                                               @Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
-
-
-    @Query(value = "SELECT CD_V\n" +
-            ",CD_V_MEANING\n" +
-            ",CD_V_EXPLAIN AS CD_V_COLOR\n" +
-            "from VI_M00_CODE_ACCESS\n" +
-            "WHERE CD_TP = 'TASK_STATUS'\n" +
-            "AND CATEGORY_GROUP_NM = 'EN0000'", nativeQuery = true)
-    List<Object[]> getTaskStatus();
 
     @Query(value =
             "SELECT DISTINCT \n" +
