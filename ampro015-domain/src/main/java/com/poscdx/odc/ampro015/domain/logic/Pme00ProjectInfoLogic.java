@@ -1,13 +1,23 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * Pme00ProjectInfoLogic
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     private final Pme00ProjectInfoStore store;
 
@@ -49,4 +59,70 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
         }
         return employeeDtoList;
     }
+
+    @Override
+    public List<Pme00ProjectInfo> findProjectInfo(String cdV,
+                                                  String meaning,
+                                                  int period,
+                                                  String koreaPM,
+                                                  String vietnamPL,
+                                                  String framework,
+                                                  String status,
+                                                  Date startDate,
+                                                  Date endDate, Pageable pageable){
+        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
+        List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
+        for(Object[] obj : resultList){
+            pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));
+        }
+
+        return pme00ProjectInfoList;
+    }
+
+    @Override
+    public List<TaskStatusDto> getTaskStatus() {
+        List<Object[]> resultList = this.store.getTaskStatus();
+        List<TaskStatusDto> taskStatusDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            taskStatusDtoList.add(new TaskStatusDto(obj));
+        }
+        return taskStatusDtoList;
+    }
+
+    @Override
+    public List<EmployeeDto> getKoreaPM() {
+        List<Object[]> resultList = this.store.getKoreaPM();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            employeeDtoList.add(new EmployeeDto(obj));
+        }
+        return employeeDtoList;
+    }
+
+    @Override
+    public List<EmployeeDto> getVietnamPL() {
+        List<Object[]> resultList = this.store.getVietnamPL();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            employeeDtoList.add(new EmployeeDto(obj));
+        }
+        return employeeDtoList;
+    }
+
+    @Override
+    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status, Date startDate, Date endDate){
+        return this.store.getCountProject(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate);
+    }
+
+//    @Override
+//    public List<Pme00ProjectInfo> findProjectInfo(String cdV, int period, String koreaPM, String vietnamPL, String framework, String status, Date startDate, Date endDate) {
+//
+//        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
+//        List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
+//        for(Object[] obj : resultList){
+//            pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));
+//        }
+//
+//        return pme00ProjectInfoList;
+//    }
 }

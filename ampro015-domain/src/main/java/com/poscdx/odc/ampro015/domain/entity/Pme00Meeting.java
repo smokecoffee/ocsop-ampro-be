@@ -3,7 +3,9 @@ package com.poscdx.odc.ampro015.domain.entity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -22,6 +24,8 @@ public class Pme00Meeting {
     private String categoryMeeting;
     private String status;
     private String description;
+    private List<Pme00EmployeeMeeting> listMember;
+    private List<String> empNameList;
 
     public String toJson() {
         return JsonUtil.toJson(this);

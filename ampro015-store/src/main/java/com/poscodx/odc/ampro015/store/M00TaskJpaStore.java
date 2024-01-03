@@ -5,13 +5,14 @@ import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
 import com.poscodx.odc.ampro015.store.jpo.M00TaskJpo;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscodx.odc.ampro015.store.repository.M00TaskRepository;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -24,8 +25,8 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public M00Task retrieve(M00TaskId id) {
-        Optional<M00TaskJpo> taskResult = this.repository.findOneTask(id.getProjectNumber(), id.getTaskName());
-        return taskResult.map(M00TaskJpo::toDomain).orElse(null);
+        Optional<M00TaskJpo> results = this.repository.findById(id);
+        return results.isPresent() ? results.get().toDomain() : null;
     }
 
     @Override
@@ -48,6 +49,30 @@ public class M00TaskJpaStore implements M00TaskStore {
 
     @Override
     public List<M00Task> retrieveAll(String projectNumber) {
-        return this.repository.findAllByProjectNumber(projectNumber).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+        return this.repository.findAllByProjectNumberContains(projectNumber)
+                .stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate,
+                                              String actualEndDate, String status, String empId, String category, Pageable pageable) {
+        return this.repository.findTaskByConditions(projectNumber, taskName, planDate, actualEndDate, status, empId, category)
+                .stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId) {
+        List<Object[]> responseList = this.repository.findAllByEmpId(projectNumber, taskName, status, employeeId);
+        return responseList;
+    }
+
+    @Override
+    public List<Object[]> getImagePathByEmployeeId(Set<String> empId) {
+        return this.repository.getImagePathByEmployeeId(empId);
+    }
+
+    @Override
+    public List<Object[]> getEmployeeImagePathAll() {
+        return this.repository.getEmployeeImagePathAll();
     }
 }

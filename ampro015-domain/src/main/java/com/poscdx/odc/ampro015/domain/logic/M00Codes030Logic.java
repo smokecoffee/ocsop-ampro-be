@@ -7,6 +7,12 @@ import com.poscdx.odc.ampro015.domain.store.M00Codes030Store;
 
 import java.util.List;
 
+/**
+ * M00Codes030Logic
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 public class M00Codes030Logic implements M00Codes030Service{
 
     public final M00Codes030Store store;
@@ -37,5 +43,20 @@ public class M00Codes030Logic implements M00Codes030Service{
     @Override
     public void remove(M00Codes030Id id){
         this.store.delete(id);
+    }
+
+    @Override
+    public int getMaxSeqInquiry(int cdTpId, int cateGroupId){
+        return this.store.getMaxSeqInquiry(cdTpId, cateGroupId);
+    }
+
+    @Override
+    public List<M00Codes030>  findM00Codes030(String cdV, String meaning){
+        return this.store.findM00Codes030(cdV, meaning);
+    }
+
+    @Override
+    public List<M00Codes030> findM00Codes030ById(int cdTpId){
+        return this.store.findM00Codes030ById(cdTpId);
     }
 }

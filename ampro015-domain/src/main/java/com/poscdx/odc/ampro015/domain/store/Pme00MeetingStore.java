@@ -1,7 +1,9 @@
 package com.poscdx.odc.ampro015.domain.store;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 
+import java.util.Date;
 import java.util.List;
 
 public interface Pme00MeetingStore {
@@ -16,4 +18,20 @@ public interface Pme00MeetingStore {
 
     public void delete(int id);
 
+    public List<Pme00Meeting> findAllByAssetId(
+            Integer cd_tp_id,
+            String title,
+            String startTime,
+            String endTime,
+            String creatorId,
+            String requesterId,
+            String categoryMeeting,
+            String status);
+
+    public int findMetingByStartAndEnd(
+            int cdTpId,
+            Date startDate,
+            Date endDate);
+
+    public List<Pme00Meeting> findByEndDate(int cdTpId);
 }

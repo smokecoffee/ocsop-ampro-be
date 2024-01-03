@@ -7,15 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * Pme00ProjectInfoJpo
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -46,6 +49,16 @@ public class Pme00ProjectInfoJpo {
 
     @Column(name = "END_DATE")
     private Date endDate;
+
+    @Column(name = "IMAGE")
+    private String image;
+
+
+    @Transient
+    private String koreaPmName;
+
+    @Transient
+    private String vietnamPlName;
 
     public Pme00ProjectInfoJpo(Pme00ProjectInfo domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

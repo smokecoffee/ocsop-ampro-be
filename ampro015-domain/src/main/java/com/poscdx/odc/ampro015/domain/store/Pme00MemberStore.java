@@ -15,4 +15,8 @@ public interface Pme00MemberStore {
 
     void delete(int id);
 
+    List<Pme00Member> getListMemberByCdVId(String cdVId);
+
+    void deleteMemberById(String cdVId, String empId);
+
 }

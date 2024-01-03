@@ -6,6 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * M00Codes030SpringLogic
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class M00Codes030SpringLogic extends M00Codes030Logic {

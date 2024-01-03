@@ -6,6 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Pme00ProjectInfoSpringLogic
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class Pme00ProjectInfoSpringLogic extends Pme00ProjectInfoLogic {

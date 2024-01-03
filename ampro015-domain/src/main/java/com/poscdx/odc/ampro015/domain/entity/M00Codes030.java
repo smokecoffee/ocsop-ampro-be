@@ -7,6 +7,12 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * M00Codes030
+ *
+ * @author 202284_Lam
+ * @since : 2023-11-28
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,12 +29,15 @@ public class M00Codes030 {
     private String lastUpdateProgramId;
     private Date lastUpdateTimestamp;
 
+    public M00Codes030(String cdV) {
+        this.cdV = cdV;
+    }
 
     public String toJson() {
         return JsonUtil.toJson(this);
     }
 
-    public static Asset fromJson(String json) {
-        return JsonUtil.fromJson(json, Asset.class);
+    public static M00Codes030 fromJson(String json) {
+        return JsonUtil.fromJson(json, M00Codes030.class);
     }
 }

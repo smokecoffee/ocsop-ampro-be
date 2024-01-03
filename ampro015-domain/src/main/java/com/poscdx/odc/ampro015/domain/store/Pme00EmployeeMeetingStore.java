@@ -15,4 +15,8 @@ public interface Pme00EmployeeMeetingStore {
 
     void delete(int id);
 
+    List<Pme00EmployeeMeeting> findByMeetingId(int id);
+
+    void deleteAllByMeetingId(int meetingId);
+
 }
