@@ -80,16 +80,6 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public List<TaskStatusDto> getTaskStatus() {
-        List<Object[]> resultList = this.store.getTaskStatus();
-        List<TaskStatusDto> taskStatusDtoList = new ArrayList<>();
-        for (Object[] obj : resultList) {
-            taskStatusDtoList.add(new TaskStatusDto(obj));
-        }
-        return taskStatusDtoList;
-    }
-
-    @Override
     public List<EmployeeDto> getKoreaPM() {
         List<Object[]> resultList = this.store.getKoreaPM();
         List<EmployeeDto> employeeDtoList = new ArrayList<>();

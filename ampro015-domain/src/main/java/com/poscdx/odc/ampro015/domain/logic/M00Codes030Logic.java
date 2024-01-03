@@ -2,9 +2,11 @@ package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
+import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.spec.M00Codes030Service;
 import com.poscdx.odc.ampro015.domain.store.M00Codes030Store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,5 +60,15 @@ public class M00Codes030Logic implements M00Codes030Service{
     @Override
     public List<M00Codes030> findM00Codes030ById(int cdTpId){
         return this.store.findM00Codes030ById(cdTpId);
+    }
+
+    @Override
+    public List<TaskStatusDto> getTaskStatus() {
+        List<Object[]> resultList = this.store.getTaskStatus();
+        List<TaskStatusDto> taskStatusDtoList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            taskStatusDtoList.add(new TaskStatusDto(obj));
+        }
+        return taskStatusDtoList;
     }
 }

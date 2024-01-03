@@ -34,8 +34,6 @@ public interface Pme00ProjectInfoService {
     List<Pme00ProjectInfo> findProjectInfo (String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                                             String framework, String status, Date startDate, Date endDate, Pageable pageable);
 
-    List<TaskStatusDto> getTaskStatus();
-
     List<EmployeeDto> getKoreaPM();
 
     List<EmployeeDto> getVietnamPL();

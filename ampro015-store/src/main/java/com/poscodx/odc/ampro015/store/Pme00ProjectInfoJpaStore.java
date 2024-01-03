@@ -63,10 +63,6 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
                                           String framework, String status, Date startDate, Date endDate, Pageable pageable){
         return this.repository.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
     }
-    public List<Object[]> getTaskStatus() {
-        return this.repository.getTaskStatus();
-    }
-
 
     @Override
     public List<Object[]> getKoreaPM() {
