@@ -32,7 +32,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         final int CD_TP_ID = 65;
         List<M00Codes030> pme00Rooms = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(CD_TP_ID);
 
-        int flagCheckMeetingIdOfM00Codes030 = 0;
+        int flagValidateInput = 0;
         int checkMeetingIdOfM00Codes030 = newMeeting.getCd_tp_id();
         String checkCdvOfM00Codes030 = newMeeting.getCdv();
         String checkCdvMeaningOfM00Codes030 = newMeeting.getCdvMeaning();
@@ -41,7 +41,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     && (Objects.equals(pme00Rooms.get(i).getCdV(), checkCdvOfM00Codes030))
                     && (Objects.equals(pme00Rooms.get(i).getCdvMeaning(), checkCdvMeaningOfM00Codes030));
                 if(validateInput){
-                    flagCheckMeetingIdOfM00Codes030= flagCheckMeetingIdOfM00Codes030+1;
+                    flagValidateInput= flagValidateInput+1;
                 }
         }
         //validate startTime and endtime
@@ -49,7 +49,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
                 && (newMeeting.getStartTime().compareTo(dateNow)<0);
 
-        if(flagCheckMeetingIdOfM00Codes030>0&&checkDateInput) {
+        if(flagValidateInput>0&&checkDateInput) {
             if (count1 == 0) {
                 try {
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
