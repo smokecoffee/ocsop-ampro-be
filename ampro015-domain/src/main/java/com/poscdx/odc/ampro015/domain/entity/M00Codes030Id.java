@@ -7,6 +7,12 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * M00Codes030Id
+ *
+ * @author 202284_Lam
+ * @since : 2023-11-28
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -68,4 +68,5 @@ public interface Pme00MeetingService {
      */
     int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate);
 
+    List<Pme00Meeting> findByEndDate();
 }

@@ -240,4 +240,19 @@ public class Level2MeetingLogic implements Level2MeetingService {
         responseEntitys.setMessage("Get all room successfully");
         return responseEntitys;
     }
+
+    @Override
+    public Pme00AllMeetingResponse getMeetingByEndDate(ServiceLifecycle serviceLifecycle) {
+        Pme00AllMeetingResponse result = new Pme00AllMeetingResponse();
+        List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findByEndDate();
+        for (Pme00Meeting pme00Meeting : pme00MeetingList) {
+            int meetingId = pme00Meeting.getMeetingId();
+            pme00Meeting.setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
+                    .findByMeetingId(meetingId));
+        }
+        result.setStatus(HttpStatus.OK.value());
+        result.setListData(pme00MeetingList);
+        result.setMessage("Get meetings successfully");
+        return result;
+    }
 }

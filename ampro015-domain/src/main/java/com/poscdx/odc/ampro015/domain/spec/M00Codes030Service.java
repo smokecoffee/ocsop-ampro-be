@@ -2,9 +2,16 @@ package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
+import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 
 import java.util.List;
 
+/**
+ * M00Codes030Service
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 public interface M00Codes030Service {
 
     List<M00Codes030> findAll();
@@ -23,4 +30,5 @@ public interface M00Codes030Service {
 
     List<M00Codes030> findM00Codes030ById(int cdTpId);
 
+    List<TaskStatusDto> getTaskStatus();
 }
