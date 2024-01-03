@@ -107,10 +107,10 @@ public class Level2TaskLogic implements Level2TaskService {
         List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
-            String existedOwnerTaskId = existedTask.get().getEmpId();
-            String existedPasswordTask = existedTask.get().getPassword();
-            String requestOwnerTaskId = requestTask.getEmpId();
-            String requestPasswordTask = DigestUtils.md5Hex(requestTask.getPassword());
+            String existedOwnerTaskId = StringUtils.defaultIfBlank(existedTask.get().getEmpId(), StringUtils.EMPTY);
+            String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), StringUtils.EMPTY);
+            String requestOwnerTaskId = StringUtils.defaultIfBlank(requestTask.getEmpId(), StringUtils.EMPTY);
+            String requestPasswordTask = DigestUtils.md5Hex(StringUtils.defaultIfBlank(requestTask.getPassword(), StringUtils.EMPTY));
 
 
             if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
