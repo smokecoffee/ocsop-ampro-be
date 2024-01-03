@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
@@ -7,6 +8,12 @@ import lombok.*;
 import javax.persistence.Transient;
 import java.util.Date;
 
+/**
+ * Pme00ProjectInfo
+ *
+ * @author 202257_Long
+ * @since 2023-11-28
+ */
 @Getter
 @Setter
 @Builder
@@ -22,9 +29,10 @@ public class Pme00ProjectInfo {
     private Date startDate;
     private Date endDate;
     private String image;
-
     private String koreaPmName;
+    private String koreaPmImage;
     private String vietnamPlName;
+    private String vietnamPlImage;
 
     public Pme00ProjectInfo(String cdV) {
         this.cdV = cdV;
@@ -48,8 +56,10 @@ public class Pme00ProjectInfo {
         this.framework = (String) objects[5];
         this.startDate = (Date) objects[6];
         this.endDate = (Date) objects[7];
-        this.image = (String) objects[8];
+        this.image = (objects[8] == null || ((String) objects[8]).isEmpty()) ? null : Constants.UPLOAD_FILE_PATH + "Project\\" + (String) objects[8];
         this.koreaPmName = (String) objects[9];
-        this.vietnamPlName = (String) objects[10];
+        this.koreaPmImage = "http://172.25.219.61:8080/img/" + (String) objects[10];
+        this.vietnamPlName = (String) objects[11];
+        this.vietnamPlImage = "http://172.25.219.61:8080/img/" + (String) objects[12];
     }
 }

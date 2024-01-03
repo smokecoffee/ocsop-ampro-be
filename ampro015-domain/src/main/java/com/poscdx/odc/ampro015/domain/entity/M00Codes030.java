@@ -7,6 +7,12 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * M00Codes030
+ *
+ * @author 202284_Lam
+ * @since : 2023-11-28
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -7,6 +7,12 @@ import com.poscdx.odc.ampro015.domain.store.M00Codes030Store;
 
 import java.util.List;
 
+/**
+ * M00Codes030Logic
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 public class M00Codes030Logic implements M00Codes030Service{
 
     public final M00Codes030Store store;

@@ -4,14 +4,20 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2ProjectService;
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
+/**
+ * Level2ProjectLogic
+ *
+ * @author
+ * @since 2023-12-12
+ */
 public class Level2ProjectLogic implements Level2ProjectService {
 
     /**
@@ -19,7 +25,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @param dto
-     * @return
+     * @return boolean
+     * @author 20284_Lam
+     * @since: 2023-12-12
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
@@ -59,6 +67,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         entityInfo.setVietnamPl(dto.getPme00ProjectInfo().getVietnamPl());
         entityInfo.setStatus(dto.getPme00ProjectInfo().getStatus());
         entityInfo.setFramework(dto.getPme00ProjectInfo().getFramework());
+        entityInfo.setImage(dto.getPme00ProjectInfo().getImage());
 
         serviceLifecycle.requestPme00ProjectInfoService().register(entityInfo);
 
@@ -66,9 +75,10 @@ public class Level2ProjectLogic implements Level2ProjectService {
         Pme00Member entityMember;
         for (Pme00Member member : dto.getLstMember()) {
             entityMember = new Pme00Member();
-            entityMember.setCdVId(member.getCdVId());
+            entityMember.setCdVId(dto.getM00Codes030().getCdV());
             entityMember.setEmpId(member.getEmpId());
             entityMember.setEmpName(member.getEmpName());
+            entityMember.setAvatar(member.getAvatar());
 
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
@@ -81,7 +91,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @param dto
-     * @return
+     * @return boolean
+     * @author 202284_Lam
+     * @since 2023-12-12
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
@@ -122,6 +134,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         entityInfo.setVietnamPl(dto.getPme00ProjectInfo().getVietnamPl());
         entityInfo.setStatus(dto.getPme00ProjectInfo().getStatus());
         entityInfo.setFramework(dto.getPme00ProjectInfo().getFramework());
+        entityInfo.setImage(dto.getPme00ProjectInfo().getImage());
         lstProjectInfo.add(entityInfo);
 
         serviceLifecycle.requestPme00ProjectInfoService().modify(lstProjectInfo);
@@ -134,9 +147,10 @@ public class Level2ProjectLogic implements Level2ProjectService {
         Pme00Member entityMember;
         for (Pme00Member member : dto.getLstMember()) {
             entityMember = new Pme00Member();
-            entityMember.setCdVId(member.getCdVId());
+            entityMember.setCdVId(dto.getM00Codes030().getCdV());
             entityMember.setEmpId(member.getEmpId());
             entityMember.setEmpName(member.getEmpName());
+            entityMember.setAvatar(member.getAvatar());
 
             serviceLifecycle.requestPme00MemberService().register(entityMember);
         }
@@ -149,38 +163,71 @@ public class Level2ProjectLogic implements Level2ProjectService {
      *
      * @param serviceLifecycle
      * @param id
+     * @return boolean
+     * @author 202284_Lam
+     * @since 2023-12-12
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public void deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
+    public boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
 
-        // Delete member in Pme00Member
-        serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
+        // Check project code exists
+        if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, id.getCdV())
+                 && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
+            // Delete tasks
+            List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(id.getCdV());
 
-        // Delete project Pme00ProjectInfo
-        serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
+            Map<String, Object> requestDeleteTaskId = new HashMap<>();
+            requestDeleteTaskId.put("projectNumber", id.getCdV());
+            for(M00Task task : m00TaskDtoList) {
+                requestDeleteTaskId.put("taskName", id.getCdV());
+                serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, requestDeleteTaskId, false);
+            }
 
-        // Delete project M00Codes030
-        serviceLifecycle.requestM00Codes030Service().remove(id);
+            // Delete member in Pme00Member
+            serviceLifecycle.requestPme00MemberService().deleteMemberById(id.getCdV(), null);
 
-        // TODO
-        // Delete tasks
+            // Delete project Pme00ProjectInfo
+            serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
+
+            // Delete project M00Codes030
+            id.setCdTpId(ConstantUtil.CD_TP_ID);
+            id.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
+            serviceLifecycle.requestM00Codes030Service().remove(id);
+
+            return true;
+        }
+
+        return false;
     }
 
+    /**
+     * Get project info
+     *
+     * @param serviceLifecycle
+     * @return Map<String, Object>
+     * @author : 202301_Duyen
+     * @since : 2023-12-12
+     */
     @Override
-    public List<ProjectManagementDto> getProjectList(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) {
+    public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize) {
         //return this.store.getProjectList(dto);
         List<ProjectManagementDto>  projectList = new ArrayList<>();
         List<M00Codes030> m00Codes030List =
                 serviceLifecycle.requestM00Codes030Service()
                         .findM00Codes030(dto.getM00Codes030().getCdV(), dto.getM00Codes030().getCdvMeaning());
 
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        if(pageSize == 0){
+            pageable = Pageable.unpaged();
+        }
         List<Pme00ProjectInfo> pme00ProjectInfoList =
                 serviceLifecycle.requestPme00ProjectInfoService()
-                        .findProjectInfo(dto.getPme00ProjectInfo().getCdV(), dto.getPme00ProjectInfo().getPeriod()
-                                , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
-                                , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
-                                , dto.getPme00ProjectInfo().getStartDate(), dto.getPme00ProjectInfo().getEndDate());
+                        .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
+                                , dto.getPme00ProjectInfo().getPeriod(), dto.getPme00ProjectInfo().getKoreaPm()
+                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework()
+                                , dto.getPme00ProjectInfo().getStatus(), dto.getPme00ProjectInfo().getStartDate()
+                                , dto.getPme00ProjectInfo().getEndDate(), pageable);
 
 
         for (M00Codes030 project : m00Codes030List) {
@@ -200,26 +247,40 @@ public class Level2ProjectLogic implements Level2ProjectService {
             }
 
         }
-        return projectList;
+
+        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getM00Codes030().getCdV()
+                , dto.getM00Codes030().getCdvMeaning(), dto.getPme00ProjectInfo().getPeriod()
+                , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
+                , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
+                , dto.getPme00ProjectInfo().getStartDate(), dto.getPme00ProjectInfo().getEndDate());
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("total", total);
+        rs.put("info", projectList);
+        return rs;
     }
 
     /**
-     * Get project info
-     *
+     * Get project list for monitoring
      * @param serviceLifecycle
-     * @return
+     * @param pageNo
+     * @param pageSize
+     *
+     * @return Map<String, Object>
+     * @author : 202285_Tuan
+     * @since : 2023-12-12
      */
     @Override
-    public List<ProjectManagementDto> getProjectList(ServiceLifecycle serviceLifecycle) {
+    public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, int pageNo, int pageSize) {
 
         List<ProjectManagementDto> result = new ArrayList<>();
 
         //Get project list
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
+        if(pageSize == 0){
+            pageable = Pageable.unpaged();
+        }
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
-                0, null, null, null, null, null, null);
-
-        //Sort projects by status
-        Collections.sort(projectList, Comparator.comparing(Pme00ProjectInfo::getStatus));
+                null, 0, null, null, null, null, null, null, pageable);
 
         if (!projectList.isEmpty()) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
@@ -229,7 +290,10 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 newObject.setPme00ProjectInfo(pme00ProjectInfo);
 
                 //Get task list
-                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle,pme00ProjectInfo.getCdV());
+                List<M00TaskDto> taskList = serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle,
+                        pme00ProjectInfo.getCdV(), null, null, null, null, null, null,
+                        0, 20, "lastUpdateTimestamp", "ASC");
+
                 newObject.setLstTask(taskList);
                 //Set member list
                 List<Pme00Member> listMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(pme00ProjectInfo.getCdV());
@@ -255,16 +319,25 @@ public class Level2ProjectLogic implements Level2ProjectService {
             }
         }
 
-        return result;
+        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(null, null,0, null,
+                null, null, null, null, null);
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("total", total);
+        rs.put("info", result);
+        return rs;
     }
 
     /**
      * Check exists project code
+     *
      * @param serviceLifecycle
      * @param cdTpId
      * @param cateGroupId
      * @param cdV
-     * @return
+     *
+     * @return boolean
+     * @author 202284_Lam
+     * @since 2023-12-12
      */
     private boolean checkExistsM00Codes030(ServiceLifecycle serviceLifecycle, int cdTpId, int cateGroupId, String cdV){
 
@@ -280,9 +353,12 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
     /**
      * Check exists project info code
+     *
      * @param serviceLifecycle
      * @param cdV
-     * @return
+     * @return boolean
+     * @author 202284_Lam
+     * @since 202284_Lam
      */
     private boolean checkExistsPme00ProjectInfo(ServiceLifecycle serviceLifecycle, String cdV){
         Pme00ProjectInfo projectInfo = new Pme00ProjectInfo();
