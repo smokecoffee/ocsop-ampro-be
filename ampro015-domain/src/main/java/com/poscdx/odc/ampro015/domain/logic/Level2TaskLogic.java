@@ -135,7 +135,7 @@ public class Level2TaskLogic implements Level2TaskService {
             }
 
             // modify info task
-            requestTask.setPassword(existedPasswordTask);
+            requestTask.setPassword(requestPasswordTask);
             requestTask.setEmpId(existedOwnerTaskId);
 
             // save DB
