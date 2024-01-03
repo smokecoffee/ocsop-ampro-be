@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * M00Codes030JpaStore
+ *
+ * @author 202284_Lam
+ * @since 2023-11-28
+ */
 @Repository
 public class M00Codes030JpaStore implements M00Codes030Store {
 
