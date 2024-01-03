@@ -231,7 +231,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         for(int i=0; i<pme00Rooms.size(); i++){
             Pme00Room pme00Room = new Pme00Room();
             pme00Room.setCdTpId(pme00Rooms.get(i).getCdTpId());
-            pme00Room.setCdV(pme00Rooms.get(i).getCdV());
+            pme00Room.setCdv(pme00Rooms.get(i).getCdV());
             pme00Room.setCdvMeaning(pme00Rooms.get(i).getCdvMeaning());
             roomList.add(pme00Room);
         }
