@@ -6,7 +6,7 @@ import com.poscodx.odc.ampro015.store.jpo.M00Codes030Jpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
+import com.poscdx.odc.ampro015.domain.utils.Constants;
 import java.util.List;
 
 /**
@@ -42,4 +42,12 @@ public interface M00Codes030Repository extends JpaRepository<M00Codes030Jpo, M00
                     "AND (CD_TP_ID =:cdTpId)\n"
                     , nativeQuery = true)
     List<M00Codes030Jpo> findM00Codes030ById(@Param("cdTpId") int cdTpId);
+
+    @Query(value = "SELECT CD_V\n" +
+            ",CD_V_MEANING\n" +
+            ",CD_V_EXPLAIN AS CD_V_COLOR\n" +
+            "FROM TB_M00_CODES030\n" +
+            "WHERE CD_TP_ID = 64 \n" +
+            "AND CATEGORY_GROUP_ID = 56", nativeQuery = true)
+    List<Object[]> getTaskStatus();
 }
