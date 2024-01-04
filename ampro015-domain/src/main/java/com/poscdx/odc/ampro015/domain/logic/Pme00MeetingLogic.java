@@ -116,6 +116,4 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
         meetingList.addAll(this.store.findByEndDate(67));
         return meetingList;
     }
-
-
 }
