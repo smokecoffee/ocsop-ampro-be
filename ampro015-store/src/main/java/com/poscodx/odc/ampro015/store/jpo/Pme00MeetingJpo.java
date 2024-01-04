@@ -31,9 +31,6 @@ public class Pme00MeetingJpo {
     @Column(name = "CD_V")
     private String cdv;
 
-    @Column(name = "CD_V_MEANING")
-    private String cdvMeaning;
-
     @Column(name = "TITLE")
     private String title;
 

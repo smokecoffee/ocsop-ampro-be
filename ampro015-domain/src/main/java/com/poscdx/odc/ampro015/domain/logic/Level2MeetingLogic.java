@@ -35,11 +35,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
         int flagValidateInput = 0;
         int checkMeetingIdOfM00Codes030 = newMeeting.getCd_tp_id();
         String checkCdvOfM00Codes030 = newMeeting.getCdv();
-        String checkCdvMeaningOfM00Codes030 = newMeeting.getCdvMeaning();
         for(int i=0; i<pme00Rooms.size(); i++){
             boolean validateInput = (pme00Rooms.get(i).getCdTpId()==checkMeetingIdOfM00Codes030)
-                    && (Objects.equals(pme00Rooms.get(i).getCdV(), checkCdvOfM00Codes030))
-                    && (Objects.equals(pme00Rooms.get(i).getCdvMeaning(), checkCdvMeaningOfM00Codes030));
+                    && (Objects.equals(pme00Rooms.get(i).getCdV(), checkCdvOfM00Codes030));
                 if(validateInput){
                     flagValidateInput= flagValidateInput+1;
                 }
