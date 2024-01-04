@@ -28,6 +28,9 @@ public class Pme00MeetingJpo {
     @Column(name = "CD_TP_ID")
     private int cd_tp_id;
 
+    @Column(name = "CD_V")
+    private String cdv;
+
     @Column(name = "TITLE")
     private String title;
 

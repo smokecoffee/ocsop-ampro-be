@@ -32,11 +32,14 @@ public class Level2MeetingLogic implements Level2MeetingService {
         final int CD_TP_ID = 65;
         List<M00Codes030> pme00Rooms = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(CD_TP_ID);
 
-        int flagCheckMeetingIdOfM00Codes020 = 0;
-        int checkMeetingIdOfM00Codes020 = newMeeting.getCd_tp_id();
+        int flagValidateInput = 0;
+        int checkMeetingIdOfM00Codes030 = newMeeting.getCd_tp_id();
+        String checkCdvOfM00Codes030 = newMeeting.getCdv();
         for(int i=0; i<pme00Rooms.size(); i++){
-                if(checkMeetingIdOfM00Codes020==pme00Rooms.get(i).getCdTpId()){
-                    flagCheckMeetingIdOfM00Codes020= flagCheckMeetingIdOfM00Codes020+1;
+            boolean validateInput = (pme00Rooms.get(i).getCdTpId()==checkMeetingIdOfM00Codes030)
+                    && (Objects.equals(pme00Rooms.get(i).getCdV(), checkCdvOfM00Codes030));
+                if(validateInput){
+                    flagValidateInput= flagValidateInput+1;
                 }
         }
         //validate startTime and endtime
@@ -44,7 +47,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
                 && (newMeeting.getStartTime().compareTo(dateNow)<0);
 
-        if(flagCheckMeetingIdOfM00Codes020>0&&checkDateInput) {
+        if(flagValidateInput>0&&checkDateInput) {
             if (count1 == 0) {
                 try {
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
@@ -226,8 +229,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
         for(int i=0; i<pme00Rooms.size(); i++){
             Pme00Room pme00Room = new Pme00Room();
             pme00Room.setCdTpId(pme00Rooms.get(i).getCdTpId());
-            pme00Room.setCdV(pme00Rooms.get(i).getCdV());
+            pme00Room.setCdv(pme00Rooms.get(i).getCdV());
             pme00Room.setCdvMeaning(pme00Rooms.get(i).getCdvMeaning());
+            pme00Room.setColor(pme00Rooms.get(i).getCdVExplain());
             roomList.add(pme00Room);
         }
         responseEntitys.setStatus(HttpStatus.OK.value());

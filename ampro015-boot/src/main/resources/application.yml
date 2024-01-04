@@ -12,7 +12,6 @@ spring:
     driver-class-name: ${datasource.driver-class-name}
   jpa:
     hibernate:
-#      ddl-auto: create-drop # oracle db 사용시 none
     show-sql: true
     properties:
       hibernate:

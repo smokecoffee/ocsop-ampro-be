@@ -16,6 +16,7 @@ import java.util.List;
 public class Pme00Meeting {
     private int meetingId;
     private int cd_tp_id;
+    private String cdv;
     private String title;
     private Date startTime;
     private Date endTime;

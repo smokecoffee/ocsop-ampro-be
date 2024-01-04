@@ -69,7 +69,9 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
      */
     @Override
     public Pme00Meeting create(Pme00Meeting entity) {
-        return this.repository.save(new Pme00MeetingJpo(entity)).toDomain();
+        Pme00MeetingJpo createData = new Pme00MeetingJpo(entity);
+        System.out.println("data update: " + createData);
+        return this.repository.save(createData).toDomain();
     }
 
     /**
