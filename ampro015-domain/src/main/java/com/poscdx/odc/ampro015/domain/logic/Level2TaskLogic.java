@@ -37,6 +37,7 @@ public class Level2TaskLogic implements Level2TaskService {
     static final String TASK_NAME_FIELD = "taskName";
     static final String EMPLOYEE_ID_FIELD = "empId";
     static final String PASSWORD_REQUEST_FIELD = "passwordRequest";
+    static final String PASSWORD_FIELD = "password";
 
     /**
      * This function gets an existing tasks and its associated employeeTask based on the taskId
@@ -106,10 +107,10 @@ public class Level2TaskLogic implements Level2TaskService {
         List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
         if (existedTask.isPresent()) {
-            String existedOwnerTaskId = existedTask.get().getEmpId();
-            String existedPasswordTask = existedTask.get().getPassword();
-            String requestOwnerTaskId = requestTask.getEmpId();
-            String requestPasswordTask = DigestUtils.md5Hex(requestTask.getPasswordRequest()).toUpperCase();
+            String existedOwnerTaskId = StringUtils.defaultIfBlank(existedTask.get().getEmpId(), StringUtils.EMPTY);
+            String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), StringUtils.EMPTY);
+            String requestOwnerTaskId = StringUtils.defaultIfBlank(requestTask.getEmpId(), StringUtils.EMPTY);
+            String requestPasswordTask = DigestUtils.md5Hex(StringUtils.defaultIfBlank(requestTask.getPassword(), StringUtils.EMPTY));
 
 
             if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
@@ -135,7 +136,7 @@ public class Level2TaskLogic implements Level2TaskService {
             }
 
             // modify info task
-            requestTask.setPassword(existedPasswordTask);
+            requestTask.setPassword(DigestUtils.md5Hex(requestTask.getPasswordRequest()));
             requestTask.setEmpId(existedOwnerTaskId);
 
             // save DB
@@ -166,7 +167,7 @@ public class Level2TaskLogic implements Level2TaskService {
             // map M00TaskDto -> Jpo
             M00Task newTaskJpo = newTask.getTask();
 
-            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()).toUpperCase());
+            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()));
             M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
 
             // map Emp
@@ -193,8 +194,8 @@ public class Level2TaskLogic implements Level2TaskService {
         String requestProjectNumber = (String) requestDeleteTaskId.get(PROJECT_NUMBER_FIELD);
         String requestTaskName = (String) requestDeleteTaskId.get(TASK_NAME_FIELD);
         String requestOwnerTaskId = (String) requestDeleteTaskId.get(EMPLOYEE_ID_FIELD);
-        String requestPasswordTask = (String) requestDeleteTaskId.get(PASSWORD_REQUEST_FIELD);
-        requestPasswordTask = DigestUtils.md5Hex(requestPasswordTask).toUpperCase();
+        String requestPasswordTask = (String) requestDeleteTaskId.get(PASSWORD_FIELD);
+        requestPasswordTask = DigestUtils.md5Hex(requestPasswordTask);
 
         M00TaskId deleteTaskId = new M00TaskId(requestProjectNumber, requestTaskName);
 
