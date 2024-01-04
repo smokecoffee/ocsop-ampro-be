@@ -231,6 +231,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
             pme00Room.setCdTpId(pme00Rooms.get(i).getCdTpId());
             pme00Room.setCdv(pme00Rooms.get(i).getCdV());
             pme00Room.setCdvMeaning(pme00Rooms.get(i).getCdvMeaning());
+            pme00Room.setColor(pme00Rooms.get(i).getCdVExplain());
             roomList.add(pme00Room);
         }
         responseEntitys.setStatus(HttpStatus.OK.value());
