@@ -11,7 +11,7 @@ import lombok.*;
 public class Pme00Room {
 
    private int cdTpId;
-   private String cdV;
+   private String cdv;
    private String cdvMeaning;
 
     public String toJson() {
