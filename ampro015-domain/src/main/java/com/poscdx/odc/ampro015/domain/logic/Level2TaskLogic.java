@@ -13,10 +13,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +37,18 @@ public class Level2TaskLogic implements Level2TaskService {
     static final String PROJECT_NUMBER_FIELD = "projectNumber";
     static final String TASK_NAME_FIELD = "taskName";
     static final String EMPLOYEE_ID_FIELD = "empId";
-    static final String PASSWORD_REQUEST_FIELD = "passwordRequest";
     static final String PASSWORD_FIELD = "password";
+    static final String RESPONSE_CODE = "code";
+    static final String RESPONSE_MESSAGE = "message";
+    static final String RESPONSE_DATA = "data";
+    static final String NOT_FOUND_RESPONSE_MESSAGE = "No task found matching the given criteria.";
+    static final String DUPLICATE_RESPONSE_MESSAGE = "This task is already existed in system.";
+    static final String UPDATE_SUCCESS_RESPONSE_MESSAGE = "The task updated successfully.";
+    static final String DELETE_SUCCESS_RESPONSE_MESSAGE = "The task deleted successfully.";
+    static final String INSERT_SUCCESS_RESPONSE_MESSAGE = "A new task has been successfully inserted.";
+    static final String INVALID_PASSWORD_RESPONSE_MESSAGE = "Password incorrect!";
+
+
 
     /**
      * This function gets an existing tasks and its associated employeeTask based on the taskId
@@ -97,8 +108,8 @@ public class Level2TaskLogic implements Level2TaskService {
      * @return M00TaskDto
      */
     @Override
-    public M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest) {
-        //convert json to DTO
+    public ResponseEntity<?> modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest) {
+        // convert json to DTO
         M00Task requestTask = updateTaskRequest.getTask();
         // find exitedTask
         M00TaskId requestUpdatedTask = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
@@ -114,7 +125,7 @@ public class Level2TaskLogic implements Level2TaskService {
 
 
             if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
-                return null;
+                return appendResponse(HttpStatus.BAD_REQUEST, INVALID_PASSWORD_RESPONSE_MESSAGE, new M00TaskDto());
             }
 
             // find existedEmplTask
@@ -144,9 +155,9 @@ public class Level2TaskLogic implements Level2TaskService {
             M00TaskDto responseUpdateTask = new M00TaskDto();
             responseUpdateTask.setMembers(pme00EmployeeTasksRequestList);
             responseUpdateTask.setTask(updatedTask);
-            return responseUpdateTask;
+            return appendResponse(HttpStatus.OK, UPDATE_SUCCESS_RESPONSE_MESSAGE, responseUpdateTask);
         }
-        return null;
+        return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new M00TaskDto());
     }
 
     /**
@@ -157,12 +168,14 @@ public class Level2TaskLogic implements Level2TaskService {
      * @return M00TaskDto
      */
     @Override
-    public M00TaskDto register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
+    public ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
         //check this already existed yet?
         M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(newTaskId));
         if (existedTask.isPresent()) {
-            return null;
+            HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
+            mapResponse.get(RESPONSE_DATA);
+            return appendResponse(HttpStatus.BAD_REQUEST, DUPLICATE_RESPONSE_MESSAGE, new M00TaskDto());
         } else {
             // map M00TaskDto -> Jpo
             M00Task newTaskJpo = newTask.getTask();
@@ -171,15 +184,12 @@ public class Level2TaskLogic implements Level2TaskService {
             M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
 
             // map Emp
-            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
-
-            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
-
             M00TaskDto newReponse = new M00TaskDto();
             newReponse.setTask(savedTask);
+            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
+            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
             newReponse.setMembers(savedPme00EmployeeTaskList);
-
-            return newReponse;
+            return appendResponse(HttpStatus.OK, INSERT_SUCCESS_RESPONSE_MESSAGE, newReponse);
         }
     }
 
@@ -190,7 +200,7 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param requestDeleteTaskId
      */
     @Override
-    public boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId, boolean isCheck) {
+    public ResponseEntity<?> remove(ServiceLifecycle serviceLifecycle, Map<String, Object> requestDeleteTaskId, boolean isCheck) {
         String requestProjectNumber = (String) requestDeleteTaskId.get(PROJECT_NUMBER_FIELD);
         String requestTaskName = (String) requestDeleteTaskId.get(TASK_NAME_FIELD);
         String requestOwnerTaskId = (String) requestDeleteTaskId.get(EMPLOYEE_ID_FIELD);
@@ -210,7 +220,7 @@ public class Level2TaskLogic implements Level2TaskService {
 
                 if ((StringUtils.isNotEmpty(requestOwnerTaskId) && StringUtils.isNotBlank(requestPasswordTask))
                         && (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask))) {
-                    return false;
+                    return appendResponse(HttpStatus.BAD_REQUEST, INVALID_PASSWORD_RESPONSE_MESSAGE, new M00TaskDto());
                 }
             }
             //find empTask
@@ -222,9 +232,9 @@ public class Level2TaskLogic implements Level2TaskService {
             }
             //Delete task
             serviceLifecycle.requestTaskService().remove(deleteTaskId);
-            return true;
+            return appendResponse(HttpStatus.OK, DELETE_SUCCESS_RESPONSE_MESSAGE, new M00TaskDto());
         }
-        return false;
+        return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new M00TaskDto());
     }
 
     /**
@@ -242,10 +252,10 @@ public class Level2TaskLogic implements Level2TaskService {
      * @return
      */
     @Override
-    public List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                                 String planDate, String actualEndDate, String status, String taskOwnerId,
-                                                 String category, int pageNo, int pageSize, String sortBy,
-                                                 String sortDirection) {
+    public ResponseEntity<?> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
+                                                  String planDate, String actualEndDate, String status, String taskOwnerId,
+                                                  String category, int pageNo, int pageSize, String sortBy,
+                                                  String sortDirection) {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
@@ -270,9 +280,10 @@ public class Level2TaskLogic implements Level2TaskService {
 
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
-            return taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
+            List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
+            return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
         }
-        return responseList;
+        return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
     }
 
     /**
@@ -390,5 +401,13 @@ public class Level2TaskLogic implements Level2TaskService {
             empIdImgMap.put(empId, empImg);
         }
         return empIdImgMap;
+    }
+
+    private ResponseEntity<?> appendResponse(HttpStatus status, String message, Object data){
+        Map<String, Object> response = new HashMap<>();
+        response.put(RESPONSE_CODE, status.value());
+        response.put(RESPONSE_MESSAGE, message);
+        response.put(RESPONSE_DATA, data);
+        return new ResponseEntity<>(response, status);
     }
 }

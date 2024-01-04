@@ -50,7 +50,7 @@ public class Pme00TaskResource {
      */
     @CrossOrigin
     @GetMapping(path = "/search")
-    public List<M00TaskDto> searchTask(@RequestParam(required = false, name = "projectNumber") String projectNumber,
+    public ResponseEntity<?> searchTask(@RequestParam(required = false, name = "projectNumber") String projectNumber,
                                        @RequestParam(required = false, name = "taskName") String taskName,
                                        @RequestParam(required = false, name = "planDate") String planDate,
                                        @RequestParam(required = false, name = "actualEndDate") String actualEndDate,
@@ -61,44 +61,8 @@ public class Pme00TaskResource {
                                        @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize,
                                        @RequestParam(required = false, defaultValue = "lastUpdateTimestamp", name = "sortBy") String sortBy,
                                        @RequestParam(required = false, defaultValue = "ASC", name = "sortDirection") String sortDirection) {
-        if (StringUtils.isNotEmpty(employeeId)) {
-            return this.serviceLifecycle.requestLevel2TaskService().findTaskByEmployeeId(serviceLifecycle, projectNumber, taskName, status, employeeId);
-        }
         return this.serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle, projectNumber,
                 taskName, planDate, actualEndDate, status, employeeId, category, pageNo, pageSize, sortBy, sortDirection);
-    }
-
-    /**
-     * Get List Task function
-     *
-     * @param projectNumber, taskName
-     * @return M00TaskDto
-     * @author 202296_Duong
-     * @since 2023-11-11
-     */
-    @CrossOrigin
-    @GetMapping(path = "/getById")
-    public M00TaskDto find(@RequestParam(value = "projectNumber") String projectNumber, @RequestParam(value = "taskName") String taskName) {
-        M00TaskId requestId = new M00TaskId(projectNumber, taskName);
-        return this.serviceLifecycle.requestLevel2TaskService().findTaskByProjectNumberAndTaskName(serviceLifecycle, requestId);
-    }
-
-    /**
-     * Get List Task function
-     *
-     * @param projectNumber, taskName, status, employeeId
-     * @return M00TaskDto
-     * @author 202296_Duong
-     * @since 2023-11-11
-     */
-    @CrossOrigin
-    @GetMapping(path = "/getByEmployeeId")
-    public List<M00TaskDto> findByEmployeeId(@RequestParam(required = false, name = "projectNumber") String projectNumber,
-                                             @RequestParam(required = false, name = "taskName") String taskName,
-                                             @RequestParam(required = false, name = "status") String status,
-                                             @RequestParam(value = "employeeId") String employeeId) {
-        List<M00TaskDto> response = this.serviceLifecycle.requestLevel2TaskService().findTaskByEmployeeId(serviceLifecycle, projectNumber, taskName, status, employeeId);
-        return response;
     }
 
     /**
@@ -110,12 +74,8 @@ public class Pme00TaskResource {
      */
     @CrossOrigin
     @PostMapping("")
-    public M00TaskDto insertTask(@RequestBody M00TaskDto newTaskRequest) {
-        Optional<M00TaskDto> responseData = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest));
-        if (responseData.isPresent()) {
-            return responseData.get();
-        }
-        return new M00TaskDto();
+    public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
+        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest);
     }
 
     /**
@@ -127,18 +87,8 @@ public class Pme00TaskResource {
      */
     @CrossOrigin
     @PutMapping("")
-    public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) throws JsonProcessingException {
-        Optional<M00TaskDto> updatedTask = Optional.ofNullable(this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest));
-        Map<String, Object> response = new HashMap<>();
-        if (updatedTask.isPresent()) {
-            response.put("code", HttpStatus.OK.value());
-            response.put("message", "update success");
-            response.put("data", updatedTask.get());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        response.put("message", "Password incorrect!!");
-        response.put("code", HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) {
+        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest);
     }
 
     /**
@@ -151,16 +101,6 @@ public class Pme00TaskResource {
     @CrossOrigin
     @DeleteMapping("")
     public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
-        boolean isDeleteSuccess = this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
-        Map<String, Object> response = new HashMap<>();
-        if (isDeleteSuccess) {
-            response.put("code", HttpStatus.OK.value());
-            response.put("message", "Delete success");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            response.put("message", "Password incorrect!!");
-            response.put("code", HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+        return this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
     }
 }
