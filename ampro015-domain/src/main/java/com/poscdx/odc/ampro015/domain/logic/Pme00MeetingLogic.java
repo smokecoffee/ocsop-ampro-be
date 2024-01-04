@@ -111,9 +111,9 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
     @Override
     public List<Pme00Meeting> findByEndDate() {
         List<Pme00Meeting> meetingList = new ArrayList<>();
-        meetingList.addAll(this.store.findByEndDate("ROOM01"));
-        meetingList.addAll(this.store.findByEndDate("ROOM02"));
-        meetingList.addAll(this.store.findByEndDate("ROOM03"));
+        meetingList.addAll(this.store.findByEndDate("ROOM1"));
+        meetingList.addAll(this.store.findByEndDate("ROOM2"));
+        meetingList.addAll(this.store.findByEndDate("ROOM3"));
         return meetingList;
     }
 }
