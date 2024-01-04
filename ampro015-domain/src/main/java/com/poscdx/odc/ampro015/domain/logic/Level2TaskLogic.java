@@ -123,8 +123,8 @@ public class Level2TaskLogic implements Level2TaskService {
                 Map<String, Object> requestId = new HashMap<>();
                 requestId.put(PROJECT_NUMBER_FIELD, requestTask.getProjectNumber());
                 requestId.put(TASK_NAME_FIELD, requestTask.getTaskName());
-                requestId.put(EMPLOYEE_ID_FIELD, "");
-                requestId.put(PASSWORD_REQUEST_FIELD, "");
+                requestId.put(EMPLOYEE_ID_FIELD, requestTask.getEmpId());
+                requestId.put(PASSWORD_FIELD, requestTask.getPassword());
                 remove(serviceLifecycle, requestId, false);
             } else {
                 List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(requestTaskId);
