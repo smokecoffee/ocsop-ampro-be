@@ -45,7 +45,6 @@ public class Level3DashboardLogic implements Level3DashboardService {
                     ProjectManagementDto projectManagementDto = new ProjectManagementDto();
                     projectManagementDto.setPme00ProjectInfo(new Pme00ProjectInfo(projectNumber));
                     projectManagementDto.setM00Codes030(new M00Codes030(projectNumber));
-                    // TODO
                     Map<String, Object> rs = serviceLifecycle.requestLevel2ProjectService()
                                                             .getProjectList(serviceLifecycle, projectManagementDto, 0, 0);
                     List<ProjectManagementDto> resultList = (List<ProjectManagementDto>) rs.get("info");
