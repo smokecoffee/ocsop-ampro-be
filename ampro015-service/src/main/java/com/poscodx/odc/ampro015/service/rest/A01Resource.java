@@ -3,13 +3,17 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,6 +44,7 @@ public class A01Resource {
      * @param request AssetInfoDto
      * @return
      */
+    @CrossOrigin
     @PostMapping("/asset")
     public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[amp] create Asset -> " +JsonUtil.toJson(request), this);
@@ -57,6 +62,7 @@ public class A01Resource {
      *
      * @param assetInfoDto
      */
+    @CrossOrigin
     @PutMapping(path = "/")
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
@@ -91,6 +97,7 @@ public class A01Resource {
      * @param status
      * @throws IOException
      */
+    @CrossOrigin
     @GetMapping("/export-excel")
     public void exportToExcel(HttpServletResponse response,
                               @RequestParam(required = true) String owner,
@@ -109,5 +116,34 @@ public class A01Resource {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
 
         this.serviceLifecycle.requestLevel2QrCodeService().exportExcel(serviceLifecycle, response, assetSearch);
+    }
+
+    /**
+     *
+     * @param response
+     * @param token
+     * @throws IOException
+     */
+    @CrossOrigin
+    @GetMapping("/export-QRCode")
+    public ResponseEntity<byte[]> exportToExcel1(HttpServletResponse response, @RequestParam(value = "token", required = true) String token) throws IOException{
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String currentDate = dateFormat.format(new Date());
+        String filename = "QRCode-" + currentDate + ".png";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, no-cache");
+
+        byte[] imageData = this.serviceLifecycle.requestLevel2QrCodeService().exportQRCode(serviceLifecycle, response, token);
+        return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/uploadImage/Assets/{folderName}")
+    public String uploadFile(@PathVariable("folderName") String folderAssetName,
+            @RequestParam("file") MultipartFile image) {
+        // http://localhost:9720/asset/uploadImage/Assets/assetId
+        return this.serviceLifecycle.requestLevel2QrCodeService().uploadFile(folderAssetName, image);
     }
 }

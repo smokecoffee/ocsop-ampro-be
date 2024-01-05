@@ -42,6 +42,7 @@ public class ExportExcel {
         RegionUtil.setBorderRight(BorderStyle.THIN, rangeAddress, this.sheet);
         RegionUtil.setBorderBottom(BorderStyle.THIN, rangeAddress, this.sheet);
     }
+
     private void setMerge(int numRow, int untilRow, int numCol, int untilCol, boolean border) {
         CellRangeAddress cellMerge = new CellRangeAddress(numRow, untilRow, numCol, untilCol);
         this.sheet.addMergedRegion(cellMerge);
@@ -50,7 +51,7 @@ public class ExportExcel {
         }
     }
 
-    private CellStyle createCellStyle(short color, boolean isBold){
+    private CellStyle createCellStyle(short color, boolean isBold) {
         CellStyle style = this.workbook.createCellStyle();
         XSSFFont font = this.workbook.createFont();
         if (isBold) {
@@ -73,34 +74,32 @@ public class ExportExcel {
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         return style;
     }
+
     private void writeHeaderLine() {
         this.sheet = this.workbook.createSheet("QR Code List");
 
-        for(int i = 0; i < 3; i++){
-            if(i==2) this.sheet.setColumnWidth(i, 35 * 256);
+        for (int i = 0; i < 3; i++) {
+            if (i == 2) this.sheet.setColumnWidth(i, 50 * 50);
             else this.sheet.setColumnWidth(i, 50 * 256);
         }
 
-
-
         CellStyle style = this.createCellStyle(IndexedColors.GREY_25_PERCENT.getIndex(), true);
         Row row = this.sheet.createRow(this.rowStart);
-        createCell(row,0,"Owner",style);
-        createCell(row,1,"Asset",style);
-        createCell(row,2,"QR Code",style);
+        createCell(row, 0, "Owner", style);
+        createCell(row, 1, "Asset", style);
+        createCell(row, 2, "QR Code", style);
 
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
         Cell cell = row.createCell(columnCount);
-        if(columnCount == 1 && !(value instanceof String)){
-            List<Field> tmpList = new ArrayList<>((List<Field>)value);
-            String info = tmpList.stream().map(e ->"-"+ e.getName() + ": "+ e.getValue())
+        if (columnCount == 1 && !(value instanceof String)) {
+            List<Field> tmpList = new ArrayList<>((List<Field>) value);
+            String info = tmpList.stream().map(e -> "-" + e.getName() + ": " + e.getValue())
                     .collect(Collectors.joining("\n"));
             cell.setCellValue(info);
-        }
-         else if(columnCount == 2 && value instanceof String && !"QR Code".equals(value)){
-            String pngImageURL = (String)value;
+        } else if (columnCount == 2 && value instanceof String && !"QR Code".equals(value)) {
+            String pngImageURL = (String) value;
             String encodingPrefix = "base64,";
             int contentStartIndex = ((String) value).indexOf(encodingPrefix) + encodingPrefix.length();
             byte[] imageData = Base64.decodeBase64(pngImageURL.substring(contentStartIndex));
@@ -112,13 +111,11 @@ public class ExportExcel {
             anchor.setCol1(1);
             anchor.setCol1(2);
             anchor.setRow1(row.getRowNum());
-            anchor.setRow2(row.getRowNum()+1);
+            anchor.setRow2(row.getRowNum() + 1);
 
-            Picture pict = drawing.createPicture(anchor,pictureIdx);
+            Picture pict = drawing.createPicture(anchor, pictureIdx);
             pict.getPreferredSize();
-
-        }
-        else {
+        } else {
             if (value instanceof Integer) {
                 cell.setCellValue((Integer) value);
             } else if (value instanceof Boolean) {
@@ -137,12 +134,19 @@ public class ExportExcel {
     private void writeDataLines() {
         int rowCount = this.rowStart + 1;
         CellStyle style = this.createCellStyle(IndexedColors.WHITE.getIndex(), false);
+
+        int columnIndex = 2;
+        int desiredCellHeight = 50;
+
         for (AssetInfoDto item : this.assetDtos) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
             createCell(row, columnCount++, item.getAsset().getOwner(), style);
             createCell(row, columnCount++, item.getFields(), style);
             createCell(row, columnCount, item.getAsset().getQrcode(), style);
+
+            createCell(row, columnCount, item.getAsset().getQrcode(), style);
+            row.getCell(columnIndex).getRow().setHeightInPoints(desiredCellHeight);
         }
     }
 

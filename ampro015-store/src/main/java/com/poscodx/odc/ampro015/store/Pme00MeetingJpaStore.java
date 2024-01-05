@@ -121,8 +121,8 @@ public class Pme00MeetingJpaStore implements Pme00MeetingStore {
     }
 
     @Override
-    public List<Pme00Meeting> findByEndDate(int cdTpId) {
-        return Pme00MeetingJpo.toDomains(this.repository.findByEndDate(cdTpId));
+    public List<Pme00Meeting> findByEndDate(String cdV) {
+        return Pme00MeetingJpo.toDomains(this.repository.findByEndDate(cdV));
     }
 
 
