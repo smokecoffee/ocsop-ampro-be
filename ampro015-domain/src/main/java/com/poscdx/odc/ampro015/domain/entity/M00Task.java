@@ -31,6 +31,7 @@ public class M00Task {
     private String password;
     private String category;
     private String passwordRequest;
+    private Date startDate;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
@@ -54,5 +55,6 @@ public class M00Task {
         this.password = (String) object[13];
         this.category = (String) object[14];
         this.creationTimestamp = (Date) object[15];
+        this.startDate =  (Date) object[16];
     }
 }
