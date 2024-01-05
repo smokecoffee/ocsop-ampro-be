@@ -79,7 +79,7 @@ public class ExportExcel {
         this.sheet = this.workbook.createSheet("QR Code List");
 
         for (int i = 0; i < 3; i++) {
-            if (i == 2) this.sheet.setColumnWidth(i, 50 * 50);
+            if (i == 2) this.sheet.setColumnWidth(i, 100 * 100);
             else this.sheet.setColumnWidth(i, 50 * 256);
         }
 
@@ -136,7 +136,7 @@ public class ExportExcel {
         CellStyle style = this.createCellStyle(IndexedColors.WHITE.getIndex(), false);
 
         int columnIndex = 2;
-        int desiredCellHeight = 50;
+        int desiredCellHeight = 100;
 
         for (AssetInfoDto item : this.assetDtos) {
             Row row = sheet.createRow(rowCount++);
