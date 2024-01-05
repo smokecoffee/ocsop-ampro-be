@@ -43,9 +43,6 @@ public class M00TaskJpo implements Serializable {
     @Column(name = "STATUS")
     private String status;
 
-    @Column(name = "START_DATE")
-    private Date startDate;
-
     @Column(name = "PLAN_DATE")
     private Date planDate;
 
