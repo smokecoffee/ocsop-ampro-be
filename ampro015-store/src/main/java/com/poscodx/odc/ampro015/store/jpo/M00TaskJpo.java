@@ -43,9 +43,6 @@ public class M00TaskJpo implements Serializable {
     @Column(name = "STATUS")
     private String status;
 
-    @Column(name = "START_DATE")
-    private Date startDate;
-
     @Column(name = "PLAN_DATE")
     private Date planDate;
 
@@ -72,6 +69,9 @@ public class M00TaskJpo implements Serializable {
 
     @Column(name = "CATEGORY")
     private String category;
+
+    @Column(name = "START_DATE")
+    private Date startDate;
 
     public M00TaskJpo(M00Task domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

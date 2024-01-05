@@ -48,7 +48,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         //validate startTime and endtime
         Date dateNow = java.util.Calendar.getInstance().getTime();
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
-                && (newMeeting.getStartTime().compareTo(dateNow)>0);
+                && (newMeeting.getStartTime().compareTo(dateNow)<0);
 
         if(flagValidateInput>0&&checkDateInput) {
             if (count==0) {
