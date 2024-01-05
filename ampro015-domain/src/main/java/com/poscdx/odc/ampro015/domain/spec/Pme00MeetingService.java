@@ -66,7 +66,7 @@ public interface Pme00MeetingService {
      * @author 202261_Son
      *  @since 2023-11-11
      */
-    int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate);
+    int findMetingByStartAndEndByRoom(String cdv, Date startDate, Date endDate);
 
     List<Pme00Meeting> findByEndDate();
 }

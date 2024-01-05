@@ -104,8 +104,8 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
      *  @since 2023-11-11
      */
     @Override
-    public int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate) {
-        return this.store.findMetingByStartAndEnd(cdTpId, startDate, endDate);
+    public int findMetingByStartAndEndByRoom(String cdv, Date startDate, Date endDate) {
+        return this.store.findMetingByStartAndEndByRoom(cdv, startDate, endDate);
     }
 
     @Override
