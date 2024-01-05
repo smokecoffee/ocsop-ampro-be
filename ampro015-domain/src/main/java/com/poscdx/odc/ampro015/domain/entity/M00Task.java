@@ -21,7 +21,6 @@ public class M00Task {
     private String taskExplain;
     private String empId;
     private String status;
-    private Date startDate;
     private Date planDate;
     private Date actualEndDate;
     private String remark;
