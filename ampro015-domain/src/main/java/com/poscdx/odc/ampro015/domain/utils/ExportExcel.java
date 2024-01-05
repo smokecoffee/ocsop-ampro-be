@@ -79,7 +79,7 @@ public class ExportExcel {
         this.sheet = this.workbook.createSheet("QR Code List");
 
         for (int i = 0; i < 3; i++) {
-            if (i == 2) this.sheet.setColumnWidth(i, 100 * 100);
+            if (i == 2) this.sheet.setColumnWidth(i, 50 * 100);
             else this.sheet.setColumnWidth(i, 50 * 256);
         }
 
