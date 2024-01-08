@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -81,5 +82,10 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
     public List<Pme00EmployeeTask> retrieveAllByTaskId(M00TaskId reqM00TaskId) {
         List<Pme00EmployeeTaskJpo> responseList = this.repository.findAllByM00TaskId(reqM00TaskId.getProjectNumber(), reqM00TaskId.getTaskName());
         return responseList.stream().map(responsejpo -> responsejpo.toDomain()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Pme00EmployeeTask> retrieveAllBySetProjectNumber(Set<String> setProjectNumber) {
+        return Pme00EmployeeTaskJpo.toDomains(this.repository.findAllBySetProjectNumber(setProjectNumber));
     }
 }

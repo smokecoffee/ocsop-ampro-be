@@ -3,6 +3,7 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
+import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -102,5 +103,22 @@ public class Pme00TaskResource {
     @DeleteMapping("")
     public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
         return this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
+    }
+
+    /**
+     * Get List Task function
+     *
+     * @return M00TaskDto
+     * @author 202296_Duong
+     * @since 2023-11-11
+     */
+    @CrossOrigin
+    @PostMapping("/search")
+    public ResponseEntity<?> searchTask(@RequestBody TaskSearchDTO searchTask) {
+        String employeeId = searchTask.getEmpId();
+        if (StringUtils.isNotEmpty(employeeId)) {
+            return this.serviceLifecycle.requestLevel2TaskService().findTaskByEmployeeId(serviceLifecycle, searchTask);
+        }
+        return this.serviceLifecycle.requestLevel2TaskService().searchTask(serviceLifecycle, searchTask);
     }
 }

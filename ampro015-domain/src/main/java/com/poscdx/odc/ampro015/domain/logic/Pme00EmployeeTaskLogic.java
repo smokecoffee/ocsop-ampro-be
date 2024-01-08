@@ -7,6 +7,7 @@ import com.poscdx.odc.ampro015.domain.spec.Pme00EmployeeTaskService;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeTaskStore;
 
 import java.util.List;
+import java.util.Set;
 
 public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     private final Pme00EmployeeTaskStore store;
@@ -53,5 +54,10 @@ public class Pme00EmployeeTaskLogic implements Pme00EmployeeTaskService {
     @Override
     public List<Pme00EmployeeTask> findAllByProjectNumber(String projectNumber) {
         return this.store.retrieveAllByProjectNumber(projectNumber);
+    }
+
+    @Override
+    public List<Pme00EmployeeTask> findAllBySetProjectNumber(Set<String> setProjectNumber) {
+        return this.store.retrieveAllBySetProjectNumber(setProjectNumber);
     }
 }
