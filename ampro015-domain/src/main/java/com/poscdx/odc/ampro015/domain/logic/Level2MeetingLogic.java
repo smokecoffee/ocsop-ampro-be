@@ -25,8 +25,8 @@ public class Level2MeetingLogic implements Level2MeetingService {
 
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
         // validate timespace meeting room
-        int count1 = serviceLifecycle.requestPme00MeetingService()
-                .findMetingByStartAndEnd(newMeeting.getCd_tp_id() ,newMeeting.getStartTime(),newMeeting.getEndTime());
+        int count = serviceLifecycle.requestPme00MeetingService()
+                .findMetingByStartAndEndByRoom(newMeeting.getCdv() ,newMeeting.getStartTime(),newMeeting.getEndTime());
         //validate meetingId in tb_moo_codes020
 //        List<M00Codes020> m00Codes020s = serviceLifecycle.requestM00Codes020Service().findAll();
         final int CD_TP_ID = 65;
@@ -45,10 +45,10 @@ public class Level2MeetingLogic implements Level2MeetingService {
         //validate startTime and endtime
         Date dateNow = java.util.Calendar.getInstance().getTime();
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
-                && (newMeeting.getStartTime().compareTo(dateNow)<0);
+                && (newMeeting.getStartTime().compareTo(dateNow)>0);
 
         if(flagValidateInput>0&&checkDateInput) {
-            if (count1 == 0) {
+            if (count==0) {
                 try {
                     Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().register(newMeeting);
                     responseEntity.setStatus(HttpStatus.OK.value());
@@ -78,9 +78,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
                     responseEntity.setMessage("This meeting has been created");
                 }
-            } else {
-                responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
-                responseEntity.setMessage("Timespace not match");
             }
         }else {
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());

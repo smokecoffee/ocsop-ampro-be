@@ -75,6 +75,11 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
+    public List<Object[]> getProjectMember(String cdV) {
+        return this.repository.getMember(cdV);
+    }
+
+    @Override
     public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
                                Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate){
         return this.repository.countProject(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate);

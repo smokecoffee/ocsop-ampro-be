@@ -104,16 +104,16 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
      *  @since 2023-11-11
      */
     @Override
-    public int findMetingByStartAndEnd(int cdTpId, Date startDate, Date endDate) {
-        return this.store.findMetingByStartAndEnd(cdTpId, startDate, endDate);
+    public int findMetingByStartAndEndByRoom(String cdv, Date startDate, Date endDate) {
+        return this.store.findMetingByStartAndEndByRoom(cdv, startDate, endDate);
     }
 
     @Override
     public List<Pme00Meeting> findByEndDate() {
         List<Pme00Meeting> meetingList = new ArrayList<>();
-        meetingList.addAll(this.store.findByEndDate("ROOM01"));
-        meetingList.addAll(this.store.findByEndDate("ROOM02"));
-        meetingList.addAll(this.store.findByEndDate("ROOM03"));
+        meetingList.addAll(this.store.findByEndDate("ROOM1"));
+        meetingList.addAll(this.store.findByEndDate("ROOM2"));
+        meetingList.addAll(this.store.findByEndDate("ROOM3"));
         return meetingList;
     }
 }

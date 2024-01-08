@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.spec;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public interface Level2TaskService {
      * @param updateTaskRequest
      * @return M00TaskDto
      */
-    M00TaskDto modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest);
+    ResponseEntity<?> modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest);
 
     /**
      * create new task function
@@ -49,7 +50,7 @@ public interface Level2TaskService {
      * @param newTask
      * @return M00TaskDto
      */
-    M00TaskDto register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask);
+    ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask);
 
     /**
      * remove task function
@@ -59,7 +60,7 @@ public interface Level2TaskService {
      * @param isCheck
      * @return boolean
      */
-    boolean remove(ServiceLifecycle serviceLifecycle, Map<String, Object> m00TaskId, boolean isCheck);
+    ResponseEntity<?> remove(ServiceLifecycle serviceLifecycle, Map<String, Object> m00TaskId, boolean isCheck);
 
     /**
      * search task with conditions function
@@ -78,9 +79,9 @@ public interface Level2TaskService {
      * @param sortDirection
      * @return List<M00TaskDto>
      */
-    List<M00TaskDto> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
-                                          String planDate, String actualEndDate, String status, String empId, String category,
-                                          int pageNo, int pageSize, String sortBy, String sortDirection);
+    ResponseEntity<?> findTaskByConditions(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName,
+                                           String planDate, String actualEndDate, String status, String empId, String category,
+                                           int pageNo, int pageSize, String sortBy, String sortDirection);
 
     /**
      * search task by employeeId(tb_m00_employee) function

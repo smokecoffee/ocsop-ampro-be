@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
+import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
 import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
@@ -18,5 +19,7 @@ public interface Level2ProjectService {
     Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize);
 
     Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, int pageNo, int pageSize);
+
+    List<EmployeeDto> getProjectMember (ServiceLifecycle serviceLifecycle, String cdV);
 
 }

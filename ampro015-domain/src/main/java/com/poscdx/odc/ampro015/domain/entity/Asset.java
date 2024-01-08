@@ -17,6 +17,7 @@ public class Asset extends PoscoEntity {
     private int id;
     private String token;
     private String owner;
+    private String empId;
     private int duration;
     private String qrcode;
     private int status;
