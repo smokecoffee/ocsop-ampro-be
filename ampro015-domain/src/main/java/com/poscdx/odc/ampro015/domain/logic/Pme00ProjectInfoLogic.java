@@ -78,9 +78,11 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
                                                   String vietnamPL,
                                                   String framework,
                                                   String status,
-                                                  Date startDate,
-                                                  Date endDate, Pageable pageable){
-        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
+                                                  Date fromStartDate,
+                                                  Date toStartDate,
+                                                  Date fromEndDate,
+                                                  Date toEndDate, Pageable pageable){
+        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate, pageable);
         List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
         for(Object[] obj : resultList){
             pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));
@@ -110,8 +112,9 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status, Date startDate, Date endDate){
-        return this.store.getCountProject(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate);
+    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
+                               Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate){
+        return this.store.getCountProject(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate);
     }
 
 //    @Override
