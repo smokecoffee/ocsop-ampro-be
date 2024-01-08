@@ -21,10 +21,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
      *  @since 2023-11-11
      */
     @Override
-    public Pme00MeetingResponse
-
-
-    addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting){
+    public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting){
 
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
         // validate timespace meeting room
