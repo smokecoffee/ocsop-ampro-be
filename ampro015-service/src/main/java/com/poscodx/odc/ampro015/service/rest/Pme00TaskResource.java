@@ -115,6 +115,10 @@ public class Pme00TaskResource {
     @CrossOrigin
     @PostMapping("/search")
     public ResponseEntity<?> searchTask(@RequestBody TaskSearchDTO searchTask) {
+        String employeeId = searchTask.getEmpId();
+        if (StringUtils.isNotEmpty(employeeId)) {
+            return this.serviceLifecycle.requestLevel2TaskService().findTaskByEmployeeId(serviceLifecycle, searchTask);
+        }
         return this.serviceLifecycle.requestLevel2TaskService().searchTask(serviceLifecycle, searchTask);
     }
 }

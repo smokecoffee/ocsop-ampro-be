@@ -367,20 +367,20 @@ public class Level2TaskLogic implements Level2TaskService {
      * find task by employeeId function
      *
      * @param serviceLifecycle
-     * @param projectNumber
-     * @param taskName
-     * @param status
-     * @param employeeId
      * @return List<M00TaskDto>
      */
     @Override
-    public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber,
-                                                 String taskName, String status, String employeeId) {
+    public ResponseEntity<?> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, TaskSearchDTO taskSearchDTO) {
+        String projectNumber = StringUtils.defaultIfBlank(taskSearchDTO.getProjectNumber(), null);
+        String taskName = StringUtils.defaultIfBlank(taskSearchDTO.getTaskName(), null);
+        String status = StringUtils.defaultIfBlank(taskSearchDTO.getStatus(), null);
+        String employeeId = StringUtils.defaultIfBlank(taskSearchDTO.getEmpId(), null);
+
         List<Object[]> employeeTaskList = serviceLifecycle.requestTaskService().findAllEmployeeId(projectNumber, taskName, status, employeeId);
         List<M00TaskDto> m00TaskDtoList = new ArrayList<>();
 
         if (employeeTaskList.isEmpty()) {
-            return new ArrayList<M00TaskDto>();
+            return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new ArrayList<>());
         } else {
             List<Object[]> imgSrc = new ArrayList<>();
 
@@ -406,7 +406,7 @@ public class Level2TaskLogic implements Level2TaskService {
                 newM00TaskDto.setMembers(Arrays.asList(member));
                 m00TaskDtoList.add(newM00TaskDto);
             }
-            return m00TaskDtoList;
+            return appendResponse(HttpStatus.OK, "List task", m00TaskDtoList);
         }
     }
 

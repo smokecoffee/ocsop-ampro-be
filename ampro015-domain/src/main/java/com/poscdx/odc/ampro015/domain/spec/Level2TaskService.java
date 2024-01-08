@@ -94,7 +94,7 @@ public interface Level2TaskService {
      * @param employeeId
      * @return List<M00TaskDto>
      */
-    List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String status, String employeeId);
+    ResponseEntity<?> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, TaskSearchDTO searchTask);
 
 
     /**
