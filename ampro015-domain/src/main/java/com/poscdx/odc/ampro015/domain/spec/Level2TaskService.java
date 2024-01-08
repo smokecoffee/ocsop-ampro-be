@@ -2,6 +2,7 @@ package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
+import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.http.ResponseEntity;
 
@@ -94,4 +95,13 @@ public interface Level2TaskService {
      * @return List<M00TaskDto>
      */
     List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber, String taskName, String status, String employeeId);
+
+
+    /**
+     * search task with conditions function
+     *
+     * @param serviceLifecycle
+     * @return List<M00TaskDto>
+     */
+    ResponseEntity<?> searchTask(ServiceLifecycle serviceLifecycle, TaskSearchDTO searchTask);
 }
