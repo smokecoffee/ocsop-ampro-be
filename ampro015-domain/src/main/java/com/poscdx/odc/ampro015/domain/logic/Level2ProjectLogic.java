@@ -228,8 +228,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
                         .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
                                 , dto.getPme00ProjectInfo().getPeriod(), dto.getPme00ProjectInfo().getKoreaPm()
                                 , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework()
-                                , dto.getPme00ProjectInfo().getStatus(), dto.getPme00ProjectInfo().getStartDate()
-                                , dto.getPme00ProjectInfo().getEndDate(), pageable);
+                                , dto.getPme00ProjectInfo().getStatus(), dto.getFromStartDate(), dto.getToStartDate()
+                                , dto.getFromEndDate(), dto.getToEndDate(), pageable);
 
 
         for (M00Codes030 project : m00Codes030List) {
@@ -254,7 +254,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 , dto.getM00Codes030().getCdvMeaning(), dto.getPme00ProjectInfo().getPeriod()
                 , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
                 , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
-                , dto.getPme00ProjectInfo().getStartDate(), dto.getPme00ProjectInfo().getEndDate());
+                , dto.getFromStartDate(), dto.getToStartDate(), dto.getFromEndDate(), dto.getToEndDate());
         Map<String, Object> rs = new HashMap<>();
         rs.put("total", total);
         rs.put("info", projectList);
@@ -285,7 +285,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         }
 
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfo(null,
-                null, 0, null, null, null, null, null, null, pageable);
+                null, 0, null, null, null, null, null, null, null, null, pageable);
 
         if (!projectList.isEmpty()) {
             for (Pme00ProjectInfo pme00ProjectInfo : projectList) {
@@ -325,7 +325,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         }
 
         int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(null, null,0, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null, null);
         Map<String, Object> rs = new HashMap<>();
         rs.put("total", total);
         rs.put("info", result);

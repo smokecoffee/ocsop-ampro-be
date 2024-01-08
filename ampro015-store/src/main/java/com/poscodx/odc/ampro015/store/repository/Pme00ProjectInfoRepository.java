@@ -52,13 +52,14 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 "AND (:vietnamPL IS NULL OR (INFO.VIETNAM_PL LIKE CONCAT('%', :vietnamPL, '%')))\n" +
                 "AND (:framework IS NULL OR (INFO.FRAMEWORK LIKE CONCAT('%', :framework, '%')))\n" +
                 "AND (:status IS NULL OR (INFO.STATUS = :status))\n" +
-                "AND ( :startDate IS NULL OR (INFO.START_DATE > :startDate))\n" +
-                "AND ( :endDate IS NULL OR (INFO.END_DATE <= :endDate))"
+                "AND ((:fromStartDate IS NULL AND :toStartDate IS NULL) OR (INFO.START_DATE BETWEEN :fromStartDate AND :toStartDate))\n" +
+                "AND ((:fromEndDate IS NULL AND :toEndDate IS NULL) OR (INFO.END_DATE BETWEEN :fromEndDate AND :toEndDate))"
             , nativeQuery = true)
     List<Object[]> findProjectInfo(@Param("cdV") String cdV, @Param("meaning") String meaning, @Param("period") int period,
                                               @Param("koreaPM") String koreaPM,  @Param("vietnamPL") String vietnamPL,
                                               @Param("framework") String framework, @Param("status") String status,
-                                              @Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
+                                              @Param("fromStartDate") Date fromStartDate, @Param("toStartDate") Date toStartDate,
+                                              @Param("fromEndDate") Date fromEndDate, @Param("toEndDate") Date toEndDate, Pageable pageable);
 
     @Query(value =
             "SELECT DISTINCT \n" +
@@ -106,12 +107,13 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                     "AND (:vietnamPL IS NULL OR (INFO.VIETNAM_PL LIKE CONCAT('%', :vietnamPL, '%')))\n" +
                     "AND (:framework IS NULL OR (INFO.FRAMEWORK LIKE CONCAT('%', :framework, '%')))\n" +
                     "AND (:status IS NULL OR (INFO.STATUS = :status))\n" +
-                    "AND ( :startDate IS NULL OR (INFO.START_DATE >= :startDate))\n" +
-                    "AND ( :endDate IS NULL OR (INFO.END_DATE <= :endDate))"
+                    "AND ((:fromStartDate IS NULL AND :toStartDate IS NULL) OR (INFO.START_DATE BETWEEN :fromStartDate AND :toStartDate))\n" +
+                    "AND ((:fromEndDate IS NULL AND :toEndDate IS NULL) OR (INFO.END_DATE BETWEEN :fromEndDate AND :toEndDate))"
             , nativeQuery = true)
     int countProject(@Param("cdV") String cdV, @Param("meaning") String meaning, @Param("period") int period,
                                    @Param("koreaPM") String koreaPM,  @Param("vietnamPL") String vietnamPL,
                                    @Param("framework") String framework, @Param("status") String status,
-                                   @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+                                   @Param("fromStartDate") Date fromStartDate, @Param("toStartDate") Date toStartDate,
+                                   @Param("fromEndDate") Date fromEndDate, @Param("toEndDate") Date toEndDate);
 
 }
