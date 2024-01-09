@@ -69,4 +69,9 @@ public class M00TaskLogic implements M00TaskService {
     public List<Object[]> getEmployeeImagePathAll() {
         return store.getEmployeeImagePathAll();
     }
+
+    @Override
+    public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom, String actualTo, String status, String empId, String category) {
+        return store.searchTask(projectNumber, taskName, planFrom, planTo, actualFrom, actualTo , status, empId, category, Pageable.unpaged());
+    }
 }

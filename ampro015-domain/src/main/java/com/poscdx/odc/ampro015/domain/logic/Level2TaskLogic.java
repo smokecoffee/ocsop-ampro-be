@@ -6,24 +6,32 @@ import com.poscdx.odc.ampro015.domain.entity.M00Task;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
+import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import sun.util.calendar.CalendarUtils;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 /**
@@ -298,26 +306,42 @@ public class Level2TaskLogic implements Level2TaskService {
      */
     private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber,
                                             List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList, Map<String, String> empIdImgMap) {
+        //set projectName
+        List<Pme00EmployeeTask> pme00EmployeeTaskList = new ArrayList<>();
+
+
         //findAllEmplTask
-        List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
+        if (StringUtils.isNotEmpty(projectNumber)) {
+            pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
+        } else {
+            Set<String> projectNumberSet = m00TaskDtoList.stream().map(M00Task::getProjectNumber).collect(Collectors.toSet());
+            if (!projectNumberSet.isEmpty()) {
+                pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllBySetProjectNumber(projectNumberSet);
+            }
+        }
 
         //append member to task
-        m00TaskDtoList.forEach(m00Task -> {
+        for (M00Task m00Task : m00TaskDtoList) {
             M00TaskDto response = new M00TaskDto();
-            List<Pme00EmployeeTask> pme00EmployeeTasks = pme00EmployeeTaskList.stream().
-                    filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
-                            && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
-                    .collect(Collectors.toList());
-            String emplId = m00Task.getEmpId();
-            if (empIdImgMap.containsKey(emplId)) {
-                response.setPhoto(empIdImgMap.get(emplId));
+            if (!pme00EmployeeTaskList.isEmpty()) {
+                List<Pme00EmployeeTask> pme00EmployeeTasks = pme00EmployeeTaskList.stream().
+                        filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
+                                && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
+                        .collect(Collectors.toList());
+                String emplId = m00Task.getEmpId();
+                if (empIdImgMap.containsKey(emplId)) {
+                    response.setPhoto(empIdImgMap.get(emplId));
+                } else {
+                    response.setPhoto(StringUtils.EMPTY);
+                }
+                response.setMembers(pme00EmployeeTasks);
             } else {
-                response.setPhoto(StringUtils.EMPTY);
+                response.setMembers(new ArrayList<>());
             }
+
             response.setTask(m00Task);
-            response.setMembers(pme00EmployeeTasks);
             responseList.add(response);
-        });
+        }
         return responseList;
     }
 
@@ -343,20 +367,20 @@ public class Level2TaskLogic implements Level2TaskService {
      * find task by employeeId function
      *
      * @param serviceLifecycle
-     * @param projectNumber
-     * @param taskName
-     * @param status
-     * @param employeeId
      * @return List<M00TaskDto>
      */
     @Override
-    public List<M00TaskDto> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, String projectNumber,
-                                                 String taskName, String status, String employeeId) {
+    public ResponseEntity<?> findTaskByEmployeeId(ServiceLifecycle serviceLifecycle, TaskSearchDTO taskSearchDTO) {
+        String projectNumber = StringUtils.defaultIfBlank(taskSearchDTO.getProjectNumber(), null);
+        String taskName = StringUtils.defaultIfBlank(taskSearchDTO.getTaskName(), null);
+        String status = StringUtils.defaultIfBlank(taskSearchDTO.getStatus(), null);
+        String employeeId = StringUtils.defaultIfBlank(taskSearchDTO.getEmpId(), null);
+
         List<Object[]> employeeTaskList = serviceLifecycle.requestTaskService().findAllEmployeeId(projectNumber, taskName, status, employeeId);
         List<M00TaskDto> m00TaskDtoList = new ArrayList<>();
 
         if (employeeTaskList.isEmpty()) {
-            return new ArrayList<M00TaskDto>();
+            return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new ArrayList<>());
         } else {
             List<Object[]> imgSrc = new ArrayList<>();
 
@@ -382,7 +406,7 @@ public class Level2TaskLogic implements Level2TaskService {
                 newM00TaskDto.setMembers(Arrays.asList(member));
                 m00TaskDtoList.add(newM00TaskDto);
             }
-            return m00TaskDtoList;
+            return appendResponse(HttpStatus.OK, "List task", m00TaskDtoList);
         }
     }
 
@@ -410,4 +434,69 @@ public class Level2TaskLogic implements Level2TaskService {
         response.put(RESPONSE_DATA, data);
         return new ResponseEntity<>(response, status);
     }
+
+
+    /**
+     * This function gets all tasks and its associated employeeTask based on condition search
+     *
+     * @param serviceLifecycle
+     * @return
+     */
+    @Override
+    public ResponseEntity<?> searchTask(ServiceLifecycle serviceLifecycle, TaskSearchDTO searchTask) {
+        //findAllTask
+        String projectNumber = StringUtils.defaultIfBlank(searchTask.getProjectNumber(), null);
+        String taskName = StringUtils.defaultIfBlank(searchTask.getTaskName(), null);
+        String status = StringUtils.defaultIfBlank(searchTask.getStatus(), null);
+        String empId = StringUtils.defaultIfBlank(searchTask.getEmpId(), null);
+        String category = StringUtils.defaultIfBlank(searchTask.getCategory(), null);
+
+        Date planFrom = ObjectUtils.defaultIfNull(searchTask.getPlanFrom(), null);
+        Date planTo = ObjectUtils.defaultIfNull(searchTask.getPlanTo(), null);
+        Date actualFrom = ObjectUtils.defaultIfNull(searchTask.getActualFrom(), null);
+        Date actualTo = ObjectUtils.defaultIfNull(searchTask.getActualTo(), null);
+
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().searchTask(projectNumber, taskName,
+                StringUtils.defaultString(convertDateToString(planFrom), "2020-01-01"),
+                StringUtils.defaultString(convertDateToString(planTo), "2050-12-31"),
+                StringUtils.defaultString(convertDateToString(actualFrom), "2020-01-01"),
+                StringUtils.defaultString(convertDateToString(actualTo), "2050-12-31"),
+                status, empId, category);
+
+        Set<String> empMap = m00TaskDtoList.stream()
+                .filter(m00Task -> StringUtils.isNotBlank(m00Task.getEmpId()))
+                .map(M00Task::getEmpId)
+                .collect(Collectors.toSet());
+
+        List<Object[]> imgSrc = new ArrayList<>();
+        Map<String, String> empIdImgMap = new HashMap<>();
+
+        if(!empMap.isEmpty()){
+            imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
+            //convert map
+            empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+        }
+
+        List<M00TaskDto> responseList = new ArrayList<>();
+
+        //append member to task
+        if (!m00TaskDtoList.isEmpty()) {
+            List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
+            return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
+        }
+        return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
+    }
+
+    private String convertDateToString(Date date){
+        if (Objects.isNull(date)) {
+            return null;
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));   // This line converts t
+            // convert
+            return  LocalDate.parse(sdf.format(date)).plusDays(1).toString();
+        }
+    }
+
+
 }

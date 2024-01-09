@@ -61,6 +61,16 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
+    public List<EmployeeDto> getProjectMember(String cdV) {
+        List<Object[]> resultList = this.store.getProjectMember(cdV);
+        List<EmployeeDto> memberList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            memberList.add(new EmployeeDto(obj));
+        }
+        return memberList;
+    }
+
+    @Override
     public List<Pme00ProjectInfo> findProjectInfo(String cdV,
                                                   String meaning,
                                                   int period,

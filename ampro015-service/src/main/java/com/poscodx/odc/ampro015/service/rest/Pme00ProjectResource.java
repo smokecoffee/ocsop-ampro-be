@@ -79,4 +79,10 @@ public class Pme00ProjectResource {
             return new ArrayList<>();
 
     }
+
+    @CrossOrigin
+    @GetMapping("/search-member/{cdV}")
+    public List<EmployeeDto> findProjectMember(@PathVariable("cdV") String cdV) {
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectMember(serviceLifecycle, cdV);
+    }
 }

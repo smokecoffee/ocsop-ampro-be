@@ -75,4 +75,10 @@ public class M00TaskJpaStore implements M00TaskStore {
     public List<Object[]> getEmployeeImagePathAll() {
         return this.repository.getEmployeeImagePathAll();
     }
+
+    @Override
+    public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom, String actualTo, String status, String empId, String category, Pageable pageable) {
+        return this.repository.searchTask(projectNumber, taskName, planFrom, planTo, actualFrom,
+                actualTo, status, empId, category).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+    }
 }
