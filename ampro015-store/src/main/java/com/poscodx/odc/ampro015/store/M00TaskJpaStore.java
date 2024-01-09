@@ -77,8 +77,13 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom, String actualTo, String status, String empId, String category, Pageable pageable) {
+    public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo,
+                                    String actualFrom, String actualTo, String startDateFrom, String startDateTo,
+                                    String status, String empId, String category, Pageable pageable) {
         return this.repository.searchTask(projectNumber, taskName, planFrom, planTo, actualFrom,
-                actualTo, status, empId, category).stream().map(M00TaskJpo::toDomain).collect(Collectors.toList());
+                actualTo, startDateFrom, startDateTo, status, empId, category)
+                .stream()
+                .map(M00TaskJpo::toDomain)
+                .collect(Collectors.toList());
     }
 }
