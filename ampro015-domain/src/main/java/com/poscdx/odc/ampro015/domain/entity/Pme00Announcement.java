@@ -20,7 +20,7 @@ public class Pme00Announcement {
     private String description;
     private String status;
     private String creatorName;
-
+    private String avatar;
 
     public String toJson() {
         return JsonUtil.toJson(this);

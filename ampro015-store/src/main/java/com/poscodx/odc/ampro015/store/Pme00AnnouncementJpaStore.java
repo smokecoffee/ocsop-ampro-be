@@ -7,6 +7,7 @@ import com.poscodx.odc.ampro015.store.jpo.Pme00AnnouncementJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00AnnouncementRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +31,13 @@ public class Pme00AnnouncementJpaStore implements Pme00AnnouncementStore {
     @Override
     public List<Pme00Announcement> retrieveAll() {
         List<Map<String, String>> mapList = this.repository.findAllAnnouncement();
+        ObjectMapper mapper = new ObjectMapper();
+        return mapList.stream().map(item -> mapper.convertValue(item, Pme00Announcement.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Pme00Announcement> retrieveByConditions(String name, int type, String status, Date date) {
+        List<Map<String, String>> mapList = this.repository.findByConditions(name, type, status, date);
         ObjectMapper mapper = new ObjectMapper();
         return mapList.stream().map(item -> mapper.convertValue(item, Pme00Announcement.class)).collect(Collectors.toList());
     }
