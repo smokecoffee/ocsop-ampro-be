@@ -89,6 +89,19 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
     List<Object[]> getVietnamPL();
 
     @Query(value =
+            "SELECT E.EMP_ID \n" +
+                    ", E.NAME \n" +
+                    ", E.PHOTO \n" +
+                    ", E.BIRTH_DATE\n" +
+            "FROM \n" +
+                    "TB_M00_EMPLOYEE AS E\n" +
+            "WHERE E.EMP_ID IN \n" +
+                "(SELECT M.EMP_ID \n" +
+                        "FROM TB_PME00_MEMBER AS M \n" +
+                        "WHERE M.CD_V_ID = :cdV) \n", nativeQuery = true)
+    List<Object[]> getMember(@Param("cdV") String cdV);
+
+    @Query(value =
             "SELECT COUNT(*)\n" +
                     "FROM \n" +
                     "TB_PME00_PROJECT_INFO AS INFO\n" +

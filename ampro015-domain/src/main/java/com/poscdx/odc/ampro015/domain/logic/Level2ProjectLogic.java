@@ -341,6 +341,11 @@ public class Level2ProjectLogic implements Level2ProjectService {
         return rs;
     }
 
+    @Override
+    public List<EmployeeDto> getProjectMember(ServiceLifecycle serviceLifecycle, String cdV) {
+        return serviceLifecycle.requestPme00ProjectInfoService().getProjectMember(cdV);
+    }
+
     /**
      * Check exists project code
      *

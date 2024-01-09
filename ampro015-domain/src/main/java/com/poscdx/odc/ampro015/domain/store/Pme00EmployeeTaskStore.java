@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Pme00EmployeeTaskStore {
     Pme00EmployeeTask retrieve(M00EmployeeTaskId m00EmployeeTaskId);
@@ -21,4 +22,6 @@ public interface Pme00EmployeeTaskStore {
     List<Pme00EmployeeTask> createFromList(List<Pme00EmployeeTask> entity);
 
     List<Pme00EmployeeTask> retrieveAllByTaskId(M00TaskId reqM00TaskId);
+
+    List<Pme00EmployeeTask> retrieveAllBySetProjectNumber(Set<String> setProjectNumber);
 }

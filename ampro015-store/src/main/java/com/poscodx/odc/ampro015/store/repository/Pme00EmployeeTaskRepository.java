@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00EmployeeTaskJpo, M00EmployeeTaskId> {
     @Query(value = "SELECT * " +
@@ -20,4 +21,9 @@ public interface Pme00EmployeeTaskRepository extends JpaRepository<Pme00Employee
             "FROM tb_pme00_employee_task " +
             "WHERE PROJECT_NUMBER LIKE CONCAT('%',:projectNumber,'%')", nativeQuery = true)
     List<Pme00EmployeeTaskJpo> findAllByProjectNumber(@Param("projectNumber") String projectNumber);
+
+    @Query(value = "SELECT * " +
+            "FROM tb_pme00_employee_task " +
+            "WHERE PROJECT_NUMBER IN :projectNumberSet", nativeQuery = true)
+    List<Pme00EmployeeTaskJpo> findAllBySetProjectNumber(@Param("projectNumberSet") Set<String> projectNumberSet);
 }

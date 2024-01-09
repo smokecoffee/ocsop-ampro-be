@@ -31,6 +31,8 @@ public interface Pme00ProjectInfoService {
 
     List<EmployeeDto> getActiveEmployee();
 
+    List<EmployeeDto> getProjectMember(String cdV);
+
     List<Pme00ProjectInfo> findProjectInfo (String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                                             String framework, String status, Date startDate, Date endDate, Pageable pageable);
 

@@ -28,4 +28,7 @@ public interface M00TaskService {
 
     List<Object[]> getImagePathByEmployeeId(Set<String> empId);
     List<Object[]> getEmployeeImagePathAll();
+
+    List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom,
+                             String actualTo, String status, String empId, String category);
 }
