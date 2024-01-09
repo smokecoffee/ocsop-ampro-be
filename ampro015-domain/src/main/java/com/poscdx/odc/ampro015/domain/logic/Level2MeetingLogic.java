@@ -78,6 +78,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
                     responseEntity.setMessage("This meeting has been created");
                 }
+            }else {
+                responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
+                responseEntity.setMessage("This timespace not match");
             }
         }else {
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
