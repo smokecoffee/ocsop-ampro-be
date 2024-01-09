@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00Announcement;
 import com.poscdx.odc.ampro015.domain.spec.Pme00AnnouncementService;
 import com.poscdx.odc.ampro015.domain.store.Pme00AnnouncementStore;
 
+import java.util.Date;
 import java.util.List;
 
 public class Pme00AnnouncementLogic implements Pme00AnnouncementService {
@@ -21,6 +22,11 @@ public class Pme00AnnouncementLogic implements Pme00AnnouncementService {
     @Override
     public List<Pme00Announcement> findAll() {
         return this.store.retrieveAll();
+    }
+
+    @Override
+    public List<Pme00Announcement> findByConditions(String name, int type, String status, Date date) {
+        return this.store.retrieveByConditions(name, type, status, date);
     }
 
     @Override

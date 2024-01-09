@@ -5,7 +5,10 @@ import com.poscdx.odc.ampro015.domain.spec.Pme00AnnouncementService;
 import com.sun.deploy.net.HttpResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
+
+import static com.poscdx.odc.ampro015.domain.utils.DateUtils.convertStringToDate;
 
 @RestController
 @RequestMapping("/announcement")
@@ -20,6 +23,14 @@ public class Pme00AnnouncementResource {
     @GetMapping(path = "/list")
     public List<Pme00Announcement> getAll() {
         return this.service.findAll();
+    }
+
+    @PostMapping(path="/search")
+    public List<Pme00Announcement> getByConditions(@RequestBody Pme00Announcement announcement) throws ParseException {
+        return this.service.findByConditions(announcement.getName(),
+                announcement.getType(),
+                announcement.getStatus(),
+                announcement.getDate());
     }
 
     @PostMapping(path = "")
