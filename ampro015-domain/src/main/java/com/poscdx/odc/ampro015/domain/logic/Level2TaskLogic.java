@@ -457,10 +457,10 @@ public class Level2TaskLogic implements Level2TaskService {
         Date actualTo = ObjectUtils.defaultIfNull(searchTask.getActualTo(), null);
 
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().searchTask(projectNumber, taskName,
-                StringUtils.defaultString(convertDateToString(planFrom), "2020-01-01"),
-                StringUtils.defaultString(convertDateToString(planTo), "2050-12-31"),
-                StringUtils.defaultString(convertDateToString(actualFrom), "2020-01-01"),
-                StringUtils.defaultString(convertDateToString(actualTo), "2050-12-31"),
+                StringUtils.defaultString(convertDateToString(planFrom), null),
+                StringUtils.defaultString(convertDateToString(planTo), null),
+                StringUtils.defaultString(convertDateToString(actualFrom), null),
+                StringUtils.defaultString(convertDateToString(actualTo), null),
                 status, empId, category);
 
         Set<String> empMap = m00TaskDtoList.stream()
