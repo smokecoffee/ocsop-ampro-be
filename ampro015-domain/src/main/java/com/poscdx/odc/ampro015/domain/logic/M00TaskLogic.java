@@ -71,7 +71,9 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom, String actualTo, String status, String empId, String category) {
-        return store.searchTask(projectNumber, taskName, planFrom, planTo, actualFrom, actualTo , status, empId, category, Pageable.unpaged());
+    public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom,
+                                    String actualTo, String startDateFrom, String startDateTo, String status, String empId, String category) {
+        return store.searchTask(projectNumber, taskName, planFrom, planTo, actualFrom, actualTo,
+                startDateFrom, startDateTo, status, empId, category, Pageable.unpaged());
     }
 }

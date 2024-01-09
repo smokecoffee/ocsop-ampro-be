@@ -23,4 +23,6 @@ public class TaskSearchDTO {
     private Date actualTo;
     private Date planFrom;
     private Date planTo;
+    private Date startDateFrom;
+    private Date startDateTo;
 }
