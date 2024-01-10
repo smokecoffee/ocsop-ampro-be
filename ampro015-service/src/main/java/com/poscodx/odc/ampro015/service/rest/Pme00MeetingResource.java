@@ -72,38 +72,10 @@ public class Pme00MeetingResource {
      */
     @GetMapping("/{meetingId}")
     @CrossOrigin
-    public Pme00MeetingResponse getInforBookingRoom(@PathVariable int meetingId) {
-       return this.serviceLifecycle.requestBookingMeetingRoomService().getInforBookingRoom(serviceLifecycle,meetingId);
+    public Pme00MeetingResponse getInfoBookingRoom(@PathVariable int meetingId) {
+       return this.serviceLifecycle.requestBookingMeetingRoomService().getInfoBookingRoom(serviceLifecycle,meetingId);
     }
 
-    /**
-     * Search Meeting Booking Room By Id function
-     * @Param cd_tp_id, title, startTime, endTime, creatorId, requesterId, categoryMeeting, status
-     * @return List Pme00Meeting
-     * @author 202261_Son
-     * @since 2023-11-11
-     */
-    @GetMapping("/search")
-    @CrossOrigin
-    public List<Pme00Meeting> searchListMeetings(
-            @RequestParam("cd_tp_id") int cd_tp_id,
-            @RequestParam("title") String title,
-            @RequestParam("startTime") String startTime,
-            @RequestParam("endTime") String endTime,
-            @RequestParam("creatorId") String creatorId,
-            @RequestParam("requesterId") String  requesterId,
-            @RequestParam("categoryMeeting") String categoryMeeting,
-            @RequestParam("status") String status) {
-       return this.serviceLifecycle.requestPme00MeetingService()
-               .findAllByAssetId(cd_tp_id,
-                                title,
-                                startTime,
-                                endTime,
-                                creatorId,
-                                requesterId,
-                                categoryMeeting,
-                                status);
-    }
 
     /**
      * Edit Meeting Booking Room By Id function

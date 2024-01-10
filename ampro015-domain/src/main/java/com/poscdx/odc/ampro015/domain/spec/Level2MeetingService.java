@@ -25,7 +25,7 @@ public interface Level2MeetingService {
      * @author 202261_Son
      *  @since 2023-11-11
      */
-    Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId);
+    Pme00MeetingResponse getInfoBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId);
     /**
      * Delete Meeting Booking Room function
      * @author 202261_Son

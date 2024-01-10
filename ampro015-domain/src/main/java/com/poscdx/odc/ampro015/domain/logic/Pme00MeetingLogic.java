@@ -75,30 +75,6 @@ public class Pme00MeetingLogic implements Pme00MeetingService {
     }
 
     /**
-     * Search Meeting Booking Room function
-     * @author 202261_Son
-     *  @since 2023-11-11
-     */
-    @Override
-    public List<Pme00Meeting> findAllByAssetId(int cd_tp_id,
-                                               String title,
-                                               String startTime,
-                                               String endTime,
-                                               String creatorId,
-                                               String requesterId,
-                                               String categoryMeeting,
-                                               String status) {
-        return this.store.findAllByAssetId(cd_tp_id,
-                                           title,
-                                           startTime,
-                                           endTime,
-                                           creatorId,
-                                           requesterId,
-                                           categoryMeeting,
-                                           status);
-    }
-
-    /**
      *  FindMetingByStartAndEnd
      * @author 202261_Son
      *  @since 2023-11-11
