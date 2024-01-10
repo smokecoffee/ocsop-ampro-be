@@ -51,7 +51,7 @@ public class ImageJpaStore implements ImageStore {
 
     @Override
     public List<Image> retrieveList(Integer assetId) {
-        return ImageJpo.toDomains(this.repository.findAllByAssetId(assetId));
+        return ImageJpo.toDomains(this.repository.findByAssetIdAndDeleteAtIsNull(assetId));
     }
 
     @Override

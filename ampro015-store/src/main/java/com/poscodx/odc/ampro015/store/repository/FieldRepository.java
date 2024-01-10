@@ -10,12 +10,16 @@ import java.util.List;
 
 public interface FieldRepository extends JpaRepository<FieldJpo, Integer> {
 
-    @Query(value = "SELECT *\n"+
-            "FROM tb_a01_field f\n" +
-            "WHERE 1=1\n" +
-            "AND f.ASSET_ID = :assetId\n" +
-            "AND f.DELETE_AT IS NULL", nativeQuery = true)
-    Iterable<FieldJpo> findAllByAssetId(@Param("assetId") Integer assetId);
+//    @Query(value = "SELECT *\n"+
+//            "FROM tb_a01_field f\n" +
+//            "WHERE 1=1\n" +
+//            "AND f.ASSET_ID = :assetId\n" +
+//            "AND f.DELETE_AT IS NULL", nativeQuery = true)
+//    Iterable<FieldJpo> findAllByAssetId(@Param("assetId") Integer assetId);
 
     List<FieldJpo> findByAssetId(int assetId);
+
+    // chua xoa
+    List<FieldJpo> findByAssetIdAndDeleteAtIsNull(int assetId);
+
 }
