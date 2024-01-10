@@ -94,12 +94,13 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
         if (StringUtils.isNotBlank(token)) {
             Asset asset = serviceLifecycle.requestAssetService().findByToken(token);
             if (Objects.nonNull(asset)) {
-                List<Field> fields = serviceLifecycle.requestFieldService().findByAssetId(asset.getId());
-                List<Image> images = serviceLifecycle.requestImageService().findByAssetId(asset.getId());
-
+//              List<Field> fields = serviceLifecycle.requestFieldService().findByAssetId(asset.getId());
+//              List<Image> images = serviceLifecycle.requestImageService().findByAssetId(asset.getId());
+                List<Field> fields1 = serviceLifecycle.requestFieldService().findFieldInfos(asset.getId());
+                List<Image> images1 = serviceLifecycle.requestImageService().findImageInfos(asset.getId());
                 assetInfoDto.setAsset(asset);
-                assetInfoDto.setImages(images);
-                assetInfoDto.setFields(fields);
+                assetInfoDto.setImages(images1);
+                assetInfoDto.setFields(fields1);
                 return assetInfoDto;
             }
         }
@@ -126,8 +127,7 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
                     field.setDeleteAt(new Date());
                     field.setUpdateAt(new Date());
                     field.setUpdateBy(userId);
-                    serviceLifecycle.requestFieldService()
-                            .modify(field);
+                    serviceLifecycle.requestFieldService().modify(field);
                 }
 
                 List<Image> images = serviceLifecycle.requestImageService().findByAssetId(asset.getId());
