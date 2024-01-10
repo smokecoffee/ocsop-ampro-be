@@ -24,7 +24,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
     public Pme00MeetingResponse addMeeting(ServiceLifecycle serviceLifecycle, Pme00Meeting newMeeting){
 
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
-        // validate timespace meeting room
+        // validate timeSpace meeting room
         int count = serviceLifecycle.requestPme00MeetingService()
                 .findMetingByStartAndEndByRoom(newMeeting.getCdv() ,newMeeting.getStartTime(),newMeeting.getEndTime());
         //validate meetingId in tb_moo_codes020
@@ -42,7 +42,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     flagValidateInput= flagValidateInput+1;
                 }
         }
-        //validate startTime and endtime
+        //validate startTime and endTime
         Date dateNow = java.util.Calendar.getInstance().getTime();
         boolean checkDateInput = (newMeeting.getStartTime().compareTo(newMeeting.getEndTime()))<0
                 && (newMeeting.getStartTime().compareTo(dateNow)>0);
@@ -78,6 +78,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
                     responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
                     responseEntity.setMessage("This meeting has been created");
                 }
+            }else {
+                responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
+                responseEntity.setMessage("This timespace not match");
             }
         }else {
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
@@ -94,7 +97,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
      *  @since 2023-11-11
      */
     @Override
-    public Pme00MeetingResponse getInforBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId) {
+    public Pme00MeetingResponse getInfoBookingRoom(ServiceLifecycle serviceLifecycle, int meetingId) {
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
         Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
         List<Pme00EmployeeMeeting> listMember = serviceLifecycle.requestPme00EmployeeMeetingService()
@@ -156,7 +159,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
 
         int meetingId = listMeeting.get(0).getMeetingId();
         Pme00MeetingResponse findMeeting = serviceLifecycle.requestBookingMeetingRoomService()
-                .getInforBookingRoom(serviceLifecycle,meetingId);
+                .getInfoBookingRoom(serviceLifecycle,meetingId);
         if(findMeeting==null) {
             responseEntity.setStatus(HttpStatus.NOT_FOUND.value());
             responseEntity.setMessage("This meeting room could not be found");
@@ -192,7 +195,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
      */
     @Override
     public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
-        Pme00AllMeetingResponse responseEntitys = new Pme00AllMeetingResponse();
+        Pme00AllMeetingResponse responseEntities = new Pme00AllMeetingResponse();
         List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
         for(int i=0;i< pme00MeetingList.size();i++){
             int meetingId = pme00MeetingList.get(i).getMeetingId();
@@ -203,10 +206,10 @@ public class Level2MeetingLogic implements Level2MeetingService {
                                                                           .collect(Collectors.toList()));
 
         }
-        responseEntitys.setStatus(HttpStatus.OK.value());
-        responseEntitys.setListData(pme00MeetingList);
-        responseEntitys.setMessage("Get all meeting successfully");
-        return responseEntitys;
+        responseEntities.setStatus(HttpStatus.OK.value());
+        responseEntities.setListData(pme00MeetingList);
+        responseEntities.setMessage("Get all meeting successfully");
+        return responseEntities;
     }
 
     /**
@@ -218,7 +221,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
     @Override
     public Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle){
 
-        Pme00AllRoomResponse responseEntitys = new Pme00AllRoomResponse();
+        Pme00AllRoomResponse responseEntities = new Pme00AllRoomResponse();
 
         final int CD_TP_ID = 65;
         List<M00Codes030> pme00Rooms = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(CD_TP_ID);
@@ -231,10 +234,10 @@ public class Level2MeetingLogic implements Level2MeetingService {
             pme00Room.setColor(pme00Rooms.get(i).getCdVExplain());
             roomList.add(pme00Room);
         }
-        responseEntitys.setStatus(HttpStatus.OK.value());
-        responseEntitys.setData(roomList);
-        responseEntitys.setMessage("Get all room successfully");
-        return responseEntitys;
+        responseEntities.setStatus(HttpStatus.OK.value());
+        responseEntities.setData(roomList);
+        responseEntities.setMessage("Get all room successfully");
+        return responseEntities;
     }
 
     @Override

@@ -59,9 +59,9 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                                          String framework, String status, Date startDate, Date endDate, Pageable pageable){
-        return this.repository.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, startDate, endDate, pageable);
+    public List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
+                                          Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable){
+        return this.repository.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate, pageable);
     }
 
     @Override
@@ -80,8 +80,8 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                               String framework, String status, Date startDate, Date endDate){
-        return this.repository.countProject(cdV, meaning, period, koreaPM, vietnamPL,framework, status, startDate, endDate);
+    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
+                               Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate){
+        return this.repository.countProject(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate);
     }
 }

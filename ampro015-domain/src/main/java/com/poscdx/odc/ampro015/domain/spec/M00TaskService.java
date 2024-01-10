@@ -30,5 +30,5 @@ public interface M00TaskService {
     List<Object[]> getEmployeeImagePathAll();
 
     List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom,
-                             String actualTo, String status, String empId, String category);
+                             String actualTo, String startDateFrom, String startDateTo, String status, String empId, String category);
 }

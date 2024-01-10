@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import sun.util.calendar.CalendarUtils;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -455,12 +454,13 @@ public class Level2TaskLogic implements Level2TaskService {
         Date planTo = ObjectUtils.defaultIfNull(searchTask.getPlanTo(), null);
         Date actualFrom = ObjectUtils.defaultIfNull(searchTask.getActualFrom(), null);
         Date actualTo = ObjectUtils.defaultIfNull(searchTask.getActualTo(), null);
+        Date startDateFrom = ObjectUtils.defaultIfNull(searchTask.getStartDateFrom(), null);
+        Date startDateTo = ObjectUtils.defaultIfNull(searchTask.getStartDateTo(), null);
 
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().searchTask(projectNumber, taskName,
-                StringUtils.defaultString(convertDateToString(planFrom), "2020-01-01"),
-                StringUtils.defaultString(convertDateToString(planTo), "2050-12-31"),
-                StringUtils.defaultString(convertDateToString(actualFrom), "2020-01-01"),
-                StringUtils.defaultString(convertDateToString(actualTo), "2050-12-31"),
+                convertDateToString(planFrom), convertDateToString(planTo),
+                convertDateToString(actualFrom), convertDateToString(actualTo),
+                convertDateToString(startDateFrom), convertDateToString(startDateTo),
                 status, empId, category);
 
         Set<String> empMap = m00TaskDtoList.stream()

@@ -29,5 +29,6 @@ public interface M00TaskStore {
     List<Object[]> getEmployeeImagePathAll();
 
     List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo,
-                             String actualFrom, String actualTo, String status, String empId, String category, Pageable pageable);
+                             String actualFrom, String actualTo, String startDateFrom, String startDateTo,
+                             String status, String empId, String category, Pageable pageable);
 }

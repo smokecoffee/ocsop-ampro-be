@@ -26,8 +26,8 @@ public interface Pme00ProjectInfoStore {
 
     List<Object[]> getActiveEmployee();
 
-    List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                                   String framework, String status, Date startDate, Date endDate, Pageable pageable);
+    List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
+                                   Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable);
 
     List<Object[]> getKoreaPM();
 
@@ -36,5 +36,5 @@ public interface Pme00ProjectInfoStore {
     List<Object[]> getProjectMember(String cdV);
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                     String framework, String status, Date startDate, Date endDate);
+                     String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);
 }

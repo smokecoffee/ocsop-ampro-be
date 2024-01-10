@@ -103,8 +103,12 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             " WHERE 1=1 \n"+
             " AND (:projectNumber IS NULL OR t.PROJECT_NUMBER LIKE :projectNumber)\n" +
             " AND (:taskName IS NULL OR t.TASK_NAME LIKE CONCAT('%',:taskName, '%'))\n" +
-            " AND (:planFrom IS NULL OR t.PLAN_DATE BETWEEN :planFrom AND :planTo)\n" +
-            " AND (:actualFrom IS NULL OR t.ACTUAL_END_DATE BETWEEN :actualFrom AND :actualTo)\n" +
+            " AND (:planFrom IS NULL OR t.PLAN_DATE >= :planFrom)\n" +
+            " AND (:planTo IS NULL OR t.PLAN_DATE <= :planTo)\n" +
+            " AND (:actualFrom IS NULL OR t.ACTUAL_END_DATE >= :actualFrom)\n" +
+            " AND (:actualTo IS NULL OR t.ACTUAL_END_DATE <= :actualTo)\n" +
+            " AND (:startDateFrom IS NULL OR t.START_DATE >= :startDateFrom)\n" +
+            " AND (:startDateTo IS NULL OR t.START_DATE <= :startDateTo)\n" +
             " AND (:category IS NULL OR t.CATEGORY = :category)\n" +
             " AND (:empId IS NULL OR t.EMP_ID = :empId)\n" +
             " AND (:status IS NULL OR t.STATUS = :status)\n", nativeQuery = true)
@@ -114,6 +118,8 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
                                 @Param("planTo") String planTo,
                                 @Param("actualFrom") String actualFrom,
                                 @Param("actualTo") String actualTo,
+                                @Param("startDateFrom") String startDateFrom,
+                                @Param("startDateTo") String startDateTo,
                                 @Param("status") String status,
                                 @Param("empId") String empId,
                                 @Param("category") String category);

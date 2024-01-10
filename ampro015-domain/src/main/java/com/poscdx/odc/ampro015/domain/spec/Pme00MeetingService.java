@@ -47,21 +47,6 @@ public interface Pme00MeetingService {
     void remove(int id);
 
     /**
-     * Interface Search Meeting
-     * @author 202261_Son
-     *  @since 2023-11-11
-     */
-    List<Pme00Meeting> findAllByAssetId(
-                                int cd_tp_id,
-                                String title,
-                                String startTime,
-                                String endTime,
-                                String creatorId,
-                                String requesterId,
-                                String categoryMeeting,
-                                String status);
-
-    /**
      * Interface FindMetingByStartAndEnd Meeting
      * @author 202261_Son
      *  @since 2023-11-11
