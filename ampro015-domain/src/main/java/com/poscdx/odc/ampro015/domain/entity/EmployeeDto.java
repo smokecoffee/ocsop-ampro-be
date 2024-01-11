@@ -18,6 +18,7 @@ public class EmployeeDto extends PoscoEntity {
     private String name;
     private String avatar;
     private String birthday;
+    private String ipAddress;
 
 
     public EmployeeDto(Object[] objects) {
@@ -25,5 +26,6 @@ public class EmployeeDto extends PoscoEntity {
         this.name = (String) objects[1];
         this.avatar = "http://172.25.219.61:8080/img/" + objects[2];
         this.birthday = (String) objects[3];
+        this.ipAddress = (String) objects[4];
     }
 }
