@@ -15,17 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -269,20 +259,25 @@ public class Level2TaskLogic implements Level2TaskService {
                 .map(M00Task::getEmpId)
                 .collect(Collectors.toSet());
 
-        List<Object[]> imgSrc = new ArrayList<>();
-        Map<String, String> empIdImgMap = new HashMap<>();
+        List<Object[]> empSrc;
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
 
         if(!empMap.isEmpty()){
-            imgSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
+            empSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
             //convert map
-            empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+            if (!empSrc.isEmpty()) {
+                for (Object[] obj : empSrc) {
+                    employeeDtoList.add(new EmployeeDto(obj));
+                }
+            }
         }
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
-            List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
+            List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber,
+                                                                    m00TaskDtoList, responseList, employeeDtoList);
             return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
         }
         return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
@@ -295,16 +290,16 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param projectNumber
      * @param m00TaskDtoList
      * @param responseList
-     * @param empIdImgMap
+     * @param employeeDtoList
      * @return List<M00TaskDto>
      */
     private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber,
-                                            List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList, Map<String, String> empIdImgMap) {
+                                            List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList,
+                                            List<EmployeeDto> employeeDtoList) {
         //set projectName
         List<Pme00EmployeeTask> pme00EmployeeTaskList = new ArrayList<>();
 
-
-        //findAllEmplTask
+        //findAllEmpTask
         if (StringUtils.isNotEmpty(projectNumber)) {
             pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
         } else {
@@ -322,17 +317,16 @@ public class Level2TaskLogic implements Level2TaskService {
                         filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
                                 && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
                         .collect(Collectors.toList());
-                String emplId = m00Task.getEmpId();
-                if (empIdImgMap.containsKey(emplId)) {
-                    response.setPhoto(empIdImgMap.get(emplId));
-                } else {
-                    response.setPhoto(StringUtils.EMPTY);
-                }
                 response.setMembers(pme00EmployeeTasks);
             } else {
                 response.setMembers(new ArrayList<>());
             }
-
+            Optional<EmployeeDto> optional;
+            String empId = m00Task.getEmpId();
+            optional = employeeDtoList.stream()
+                    .filter(employeeDto -> employeeDto.getEmpId().equals(empId))
+                    .findFirst();
+            response.setCreatorDto(optional.orElseGet(EmployeeDto::new));
             response.setTask(m00Task);
             responseList.add(response);
         }
@@ -370,34 +364,43 @@ public class Level2TaskLogic implements Level2TaskService {
         String status = StringUtils.defaultIfBlank(taskSearchDTO.getStatus(), null);
         String employeeId = StringUtils.defaultIfBlank(taskSearchDTO.getEmpId(), null);
 
-        List<Object[]> employeeTaskList = serviceLifecycle.requestTaskService().findAllEmployeeId(projectNumber, taskName, status, employeeId);
+        List<Object[]> employeeTaskList = serviceLifecycle.requestTaskService().findAllTaskByEmpId(projectNumber, taskName, status, employeeId);
         List<M00TaskDto> m00TaskDtoList = new ArrayList<>();
 
         if (employeeTaskList.isEmpty()) {
             return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new ArrayList<>());
         } else {
-            List<Object[]> imgSrc = new ArrayList<>();
+            List<Object[]> empSrc = new ArrayList<>();
+            List<EmployeeDto> employeeDtoList = new ArrayList<>();
 
             if (StringUtils.isNotBlank(employeeId)) {
-                imgSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
+                empSrc = serviceLifecycle.requestTaskService()
+                                         .getEmployeeByEmployeeId(new HashSet<>(Collections.singletonList(employeeId)));
+                if (!empSrc.isEmpty()) {
+                    for (Object[] obj : empSrc) {
+                        employeeDtoList.add(new EmployeeDto(obj));
+                    }
+                }
             } else {
-                imgSrc = serviceLifecycle.requestTaskService().getEmployeeImagePathAll();
+                employeeDtoList = serviceLifecycle.requestPme00ProjectInfoService().getActiveEmployee();
             }
-            //convert map
-            Map<String, String> empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+
+            Optional<EmployeeDto> optional;
+            List<M00TaskDto> responseList = new ArrayList<>();
+
+            Map<String, String> empIdImgMap = convertPhotoEmployeeMap(empSrc);
             for (Object[] obj : employeeTaskList) {
                 M00TaskDto newM00TaskDto = new M00TaskDto();
-                String emplId = (String) obj[2];
+                String empId = (String) obj[2];
                 M00Task task = new M00Task(obj);
                 Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
-
                 newM00TaskDto.setTask(task);
-                if (empIdImgMap.containsKey(emplId)) {
-                    newM00TaskDto.setPhoto(empIdImgMap.get(emplId));
-                } else {
-                    newM00TaskDto.setPhoto(StringUtils.EMPTY);
-                }
-                newM00TaskDto.setMembers(Arrays.asList(member));
+
+                optional = employeeDtoList.stream()
+                        .filter(employeeDto -> employeeDto.getEmpId().equals(empId))
+                        .findFirst();
+                newM00TaskDto.setCreatorDto(optional.orElseGet(EmployeeDto::new));
+                newM00TaskDto.setMembers(Collections.singletonList(member));
                 m00TaskDtoList.add(newM00TaskDto);
             }
             return appendResponse(HttpStatus.OK, "List task", m00TaskDtoList);
@@ -463,20 +466,25 @@ public class Level2TaskLogic implements Level2TaskService {
                 .map(M00Task::getEmpId)
                 .collect(Collectors.toSet());
 
-        List<Object[]> imgSrc = new ArrayList<>();
-        Map<String, String> empIdImgMap = new HashMap<>();
+        List<Object[]> empSrc;
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
 
         if(!empMap.isEmpty()){
-            imgSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
+            empSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
             //convert map
-            empIdImgMap = convertPhotoEmployeeMap(imgSrc);
+            if (!empSrc.isEmpty()) {
+                for (Object[] obj : empSrc) {
+                    employeeDtoList.add(new EmployeeDto(obj));
+                }
+            }
         }
 
         List<M00TaskDto> responseList = new ArrayList<>();
 
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
-            List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber, m00TaskDtoList, responseList, empIdImgMap);
+            List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber,
+                                                                     m00TaskDtoList, responseList, employeeDtoList);
             return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
         }
         return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
@@ -488,12 +496,7 @@ public class Level2TaskLogic implements Level2TaskService {
         idSet.add(employeeId);
         List<Object[]> resultList = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(idSet);
         if (!resultList.isEmpty()) {
-            Object[] empObj = resultList.get(0);
-            EmployeeDto dto = new EmployeeDto();
-            dto.setEmpId((String) empObj[0]);
-            dto.setAvatar("http://172.25.219.61:8080/img/" + empObj[1]);
-            dto.setName((String) empObj[2]);
-            return dto;
+            return new EmployeeDto(resultList.get(0));
         }
         return null;
     }

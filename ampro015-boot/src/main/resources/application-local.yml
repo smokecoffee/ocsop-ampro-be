@@ -8,7 +8,7 @@ spring:
       path: /h2-console
 
 datasource:
-  url: jdbc:mariadb://172.25.219.61:3306/posctzn
+  url: jdbc:mariadb://172.25.219.61:3306/pme00
   username: dev
   password: dbdev
 

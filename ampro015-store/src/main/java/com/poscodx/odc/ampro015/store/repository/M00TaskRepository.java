@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> {
@@ -70,19 +68,15 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             +" AND (:projectNumber IS NULL OR t.PROJECT_NUMBER LIKE :projectNumber)\n"
             +" AND (:taskName IS NULL OR t.TASK_NAME LIKE CONCAT('%',:taskName, '%'))\n"
             +" AND (:status IS NULL OR t.STATUS = :status) \n", nativeQuery = true)
-    List<Object[]> findAllByEmpId(@Param("projectNumber") String projectNumber,
-                                  @Param("taskName") String taskName,
-                                  @Param("status") String status,
-                                  @Param("employeeId") String employeeId);
+    List<Object[]> findAllTaskByEmpId(@Param("projectNumber") String projectNumber,
+                                      @Param("taskName") String taskName,
+                                      @Param("status") String status,
+                                      @Param("employeeId") String employeeId);
 
-    @Query(value = "SELECT e.EMP_ID, e.PHOTO, e.NAME \n"+
+    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE\n"+
                    "FROM tb_m00_employee AS e\n"+
                    "WHERE e.EMP_ID IN :empId", nativeQuery = true)
     List<Object[]> getImagePathByEmployeeId(@Param("empId") Set<String> empId);
-
-    @Query(value = "SELECT e.EMP_ID, e.PHOTO \n"+
-            "FROM tb_m00_employee AS e\n", nativeQuery = true)
-    List<Object[]> getEmployeeImagePathAll();
 
     @Query(value = "SELECT t.PROJECT_NUMBER \n" +
             ",t.TASK_NAME \n" +
