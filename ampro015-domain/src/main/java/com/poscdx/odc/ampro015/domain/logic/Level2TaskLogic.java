@@ -1,12 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
-import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
-import com.poscdx.odc.ampro015.domain.entity.M00Task;
-import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
-import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
-import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -278,7 +273,7 @@ public class Level2TaskLogic implements Level2TaskService {
         Map<String, String> empIdImgMap = new HashMap<>();
 
         if(!empMap.isEmpty()){
-            imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
+            imgSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
             //convert map
             empIdImgMap = convertPhotoEmployeeMap(imgSrc);
         }
@@ -384,7 +379,7 @@ public class Level2TaskLogic implements Level2TaskService {
             List<Object[]> imgSrc = new ArrayList<>();
 
             if (StringUtils.isNotBlank(employeeId)) {
-                imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
+                imgSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(new HashSet<>(Arrays.asList(employeeId)));
             } else {
                 imgSrc = serviceLifecycle.requestTaskService().getEmployeeImagePathAll();
             }
@@ -472,7 +467,7 @@ public class Level2TaskLogic implements Level2TaskService {
         Map<String, String> empIdImgMap = new HashMap<>();
 
         if(!empMap.isEmpty()){
-            imgSrc = serviceLifecycle.requestTaskService().getImagePathByEmployeeId(empMap);
+            imgSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
             //convert map
             empIdImgMap = convertPhotoEmployeeMap(imgSrc);
         }
@@ -485,6 +480,22 @@ public class Level2TaskLogic implements Level2TaskService {
             return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
         }
         return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
+    }
+
+    @Override
+    public EmployeeDto getCreator(ServiceLifecycle serviceLifecycle, String employeeId) {
+        Set<String> idSet = new HashSet<>();
+        idSet.add(employeeId);
+        List<Object[]> resultList = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(idSet);
+        if (!resultList.isEmpty()) {
+            Object[] empObj = resultList.get(0);
+            EmployeeDto dto = new EmployeeDto();
+            dto.setEmpId((String) empObj[0]);
+            dto.setAvatar("http://172.25.219.61:8080/img/" + empObj[1]);
+            dto.setName((String) empObj[2]);
+            return dto;
+        }
+        return null;
     }
 
     private String convertDateToString(Date date){

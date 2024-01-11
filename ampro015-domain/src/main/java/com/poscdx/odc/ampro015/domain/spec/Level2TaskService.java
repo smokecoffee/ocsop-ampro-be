@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
+import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
@@ -104,4 +105,6 @@ public interface Level2TaskService {
      * @return List<M00TaskDto>
      */
     ResponseEntity<?> searchTask(ServiceLifecycle serviceLifecycle, TaskSearchDTO searchTask);
+
+    EmployeeDto getCreator(ServiceLifecycle serviceLifecycle, String employeeId);
 }

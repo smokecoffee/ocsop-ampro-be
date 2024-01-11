@@ -67,7 +67,7 @@ public class M00TaskJpaStore implements M00TaskStore {
     }
 
     @Override
-    public List<Object[]> getImagePathByEmployeeId(Set<String> empId) {
+    public List<Object[]> getEmployeeByEmployeeId(Set<String> empId) {
         return this.repository.getImagePathByEmployeeId(empId);
     }
 

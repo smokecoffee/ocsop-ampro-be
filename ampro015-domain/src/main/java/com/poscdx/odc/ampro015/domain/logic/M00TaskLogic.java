@@ -7,7 +7,6 @@ import com.poscdx.odc.ampro015.domain.store.M00TaskStore;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class M00TaskLogic implements M00TaskService {
@@ -61,8 +60,8 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<Object[]> getImagePathByEmployeeId(Set<String> empId) {
-        return store.getImagePathByEmployeeId(empId);
+    public List<Object[]> getEmployeeByEmployeeId(Set<String> empId) {
+        return store.getEmployeeByEmployeeId(empId);
     }
 
     @Override

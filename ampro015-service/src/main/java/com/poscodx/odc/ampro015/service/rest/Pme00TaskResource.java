@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
@@ -121,4 +122,20 @@ public class Pme00TaskResource {
         }
         return this.serviceLifecycle.requestLevel2TaskService().searchTask(serviceLifecycle, searchTask);
     }
+
+
+    /**
+     * Get Creator function
+     *
+     * @return EmployeeDto
+     * @author 202260_tri
+     * @since 2024-01-11
+     */
+    @CrossOrigin
+    @GetMapping("/employee/{id}")
+    public EmployeeDto searchTask(@PathVariable("id") String employeeId) {
+        return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
+    }
+
+
 }
