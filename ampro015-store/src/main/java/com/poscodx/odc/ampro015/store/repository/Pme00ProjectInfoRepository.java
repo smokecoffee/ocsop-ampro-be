@@ -68,6 +68,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 ", EMP.NAME \n" +
                 ", EMP.PHOTO \n" +
                 ", EMP.BIRTH_DATE\n" +
+                ", EMP.IP_ADDRESS\n" +
             "FROM \n" +
                 "TB_PME00_PROJECT_INFO AS INFO\n" +
             "JOIN \n" +
@@ -82,6 +83,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 ", EMP.NAME \n" +
                 ", EMP.PHOTO \n" +
                 ", EMP.BIRTH_DATE\n" +
+                ", EMP.IP_ADDRESS\n" +
             "FROM \n" +
                 "TB_PME00_PROJECT_INFO AS INFO\n" +
             "JOIN \n" +
