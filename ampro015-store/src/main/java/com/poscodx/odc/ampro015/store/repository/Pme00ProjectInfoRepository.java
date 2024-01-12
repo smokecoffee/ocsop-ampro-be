@@ -22,6 +22,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                     ",E.NAME\n" +
                     ",E.PHOTO\n" +
                     ",E.BIRTH_DATE\n" +
+                    ",E.IP_ADDRESS\n" +
                     " FROM\n" +
                     " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
                     " WHERE\n" +
