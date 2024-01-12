@@ -73,7 +73,7 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
                                       @Param("status") String status,
                                       @Param("employeeId") String employeeId);
 
-    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE\n"+
+    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE, e.IP_ADDRESS\n"+
                    "FROM tb_m00_employee AS e\n"+
                    "WHERE e.EMP_ID IN :empId", nativeQuery = true)
     List<Object[]> getImagePathByEmployeeId(@Param("empId") Set<String> empId);
