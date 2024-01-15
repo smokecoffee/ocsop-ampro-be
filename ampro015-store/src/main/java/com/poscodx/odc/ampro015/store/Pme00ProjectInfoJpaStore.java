@@ -54,11 +54,6 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Object[]> getActiveEmployee() {
-        return this.repository.getActiveEmployee();
-    }
-
-    @Override
     public List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
                                           Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable){
         return this.repository.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate, pageable);

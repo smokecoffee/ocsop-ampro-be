@@ -1,6 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ public class Level2Resource {
 
     @GetMapping(path = "/getActiveEmp")
     @CrossOrigin
-    public List<EmployeeDto> getActiveEmployee() {
-        return this.serviceLifecycle.requestPme00ProjectInfoService().getActiveEmployee();
+    public List<M00Employee> getActiveEmployee() {
+        return this.serviceLifecycle.requestM00EmployeeService().getActiveEmployee();
     }
 
     @CrossOrigin

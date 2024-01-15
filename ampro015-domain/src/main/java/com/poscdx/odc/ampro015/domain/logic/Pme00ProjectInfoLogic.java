@@ -1,9 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.*;
-import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
-import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.spec.Pme00ProjectInfoService;
 import com.poscdx.odc.ampro015.domain.store.Pme00ProjectInfoStore;
 import org.springframework.data.domain.Pageable;
@@ -51,21 +49,11 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public List<EmployeeDto> getActiveEmployee() {
-        List<Object[]> resultList = this.store.getActiveEmployee();
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
-        for (Object[] obj : resultList) {
-            employeeDtoList.add(new EmployeeDto(obj));
-        }
-        return employeeDtoList;
-    }
-
-    @Override
-    public List<EmployeeDto> getProjectMember(String cdV) {
+    public List<M00Employee> getProjectMember(String cdV) {
         List<Object[]> resultList = this.store.getProjectMember(cdV);
-        List<EmployeeDto> memberList = new ArrayList<>();
+        List<M00Employee> memberList = new ArrayList<>();
         for (Object[] obj : resultList) {
-            memberList.add(new EmployeeDto(obj));
+            memberList.add(new M00Employee(obj));
         }
         return memberList;
     }
@@ -92,23 +80,23 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public List<EmployeeDto> getKoreaPM() {
+    public List<M00Employee> getKoreaPM() {
         List<Object[]> resultList = this.store.getKoreaPM();
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<M00Employee> m00EmployeeList = new ArrayList<>();
         for (Object[] obj : resultList) {
-            employeeDtoList.add(new EmployeeDto(obj));
+            m00EmployeeList.add(new M00Employee(obj));
         }
-        return employeeDtoList;
+        return m00EmployeeList;
     }
 
     @Override
-    public List<EmployeeDto> getVietnamPL() {
+    public List<M00Employee> getVietnamPL() {
         List<Object[]> resultList = this.store.getVietnamPL();
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<M00Employee> m00EmployeeList = new ArrayList<>();
         for (Object[] obj : resultList) {
-            employeeDtoList.add(new EmployeeDto(obj));
+            m00EmployeeList.add(new M00Employee(obj));
         }
-        return employeeDtoList;
+        return m00EmployeeList;
     }
 
     @Override

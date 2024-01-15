@@ -24,7 +24,6 @@ public interface M00TaskService {
 
     public List<Object[]> findAllTaskByEmpId(String projectNumber, String taskName, String status, String employeeId);
 
-    List<Object[]> getEmployeeByEmployeeId(Set<String> empId);
 
     List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom,
                              String actualTo, String startDateFrom, String startDateTo, String status, String empId, String category);

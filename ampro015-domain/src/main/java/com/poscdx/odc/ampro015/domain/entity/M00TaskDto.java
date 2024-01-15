@@ -17,7 +17,7 @@ import java.util.List;
 public class M00TaskDto {
     private M00Task task;
     private List<Pme00EmployeeTask> members;
-    private EmployeeDto creatorDto;
+    private M00Employee creatorDto;
 
     public String toJson() {
         return JsonUtil.toJson(this);

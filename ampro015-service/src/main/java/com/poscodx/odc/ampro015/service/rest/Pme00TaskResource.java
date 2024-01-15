@@ -1,21 +1,16 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
-import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Router API for task management
@@ -133,7 +128,7 @@ public class Pme00TaskResource {
      */
     @CrossOrigin
     @GetMapping("/employee/{id}")
-    public EmployeeDto searchTask(@PathVariable("id") String employeeId) {
+    public M00Employee searchTask(@PathVariable("id") String employeeId) {
         return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
     }
 

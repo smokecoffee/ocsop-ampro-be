@@ -52,7 +52,7 @@ public class Level2TaskLogic implements Level2TaskService {
     @Override
     public M00TaskDto findTaskByProjectNumberAndTaskName(ServiceLifecycle serviceLifecycle, M00TaskId searchTaskId) {
         Optional<M00Task> m00Task = Optional.ofNullable(
-                serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(searchTaskId));
+                serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(searchTaskId));
         if (m00Task.isPresent()) {
             List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(searchTaskId);
             M00TaskDto taskResponse = new M00TaskDto();
@@ -73,7 +73,7 @@ public class Level2TaskLogic implements Level2TaskService {
     @Override
     public List<M00TaskDto> findAll(ServiceLifecycle serviceLifecycle, String projectNumber) {
         //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(projectNumber);
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().findAll(projectNumber);
         //findAllEmplTask
         List<Pme00EmployeeTask> pme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByProjectNumber(projectNumber);
 
@@ -105,7 +105,7 @@ public class Level2TaskLogic implements Level2TaskService {
         M00Task requestTask = updateTaskRequest.getTask();
         // find exitedTask
         M00TaskId requestUpdatedTask = new M00TaskId(requestTask.getProjectNumber(), requestTask.getTaskName());
-        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(requestUpdatedTask));
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(requestUpdatedTask));
 
         List<Pme00EmployeeTask> pme00EmployeeTasksRequestList = updateTaskRequest.getMembers();
 
@@ -143,7 +143,7 @@ public class Level2TaskLogic implements Level2TaskService {
             requestTask.setEmpId(existedOwnerTaskId);
 
             // save DB
-            M00Task updatedTask = serviceLifecycle.requestTaskService().modify(requestTask);
+            M00Task updatedTask = serviceLifecycle.requestM00TaskService().modify(requestTask);
             M00TaskDto responseUpdateTask = new M00TaskDto();
             responseUpdateTask.setMembers(pme00EmployeeTasksRequestList);
             responseUpdateTask.setTask(updatedTask);
@@ -163,7 +163,7 @@ public class Level2TaskLogic implements Level2TaskService {
     public ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
         //check this already existed yet?
         M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
-        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(newTaskId));
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
         if (existedTask.isPresent()) {
             HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
             mapResponse.get(RESPONSE_DATA);
@@ -173,7 +173,7 @@ public class Level2TaskLogic implements Level2TaskService {
             M00Task newTaskJpo = newTask.getTask();
 
             newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()));
-            M00Task savedTask = serviceLifecycle.requestTaskService().register(newTaskJpo);
+            M00Task savedTask = serviceLifecycle.requestM00TaskService().register(newTaskJpo);
 
             // map Emp
             M00TaskDto newReponse = new M00TaskDto();
@@ -202,7 +202,7 @@ public class Level2TaskLogic implements Level2TaskService {
         M00TaskId deleteTaskId = new M00TaskId(requestProjectNumber, requestTaskName);
 
         //check this already existed yet?
-        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestTaskService().findTaskByProjectNumberAndTaskName(deleteTaskId));
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(deleteTaskId));
 
         if (existedTask.isPresent()) {
 
@@ -223,7 +223,7 @@ public class Level2TaskLogic implements Level2TaskService {
                 removeMultipleEmployeeTask(serviceLifecycle, pme00EmployeeTaskExistedList);
             }
             //Delete task
-            serviceLifecycle.requestTaskService().remove(deleteTaskId);
+            serviceLifecycle.requestM00TaskService().remove(deleteTaskId);
             return appendResponse(HttpStatus.OK, DELETE_SUCCESS_RESPONSE_MESSAGE, new M00TaskDto());
         }
         return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new M00TaskDto());
@@ -251,7 +251,7 @@ public class Level2TaskLogic implements Level2TaskService {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
         //findAllTask
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findTaskByConditions(projectNumber, taskName,
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().findTaskByConditions(projectNumber, taskName,
                 planDate, actualEndDate, status, taskOwnerId, category, pageable);
 
         Set<String> empMap = m00TaskDtoList.stream()
@@ -260,14 +260,14 @@ public class Level2TaskLogic implements Level2TaskService {
                 .collect(Collectors.toSet());
 
         List<Object[]> empSrc;
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<M00Employee> m00EmployeeList = new ArrayList<>();
 
         if(!empMap.isEmpty()){
-            empSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
+            empSrc = serviceLifecycle.requestM00EmployeeService().getEmployeeByEmployeeId(empMap);
             //convert map
             if (!empSrc.isEmpty()) {
                 for (Object[] obj : empSrc) {
-                    employeeDtoList.add(new EmployeeDto(obj));
+                    m00EmployeeList.add(new M00Employee(obj));
                 }
             }
         }
@@ -277,7 +277,7 @@ public class Level2TaskLogic implements Level2TaskService {
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
             List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber,
-                                                                    m00TaskDtoList, responseList, employeeDtoList);
+                                                                    m00TaskDtoList, responseList, m00EmployeeList);
             return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
         }
         return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
@@ -290,12 +290,12 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param projectNumber
      * @param m00TaskDtoList
      * @param responseList
-     * @param employeeDtoList
+     * @param m00EmployeeList
      * @return List<M00TaskDto>
      */
     private List<M00TaskDto> taskManipulate(ServiceLifecycle serviceLifecycle, String projectNumber,
                                             List<M00Task> m00TaskDtoList, List<M00TaskDto> responseList,
-                                            List<EmployeeDto> employeeDtoList) {
+                                            List<M00Employee> m00EmployeeList) {
         //set projectName
         List<Pme00EmployeeTask> pme00EmployeeTaskList = new ArrayList<>();
 
@@ -321,12 +321,12 @@ public class Level2TaskLogic implements Level2TaskService {
             } else {
                 response.setMembers(new ArrayList<>());
             }
-            Optional<EmployeeDto> optional;
+            Optional<M00Employee> optional;
             String empId = m00Task.getEmpId();
-            optional = employeeDtoList.stream()
+            optional = m00EmployeeList.stream()
                     .filter(employeeDto -> employeeDto.getEmpId().equals(empId))
                     .findFirst();
-            response.setCreatorDto(optional.orElseGet(EmployeeDto::new));
+            response.setCreatorDto(optional.orElseGet(M00Employee::new));
             response.setTask(m00Task);
             responseList.add(response);
         }
@@ -364,28 +364,28 @@ public class Level2TaskLogic implements Level2TaskService {
         String status = StringUtils.defaultIfBlank(taskSearchDTO.getStatus(), null);
         String employeeId = StringUtils.defaultIfBlank(taskSearchDTO.getEmpId(), null);
 
-        List<Object[]> employeeTaskList = serviceLifecycle.requestTaskService().findAllTaskByEmpId(projectNumber, taskName, status, employeeId);
+        List<Object[]> employeeTaskList = serviceLifecycle.requestM00TaskService().findAllTaskByEmpId(projectNumber, taskName, status, employeeId);
         List<M00TaskDto> m00TaskDtoList = new ArrayList<>();
 
         if (employeeTaskList.isEmpty()) {
             return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new ArrayList<>());
         } else {
             List<Object[]> empSrc = new ArrayList<>();
-            List<EmployeeDto> employeeDtoList = new ArrayList<>();
+            List<M00Employee> m00EmployeeList = new ArrayList<>();
 
             if (StringUtils.isNotBlank(employeeId)) {
-                empSrc = serviceLifecycle.requestTaskService()
+                empSrc = serviceLifecycle.requestM00EmployeeService()
                                          .getEmployeeByEmployeeId(new HashSet<>(Collections.singletonList(employeeId)));
                 if (!empSrc.isEmpty()) {
                     for (Object[] obj : empSrc) {
-                        employeeDtoList.add(new EmployeeDto(obj));
+                        m00EmployeeList.add(new M00Employee(obj));
                     }
                 }
             } else {
-                employeeDtoList = serviceLifecycle.requestPme00ProjectInfoService().getActiveEmployee();
+                m00EmployeeList = serviceLifecycle.requestM00EmployeeService().getActiveEmployee();
             }
 
-            Optional<EmployeeDto> optional;
+            Optional<M00Employee> optional;
             List<M00TaskDto> responseList = new ArrayList<>();
 
             Map<String, String> empIdImgMap = convertPhotoEmployeeMap(empSrc);
@@ -396,10 +396,10 @@ public class Level2TaskLogic implements Level2TaskService {
                 Pme00EmployeeTask member = new Pme00EmployeeTask(obj);
                 newM00TaskDto.setTask(task);
 
-                optional = employeeDtoList.stream()
+                optional = m00EmployeeList.stream()
                         .filter(employeeDto -> employeeDto.getEmpId().equals(empId))
                         .findFirst();
-                newM00TaskDto.setCreatorDto(optional.orElseGet(EmployeeDto::new));
+                newM00TaskDto.setCreatorDto(optional.orElseGet(M00Employee::new));
                 newM00TaskDto.setMembers(Collections.singletonList(member));
                 m00TaskDtoList.add(newM00TaskDto);
             }
@@ -455,7 +455,7 @@ public class Level2TaskLogic implements Level2TaskService {
         Date startDateFrom = ObjectUtils.defaultIfNull(searchTask.getStartDateFrom(), null);
         Date startDateTo = ObjectUtils.defaultIfNull(searchTask.getStartDateTo(), null);
 
-        List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().searchTask(projectNumber, taskName,
+        List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().searchTask(projectNumber, taskName,
                 convertDateToString(planFrom), convertDateToString(planTo),
                 convertDateToString(actualFrom), convertDateToString(actualTo),
                 convertDateToString(startDateFrom), convertDateToString(startDateTo),
@@ -467,14 +467,14 @@ public class Level2TaskLogic implements Level2TaskService {
                 .collect(Collectors.toSet());
 
         List<Object[]> empSrc;
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<M00Employee> m00EmployeeList = new ArrayList<>();
 
         if(!empMap.isEmpty()){
-            empSrc = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(empMap);
+            empSrc = serviceLifecycle.requestM00EmployeeService().getEmployeeByEmployeeId(empMap);
             //convert map
             if (!empSrc.isEmpty()) {
                 for (Object[] obj : empSrc) {
-                    employeeDtoList.add(new EmployeeDto(obj));
+                    m00EmployeeList.add(new M00Employee(obj));
                 }
             }
         }
@@ -484,19 +484,19 @@ public class Level2TaskLogic implements Level2TaskService {
         //append member to task
         if (!m00TaskDtoList.isEmpty()) {
             List<M00TaskDto> m00TaskDtoListResponse = taskManipulate(serviceLifecycle, projectNumber,
-                                                                     m00TaskDtoList, responseList, employeeDtoList);
+                                                                     m00TaskDtoList, responseList, m00EmployeeList);
             return appendResponse(HttpStatus.OK, "List task", m00TaskDtoListResponse);
         }
         return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, responseList);
     }
 
     @Override
-    public EmployeeDto getCreator(ServiceLifecycle serviceLifecycle, String employeeId) {
+    public M00Employee getCreator(ServiceLifecycle serviceLifecycle, String employeeId) {
         Set<String> idSet = new HashSet<>();
         idSet.add(employeeId);
-        List<Object[]> resultList = serviceLifecycle.requestTaskService().getEmployeeByEmployeeId(idSet);
+        List<Object[]> resultList = serviceLifecycle.requestM00EmployeeService().getEmployeeByEmployeeId(idSet);
         if (!resultList.isEmpty()) {
-            return new EmployeeDto(resultList.get(0));
+            return new M00Employee(resultList.get(0));
         }
         return null;
     }

@@ -175,7 +175,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, id.getCdV())
                  && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
             // Delete tasks
-            List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(id.getCdV());
+            List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().findAll(id.getCdV());
 
             Map<String, Object> requestDeleteTaskId = new HashMap<>();
             requestDeleteTaskId.put("projectNumber", id.getCdV());
@@ -346,7 +346,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
     }
 
     @Override
-    public List<EmployeeDto> getProjectMember(ServiceLifecycle serviceLifecycle, String cdV) {
+    public List<M00Employee> getProjectMember(ServiceLifecycle serviceLifecycle, String cdV) {
         return serviceLifecycle.requestPme00ProjectInfoService().getProjectMember(cdV);
     }
 
