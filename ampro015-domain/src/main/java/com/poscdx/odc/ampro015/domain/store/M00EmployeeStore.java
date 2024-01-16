@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 
 import java.util.List;
 import java.util.Set;
@@ -19,5 +20,7 @@ public interface M00EmployeeStore {
     List<Object[]> getEmployeeByEmployeeId(Set<String> empId);
 
     List<Object[]> getActiveEmployee();
+
+    List<Object[]> findAllEmployee();
 
 }

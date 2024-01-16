@@ -1,5 +1,6 @@
 package com.poscodx.odc.ampro015.store.repository;
 
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,14 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " ORDER BY E.EMP_ID", nativeQuery = true)
 
     List<Object[]> getActiveEmployee();
+
+    @Query(value = "SELECT E.*\n" +
+            ",CODE030.CD_V_MEANING\n" +
+            " FROM\n" +
+            " TB_M00_EMPLOYEE AS E\n" +
+            " JOIN TB_M00_CODES030 CODE030\n" +
+            " ON CODE030.CD_V = E.SITE_CODE \n" +
+            " WHERE 1=1\n" +
+            " AND CODE030.CD_TP_ID = 51", nativeQuery = true)
+    List<Object[]> findAllEmployee();
 }

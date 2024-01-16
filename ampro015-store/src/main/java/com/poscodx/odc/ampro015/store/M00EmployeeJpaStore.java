@@ -1,8 +1,8 @@
 package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscdx.odc.ampro015.domain.store.M00EmployeeStore;
-import com.poscodx.odc.ampro015.store.jpo.M00Codes020Jpo;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import com.poscodx.odc.ampro015.store.repository.M00EmployeeRepository;
 import org.springframework.stereotype.Repository;
@@ -57,5 +57,10 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     @Override
     public List<Object[]> getActiveEmployee() {
         return this.repository.getActiveEmployee();
+    }
+
+    @Override
+    public List<Object[]> findAllEmployee() {
+        return this.repository.findAllEmployee();
     }
 }
