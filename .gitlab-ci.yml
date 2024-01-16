@@ -4,7 +4,5 @@ stages:
 build:
   stage: build
   script:
-    - echo "npm build location"
-  except:
-    - tags
+    - echo "TEST"
 
