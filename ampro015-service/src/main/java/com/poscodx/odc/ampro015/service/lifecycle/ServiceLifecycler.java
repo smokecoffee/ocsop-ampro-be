@@ -15,6 +15,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final AssetService assetService;
     private final FieldService fieldService;
     private final ImageService imageService;
+    private final M99DailyReportService m99DailyReportService;
     private final M00Codes030Service m00Codes030Service;
     private final M00TaskService m00TaskService;
     private final M00EmployeeService m00EmployeeService;
@@ -64,6 +65,11 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public ImageService requestImageService() {
         return this.imageService;
+    }
+
+    @Override
+    public M99DailyReportService requestM99DailyReportService() {
+        return this.m99DailyReportService;
     }
 
     @Override
