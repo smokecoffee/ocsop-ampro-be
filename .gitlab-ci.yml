@@ -1,8 +1,14 @@
 stages:
-  - build
+  - test
 
-build:
-  stage: build
+variables:
+  TEST_IMAGE: "your_test_image:tag"
+
+before_script:
+  - echo "Setting up environment"
+
+test:
+  stage: test
+  image: $TEST_IMAGE
   script:
-    - echo "TEST"
-
+    - echo "Running tests"
