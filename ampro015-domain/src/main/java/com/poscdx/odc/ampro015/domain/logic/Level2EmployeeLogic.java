@@ -30,7 +30,8 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(ServiceLifecycle serviceLifecycle,
                                                             String site, String status, String name, String empId){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
-        List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService().searchPmeEmployee(site, status, name, empId);
+        List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
+                .searchPmeEmployee(site, status, name, empId);
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
         for(Object[] object : listPme00Employee){
             Pme00Employee employee = new Pme00Employee(object);
