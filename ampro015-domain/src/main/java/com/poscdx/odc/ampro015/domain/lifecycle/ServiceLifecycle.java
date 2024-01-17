@@ -8,6 +8,7 @@ public interface ServiceLifecycle {
     AssetService requestAssetService();
     FieldService requestFieldService();
     ImageService requestImageService();
+    M99DailyReportService requestM99DailyReportService();
     M00Codes030Service requestM00Codes030Service();
     M00TaskService requestM00TaskService();
     M00EmployeeService requestM00EmployeeService();
