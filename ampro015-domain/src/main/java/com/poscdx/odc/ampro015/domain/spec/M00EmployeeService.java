@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 
 import java.util.List;
 import java.util.Set;
@@ -23,4 +22,6 @@ public interface M00EmployeeService {
     List<M00Employee> getActiveEmployee();
 
     List<Object[]> findAllEmployee();
+
+    List<Object[]> searchPmeEmployee(String site, String status, String name);
 }

@@ -63,4 +63,10 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     public List<Object[]> findAllEmployee() {
         return this.repository.findAllEmployee();
     }
+
+    @Override
+    public List<Object[]> searchPmeEmployee(String site, String status, String name) {
+        return this.repository.searchPmeEmployee(site, status, name);
+    }
+
 }

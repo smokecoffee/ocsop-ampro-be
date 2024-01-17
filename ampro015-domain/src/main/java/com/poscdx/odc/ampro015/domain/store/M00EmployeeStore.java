@@ -23,4 +23,6 @@ public interface M00EmployeeStore {
 
     List<Object[]> findAllEmployee();
 
+    List<Object[]> searchPmeEmployee(String site, String status, String name);
+
 }

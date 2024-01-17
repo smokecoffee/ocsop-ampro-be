@@ -39,4 +39,22 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " WHERE 1=1\n" +
             " AND CODE030.CD_TP_ID = 51", nativeQuery = true)
     List<Object[]> findAllEmployee();
+
+    @Query(value = "SELECT E.*\n" +
+            ",CODE1.CD_V_MEANING AS SITE\n" +
+            ",CODE2.CD_V_MEANING AS STATUS\n" +
+            " FROM\n" +
+            " TB_M00_EMPLOYEE AS E\n" +
+            " JOIN TB_M00_CODES030 CODE1\n" +
+            " ON CODE1.CD_V = E.SITE_CODE \n" +
+            " JOIN TB_M00_CODES030 CODE2\n" +
+            " ON CODE2.CD_V = E.EMP_STATUS \n" +
+            " WHERE 1=1\n" +
+            " AND CODE1.CD_TP_ID = 51"+
+            " AND CODE2.CD_TP_ID = 99"+
+            " AND (:site IS NULL OR :site = '' OR (CODE1.CD_V_EXPLAIN =:site))"+
+            " AND (:status IS NULL OR :status = '' OR (CODE2.CD_V = :status))"+
+            " AND (:name IS NULL OR :name = '' OR (E.NAME =:name))", nativeQuery = true)
+    List<Object[]> searchPmeEmployee(@Param("site") String site,  @Param("status") String status,@Param("name") String name);
+
 }

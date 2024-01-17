@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscdx.odc.ampro015.domain.spec.M00EmployeeService;
 import com.poscdx.odc.ampro015.domain.store.M00EmployeeStore;
 
@@ -63,6 +62,11 @@ public class M00EmployeeLogic implements M00EmployeeService {
     @Override
     public List<Object[]> findAllEmployee(){
         return store.findAllEmployee();
+    }
+
+    @Override
+    public List<Object[]> searchPmeEmployee(String site, String status, String name){
+        return store.searchPmeEmployee(site, status, name);
     }
 
 }
