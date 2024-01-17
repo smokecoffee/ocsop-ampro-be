@@ -33,6 +33,8 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00PerRoleService pme00PerRoleService;
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
+    private final Level2UserService level2UserService;
+    private final ExcanAccessTokenService excanAccessTokenService;
 
     @Override
     public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
@@ -143,7 +145,19 @@ public class ServiceLifecycler implements ServiceLifecycle {
     }
 
     @Override
+    public Level2UserService requestLevel2UserService() {
+        return this.level2UserService;
+    }
+
+    @Override
+    public ExcanAccessTokenService requestExcanAccessTokenService() {
+        return this.excanAccessTokenService;
+    }
+
+    @Override
     public Level2QrCodeService requestLevel2QrCodeService() {
         return this.level2QrCodeService;
     }
+
+
 }

@@ -1,11 +1,13 @@
 package com.poscodx.odc.ampro015.store.repository;
 
+import com.poscodx.odc.ampro015.store.jpo.ExcanUserJpo;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, String> {
@@ -28,4 +30,13 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " ORDER BY E.EMP_ID", nativeQuery = true)
 
     List<Object[]> getActiveEmployee();
+
+    Boolean existsByName(String username);
+
+    Boolean existsByMail(String email);
+
+    Optional<M00EmployeeJpo> findByName(String userName);
+
+    List<M00EmployeeJpo> findAllByEmpIdIn(List<String> id);
+
 }
