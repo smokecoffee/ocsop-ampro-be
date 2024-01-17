@@ -14,6 +14,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+    <sonar.projectKey>f2knight_ampro-backend_AY0VVIi2V7A74ivlyQbm</sonar.projectKey>
+    <sonar.projectName>AMPro BackEnd</sonar.projectName>
+    <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
 
     <dependencies>
