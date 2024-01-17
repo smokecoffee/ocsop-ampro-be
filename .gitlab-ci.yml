@@ -1,4 +1,4 @@
-image: pme00-backend:latest
+image: jrebel-ls:latest
 
 stages:          # List of stages for jobs, and their order of execution
   - build
