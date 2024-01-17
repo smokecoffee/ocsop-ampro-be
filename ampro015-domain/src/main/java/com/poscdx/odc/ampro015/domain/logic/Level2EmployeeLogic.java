@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllLevel2EmployeeResponse;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -41,5 +40,40 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pme00AllLevel2EmployeeResponse.setListData(pme00Employees1);
         pme00AllLevel2EmployeeResponse.setMessage("Get all employee successfully");
         return pme00AllLevel2EmployeeResponse;
+    }
+
+    @Override
+    public PmeSiteResponse findSiteEmp(ServiceLifecycle serviceLifecycle){
+        PmeSiteResponse pmeSiteResponse = new PmeSiteResponse();
+        final int cdTpId1 = 51;
+        List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId1);
+        List<Pme00Site> pme00Sites = new ArrayList<>();
+        for(M00Codes030 m00Codes030 : m00Codes030s){
+            Pme00Site pme00Site = new Pme00Site();
+            pme00Site.setCD_V(m00Codes030.getCdV());
+            pme00Site.setCD_V_MEANING(m00Codes030.getCdvMeaning());
+            pme00Sites.add(pme00Site);
+        }
+        pmeSiteResponse.setStatus(HttpStatus.OK.value());
+        pmeSiteResponse.setListData(pme00Sites);
+        pmeSiteResponse.setMessage("Get all site successfully");
+        return pmeSiteResponse;
+    }
+
+    public PmeStatusResponse findStatus(ServiceLifecycle serviceLifecycle){
+        PmeStatusResponse pmeStatusResponse = new PmeStatusResponse();
+        final int cdTpId2 = 99;
+        List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId2);
+        List<Pme00Status> pme00Statuses = new ArrayList<>();
+        for(M00Codes030 m00Codes030 : m00Codes030s){
+            Pme00Status pme00Status = new Pme00Status();
+            pme00Status.setCD_V(m00Codes030.getCdV());
+            pme00Status.setCD_V_MEANING(m00Codes030.getCdvMeaning());
+            pme00Statuses.add(pme00Status);
+        }
+        pmeStatusResponse.setStatus(HttpStatus.OK.value());
+        pmeStatusResponse.setListData(pme00Statuses);
+        pmeStatusResponse.setMessage("Get all status successfully");
+        return pmeStatusResponse;
     }
 }

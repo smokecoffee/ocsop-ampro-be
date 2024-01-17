@@ -2,6 +2,8 @@ package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllLevel2EmployeeResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
+import com.poscdx.odc.ampro015.domain.entity.PmeSiteResponse;
+import com.poscdx.odc.ampro015.domain.entity.PmeStatusResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +30,15 @@ public class Pme00EmployeeResource {
         return this.serviceLifecycle.requestLevel2EmployeeService().searchPmeEmployee(serviceLifecycle, site, status, name, empId);
     }
 
+    @GetMapping("/findSiteEmp")
+    @CrossOrigin
+    public PmeSiteResponse findSiteEmp() {
+        return this.serviceLifecycle.requestLevel2EmployeeService().findSiteEmp(serviceLifecycle);
+    }
 
+    @GetMapping("/findStatusEmp")
+    @CrossOrigin
+    public PmeStatusResponse findStatus() {
+        return this.serviceLifecycle.requestLevel2EmployeeService().findStatus(serviceLifecycle);
+    }
 }
