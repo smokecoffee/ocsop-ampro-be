@@ -1,8 +1,10 @@
-FROM anapsix/alpine-java
+FROM openjdk:8-jdk-alpine
 
-LABEL maintainer="thisisminh172@gmail.com"
+ENV JAR_FILE ampro015-boot/target/ampro015-boot-1.0-SNAPSHOT.jar
+ENV PME00_HOME /opt/pme00
 
-COPY ampro015-boot/target/ampro015-boot-1.0-SNAPSHOT.jar home/ampro015-boot-1.0-SNAPSHOT.jar
-EXPOSE 8080
+COPY ${JAR_FILE} ${PME00_HOME}/
 
-CMD ["java","-jar", "home/ampro015-boot-1.0-SNAPSHOT.jar"]
+WORKDIR ${PME00_HOME}
+
+CMD ["java","-jar", "ampro015-boot-1.0-SNAPSHOT.jar"]
