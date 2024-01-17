@@ -55,20 +55,9 @@ public class M00TaskLogic implements M00TaskService {
     }
 
     @Override
-    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId){
-        return store.findAllEmployeeId(projectNumber, taskName, status, employeeId);
+    public List<Object[]> findAllTaskByEmpId(String projectNumber, String taskName, String status, String employeeId){
+        return store.findAllTaskByEmpId(projectNumber, taskName, status, employeeId);
     }
-
-    @Override
-    public List<Object[]> getEmployeeByEmployeeId(Set<String> empId) {
-        return store.getEmployeeByEmployeeId(empId);
-    }
-
-    @Override
-    public List<Object[]> getEmployeeImagePathAll() {
-        return store.getEmployeeImagePathAll();
-    }
-
     @Override
     public List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom,
                                     String actualTo, String startDateFrom, String startDateTo, String status, String empId, String category) {

@@ -17,19 +17,6 @@ import java.util.List;
  */
 public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectInfoJpo, String> {
 
-    @Query(value = "SELECT\n" +
-                    " E.EMP_ID\n" +
-                    ",E.NAME\n" +
-                    ",E.PHOTO\n" +
-                    ",E.BIRTH_DATE\n" +
-                    " FROM\n" +
-                    " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
-                    " WHERE\n" +
-                    " E.END_DATE IS NULL\n" +
-                    " ORDER BY E.EMP_ID", nativeQuery = true)
-
-    List<Object[]> getActiveEmployee();
-
     @Query(value =
             "SELECT INFO.*\n" +
                 ", EMP1.NAME AS KOREA_PM_NAME\n" +
@@ -67,6 +54,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 ", EMP.NAME \n" +
                 ", EMP.PHOTO \n" +
                 ", EMP.BIRTH_DATE\n" +
+                ", EMP.IP_ADDRESS\n" +
             "FROM \n" +
                 "TB_PME00_PROJECT_INFO AS INFO\n" +
             "JOIN \n" +
@@ -81,6 +69,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 ", EMP.NAME \n" +
                 ", EMP.PHOTO \n" +
                 ", EMP.BIRTH_DATE\n" +
+                ", EMP.IP_ADDRESS\n" +
             "FROM \n" +
                 "TB_PME00_PROJECT_INFO AS INFO\n" +
             "JOIN \n" +
@@ -94,6 +83,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                     ", E.NAME \n" +
                     ", E.PHOTO \n" +
                     ", E.BIRTH_DATE\n" +
+                    ", E.IP_ADDRESS\n" +
             "FROM \n" +
                     "TB_M00_EMPLOYEE AS E\n" +
             "WHERE E.EMP_ID IN \n" +

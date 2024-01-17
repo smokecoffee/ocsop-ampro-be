@@ -197,13 +197,13 @@ public class Level2MeetingLogic implements Level2MeetingService {
     public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
         Pme00AllMeetingResponse responseEntities = new Pme00AllMeetingResponse();
         List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
-        for(int i=0;i< pme00MeetingList.size();i++){
-            int meetingId = pme00MeetingList.get(i).getMeetingId();
-            pme00MeetingList.get(i).setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
+        for (Pme00Meeting pme00Meeting : pme00MeetingList) {
+            int meetingId = pme00Meeting.getMeetingId();
+            pme00Meeting.setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
                     .findByMeetingId(meetingId));
-            pme00MeetingList.get(i).setEmpNameList(pme00MeetingList.get(i).getListMember().stream()
-                                                                          .map(Pme00EmployeeMeeting::getEmpName)
-                                                                          .collect(Collectors.toList()));
+            pme00Meeting.setEmpNameList(pme00Meeting.getListMember().stream()
+                    .map(Pme00EmployeeMeeting::getEmpName)
+                    .collect(Collectors.toList()));
 
         }
         responseEntities.setStatus(HttpStatus.OK.value());

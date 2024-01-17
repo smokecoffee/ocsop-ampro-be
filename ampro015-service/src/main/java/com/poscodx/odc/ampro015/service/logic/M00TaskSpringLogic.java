@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class M00M00TaskSpringLogic extends M00TaskLogic {
-    public M00M00TaskSpringLogic(M00TaskStore store) {
+public class M00TaskSpringLogic extends M00TaskLogic {
+    public M00TaskSpringLogic(M00TaskStore store) {
         super(store);
     }
 }

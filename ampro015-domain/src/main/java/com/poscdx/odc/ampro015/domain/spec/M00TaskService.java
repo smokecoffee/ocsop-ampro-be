@@ -22,10 +22,8 @@ public interface M00TaskService {
     List<M00Task> findTaskByConditions(String projectNumber, String taskName, String planDate,
                                        String actualEndDate, String status, String empId, String category, Pageable pageable);
 
-    public List<Object[]> findAllEmployeeId(String projectNumber, String taskName, String status,String employeeId);
+    public List<Object[]> findAllTaskByEmpId(String projectNumber, String taskName, String status, String employeeId);
 
-    List<Object[]> getEmployeeByEmployeeId(Set<String> empId);
-    List<Object[]> getEmployeeImagePathAll();
 
     List<M00Task> searchTask(String projectNumber, String taskName, String planFrom, String planTo, String actualFrom,
                              String actualTo, String startDateFrom, String startDateTo, String status, String empId, String category);

@@ -1,14 +1,9 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.*;
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.entity.EmployeeDto;
-import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
-import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import org.springframework.data.domain.Pageable;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -29,16 +24,14 @@ public interface Pme00ProjectInfoService {
 
     void remove(String cdVId);
 
-    List<EmployeeDto> getActiveEmployee();
-
-    List<EmployeeDto> getProjectMember(String cdV);
+    List<M00Employee> getProjectMember(String cdV);
 
     List<Pme00ProjectInfo> findProjectInfo (String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                                             String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable);
 
-    List<EmployeeDto> getKoreaPM();
+    List<M00Employee> getKoreaPM();
 
-    List<EmployeeDto> getVietnamPL();
+    List<M00Employee> getVietnamPL();
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                      String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);

@@ -175,12 +175,14 @@ public class Level2ProjectLogic implements Level2ProjectService {
         if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, id.getCdV())
                  && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
             // Delete tasks
-            List<M00Task> m00TaskDtoList = serviceLifecycle.requestTaskService().findAll(id.getCdV());
+            List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().findAll(id.getCdV());
 
             Map<String, Object> requestDeleteTaskId = new HashMap<>();
             requestDeleteTaskId.put("projectNumber", id.getCdV());
             for(M00Task task : m00TaskDtoList) {
-                requestDeleteTaskId.put("taskName", id.getCdV());
+                requestDeleteTaskId.put("taskName", task.getTaskName());
+                requestDeleteTaskId.put("empId", "");
+                requestDeleteTaskId.put("password", "");
                 serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, requestDeleteTaskId, false);
             }
 
@@ -316,8 +318,10 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 //Set project name
                 M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, pme00ProjectInfo.getCdV());
                 String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
+                String creatorId = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCreatedProgramId();
                 M00Codes030 m00Codes030 = new M00Codes030();
                 m00Codes030.setCdvMeaning(projectName);
+                m00Codes030.setCreatedProgramId(creatorId);
                 newObject.setM00Codes030(m00Codes030);
 
                 //Set project progress
@@ -342,7 +346,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
     }
 
     @Override
-    public List<EmployeeDto> getProjectMember(ServiceLifecycle serviceLifecycle, String cdV) {
+    public List<M00Employee> getProjectMember(ServiceLifecycle serviceLifecycle, String cdV) {
         return serviceLifecycle.requestPme00ProjectInfoService().getProjectMember(cdV);
     }
 

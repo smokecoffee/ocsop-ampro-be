@@ -1,14 +1,9 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
 import com.poscoict.base.share.util.json.JsonUtil;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
-import java.util.Objects;
 
 @Getter
 @Setter

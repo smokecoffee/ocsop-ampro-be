@@ -5,11 +5,7 @@ import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-import com.poscdx.odc.ampro015.domain.entity.M00Task;
-import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
-import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +64,7 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @GetMapping("/search-pm-pl/{type}")
-    public List<EmployeeDto> getKoreaPM (@PathVariable("type") String type) {
+    public List<M00Employee> getKoreaPM (@PathVariable("type") String type) {
         if (type.equals("pm")){
             return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
         }
@@ -82,7 +78,7 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @GetMapping("/search-member/{cdV}")
-    public List<EmployeeDto> findProjectMember(@PathVariable("cdV") String cdV) {
+    public List<M00Employee> findProjectMember(@PathVariable("cdV") String cdV) {
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectMember(serviceLifecycle, cdV);
     }
 }
