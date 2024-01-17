@@ -23,5 +23,5 @@ public interface M00EmployeeService {
 
     List<Object[]> findAllEmployee();
 
-    List<Object[]> searchPmeEmployee(String site, String status, String name);
+    List<Object[]> searchPmeEmployee(String site, String status, String name, String empId);
 }

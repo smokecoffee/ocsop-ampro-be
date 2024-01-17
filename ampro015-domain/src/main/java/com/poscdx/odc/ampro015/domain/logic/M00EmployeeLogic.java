@@ -65,8 +65,8 @@ public class M00EmployeeLogic implements M00EmployeeService {
     }
 
     @Override
-    public List<Object[]> searchPmeEmployee(String site, String status, String name){
-        return store.searchPmeEmployee(site, status, name);
+    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId){
+        return store.searchPmeEmployee(site, status, name,empId);
     }
 
 }

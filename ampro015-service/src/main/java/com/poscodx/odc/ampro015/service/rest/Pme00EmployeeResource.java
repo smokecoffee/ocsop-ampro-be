@@ -23,8 +23,9 @@ public class Pme00EmployeeResource {
     @CrossOrigin
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(@RequestParam(required = false, name = "site") String site,
                                                             @RequestParam(required = false, name = "status") String status,
-                                                            @RequestParam(required = false, name = "name") String name){
-        return this.serviceLifecycle.requestLevel2EmployeeService().searchPmeEmployee(serviceLifecycle, site, status, name);
+                                                            @RequestParam(required = false, name = "name") String name,
+                                                            @RequestParam(required = false, name = "empId") String empId){
+        return this.serviceLifecycle.requestLevel2EmployeeService().searchPmeEmployee(serviceLifecycle, site, status, name, empId);
     }
 
 

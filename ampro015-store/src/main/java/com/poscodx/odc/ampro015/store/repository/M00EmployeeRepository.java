@@ -54,7 +54,9 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " AND CODE2.CD_TP_ID = 99"+
             " AND (:site IS NULL OR :site = '' OR (CODE1.CD_V_EXPLAIN =:site))"+
             " AND (:status IS NULL OR :status = '' OR (CODE2.CD_V = :status))"+
-            " AND (:name IS NULL OR :name = '' OR (E.NAME =:name))", nativeQuery = true)
-    List<Object[]> searchPmeEmployee(@Param("site") String site,  @Param("status") String status,@Param("name") String name);
+            " AND (:name IS NULL OR :name = '' OR (E.NAME =:name))"+
+            " AND (:empId IS NULL OR :empId = '' OR (E.EMP_ID =:empId))"
+            , nativeQuery = true)
+    List<Object[]> searchPmeEmployee(@Param("site") String site,  @Param("status") String status,@Param("name") String name, @Param("empId") String empId);
 
 }
