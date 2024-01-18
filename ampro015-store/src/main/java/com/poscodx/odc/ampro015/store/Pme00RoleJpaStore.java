@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class Pme00RoleJpaStore implements Pme00RoleStore {
@@ -44,6 +45,27 @@ public class Pme00RoleJpaStore implements Pme00RoleStore {
     @Override
     public void delete(int id) {
         this.repository.deleteById(id);
+    }
+
+    @Override
+    public Pme00Role findById(int id) {
+        Pme00RoleJpo savedJpo = this.repository.findById(id).orElse(null);
+        if(savedJpo != null){
+            return savedJpo.toDomain();
+        }
+        return null;
+    }
+
+    @Override
+    public Pme00Role findByNameString(String name) {
+        Pme00RoleJpo jpos = repository.findByName(name).get();
+        return jpos.toDomain();
+    }
+
+    @Override
+    public List<Pme00Role> findAll() {
+        List<Pme00RoleJpo> jpos = repository.findAll();
+        return jpos.stream().map(Pme00RoleJpo::toDomain).collect(Collectors.toList());
     }
 
 }
