@@ -1,6 +1,6 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.ExcanAccessToken;
+import com.poscdx.odc.ampro015.domain.entity.LogoutAccessToken;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 @Getter
 @Setter
 @Entity(name = "ExcanAccessToken")
-@Table(name = "TB_EXCAN_ACCESS_TOKEN", schema = "EXCAN013")
+@Table(name = "TB_EXCAN_ACCESS_TOKEN", schema = "POSCTZN")
 public class ExcanAccessTokenJpo
 {
     @Id
@@ -39,17 +39,17 @@ public class ExcanAccessTokenJpo
     public ExcanAccessTokenJpo() {
     }
 
-    public ExcanAccessTokenJpo(ExcanAccessToken entity) {
+    public ExcanAccessTokenJpo(LogoutAccessToken entity) {
         BeanUtils.copyProperties(entity, this);
     }
 
-    public ExcanAccessToken toDomain() {
-        ExcanAccessToken retVal = new ExcanAccessToken();
+    public LogoutAccessToken toDomain() {
+        LogoutAccessToken retVal = new LogoutAccessToken();
         BeanUtils.copyProperties(this, retVal);
         return retVal;
     }
 
-    public static List<ExcanAccessToken> toDomains(Iterable<ExcanAccessTokenJpo> jpos) {
+    public static List<LogoutAccessToken> toDomains(Iterable<ExcanAccessTokenJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map((ExcanAccessTokenJpo::toDomain)).collect(Collectors.toList());
     }
 }

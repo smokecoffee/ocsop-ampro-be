@@ -30,7 +30,7 @@ public class A01Resource {
     private final ServiceLifecycle serviceLifecycle;
 
     @CrossOrigin
-    @GetMapping(path = "/")
+    @GetMapping(path = "/view-asset/")
     public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
         return this.serviceLifecycle.requestLevel2QrCodeService().getAsset(serviceLifecycle, token);

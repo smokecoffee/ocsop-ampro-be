@@ -1,13 +1,11 @@
 package com.poscodx.odc.ampro015.rest;
 
-import com.poscdx.odc.ampro015.domain.entity.ExcanAccessToken;
-import com.poscdx.odc.ampro015.domain.entity.ExcanUser;
+import com.poscdx.odc.ampro015.domain.entity.LogoutAccessToken;
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.payload.request.LoginRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.response.JwtResponse;
 import com.poscdx.odc.ampro015.domain.entity.payload.response.LoginUserInfo;
-import com.poscdx.odc.ampro015.domain.entity.payload.response.UserResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.spec.Level2UserService;
 import com.poscodx.odc.ampro015.config.jwt.JwtUtils;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +39,8 @@ public class AuthResource {
   private final JwtUtils jwtUtils;
 
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody ExcanUser signUpRequest) {
-    signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
-    Level2UserService level2UserService = serviceLifecycle.requestLevel2UserService();
-    UserResponse result = level2UserService.addUser(signUpRequest);
-    return ResponseEntity.status(result.getCode()).body(result);
+  public ResponseEntity<?> registerUser(@Valid @RequestBody M00Employee signUpRequest) {
+    return (ResponseEntity<?>) ResponseEntity.ok();
   }
 
   @PostMapping("/signin")
@@ -86,7 +81,7 @@ public class AuthResource {
     } else {
       if(serviceLifecycle.requestExcanAccessTokenService().findByToken(jwtToken).isEmpty()){
         //Save logout access token to blacklist
-        ExcanAccessToken token = ExcanAccessToken.builder()
+        LogoutAccessToken token = LogoutAccessToken.builder()
                 .token(jwtToken)
                 .status(1) //blacklist token
                 .build();

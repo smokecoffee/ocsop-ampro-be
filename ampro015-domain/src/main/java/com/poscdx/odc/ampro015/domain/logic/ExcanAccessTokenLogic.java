@@ -1,6 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.ExcanAccessToken;
+import com.poscdx.odc.ampro015.domain.entity.LogoutAccessToken;
 import com.poscdx.odc.ampro015.domain.spec.ExcanAccessTokenService;
 import com.poscdx.odc.ampro015.domain.store.ExcanAccessTokenStore;
 
@@ -16,12 +16,12 @@ public class ExcanAccessTokenLogic implements ExcanAccessTokenService
     }
 
     @Override
-    public List<ExcanAccessToken> findByToken(String token) {
+    public List<LogoutAccessToken> findByToken(String token) {
         return this.store.findByToken(token);
     }
 
     @Override
-    public ExcanAccessToken register(ExcanAccessToken entity) {
+    public LogoutAccessToken register(LogoutAccessToken entity) {
         return this.store.register(entity);
     }
 }

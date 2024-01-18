@@ -25,7 +25,6 @@ public class EmployeeDetailsImpl implements UserDetails {
 
   private String username;
 
-  @Getter
   private String avatar;
 
   private String email;
@@ -42,7 +41,8 @@ public class EmployeeDetailsImpl implements UserDetails {
     this.id = id;
     this.username = username;
     this.email = email;
-    this.avatar = avatar;
+    //this.avatar = avatar;
+    this.avatar = "http://172.25.219.61:8080/img/" + avatar;
     this.password = password;
     this.role = role;
     this.authorities = authorities;

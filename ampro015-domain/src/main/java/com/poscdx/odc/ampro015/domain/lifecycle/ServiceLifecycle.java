@@ -29,6 +29,5 @@ public interface ServiceLifecycle {
     Pme00PermissionService requestPme00PermissionService();
     Pme00PerRoleService requestPme00PerRoleService();
 
-    Level2UserService requestLevel2UserService();
     ExcanAccessTokenService requestExcanAccessTokenService();
 }

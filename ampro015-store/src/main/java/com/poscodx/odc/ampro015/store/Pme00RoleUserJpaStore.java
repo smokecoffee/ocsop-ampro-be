@@ -46,4 +46,14 @@ public class Pme00RoleUserJpaStore implements Pme00RoleUserStore {
         this.repository.deleteById(id);
     }
 
+    @Override
+    public List<Pme00RoleUser> findByRoleId(int name) {
+        return Pme00RoleUserJpo.toDomains(this.repository.findByRoleId(name));
+    }
+
+    @Override
+    public List<Pme00RoleUser> findByEmpId(String name) {
+        return Pme00RoleUserJpo.toDomains(this.repository.findByEmpId(name));
+    }
+
 }

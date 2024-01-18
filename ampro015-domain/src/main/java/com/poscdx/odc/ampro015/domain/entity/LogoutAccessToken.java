@@ -9,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExcanAccessToken
+public class LogoutAccessToken
 {
     private Integer id;
     private String token;

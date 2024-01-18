@@ -1,6 +1,5 @@
 package com.poscodx.odc.ampro015.store.repository;
 
-import com.poscodx.odc.ampro015.store.jpo.ExcanUserJpo;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
