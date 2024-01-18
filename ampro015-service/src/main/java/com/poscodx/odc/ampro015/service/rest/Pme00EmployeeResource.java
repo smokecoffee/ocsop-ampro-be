@@ -46,4 +46,10 @@ public class Pme00EmployeeResource {
     public Pme00AllLevel2EmployeeResponse addEmpoyee(@RequestBody Pme00Employee newEmployee) {
         return this.serviceLifecycle.requestLevel2EmployeeService().addEmployee(serviceLifecycle,newEmployee);
     }
+
+    @GetMapping("/findAllRole")
+    @CrossOrigin
+    public PmeRoleResponse findAllRole() {
+        return this.serviceLifecycle.requestLevel2EmployeeService().findAllRole(serviceLifecycle);
+    }
 }

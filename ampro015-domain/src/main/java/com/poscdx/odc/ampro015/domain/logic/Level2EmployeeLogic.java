@@ -124,4 +124,14 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 //        pme00AllLevel2EmployeeResponse.setMessage("Add employee successfully");
         return pme00AllLevel2EmployeeResponse;
     }
+    @Override
+    public PmeRoleResponse findAllRole(ServiceLifecycle serviceLifecycle){
+        PmeRoleResponse pmeRoleResponse = new PmeRoleResponse();
+        List<Pme00Role> pme00Roles = serviceLifecycle.requestPme00RoleService().findAll();
+        pmeRoleResponse.setStatus(HttpStatus.OK.value());
+        pmeRoleResponse.setListData(pme00Roles);
+        pmeRoleResponse.setMessage("Get all role successfully");
+        return pmeRoleResponse;
+    }
+
 }

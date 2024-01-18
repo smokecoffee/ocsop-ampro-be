@@ -1,9 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllLevel2EmployeeResponse;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
-import com.poscdx.odc.ampro015.domain.entity.PmeSiteResponse;
-import com.poscdx.odc.ampro015.domain.entity.PmeStatusResponse;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 public interface Level2EmployeeService {
@@ -14,4 +11,6 @@ public interface Level2EmployeeService {
     PmeSiteResponse findSiteEmp(ServiceLifecycle serviceLifecycle);
     PmeStatusResponse findStatus(ServiceLifecycle serviceLifecycle);
     Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle, Pme00Employee newEmployee);
+
+    PmeRoleResponse findAllRole(ServiceLifecycle serviceLifecycle);
 }
