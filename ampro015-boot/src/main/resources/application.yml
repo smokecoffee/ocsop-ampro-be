@@ -40,3 +40,11 @@ qrcode:
   domain : http://localhost:3000/asert?token=
   fileType : png
   size : 250
+
+bezkoder:
+  app:
+    jwtSecret: cG9zY29kLXh2aWV0bmFtbnVtYmVyb25laW5teWhlYXJ0XjBedGhlbWt5dHVjaHVjaHVvaWR1ZGFp
+    jwtExpirationMs: 36000000
+
+cross:
+  origins: "http://localhost:3000"

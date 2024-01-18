@@ -8,6 +8,7 @@ public interface ServiceLifecycle {
     AssetService requestAssetService();
     FieldService requestFieldService();
     ImageService requestImageService();
+    M99DailyReportService requestM99DailyReportService();
     M00Codes030Service requestM00Codes030Service();
     M00TaskService requestM00TaskService();
     M00EmployeeService requestM00EmployeeService();
@@ -27,4 +28,6 @@ public interface ServiceLifecycle {
     Pme00RoleUserService requestPme00RoleUserService();
     Pme00PermissionService requestPme00PermissionService();
     Pme00PerRoleService requestPme00PerRoleService();
+
+    ExcanAccessTokenService requestExcanAccessTokenService();
 }

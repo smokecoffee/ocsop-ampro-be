@@ -15,4 +15,7 @@ public interface Pme00RoleUserStore {
 
     void delete(int id);
 
+    List<Pme00RoleUser> findByEmpId(String name);
+
+    List<Pme00RoleUser> findByRoleId(int name);
 }

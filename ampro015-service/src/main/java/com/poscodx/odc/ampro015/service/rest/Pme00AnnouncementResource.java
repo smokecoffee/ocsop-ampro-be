@@ -2,7 +2,6 @@ package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00Announcement;
 import com.poscdx.odc.ampro015.domain.spec.Pme00AnnouncementService;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
