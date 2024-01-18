@@ -263,6 +263,14 @@ public class Level2ProjectLogic implements Level2ProjectService {
         return rs;
     }
 
+    /**
+     * Get project info
+     *
+     * @param serviceLifecycle
+     * @return Map<String, Object>
+     * @author : 202285_Tuan
+     * @since : 2024-01-17
+     */
     @Override
     public Map<String, Object> getProjectListWithTask(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize) {
         List<ProjectManagementDto>  projectList = new ArrayList<>();
@@ -298,32 +306,30 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
             ProjectManagementDto rsDto = new ProjectManagementDto();
 
-            if (projectInfo.getCdV().equals(projectInfo.getCdV())){
-                rsDto.setPme00ProjectInfo(projectInfo);
-                //Set project name
-                M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, projectInfo.getCdV());
-                String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
-                String creatorId = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCreatedProgramId();
-                M00Codes030 m00Codes030 = new M00Codes030();
-                m00Codes030.setCdvMeaning(projectName);
-                m00Codes030.setCreatedProgramId(creatorId);
-                rsDto.setM00Codes030(m00Codes030);
+            rsDto.setPme00ProjectInfo(projectInfo);
+            //Set project name
+            M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, projectInfo.getCdV());
+            String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
+            String creatorId = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCreatedProgramId();
+            M00Codes030 m00Codes030 = new M00Codes030();
+            m00Codes030.setCdvMeaning(projectName);
+            m00Codes030.setCreatedProgramId(creatorId);
+            rsDto.setM00Codes030(m00Codes030);
 
-                //Set project progress
-                long completedTasks = taskList.stream()
-                        .filter(item -> "O".equals(item.getTask().getStatus()))
-                        .count();
-                double completionPercentage = (completedTasks * 100.0) / taskList.size();
-                int progress = (int) completionPercentage;
-                rsDto.setProgress(progress);
-                rsDto.setLstTask(taskList);
+            //Set project progress
+            long completedTasks = taskList.stream()
+                    .filter(item -> "O".equals(item.getTask().getStatus()))
+                    .count();
+            double completionPercentage = (completedTasks * 100.0) / taskList.size();
+            int progress = (int) completionPercentage;
+            rsDto.setProgress(progress);
+            rsDto.setLstTask(taskList);
 
-                List<Pme00Member> lstMember = new ArrayList<>();
-                lstMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(projectInfo.getCdV());
-                rsDto.setLstMember(lstMember);
+            List<Pme00Member> lstMember = new ArrayList<>();
+            lstMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(projectInfo.getCdV());
+            rsDto.setLstMember(lstMember);
 
-                projectList.add(rsDto);
-            }
+            projectList.add(rsDto);
         }
 
         int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getM00Codes030().getCdV()
