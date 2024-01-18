@@ -132,8 +132,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //            .antMatchers(HttpMethod.GET, "**/projects.do").permitAll()
 //            .antMatchers(HttpMethod.POST, "**/projects.do").permitAll()
 
-                //.anyRequest().permitAll();
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+//                .anyRequest().authenticated();
         // Add JWT token filter
         http.addFilterBefore(
                 authTokenFilter,
