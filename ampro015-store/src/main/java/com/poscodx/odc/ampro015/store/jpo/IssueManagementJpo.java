@@ -1,9 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.Asset;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.sun.org.apache.xpath.internal.operations.String;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,24 +18,28 @@ import java.util.stream.StreamSupport;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "M00IssueManagement")
+@Entity(name = "IssueManagement")
 @Table(name = "TB_M00_ISSUE_MANAGEMENT", schema = "POSCTZN")
+@IdClass(IssueManagementId.class)
 public class IssueManagementJpo implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")
     private int seq;
-
-    @Column(name = "REGISTRATION_DATE")
-    private Date registration_date;
-
-    @NotNull
-    @Column(name = "REQUESTER")
-    private String requester;
 
     @Id
     @Column(name = "SITE")
     private String site;
+
+    @Column(name = "REGISTRATION_DATE")
+    private Date registrationDate;
+
+    @Column(name = "REQUEST_DATE")
+    private String requestDate;
+
+    @NotNull
+    @Column(name = "REQUESTER")
+    private String requester;
 
     @NotNull
     @Column(name = "MODULE")
@@ -47,7 +49,7 @@ public class IssueManagementJpo implements Serializable {
     private String menu;
 
     @Column(name = "SCREEN_NAME")
-    private String name;
+    private String screenName;
 
     @NotNull
     @Column(name = "DIVISION_FLAG")
@@ -84,11 +86,11 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "DEVELOP_FROM_DATE")
     private String developFromDate;
 
-    @Column(name = "DEVELEOP_TO_DATE")
+    @Column(name = "DEVELOP_TO_DATE")
     private String developToDate;
 
     @Column(name = "CATEGORY_FLAG")
-    private String categooryFlag;
+    private String categoryFlag;
 
     @Column(name = "REQUESTER_CONFIRM")
     private String requesterConfirm;

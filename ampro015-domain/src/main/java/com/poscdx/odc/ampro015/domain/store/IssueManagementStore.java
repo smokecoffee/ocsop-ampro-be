@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface IssueManagementStore {
 
     IssueManagement create(IssueManagement entity);
 
-    void delete(int id);
+    void delete(IssueManagementId id);
+
+    List<IssueManagement> findIssueInfo(String content);
 }

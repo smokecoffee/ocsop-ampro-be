@@ -1,8 +1,10 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
+
 
 @Getter
 @Setter
@@ -11,24 +13,33 @@ import java.util.Date;
 @Builder
 public class IssueManagement {
     private int seq;
-    private Date registration_Date;
-    private String request_Date;
+    private Date registrationDate;
+    private String requestDate;
     private String requester;
     private String site;
     private String module;
     private String menu;
-    private String screen_Name;
+    private String screenName;
     private String divisionFlag;
-    private String applied_Period_Flag;
+    private String appliedPeriodFlag;
     private String contents;
-    private String contents_KR;
-    private String file_Name;
+    private String contentsKR;
+    private String fileName;
     private String developer;
-    private String accept_Flag;
+    private String acceptFlag;
     private String status;
-    private String develop_Comments;
-    private String develop_From_Date;
-    private String category_Flag;
-    private String request_Confirm;
-    private String final_Confirm_Date;
+    private String developComments;
+    private String developFromDate;
+    private String developToDate;
+    private String categoryFlag;
+    private String requesterConfirm;
+    private String finalConfirmDate;
+    public String toJson(){
+        return JsonUtil.toJson(this);
+    }
+
+    public static IssueManagement fromJson(String json){
+        return JsonUtil.fromJson(json, IssueManagement.class);
+    }
+
 }

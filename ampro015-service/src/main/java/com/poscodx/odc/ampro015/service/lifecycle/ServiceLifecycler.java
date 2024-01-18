@@ -34,6 +34,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00PerRoleService pme00PerRoleService;
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
+    private final IssueManagementService issueManagementService;
 
     @Override
     public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
@@ -151,5 +152,11 @@ public class ServiceLifecycler implements ServiceLifecycle {
     @Override
     public Level2QrCodeService requestLevel2QrCodeService() {
         return this.level2QrCodeService;
+    }
+
+
+    @Override
+    public IssueManagementService requestIssueManagementService() {
+        return this.issueManagementService;
     }
 }

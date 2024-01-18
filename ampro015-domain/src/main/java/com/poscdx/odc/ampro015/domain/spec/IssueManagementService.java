@@ -1,6 +1,8 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementResponse;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 import java.util.List;
 
@@ -10,11 +12,13 @@ public interface IssueManagementService {
 
     List<IssueManagement> retrieveAll();
 
-    IssueManagement modify(IssueManagement issueManagement);
+    IssueManagementResponse modify(ServiceLifecycle serviceLifecycle,IssueManagement issueManagement);
 
-    IssueManagement create(IssueManagement entity);
+    IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement issueManagement);
 
-    void remove(int id);
+    IssueManagementResponse remove(ServiceLifecycle serviceLifecycle,int id);
+
+    List<IssueManagement> findIssueInfo(ServiceLifecycle serviceLifecycle,String content);
 
     List<IssueManagement> findIssueInfo(String content);
 }
