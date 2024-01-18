@@ -1,13 +1,12 @@
 package com.poscodx.odc.ampro015.service.lifecycle;
 
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ServiceLifecycler implements ServiceLifecycle {
+public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle {
 
     private final Level2ProjectService level2ProjectService;
     private final Level2Service level2Service;
@@ -34,6 +33,7 @@ public class ServiceLifecycler implements ServiceLifecycle {
     private final Pme00PerRoleService pme00PerRoleService;
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
+    private final ExcanAccessTokenService excanAccessTokenService;
 
     @Override
     public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
@@ -149,7 +149,14 @@ public class ServiceLifecycler implements ServiceLifecycle {
     }
 
     @Override
+    public ExcanAccessTokenService requestExcanAccessTokenService() {
+        return this.excanAccessTokenService;
+    }
+
+    @Override
     public Level2QrCodeService requestLevel2QrCodeService() {
         return this.level2QrCodeService;
     }
+
+
 }

@@ -28,4 +28,6 @@ public interface ServiceLifecycle {
     Pme00RoleUserService requestPme00RoleUserService();
     Pme00PermissionService requestPme00PermissionService();
     Pme00PerRoleService requestPme00PerRoleService();
+
+    ExcanAccessTokenService requestExcanAccessTokenService();
 }
