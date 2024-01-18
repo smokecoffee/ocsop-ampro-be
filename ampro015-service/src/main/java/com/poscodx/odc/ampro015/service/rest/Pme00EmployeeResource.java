@@ -5,6 +5,8 @@ import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employee")
@@ -51,5 +53,11 @@ public class Pme00EmployeeResource {
     @CrossOrigin
     public PmeRoleResponse findAllRole() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findAllRole(serviceLifecycle);
+    }
+
+    @PutMapping("/")
+    @CrossOrigin
+    public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
+        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
 }

@@ -116,7 +116,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
 
         } catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("This meeting has been created");
         }
@@ -132,6 +132,26 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pmeRoleResponse.setListData(pme00Roles);
         pmeRoleResponse.setMessage("Get all role successfully");
         return pmeRoleResponse;
+    }
+    @Override
+    public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
+                                                       List<Pme00Employee> pme00EmployeeList){
+        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
+        String  empId = pme00EmployeeList.get(0).getEmpId();
+        int empIdToInt = Integer.parseInt(empId);
+        Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
+                .searchPmeEmployee(serviceLifecycle, "", "", "", empId);
+        if(findEmployeeById==null){
+            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+            pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
+        }else {
+
+//            List<Pme00RoleUser> editRoleUsers = pme00EmployeeList.get(0).getListRoleUser();
+//            List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService().find(empIdToInt);
+            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+            pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
+        }
+        return pme00AllLevel2EmployeeResponse;
     }
 
 }
