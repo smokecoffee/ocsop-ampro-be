@@ -7,9 +7,6 @@ services:
 stages:
   - build
 
-before_script:
-  - docker version
-
 build:
   stage: build
   script:
