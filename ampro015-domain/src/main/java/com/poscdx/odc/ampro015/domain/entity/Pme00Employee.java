@@ -17,13 +17,17 @@ public class Pme00Employee {
     private String empId;
     private String name;
     private String site;
+    private String siteCode;
     private String birthDate;
     private String joinDate;
     private String email;
+    private String personalMail;
+    private String password;
     private String mobile;
     private String address;
     private String status;
     private String action;
+    private List<Pme00RoleUser> listRoleUser;
 
     public String toJson() {
         return JsonUtil.toJson(this);

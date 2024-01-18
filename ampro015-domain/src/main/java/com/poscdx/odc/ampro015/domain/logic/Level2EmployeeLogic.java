@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class Level2EmployeeLogic implements Level2EmployeeService {
@@ -60,7 +62,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pmeSiteResponse.setMessage("Get all site successfully");
         return pmeSiteResponse;
     }
-
+    @Override
     public PmeStatusResponse findStatus(ServiceLifecycle serviceLifecycle){
         PmeStatusResponse pmeStatusResponse = new PmeStatusResponse();
         final int cdTpId2 = 99;
@@ -76,5 +78,50 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pmeStatusResponse.setListData(pme00Statuses);
         pmeStatusResponse.setMessage("Get all status successfully");
         return pmeStatusResponse;
+    }
+    @Override
+    public Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle, Pme00Employee newEmployee){
+        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
+        try{
+            M00Employee employee = new M00Employee();
+            employee.setEmpId(newEmployee.getEmpId());
+            employee.setSiteCode(newEmployee.getSite());
+            employee.setAvatar(newEmployee.getAvatar());
+            employee.setName(newEmployee.getName());
+            employee.setPassword(newEmployee.getPassword());
+            employee.setBirthday(newEmployee.getBirthDate());
+            employee.setJoinDate(newEmployee.getJoinDate());
+            employee.setMail(newEmployee.getEmail());
+            employee.setPersonalMail(newEmployee.getPersonalMail());
+            employee.setMobile(newEmployee.getMobile());
+            employee.setAddress(newEmployee.getAddress());
+            employee.setEmpStatus(newEmployee.getStatus());
+            employee.setRole("ADMIN");
+            M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
+
+            List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
+            Set<String> setId = listRoleUser.stream()
+                    .map(Pme00RoleUser::getEmpId)
+                    .collect(Collectors.toSet());
+
+            for (Pme00RoleUser pme00RoleUser : listRoleUser) {
+                if (setId.contains(pme00RoleUser.getEmpId())) {
+                    serviceLifecycle.requestPme00RoleUserService()
+                            .register(pme00RoleUser);
+                    setId.remove(pme00RoleUser.getEmpId());
+                }
+            }
+
+            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+            pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
+
+        } catch (Exception e){
+            e.printStackTrace();
+            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+            pme00AllLevel2EmployeeResponse.setMessage("This meeting has been created");
+        }
+//        pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+//        pme00AllLevel2EmployeeResponse.setMessage("Add employee successfully");
+        return pme00AllLevel2EmployeeResponse;
     }
 }
