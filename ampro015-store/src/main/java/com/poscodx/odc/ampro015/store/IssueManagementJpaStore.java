@@ -20,13 +20,11 @@ public class IssueManagementJpaStore implements IssueManagementStore {
         this.repository = repository;
     }
 
+
     @Override
-    public IssueManagement retrieve(int id) {
-        Optional<IssueManagementJpo> retVal = this.repository.findBySeq(id);
-        if(retVal.isPresent()){
-            return retVal.get().toDomain();
-        }
-        return null;
+    public List<IssueManagement> retrieve(int seq, String site) {
+        Iterable<IssueManagementJpo> list = this.repository.findBySeqAndSite(seq, site);
+        return IssueManagementJpo.toDomains(list);
     }
 
     @Override
@@ -47,9 +45,8 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public void delete(IssueManagementId id) {
-        IssueManagementIdJpo jpo = new IssueManagementIdJpo(id.getSeq(), id.getSite());
-        this.repository.deleteById(id);
+    public void delete(IssueManagementId seq) {
+        this.repository.deleteById(seq);
     }
 
     @Override

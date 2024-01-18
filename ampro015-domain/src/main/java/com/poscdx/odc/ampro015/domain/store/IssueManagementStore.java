@@ -6,7 +6,7 @@ import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import java.util.List;
 
 public interface IssueManagementStore {
-    IssueManagement retrieve(int id);
+    List<IssueManagement> retrieve(int seq, String site);
 
     List<IssueManagement> retrieveAll();
 
@@ -14,7 +14,7 @@ public interface IssueManagementStore {
 
     IssueManagement create(IssueManagement entity);
 
-    void delete(IssueManagementId id);
+    void delete(IssueManagementId seq);
 
     List<IssueManagement> findIssueInfo(String content);
 }

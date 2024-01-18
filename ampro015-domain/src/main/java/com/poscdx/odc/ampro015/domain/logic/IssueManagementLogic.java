@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.IssueManagementService;
@@ -18,8 +19,8 @@ public class IssueManagementLogic implements IssueManagementService {
     }
 
     @Override
-    public IssueManagement retrieve(int id) {
-        return this.store.retrieve(id);
+    public List<IssueManagement> retrieve(int seq, String site) {
+        return this.store.retrieve(seq,site);
     }
 
     @Override
@@ -28,14 +29,18 @@ public class IssueManagementLogic implements IssueManagementService {
     }
 
     @Override
-    public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement) {
-        return null;
+    public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle,IssueManagement issueManagement) {
+        IssueManagementResponse response = new IssueManagementResponse();
+        store.update(issueManagement);
+        response.setStatus(HttpStatus.CREATED.value());
+        response.setMessage("This issue has been updated");
+        return response;
     }
+
 
     @Override
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
-        //serviceLifecycle.requestIssueManagementService().create(serviceLifecycle, newIssueManagement);
         store.create(newIssueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
@@ -43,8 +48,12 @@ public class IssueManagementLogic implements IssueManagementService {
     }
 
     @Override
-    public IssueManagementResponse remove(ServiceLifecycle serviceLifecycle, int id) {
-        return null;
+    public IssueManagementResponse remove(IssueManagementId seq) {
+        IssueManagementResponse response = new IssueManagementResponse();
+        store.delete(seq);
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("This issue has been deleted");
+        return response;
     }
 
 
