@@ -10,7 +10,8 @@ stages:
   - build
   
 before_script:
-  - docker version
+  - docker info
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY
 
 build:
   stage: build
