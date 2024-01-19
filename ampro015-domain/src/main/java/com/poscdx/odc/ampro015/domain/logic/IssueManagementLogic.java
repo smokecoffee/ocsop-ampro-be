@@ -56,14 +56,21 @@ public class IssueManagementLogic implements IssueManagementService {
         return response;
     }
 
-
     @Override
-    public List<IssueManagement> findIssueInfo(ServiceLifecycle serviceLifecycle, String content) {
-        return null;
+    public List<IssueManagement> findIssueInfo(String contents) {
+        IssueManagementResponse response = new IssueManagementResponse();
+        List<IssueManagement> list = this.store.findIssueInfo(contents);
+        response.setStatus(HttpStatus.FOUND.value());
+        response.setMessage("OK");
+        return list;
     }
 
     @Override
-    public List<IssueManagement> findIssueInfo(String content) {
-        return null;
+    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer) {
+        IssueManagementResponse response = new IssueManagementResponse();
+        List<IssueManagement> list = this.store.searchIssue(site,module,division_flag,applied_period_flag,accept_flag,request_confirm,requester,contents,contents_kr,developer);
+        response.setStatus(HttpStatus.FOUND.value());
+        response.setMessage("OK");
+        return list;
     }
 }

@@ -1,19 +1,23 @@
 package com.poscodx.odc.ampro015.store.repository;
 
+import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface IssueManagementRepository extends JpaRepository<IssueManagementJpo, IssueManagementId> {
     @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
     List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
-    @Query(value = "select * from tb_m00_issue_management tmim where contents like '%'",nativeQuery = true)
-    List<IssueManagementJpo> findIssueInfo(String content);
+    @Query(value =
+            "SELECT * From tb_m00_issue_management where contents like %:contents", nativeQuery = true)
+    List<IssueManagementJpo> findIssueInfo(@Param("contents") String contents);
 
     @Query(value = "select * from tb_m00_issue_management tmim",nativeQuery = true)
     List<IssueManagementJpo> findAllRecord();
@@ -37,17 +41,17 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
             "AND (:accept_flag IS NULL OR t.ACCEPT_FLAG LIKE :accept_flag)\n"+
             "AND (:request_confirm IS NULL OR t.REQUEST_CONFIRM LIKE :request_confirm)\n"+
             "AND (:requester IS NULL OR t.REQUESTER LIKE :requester)\n"+
-            "AND (:site IS NULL OR t.SITE LIKE :site)\n"+
-            "AND (:site IS NULL OR t.SITE LIKE :site)\n"+
-            "AND (:site IS NULL OR t.SITE LIKE :site)\n", nativeQuery = true)
-    List<IssueManagementJpo> searchIssue(@Param("site") String site,
-                                         @Param("module") String module,
-                                         @Param("division_flag") String division_flag,
-                                         @Param("applied_period_flag") String applied_period_flag,
-                                         @Param("accept_flag") String accept_flag,
-                                         @Param("request_confirm") String request_confirm,
-                                         @Param("requester") String requester,
-                                         @Param("contents") String contents,
-                                         @Param("contents_kr") String contents_kr,
-                                         @Param("developer") String developer);
+            "AND (:contents IS NULL OR t.CONTENTS LIKE :contents)\n"+
+            "AND (:contents_kr IS NULL OR t.CONTENTS_KR LIKE :contents_kr)\n"+
+            "AND (:developer IS NULL OR t.DEVELOPER LIKE :developer)\n", nativeQuery = true)
+    List<Map<String, String>> searchIssue(@Param("site") String site,
+                                          @Param("module") String module,
+                                          @Param("division_flag") String division_flag,
+                                          @Param("applied_period_flag") String applied_period_flag,
+                                          @Param("accept_flag") String accept_flag,
+                                          @Param("request_confirm") String request_confirm,
+                                          @Param("requester") String requester,
+                                          @Param("contents") String contents,
+                                          @Param("contents_kr") String contents_kr,
+                                          @Param("developer") String developer);
 }

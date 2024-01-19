@@ -18,10 +18,9 @@ public interface IssueManagementService {
 
     IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement issueManagement);
 
-
     IssueManagementResponse remove(IssueManagementId seq);
 
-    List<IssueManagement> findIssueInfo(ServiceLifecycle serviceLifecycle, String content);
+    List<IssueManagement> findIssueInfo(String contents);
 
-    List<IssueManagement> findIssueInfo(String content);
+    List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
 }

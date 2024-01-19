@@ -11,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class IssueManagement {
     private int seq;
     private Date registrationDate;

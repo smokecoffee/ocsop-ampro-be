@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,19 @@ public class IssueManagementResource {
     public List<IssueManagement> getBySeqAndSite(@RequestParam int seq,@RequestParam String site) {
         List<IssueManagement> getSeqAndSite = serviceLifecycle.requestIssueManagementService().retrieve(seq,site);
         return getSeqAndSite;
+    }
+
+    @PostMapping(path="/search")
+    public List<IssueManagement> searchByConditions(@RequestBody IssueManagement issueManagement) throws ParseException {
+        return this.serviceLifecycle.requestIssueManagementService().searchIssue(issueManagement.getSite(),
+                issueManagement.getModule(), issueManagement.getDivisionFlag(), issueManagement.getAppliedPeriodFlag(),
+                issueManagement.getAcceptFlag(), issueManagement.getRequesterConfirm(), issueManagement.getRequester(),
+                issueManagement.getContents(), issueManagement.getContentsKR(), issueManagement.getDeveloper());
+    }
+
+    @GetMapping(path="/search-content")
+    public List<IssueManagement> searchByContents(@RequestParam String contents) throws ParseException {
+        return this.serviceLifecycle.requestIssueManagementService().findIssueInfo(contents);
     }
 
 }
