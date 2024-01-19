@@ -3,7 +3,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
-import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
+import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.List;
 public class Pme00MeetingResource {
 
     @Autowired
-    private final ServiceLifecycler serviceLifecycle;
+    private final ServiceLifecycle serviceLifecycle;
 
     /**
      * Get List Meeting Booking Room function
