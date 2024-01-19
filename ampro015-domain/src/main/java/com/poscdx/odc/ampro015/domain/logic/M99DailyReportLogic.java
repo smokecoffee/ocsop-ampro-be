@@ -1,9 +1,13 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
 import com.poscdx.odc.ampro015.domain.spec.M99DailyReportService;
 import com.poscdx.odc.ampro015.domain.store.M99DailyReportStore;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class M99DailyReportLogic implements M99DailyReportService {
@@ -46,6 +50,20 @@ public class M99DailyReportLogic implements M99DailyReportService {
     @Override
     public List<M99DailyReport> findWorkingTimeByEmployeeId(String empId) {
         return store.findWorkingTimeByEmployeeId(empId);
+    }
+
+    @Override
+    public List<M99DailyReport> findDailyReport(M99DailyReport m99DailyReport) {
+        Pageable pageable;
+
+        List<Object[]> resultList = this.store.findDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
+                                                                m99DailyReport.getFromDate(), m99DailyReport.getToDate());
+        List<M99DailyReport> dailyReportList = new ArrayList<>();
+        for (Object[] obj : resultList) {
+            dailyReportList.add(new M99DailyReport(obj));
+        }
+
+        return dailyReportList;
     }
 
 }

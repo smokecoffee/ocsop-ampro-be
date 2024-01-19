@@ -6,6 +6,8 @@ import com.poscodx.odc.ampro015.store.jpo.M99DailyReportJpo;
 import com.poscodx.odc.ampro015.store.repository.M99DailyReportRepository;
 import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +53,10 @@ public class M99DailyReportJpaStore implements M99DailyReportStore {
         Iterable<M99DailyReportJpo> list =  this.repository
                                                 .findByEmployeeIdAndOpSatDateIsNotNullAndOpDnDateIsNotNull(empId);
         return M99DailyReportJpo.toDomains(list);
+    }
+
+    @Override
+    public List<Object[]> findDailyReport(String employeeId, String projectNumber, Date fromDate, Date toDate) {
+        return this.repository.findDailyReport(employeeId, projectNumber, fromDate, toDate);
     }
 }
