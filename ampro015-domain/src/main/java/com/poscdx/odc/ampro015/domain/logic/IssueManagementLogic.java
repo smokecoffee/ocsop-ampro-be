@@ -1,13 +1,16 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -110,5 +113,18 @@ public class IssueManagementLogic implements IssueManagementService {
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
         return list;
+    }
+
+    @Override
+    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, String request_date) {
+        List<Object[]> resultList = this.store.findIssueManagementDto(contents, site, module, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
+        List<IssueManagementDto> resultItemDtoList = new ArrayList<>();
+        IssueManagementDto resultItemDto;
+        for (Object[] objects : resultList) {
+            resultItemDto = new IssueManagementDto(objects);
+            resultItemDtoList.add(resultItemDto);
+        }
+        return resultItemDtoList;
     }
 }

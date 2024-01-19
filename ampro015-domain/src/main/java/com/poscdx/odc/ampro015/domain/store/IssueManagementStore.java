@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +27,10 @@ public interface IssueManagementStore {
                                         Date registration_date, String request_date);
 
     List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
+
+    List<Object[]> findIssueManagementDto(String contents, String site, String modules,String division_flag,
+                                          String applied_period_flag, String accept_flag, String requester_confirm,
+                                          String requester, String contents_kr, String developer,
+                                          Date registration_date, String request_date);
+
 }

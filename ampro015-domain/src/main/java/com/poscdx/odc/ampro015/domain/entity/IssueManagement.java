@@ -35,6 +35,7 @@ public class IssueManagement {
     private String categoryFlag;
     private String requesterConfirm;
     private String finalConfirmDate;
+
     public String toJson(){
         return JsonUtil.toJson(this);
     }

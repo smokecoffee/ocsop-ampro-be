@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.store;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
@@ -68,5 +69,10 @@ public class IssueManagementJpaStore implements IssueManagementStore {
                 accept_flag,request_confirm,requester,contents,contents_kr,developer);
         ObjectMapper mapper = new ObjectMapper();
         return mapList.stream().map(item -> mapper.convertValue(item, IssueManagement.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, String request_date) {
+        return this.repository.findIssueManagementDto(contents, site, modules, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
     }
 }

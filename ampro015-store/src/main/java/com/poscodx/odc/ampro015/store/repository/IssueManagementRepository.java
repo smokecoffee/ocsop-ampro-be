@@ -20,7 +20,9 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
     @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
     List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
     @Query(value =
-            "SELECT * From tb_m00_issue_management where contents like %:contents " +
+            "SELECT *,emp.photo From tb_m00_issue_management AS ism " +
+                    "join tb_m00_employee AS emp ON ism.developer = emp.emp_id" +
+                    "where contents like %:contents " +
                     "and site like %:site " +
                     "and module like %:module " +
                     "and division_flag like %:division_flag " +
@@ -83,4 +85,24 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                           @Param("contents") String contents,
                                           @Param("contents_kr") String contents_kr,
                                           @Param("developer") String developer);
+
+    @Query(value = "SELECT t.CONTENT \n" +
+            ",t.SITE \n" +
+            ",t.DIVISION_FLAG \n" +
+            ",t.APPLIED_PERIOD_FLAG \n" +
+            ",t.ACCEPT_FLAG \n" +
+            ",t.REQUEST_CONFIRM \n" +
+            ",t.REQUESTER \n" +
+            ",t.CONTENTS \n" +
+            ",t.CONTENTS_KR \n" +
+            ",t.DEVELOPER \n" +
+            ",tme.PHOTO \n" +
+            "FROM tb_m00_issue_management t \n" +
+            "JOIN tb_m00_employee tme \n" +
+            "ON t.DEVELOPER = tme.EMP_ID \n",nativeQuery = true)
+    List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag,
+                                          String applied_period_flag, String accept_flag, String requester_confirm,
+                                          String requester, String contents_kr, String developer, Date registration_date,
+                                          String request_date);
+
 }
