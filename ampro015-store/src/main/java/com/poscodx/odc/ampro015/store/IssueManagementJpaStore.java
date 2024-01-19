@@ -3,17 +3,14 @@ package com.poscodx.odc.ampro015.store;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Announcement;
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
-import com.poscodx.odc.ampro015.store.jpo.IssueManagementIdJpo;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
 import com.poscodx.odc.ampro015.store.repository.IssueManagementRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -55,13 +52,20 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<IssueManagement> findIssueInfo(String contents) {
-        return IssueManagementJpo.toDomains(this.repository.findIssueInfo(contents));
+    public List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
+                                               String applied_period_flag, String accept_flag, String requester_confirm,
+                                               String requester, String contents_kr, String developer,
+                                               Date registration_date, String request_date) {
+        return IssueManagementJpo.toDomains(this.repository.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date));
     }
 
     @Override
-    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer) {
-        List<Map<String,String>> mapList = this.repository.searchIssue(site,module,division_flag,applied_period_flag,accept_flag,request_confirm,requester,contents,contents_kr,developer);
+    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
+                                             String accept_flag, String request_confirm, String requester,
+                                             String contents, String contents_kr, String developer) {
+        List<Map<String,String>> mapList = this.repository.searchIssue(site,module,division_flag,applied_period_flag,
+                accept_flag,request_confirm,requester,contents,contents_kr,developer);
         ObjectMapper mapper = new ObjectMapper();
         return mapList.stream().map(item -> mapper.convertValue(item, IssueManagement.class)).collect(Collectors.toList());
     }

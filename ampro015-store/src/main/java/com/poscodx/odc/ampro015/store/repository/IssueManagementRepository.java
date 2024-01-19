@@ -4,10 +4,14 @@ import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,8 +20,33 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
     @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
     List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
     @Query(value =
-            "SELECT * From tb_m00_issue_management where contents like %:contents", nativeQuery = true)
-    List<IssueManagementJpo> findIssueInfo(@Param("contents") String contents);
+            "SELECT * From tb_m00_issue_management where contents like %:contents " +
+                    "and site like %:site " +
+                    "and module like %:module " +
+                    "and division_flag like %:division_flag " +
+                    "and applied_period_flag like %:applied_period_flag " +
+                    "and accept_flag like %:accept_flag " +
+                    "and requester_confirm like %:requester_confirm " +
+                    "and requester like %:requester " +
+                    "and contents like %:contents " +
+                    "and contents_kr like %:contents_kr " +
+                    "and developer like %:developer " +
+                    "and (:registration_date is null or registration_date = :registration_date) " +
+                    "and (:request_date is null or request_date like :request_date) "
+            , nativeQuery = true)
+    List<IssueManagementJpo> findIssueInfo( @Param("contents") String contents,
+                                            @Param("site") String site,
+                                            @Param("module") String module,
+                                            @Param("division_flag") String division_flag,
+                                            @Param("applied_period_flag") String applied_period_flag,
+                                            @Param("accept_flag") String accept_flag,
+                                            @Param("requester_confirm") String requester_confirm,
+                                            @Param("requester") String requester,
+                                            @Param("contents_kr") String contents_kr,
+                                            @Param("developer") String developer,
+                                            @Param("registration_date") Date registration_date,
+                                            @Param("request_date") String request_date
+                                            );
 
     @Query(value = "select * from tb_m00_issue_management tmim",nativeQuery = true)
     List<IssueManagementJpo> findAllRecord();

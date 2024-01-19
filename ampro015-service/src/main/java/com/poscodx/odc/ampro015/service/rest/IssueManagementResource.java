@@ -3,15 +3,12 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementResponse;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Announcement;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycler;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -62,8 +59,22 @@ public class IssueManagementResource {
     }
 
     @GetMapping(path="/search-content")
-    public List<IssueManagement> searchByContents(@RequestParam String contents) throws ParseException {
-        return this.serviceLifecycle.requestIssueManagementService().findIssueInfo(contents);
+    public List<IssueManagement> searchByContents(@RequestParam(required = false) String contents,
+                                                  @RequestParam(required = false) String site,
+                                                  @RequestParam(required = false) String module,
+                                                  @RequestParam(required = false) String division_flag,
+                                                  @RequestParam(required = false) String applied_period_flag,
+                                                  @RequestParam(required = false) String accept_flag,
+                                                  @RequestParam(required = false) String requester_confirm,
+                                                  @RequestParam(required = false) String requester,
+                                                  @RequestParam(required = false) String contents_kr,
+                                                  @RequestParam(required = false) String developer,
+                                                  @RequestParam(required = false) Date registration_date,
+                                                  @RequestParam(required = false) String request_date
+                                                  ) throws ParseException {
+        return this.serviceLifecycle.requestIssueManagementService().findIssueInfo(contents, site, module, division_flag,
+                applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, registration_date,
+                request_date);
     }
 
 }

@@ -8,6 +8,7 @@ import com.poscdx.odc.ampro015.domain.spec.IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import org.springframework.http.HttpStatus;
 
+import java.util.Date;
 import java.util.List;
 
 public class IssueManagementLogic implements IssueManagementService {
@@ -57,9 +58,46 @@ public class IssueManagementLogic implements IssueManagementService {
     }
 
     @Override
-    public List<IssueManagement> findIssueInfo(String contents) {
+    public List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
+                                               String applied_period_flag, String accept_flag, String requester_confirm,
+                                               String requester, String contents_kr, String developer,
+                                               Date registration_date, String request_date) {
         IssueManagementResponse response = new IssueManagementResponse();
-        List<IssueManagement> list = this.store.findIssueInfo(contents);
+        if(contents == null){
+            contents = "";
+        }
+        if(site == null){
+            site = "";
+        }
+        if(module == null){
+            module = "";
+        }
+        if(division_flag == null){
+            division_flag = "";
+        }
+        if(applied_period_flag == null){
+            applied_period_flag = "";
+        }
+        if(accept_flag == null){
+            accept_flag = "";
+        }
+        if(requester_confirm == null){
+            requester_confirm = "";
+        }
+        if(requester == null){
+            requester = "";
+        }
+        if(contents_kr == null){
+            contents_kr = "";
+        }
+        if(developer == null){
+            developer = "";
+        }
+        if(request_date == null){
+            request_date = "";
+        }
+        List<IssueManagement> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
         return list;
