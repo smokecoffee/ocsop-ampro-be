@@ -15,4 +15,9 @@ public interface Pme00RoleStore {
 
     void delete(int id);
 
+    Pme00Role findById(int id);
+
+    Pme00Role findByNameString(String name);
+
+    List<Pme00Role> findAll();
 }

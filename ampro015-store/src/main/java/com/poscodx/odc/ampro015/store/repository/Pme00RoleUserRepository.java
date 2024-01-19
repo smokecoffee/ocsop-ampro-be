@@ -16,4 +16,6 @@ public interface Pme00RoleUserRepository extends JpaRepository<Pme00RoleUserJpo,
             "JOIN tb_m00_employee as p on t.EMPLOYEE_ID = p.EMP_ID \n"+
             "WHERE t.EMPLOYEE_ID = :emp_id \n", nativeQuery = true)
     List<Pme00RoleUserJpo> findRoleUserByEmpId(@Param("emp_id") String empId);
+
+    List<Pme00RoleUserJpo> findByRoleId(int roleId);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, String> {
@@ -58,5 +59,12 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " AND (:empId IS NULL OR :empId = '' OR (E.EMP_ID =:empId))"
             , nativeQuery = true)
     List<Object[]> searchPmeEmployee(@Param("site") String site,  @Param("status") String status,@Param("name") String name, @Param("empId") String empId);
+    Boolean existsByName(String username);
+
+    Boolean existsByMail(String email);
+
+    Optional<M00EmployeeJpo> findByName(String userName);
+
+    List<M00EmployeeJpo> findAllByEmpIdIn(List<String> id);
 
 }

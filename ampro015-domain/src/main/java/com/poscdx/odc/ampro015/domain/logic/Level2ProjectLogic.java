@@ -264,6 +264,86 @@ public class Level2ProjectLogic implements Level2ProjectService {
     }
 
     /**
+     * Get project info
+     *
+     * @param serviceLifecycle
+     * @return Map<String, Object>
+     * @author : 202285_Tuan
+     * @since : 2024-01-17
+     */
+    @Override
+    public Map<String, Object> getProjectListWithTask(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize) {
+        List<ProjectManagementDto>  projectList = new ArrayList<>();
+
+        Pageable pageable;
+        if(pageSize == 0){
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
+        }
+        List<Pme00ProjectInfo> pme00ProjectInfoList =
+                serviceLifecycle.requestPme00ProjectInfoService()
+                        .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
+                                , dto.getPme00ProjectInfo().getPeriod(), dto.getPme00ProjectInfo().getKoreaPm()
+                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework()
+                                , dto.getPme00ProjectInfo().getStatus(), dto.getFromStartDate(), dto.getToStartDate()
+                                , dto.getFromEndDate(), dto.getToEndDate(), pageable);
+
+        for (Pme00ProjectInfo projectInfo : pme00ProjectInfoList) {
+
+            List<M00TaskDto> taskList = new ArrayList<>();
+
+            try {
+                HashMap<String, Object> mapTaskResponse = (HashMap<String, Object>) serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle,
+                        projectInfo.getCdV(), null, null, null, null, null, null,
+                        0, 20, "lastUpdateTimestamp", "ASC").getBody();
+                if (!mapTaskResponse.isEmpty()) {
+                    taskList = (List<M00TaskDto>) mapTaskResponse.get("data");
+                }
+            } catch (Exception e) {
+                System.out.println("TASK: " + e.getMessage());
+            }
+
+            ProjectManagementDto rsDto = new ProjectManagementDto();
+
+            rsDto.setPme00ProjectInfo(projectInfo);
+            //Set project name
+            M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, projectInfo.getCdV());
+            String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
+            String creatorId = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCreatedProgramId();
+            M00Codes030 m00Codes030 = new M00Codes030();
+            m00Codes030.setCdvMeaning(projectName);
+            m00Codes030.setCreatedProgramId(creatorId);
+            rsDto.setM00Codes030(m00Codes030);
+
+            //Set project progress
+            long completedTasks = taskList.stream()
+                    .filter(item -> "O".equals(item.getTask().getStatus()))
+                    .count();
+            double completionPercentage = (completedTasks * 100.0) / taskList.size();
+            int progress = (int) completionPercentage;
+            rsDto.setProgress(progress);
+            rsDto.setLstTask(taskList);
+
+            List<Pme00Member> lstMember = new ArrayList<>();
+            lstMember = serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(projectInfo.getCdV());
+            rsDto.setLstMember(lstMember);
+
+            projectList.add(rsDto);
+        }
+
+        int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getM00Codes030().getCdV()
+                , dto.getM00Codes030().getCdvMeaning(), dto.getPme00ProjectInfo().getPeriod()
+                , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
+                , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getStatus()
+                , dto.getFromStartDate(), dto.getToStartDate(), dto.getFromEndDate(), dto.getToEndDate());
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("total", total);
+        rs.put("info", projectList);
+        return rs;
+    }
+
+    /**
      * Get project list for monitoring
      * @param serviceLifecycle
      * @param pageNo

@@ -30,4 +30,5 @@ public interface ServiceLifecycle {
     Pme00PerRoleService requestPme00PerRoleService();
 
     Level2EmployeeService requestLevel2EmployeeService();
+    ExcanAccessTokenService requestExcanAccessTokenService();
 }
