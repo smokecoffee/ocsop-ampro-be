@@ -168,9 +168,9 @@ public class Level2MeetingLogic implements Level2MeetingService {
             List<Pme00EmployeeMeeting> editEmpMeets = listMeeting.get(0).getListMember();
             List<Pme00EmployeeMeeting> checkEmpMeets = serviceLifecycle.requestPme00EmployeeMeetingService()
                     .findByMeetingId(meetingId);
-            for(int j=0; j<checkEmpMeets.size(); j++){
-                if(meetingId == checkEmpMeets.get(j).getMeetingId()){
-                    int empMeetingId = checkEmpMeets.get(j).getEmpMeetId();
+            for (Pme00EmployeeMeeting checkEmpMeet : checkEmpMeets) {
+                if (meetingId == checkEmpMeet.getMeetingId()) {
+                    int empMeetingId = checkEmpMeet.getEmpMeetId();
                     serviceLifecycle.requestPme00EmployeeMeetingService().remove(empMeetingId);
                 }
             }
@@ -211,25 +211,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
         responseEntities.setMessage("Get all meeting successfully");
         return responseEntities;
     }
-//    @Override
-//    public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
-//        Pme00AllMeetingResponse responseEntities = new Pme00AllMeetingResponse();
-//        List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
-//        List<Object[]> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
-//        for (Object[] pme00Meeting : pme00MeetingList) {
-//            int meetingId = pme00Meeting.getMeetingId();
-//            pme00Meeting.setListMember(serviceLifecycle.requestPme00EmployeeMeetingService()
-//                    .findByMeetingId(meetingId));
-//            pme00Meeting.setEmpNameList(pme00Meeting.getListMember().stream()
-//                    .map(Pme00EmployeeMeeting::getEmpName)
-//                    .collect(Collectors.toList()));
-//
-//        }
-//        responseEntities.setStatus(HttpStatus.OK.value());
-//        responseEntities.setListData(pme00MeetingList);
-//        responseEntities.setMessage("Get all meeting successfully");
-//        return responseEntities;
-//    }
     /**
      * Get List  Room function
      * @return Pme00AllMeetingResponse

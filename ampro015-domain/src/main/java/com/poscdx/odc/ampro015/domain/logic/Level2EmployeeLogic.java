@@ -138,17 +138,44 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                                                        List<Pme00Employee> pme00EmployeeList){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String  empId = pme00EmployeeList.get(0).getEmpId();
-        int empIdToInt = Integer.parseInt(empId);
         Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
                 .searchPmeEmployee(serviceLifecycle, "", "", "", empId);
         if(findEmployeeById==null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
         }else {
+            List<Pme00RoleUser> editRoleUsers = pme00EmployeeList.get(0).getListRoleUser();
+            List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService()
+                    .findRoleUserByEmpId(empId);
+            for (Pme00RoleUser checkRoleUser : checkRoleUsers) {
+                if (empId.equals(checkRoleUser.getEmpId())) {
+                    int roleUserId = checkRoleUser.getId();
+                    serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
+                }
+            }
+            for(int i=0; i<editRoleUsers.size(); i++){
+                editRoleUsers.get(i).setRoleId(pme00EmployeeList.get(0).getListRoleUser().get(i).getRoleId());
+            }
+            M00Employee employee = new M00Employee();
+            employee.setEmpId(pme00EmployeeList.get(0).getEmpId());
+            employee.setSiteCode(pme00EmployeeList.get(0).getSite());
+            employee.setAvatar(pme00EmployeeList.get(0).getAvatar());
+            employee.setName(pme00EmployeeList.get(0).getName());
+            employee.setPassword(pme00EmployeeList.get(0).getPassword());
+            employee.setBirthday(pme00EmployeeList.get(0).getBirthDate());
+            employee.setJoinDate(pme00EmployeeList.get(0).getJoinDate());
+            employee.setMail(pme00EmployeeList.get(0).getEmail());
+            employee.setPersonalMail(pme00EmployeeList.get(0).getPersonalMail());
+            employee.setMobile(pme00EmployeeList.get(0).getMobile());
+            employee.setAddress(pme00EmployeeList.get(0).getAddress());
+            employee.setEmpStatus(pme00EmployeeList.get(0).getStatus());
+            employee.setRole("ADMIN");
 
-//            List<Pme00RoleUser> editRoleUsers = pme00EmployeeList.get(0).getListRoleUser();
-//            List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService().find(empIdToInt);
+            serviceLifecycle.requestM00EmployeeService().modify(employee);
+            serviceLifecycle.requestPme00RoleUserService().modify(editRoleUsers);
+
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+            pme00AllLevel2EmployeeResponse.setListData(pme00EmployeeList);
             pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
         }
         return pme00AllLevel2EmployeeResponse;
