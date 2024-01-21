@@ -26,9 +26,11 @@ public class Pme00EmployeeResource {
             @RequestParam(required = false, name = "site") String site,
             @RequestParam(required = false, name = "status") String status,
             @RequestParam(required = false, name = "name") String name,
-            @RequestParam(required = false, name = "empId") String empId){
+            @RequestParam(required = false, name = "empId") String empId,
+            @RequestParam(required = false, name = "joinDateFrom") String joinDateFrom,
+            @RequestParam(required = false, name = "joinDateTo") String joinDateTo){
         return this.serviceLifecycle.requestLevel2EmployeeService()
-                .searchPmeEmployee(serviceLifecycle, site, status, name, empId);
+                .searchPmeEmployee(serviceLifecycle, site, status, name, empId, joinDateFrom, joinDateTo);
     }
 
     @GetMapping("/findSiteEmp")

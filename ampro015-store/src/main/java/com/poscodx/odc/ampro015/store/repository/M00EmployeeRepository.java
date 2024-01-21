@@ -56,12 +56,16 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " AND (:site IS NULL OR :site = '' OR (CODE1.CD_V_EXPLAIN =:site))"+
             " AND (:status IS NULL OR :status = '' OR (CODE2.CD_V = :status))"+
             " AND (:name IS NULL OR :name = '' OR (E.NAME =:name))"+
-            " AND (:empId IS NULL OR :empId = '' OR (E.EMP_ID =:empId))"
+            " AND (:empId IS NULL OR :empId = '' OR (E.EMP_ID =:empId))"+
+            " AND (:joinDateFrom IS NULL OR E.JOIN_DATE >= :joinDateFrom)\n"+
+            " AND (:joinDateTo IS NULL OR E.JOIN_DATE <= :joinDateTo)\n"
             , nativeQuery = true)
     List<Object[]> searchPmeEmployee(@Param("site") String site,
                                      @Param("status") String status,
                                      @Param("name") String name,
-                                     @Param("empId") String empId);
+                                     @Param("empId") String empId,
+                                     @Param("joinDateFrom") String joinDateFrom,
+                                     @Param("joinDateTo") String joinDateTo);
     Boolean existsByName(String username);
 
     Boolean existsByMail(String email);
