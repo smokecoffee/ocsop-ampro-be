@@ -1,0 +1,39 @@
+package com.poscodx.odc.ampro015.service.rest;
+
+import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
+import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.posco.reuse.common.logging.PosLogWriterIF;
+import com.posco.reuse.common.logging.PosLogger;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.awt.print.Pageable;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/daily-report")
+@RequiredArgsConstructor
+public class M99DailyReportResource {
+    private final ServiceLifecycle serviceLifecycle;
+    @CrossOrigin
+    @PostMapping("/search")
+    public List<M99DailyReport> findDailyReportList(@RequestBody M99DailyReport dto) {
+        return this.serviceLifecycle.requestM99DailyReportService().findDailyReport(dto);
+    }
+
+    @CrossOrigin
+    @PostMapping("")
+    public M99DailyReport register(@RequestBody M99DailyReport dto) throws SQLException {
+        return this.serviceLifecycle.requestM99DailyReportService().register(dto);
+    }
+
+    @CrossOrigin
+    @PutMapping("")
+    public M99DailyReport modify(@RequestBody M99DailyReport dto) throws SQLException {
+        return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
+    }
+}
