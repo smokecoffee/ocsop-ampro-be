@@ -1,10 +1,9 @@
 package com.poscodx.odc.ampro015.store.converter.image;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-
-import static com.poscodx.odc.ampro015.store.converter.image.ValueConfig.BUCKET_NAME;
-import static com.poscodx.odc.ampro015.store.converter.image.ValueConfig.MINIO_URL;
 
 @Converter
 abstract class AbstractCryptoConverter<T> implements AttributeConverter<T, String> {
@@ -16,7 +15,7 @@ abstract class AbstractCryptoConverter<T> implements AttributeConverter<T, Strin
 
     @Override
     public T convertToEntityAttribute(String dbData) {
-        return stringToEntityAttribute(MINIO_URL + BUCKET_NAME + "/" + dbData);
+        return stringToEntityAttribute(ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + dbData);
     }
 
     abstract T stringToEntityAttribute(String dbData);
