@@ -17,3 +17,8 @@ datasource:
   password: 123456
   driver-class-name: org.mariadb.jdbc.Driver
 
+minio:
+  url: http://172.25.219.61:6040/
+  accessKey: 2046KAWetUZYcG8nubg0
+  secretKey: cpxDglli2pZI3KdiIsG1ZdJVi0wgRCFlBwQlK5OJ
+  bucketName: ampro
