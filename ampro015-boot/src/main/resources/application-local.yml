@@ -8,7 +8,9 @@ spring:
       path: /h2-console
 
 datasource:
-  url: jdbc:mariadb://172.25.219.61:3306/pme00
+
+  schema: posctzn
+  url: jdbc:mariadb://172.25.219.61:3306/posctzn
   username: dev
   password: dbdev
 
@@ -17,3 +19,8 @@ datasource:
 #  password: 123456
   driver-class-name: org.mariadb.jdbc.Driver
 
+minio:
+  url: http://172.25.219.61:6040/
+  accessKey: 2046KAWetUZYcG8nubg0
+  secretKey: cpxDglli2pZI3KdiIsG1ZdJVi0wgRCFlBwQlK5OJ
+  bucketName: ampro

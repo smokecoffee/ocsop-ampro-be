@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Image")
-@Table(name = "TB_A01_IMAGE", schema = "AMPRO")
+@Table(name = "TB_A01_IMAGE", schema = "POSCTZN")
 public class ImageJpo extends PoscoEntityJpo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
