@@ -146,7 +146,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
     public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
                                                        List<Pme00Employee> pme00EmployeeList){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
-        String  empId = pme00EmployeeList.get(0).getEmpId();
+        String empId = pme00EmployeeList.get(0).getEmpId();
         String passwordToMd5Hex = DigestUtils
                 .md5Hex(pme00EmployeeList.get(0).getPassword());
         Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
