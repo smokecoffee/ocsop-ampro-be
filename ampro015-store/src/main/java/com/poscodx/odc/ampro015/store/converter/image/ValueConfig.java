@@ -8,7 +8,6 @@ public class ValueConfig {
 
     public static String MINIO_URL;
     public static String BUCKET_NAME;
-    public static String DB_SCHEMA;
 
     @Value("${minio.url}")
     public void setUrl(String url) {
