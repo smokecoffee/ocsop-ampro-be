@@ -27,13 +27,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         return pme00AllLevel2EmployeeResponse;
     }
 
-
     @Override
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(ServiceLifecycle serviceLifecycle,
-                                                            String site, String status, String name, String empId){
+                                                            String site, String status, String name, String empId, String joinDateFrom, String joinDateTo){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
-                .searchPmeEmployee(site, status, name, empId);
+                .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
         List<Pme00RoleUser> pme00RoleUsers = serviceLifecycle.requestPme00RoleUserService().findRoleUserByEmpId(empId);
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
         for(Object[] object : listPme00Employee){
@@ -141,7 +140,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String  empId = pme00EmployeeList.get(0).getEmpId();
         Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
-                .searchPmeEmployee(serviceLifecycle, "", "", "", empId);
+                .searchPmeEmployee(serviceLifecycle, "", "", "", empId, "", "");
         if(findEmployeeById==null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
