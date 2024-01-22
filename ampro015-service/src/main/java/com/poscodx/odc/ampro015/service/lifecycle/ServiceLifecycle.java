@@ -33,6 +33,7 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     private final Pme00PerRoleService pme00PerRoleService;
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
+    private final Level2EmployeeService level2EmployeeService;
     private final ExcanAccessTokenService excanAccessTokenService;
 
     @Override
@@ -158,5 +159,9 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
         return this.level2QrCodeService;
     }
 
+    @Override
+    public Level2EmployeeService requestLevel2EmployeeService() {
+        return this.level2EmployeeService;
+    }
 
 }
