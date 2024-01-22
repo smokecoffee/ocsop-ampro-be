@@ -21,18 +21,6 @@ public class Level2Logic implements Level2Service {
         return qrCodeRender.generateEmbeddedQRCodenBase64(token);
     }
 
-//    @Override
-//    public String uploadFile(String serviceName, MultipartFile image) {
-//        String fileName = image.getOriginalFilename();
-//        Path root = Paths.get(Constants.UPLOAD_FILE_PATH + serviceName + "\\" + fileName);
-//        try {
-//            image.transferTo(root);
-//        } catch (Exception e) {
-//            return "Upload unsuccessfully!";
-//        }
-//        return fileName;
-//    }
-
 @Override
 public String uploadFile(String bucketName, String serviceName, MultipartFile file) {
     try {

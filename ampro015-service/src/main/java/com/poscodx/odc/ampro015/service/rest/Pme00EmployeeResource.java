@@ -14,12 +14,6 @@ public class Pme00EmployeeResource {
 
     private final ServiceLifecycle serviceLifecycle;
 
-    @GetMapping("/")
-    @CrossOrigin
-    public Pme00AllLevel2EmployeeResponse getListPmeEmployee() {
-        return this.serviceLifecycle.requestLevel2EmployeeService().getListPmeEmployee(serviceLifecycle);
-    }
-
     @GetMapping("/search")
     @CrossOrigin
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(

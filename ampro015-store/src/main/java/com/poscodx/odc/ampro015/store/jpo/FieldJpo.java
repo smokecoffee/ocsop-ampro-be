@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Field")
-@Table(name = "TB_A01_FIELD", schema = "POSCTZN")
+@Table(name = "TB_A01_FIELD", schema = "AMPRO")
 public class FieldJpo extends PoscoEntityJpo {
 
     @Id

@@ -1,4 +1,4 @@
-package com.poscodx.odc.ampro015.rest;
+package com.poscodx.odc.ampro015;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;
