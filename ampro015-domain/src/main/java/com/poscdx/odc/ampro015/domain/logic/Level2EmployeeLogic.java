@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpStatus;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -144,7 +145,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
     }
     @Override
     public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
-                                                       List<Pme00Employee> pme00EmployeeList){
+                                                        List<Pme00Employee> pme00EmployeeList){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String empId = pme00EmployeeList.get(0).getEmpId();
         String passwordToMd5Hex = DigestUtils
