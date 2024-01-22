@@ -29,7 +29,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
     @Override
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(ServiceLifecycle serviceLifecycle,
-                                                            String site, String status, String name, String empId, String joinDateFrom, String joinDateTo){
+                                                            String site,
+                                                            String status,
+                                                            String name,
+                                                            String empId,
+                                                            String joinDateFrom,
+                                                            String joinDateTo){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
                 .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
@@ -119,7 +124,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         } catch (Exception e){
 //            e.printStackTrace();
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-            pme00AllLevel2EmployeeResponse.setMessage("This meeting has been created");
+            pme00AllLevel2EmployeeResponse.setMessage("This employee has been created");
         }
 //        pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
 //        pme00AllLevel2EmployeeResponse.setMessage("Add employee successfully");
