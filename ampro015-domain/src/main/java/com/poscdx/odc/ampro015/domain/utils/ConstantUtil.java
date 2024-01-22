@@ -6,9 +6,8 @@ public class ConstantUtil {
 
     public static final int CATEGORY_GROUP_ID = 56;
 
-    public static final String UPLOAD_PATH = "http://172.25.219.61:6040/ampro/";
+    public static String UPLOAD_URL = "";
+    public static String UPLOAD_BUCKET = "";
+//    public static String UPLOAD_PATH = UPLOAD_URL + UPLOAD_BUCKET + "/";
 
-//    public static String getUploadPath(String image) {
-//        return MinioUtils.MINIO_URL + MinioUtils.BUCKET_NAME + "/" + image;
-//    }
 }
