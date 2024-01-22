@@ -1,12 +1,11 @@
 package com.poscodx.odc.ampro015.store.repository;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
-import com.poscodx.odc.ampro015.store.jpo.FieldJpo;
 import com.poscodx.odc.ampro015.store.jpo.M00Codes030Jpo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import com.poscdx.odc.ampro015.domain.utils.Constants;
+
 import java.util.List;
 
 /**

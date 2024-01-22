@@ -6,7 +6,7 @@ public interface Level2Service {
 
     String renderQRcode(String token);
 
-    String uploadFile(String serviceName, MultipartFile image);
+    String uploadFile(String bucketName, String serviceName, MultipartFile image);
 
 
 }
