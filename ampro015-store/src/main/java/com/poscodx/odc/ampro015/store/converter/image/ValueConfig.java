@@ -19,10 +19,5 @@ public class ValueConfig {
     public void setBucketName(String bucketName) {
         BUCKET_NAME = bucketName;
     }
-
-
-    @Value("${datasource.schema}")
-    public void setDbSchema(String dbSchema) {
-        DB_SCHEMA = dbSchema;
-    }
+    
 }
