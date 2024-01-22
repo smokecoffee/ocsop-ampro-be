@@ -94,11 +94,6 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>7.1.4</version>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
