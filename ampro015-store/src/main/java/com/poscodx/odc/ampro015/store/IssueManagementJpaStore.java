@@ -7,6 +7,7 @@ import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
 import com.poscodx.odc.ampro015.store.repository.IssueManagementRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -53,12 +54,9 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
-                                               String applied_period_flag, String accept_flag, String requester_confirm,
-                                               String requester, String contents_kr, String developer,
-                                               Date registration_date, String request_date) {
-        return IssueManagementJpo.toDomains(this.repository.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date));
+    public List<IssueManagement> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
+        return IssueManagementJpo.toDomains(this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate,requestFromStartDate,requestToEndDate));
     }
 
     @Override

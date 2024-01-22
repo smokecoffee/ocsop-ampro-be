@@ -70,12 +70,14 @@ public class IssueManagementResource {
                                                   @RequestParam(required = false) String requester,
                                                   @RequestParam(required = false) String contents_kr,
                                                   @RequestParam(required = false) String developer,
-                                                  @RequestParam(required = false) Date registration_date,
-                                                  @RequestParam(required = false) String request_date
+                                                  @RequestParam(required = false)   String fromRegistrationStartDate,
+                                                  @RequestParam(required = false)   String toRegistrationEndDate,
+                                                  @RequestParam(required = false)   String fromRequestStartDate,
+                                                  @RequestParam(required = false)   String toRequestEndDate
                                                   ) throws ParseException {
         return this.serviceLifecycle.requestIssueManagementService().findIssueInfo(contents, site, module, division_flag,
-                applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, registration_date,
-                request_date);
+                applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate,
+                toRegistrationEndDate,fromRequestStartDate,toRequestEndDate);
     }
 
     @PostMapping(path="/find")

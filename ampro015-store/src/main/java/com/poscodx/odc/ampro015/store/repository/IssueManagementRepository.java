@@ -20,9 +20,9 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
     @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
     List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
     @Query(value =
-            "SELECT *,emp.photo From tb_m00_issue_management AS ism " +
-                    "join tb_m00_employee AS emp ON ism.developer = emp.emp_id" +
-                    "where contents like %:contents " +
+                    "SELECT *,emp.photo From tb_m00_issue_management AS ism " +
+                    "join tb_m00_employee AS emp ON ism.developer = emp.emp_id " +
+                    "where contents LIKE %:contents " +
                     "and site like %:site " +
                     "and module like %:module " +
                     "and division_flag like %:division_flag " +
@@ -33,12 +33,14 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "and contents like %:contents " +
                     "and contents_kr like %:contents_kr " +
                     "and developer like %:developer " +
-                    "and (:registration_date is null or registration_date = :registration_date) " +
-                    "and (:request_date is null or request_date like :request_date) "
+                            "and ((:fromStartDate IS NULL ) OR (ism.registration_date >= :fromStartDate ))\n"+
+                            "and ((:toStartDate IS NULL) OR (ism.registration_date <= :toStartDate))\n"+
+                            "and ((:fromEndDate IS NULL) OR (ism.request_date >= :fromEndDate ))\n" +
+                            "and ((:toEndDate IS NULL) OR (ism.request_date <= :toEndDate))\n"
             , nativeQuery = true)
     List<IssueManagementJpo> findIssueInfo( @Param("contents") String contents,
                                             @Param("site") String site,
-                                            @Param("module") String module,
+                                            @Param("module") String modules,
                                             @Param("division_flag") String division_flag,
                                             @Param("applied_period_flag") String applied_period_flag,
                                             @Param("accept_flag") String accept_flag,
@@ -46,8 +48,8 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                             @Param("requester") String requester,
                                             @Param("contents_kr") String contents_kr,
                                             @Param("developer") String developer,
-                                            @Param("registration_date") Date registration_date,
-                                            @Param("request_date") String request_date
+                                            @Param("fromStartDate") String registrationFromStartDate, @Param("toStartDate") String registrationToEndDate,
+                                            @Param("fromEndDate") String requestFromStartDate, @Param("toEndDate") String requestToEndDate
                                             );
 
     @Query(value = "select * from tb_m00_issue_management tmim",nativeQuery = true)

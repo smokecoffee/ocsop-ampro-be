@@ -22,7 +22,8 @@ public interface IssueManagementService {
     List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
                                         String applied_period_flag, String accept_flag, String requester_confirm,
                                         String requester, String contents_kr, String developer,
-                                        Date registration_date, String request_date);
+                                        String fromRegistrationStartDate,String toRegistrationEndDate,
+                                        String fromRequestStartDate,String toRequestEndDate);
 
     List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
 

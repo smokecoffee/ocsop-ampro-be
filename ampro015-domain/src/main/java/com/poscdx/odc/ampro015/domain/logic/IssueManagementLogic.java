@@ -8,8 +8,6 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +62,7 @@ public class IssueManagementLogic implements IssueManagementService {
     public List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
                                                String applied_period_flag, String accept_flag, String requester_confirm,
                                                String requester, String contents_kr, String developer,
-                                               Date registration_date, String request_date) {
+                                               String fromRegistrationStartDate,String toRegistrationEndDate,String fromRequestStartDate,String toRequestEndDate) {
         IssueManagementResponse response = new IssueManagementResponse();
         if(contents == null){
             contents = "";
@@ -96,11 +94,8 @@ public class IssueManagementLogic implements IssueManagementService {
         if(developer == null){
             developer = "";
         }
-        if(request_date == null){
-            request_date = "";
-        }
         List<IssueManagement> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
+                accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate,fromRequestStartDate, toRequestEndDate);
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
         return list;
