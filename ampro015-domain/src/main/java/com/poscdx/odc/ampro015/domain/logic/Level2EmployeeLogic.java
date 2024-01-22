@@ -102,15 +102,15 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
             List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
-            Set<String> setId = listRoleUser.stream()
-                    .map(Pme00RoleUser::getEmpId)
+            Set<Integer> setId = listRoleUser.stream()
+                    .map(Pme00RoleUser::getRoleId)
                     .collect(Collectors.toSet());
 
             for (Pme00RoleUser pme00RoleUser : listRoleUser) {
-                if (setId.contains(pme00RoleUser.getEmpId())) {
+                if (setId.contains(pme00RoleUser.getRoleId())) {
                     serviceLifecycle.requestPme00RoleUserService()
                             .register(pme00RoleUser);
-                    setId.remove(pme00RoleUser.getEmpId());
+                    setId.remove(pme00RoleUser.getRoleId());
                 }
             }
 

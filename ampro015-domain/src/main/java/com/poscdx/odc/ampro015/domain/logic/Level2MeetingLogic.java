@@ -166,6 +166,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
         } else {
             responseEntity.setStatus(HttpStatus.OK.value());
             List<Pme00EmployeeMeeting> editEmpMeets = listMeeting.get(0).getListMember();
+
             List<Pme00EmployeeMeeting> checkEmpMeets = serviceLifecycle.requestPme00EmployeeMeetingService()
                     .findByMeetingId(meetingId);
             for (Pme00EmployeeMeeting checkEmpMeet : checkEmpMeets) {
