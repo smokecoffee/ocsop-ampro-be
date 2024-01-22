@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -87,6 +88,8 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
     }
     @Override
     public Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle, Pme00Employee newEmployee){
+        String passwordToMd5Hex = DigestUtils
+                .md5Hex(newEmployee.getPassword());
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         try{
             M00Employee employee = new M00Employee();
@@ -94,7 +97,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setSiteCode(newEmployee.getSite());
             employee.setAvatar(newEmployee.getAvatar());
             employee.setName(newEmployee.getName());
-            employee.setPassword(newEmployee.getPassword());
+            employee.setPassword(passwordToMd5Hex);
             employee.setBirthday(newEmployee.getBirthDate());
             employee.setJoinDate(newEmployee.getJoinDate());
             employee.setMail(newEmployee.getEmail());
@@ -144,6 +147,8 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                                                        List<Pme00Employee> pme00EmployeeList){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String  empId = pme00EmployeeList.get(0).getEmpId();
+        String passwordToMd5Hex = DigestUtils
+                .md5Hex(pme00EmployeeList.get(0).getPassword());
         Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
                 .searchPmeEmployee(serviceLifecycle, "", "", "", empId, "", "");
         if(findEmployeeById==null){
@@ -167,7 +172,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setSiteCode(pme00EmployeeList.get(0).getSite());
             employee.setAvatar(pme00EmployeeList.get(0).getAvatar());
             employee.setName(pme00EmployeeList.get(0).getName());
-            employee.setPassword(pme00EmployeeList.get(0).getPassword());
+            employee.setPassword(passwordToMd5Hex);
             employee.setBirthday(pme00EmployeeList.get(0).getBirthDate());
             employee.setJoinDate(pme00EmployeeList.get(0).getJoinDate());
             employee.setMail(pme00EmployeeList.get(0).getEmail());
