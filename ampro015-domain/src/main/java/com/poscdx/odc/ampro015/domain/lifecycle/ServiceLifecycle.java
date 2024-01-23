@@ -31,4 +31,6 @@ public interface ServiceLifecycle {
 
     Level2EmployeeService requestLevel2EmployeeService();
     ExcanAccessTokenService requestExcanAccessTokenService();
+
+    Pme00IssueManagementService requestPme00IssueManagementService();
 }

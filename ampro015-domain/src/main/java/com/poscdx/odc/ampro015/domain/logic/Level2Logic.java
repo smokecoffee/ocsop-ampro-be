@@ -21,20 +21,20 @@ public class Level2Logic implements Level2Service {
         return qrCodeRender.generateEmbeddedQRCodenBase64(token);
     }
 
-@Override
-public String uploadFile(String bucketName, String serviceName, MultipartFile file) {
-    try {
-        final String fileName = serviceName + "/" + file.getOriginalFilename();
-        InputStream inputStream = file.getInputStream();
-        minioClient.putObject(PutObjectArgs.builder()
-                .bucket(bucketName)
-                .object(fileName)
-                .stream(inputStream, inputStream.available(), -1)
-                .contentType(file.getContentType())
-                .build());
-        return fileName;
-    } catch (Exception e) {
-        return "Upload unsuccessfully!";
+    @Override
+    public String uploadFile(String bucketName, String serviceName, MultipartFile file) {
+        try {
+            final String fileName = serviceName + "/" + file.getOriginalFilename();
+            InputStream inputStream = file.getInputStream();
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .stream(inputStream, inputStream.available(), -1)
+                    .contentType(file.getContentType())
+                    .build());
+            return fileName;
+            } catch (Exception e) {
+            return "Upload unsuccessfully!";
+        }
     }
-}
 }

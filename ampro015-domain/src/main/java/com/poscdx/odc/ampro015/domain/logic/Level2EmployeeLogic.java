@@ -6,7 +6,6 @@ import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpStatus;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

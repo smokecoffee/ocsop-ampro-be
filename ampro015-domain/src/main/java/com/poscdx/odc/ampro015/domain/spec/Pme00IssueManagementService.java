@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Date;
 import java.util.List;
 
-public interface IssueManagementService {
+public interface Pme00IssueManagementService {
 
     List<IssueManagement> retrieve(int seq, String site);
 

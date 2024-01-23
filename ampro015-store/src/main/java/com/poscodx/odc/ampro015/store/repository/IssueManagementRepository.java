@@ -1,43 +1,44 @@
 package com.poscodx.odc.ampro015.store.repository;
 
-import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface IssueManagementRepository extends JpaRepository<IssueManagementJpo, IssueManagementId> {
     @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
     List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
     @Query(value =
-                    "SELECT *,emp.photo From tb_m00_issue_management AS ism " +
-                    "join tb_m00_employee AS emp ON ism.developer = emp.emp_id " +
-                    "where ism.contents LIKE %:contents " +
-                    "and ism.site like %:site " +
-                    "and ism.module like %:module " +
-                    "and ism.division_flag like %:division_flag " +
-                    "and ism.applied_period_flag like %:applied_period_flag " +
-                    "and ism.accept_flag like %:accept_flag " +
-                    "and ism.requester_confirm like %:requester_confirm " +
-                    "and ism.requester like %:requester " +
-                    "and ism.contents like %:contents " +
-                    "and ism.contents_kr like %:contents_kr " +
-                    "and ism.developer like %:developer " +
-                            "and ((:fromStartDate IS NULL ) OR (ism.registration_date >= :fromStartDate ))\n"+
-                            "and ((:toStartDate IS NULL) OR (ism.registration_date <= :toStartDate))\n"+
-                            "and ((:fromEndDate IS NULL) OR (ism.request_date >= :fromEndDate ))\n" +
-                            "and ((:toEndDate IS NULL) OR (ism.request_date <= :toEndDate))\n"
-            , nativeQuery = true) <--- bouble check and refactor same Pme00ProjectInfoRepository.findProjectInfo
+                    "SELECT ISM.*,\n"+
+                            ",EMP1.NAME AS KOREA_PM_NAME\n" +
+                            ", EMP1.PHOTO AS KOREA_PM_PHOTO\n" +
+                            ", EMP2.NAME AS VIETNAM_PL_NAME,\n" +
+                            ", EMP2.PHOTO AS VIETNAM_PL_PHOTO\n" +
+                            "FROM \n" +
+                            "TB_M00_ISSUE_MANAGEMENT AS ISSUE\n" +
+                            "JOIN TB_M00_EMPLOYEE EMP1\n" +
+                            "ON EMP1.EMP_ID = ISSUE.DEVELOPER \n" +
+                            "JOIN TB_M00_EMPLOYEE EMP2\n" +
+                            "ON EMP2.EMP_ID = INFO.VIETNAM_PL \n" +
+                            "WHERE 1= 1 \n" +
+                            "AND (:contents IS NULL OR (ISSUE.CONTENTS LIKE CONCAT('%', :contents, '%')))\n" +
+                            "AND (:site IS NULL OR (ISSUE.SITE LIKE CONCAT('%', :site, '%')))\n" +
+                            "AND (:module IS NULL OR (ISSUE.MODULE LIKE CONCAT('%', :module, '%')))\n" +
+                            "AND (:division_flag IS NULL OR (ISSUE.DIVISION_FLAG LIKE CONCAT('%', :division_flag, '%')))\n" +
+                            "AND (:applied_period_flag IS NULL OR (ISSUE.APPLIED_PERIOD_FLAG LIKE CONCAT('%', :applied_period_flag, '%')))\n" +
+                            "AND (:accept_flag IS NULL OR (ISSUE.ACCEPT_FLAG LIKE CONCAT('%', :accept_flag, '%')))\n" +
+                            "AND (:requester_confirm IS NULL OR (ISSUE.REQUESTER_CONFIRM LIKE CONCAT('%', :requester_confirm, '%')))\n" +
+                            "AND (:requester IS NULL OR (ISSUE.REQUESTER LIKE CONCAT('%', :requester, '%')))\n" +
+                            "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
+                            "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
+                            "AND ((:fromStartDate IS NULL AND :toStartDate IS NULL) OR (ISSUE.START_DATE BETWEEN :fromStartDate AND :toStartDate))\n" +
+                            "AND ((:fromEndDate IS NULL AND :toEndDate IS NULL) OR (ISSUE.END_DATE BETWEEN :fromEndDate AND :toEndDate))"
+            , nativeQuery = true)
     List<Object[]> findIssueInfo( @Param("contents") String contents,
                                             @Param("site") String site,
                                             @Param("module") String modules,

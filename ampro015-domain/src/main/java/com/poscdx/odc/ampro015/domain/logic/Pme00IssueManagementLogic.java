@@ -5,18 +5,18 @@ import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.spec.IssueManagementService;
+import com.poscdx.odc.ampro015.domain.spec.Pme00IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class IssueManagementLogic implements IssueManagementService {
+public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
 
     private final IssueManagementStore store;
 
-    public IssueManagementLogic(IssueManagementStore store) {
+    public Pme00IssueManagementLogic(IssueManagementStore store) {
         this.store = store;
     }
 
@@ -44,7 +44,7 @@ public class IssueManagementLogic implements IssueManagementService {
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.create(newIssueManagement);
-        pls check to upload file at here
+        //pls check to upload file at here
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
@@ -54,7 +54,7 @@ public class IssueManagementLogic implements IssueManagementService {
     public IssueManagementResponse remove(IssueManagementId seq) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.delete(seq);
-        pls remove file, confirm with Mr Tri
+       // pls remove file, confirm with Mr Tri
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("This issue has been deleted");
         return response;
