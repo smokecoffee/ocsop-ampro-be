@@ -54,9 +54,9 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<IssueManagement> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
-        return IssueManagementJpo.toDomains(this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate,requestFromStartDate,requestToEndDate));
+    public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
+        return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate,requestFromStartDate,requestToEndDate);
     }
 
     @Override

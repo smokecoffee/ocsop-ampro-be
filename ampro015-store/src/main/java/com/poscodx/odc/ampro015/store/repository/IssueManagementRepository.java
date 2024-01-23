@@ -22,23 +22,23 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
     @Query(value =
                     "SELECT *,emp.photo From tb_m00_issue_management AS ism " +
                     "join tb_m00_employee AS emp ON ism.developer = emp.emp_id " +
-                    "where contents LIKE %:contents " +
-                    "and site like %:site " +
-                    "and module like %:module " +
-                    "and division_flag like %:division_flag " +
-                    "and applied_period_flag like %:applied_period_flag " +
-                    "and accept_flag like %:accept_flag " +
-                    "and requester_confirm like %:requester_confirm " +
-                    "and requester like %:requester " +
-                    "and contents like %:contents " +
-                    "and contents_kr like %:contents_kr " +
-                    "and developer like %:developer " +
+                    "where ism.contents LIKE %:contents " +
+                    "and ism.site like %:site " +
+                    "and ism.module like %:module " +
+                    "and ism.division_flag like %:division_flag " +
+                    "and ism.applied_period_flag like %:applied_period_flag " +
+                    "and ism.accept_flag like %:accept_flag " +
+                    "and ism.requester_confirm like %:requester_confirm " +
+                    "and ism.requester like %:requester " +
+                    "and ism.contents like %:contents " +
+                    "and ism.contents_kr like %:contents_kr " +
+                    "and ism.developer like %:developer " +
                             "and ((:fromStartDate IS NULL ) OR (ism.registration_date >= :fromStartDate ))\n"+
                             "and ((:toStartDate IS NULL) OR (ism.registration_date <= :toStartDate))\n"+
                             "and ((:fromEndDate IS NULL) OR (ism.request_date >= :fromEndDate ))\n" +
                             "and ((:toEndDate IS NULL) OR (ism.request_date <= :toEndDate))\n"
             , nativeQuery = true)
-    List<IssueManagementJpo> findIssueInfo( @Param("contents") String contents,
+    List<Object[]> findIssueInfo( @Param("contents") String contents,
                                             @Param("site") String site,
                                             @Param("module") String modules,
                                             @Param("division_flag") String division_flag,

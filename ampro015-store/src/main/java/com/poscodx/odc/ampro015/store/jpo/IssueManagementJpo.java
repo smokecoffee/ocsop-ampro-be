@@ -98,7 +98,11 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "FINAL_CONFIRM_DATE")
     private String finalConfirmDate;
 
-    private String photo;
+    @Transient
+    private String koreaPmName;
+
+    @Transient
+    private String vietnamPlName;
 
     public IssueManagementJpo(IssueManagement domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

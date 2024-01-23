@@ -19,7 +19,7 @@ public interface IssueManagementService {
 
     IssueManagementResponse remove(IssueManagementId seq);
 
-    List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
+    List<IssueManagementDto> findIssueInfo(String contents, String site, String module, String division_flag,
                                         String applied_period_flag, String accept_flag, String requester_confirm,
                                         String requester, String contents_kr, String developer,
                                         String fromRegistrationStartDate,String toRegistrationEndDate,

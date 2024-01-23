@@ -60,7 +60,7 @@ public class IssueManagementResource {
     }
 
     @GetMapping(path="/search-content")
-    public List<IssueManagement> searchByContents(@RequestParam(required = false) String contents,
+    public List<IssueManagementDto> searchByContents(@RequestParam(required = false) String contents,
                                                   @RequestParam(required = false) String site,
                                                   @RequestParam(required = false) String module,
                                                   @RequestParam(required = false) String division_flag,
@@ -80,7 +80,7 @@ public class IssueManagementResource {
                 toRegistrationEndDate,fromRequestStartDate,toRequestEndDate);
     }
 
-    @PostMapping(path="/find")
+    @GetMapping(path="/find")
     public List<IssueManagementDto> findIssueDto(@RequestParam(required = false) String contents,
                                                  @RequestParam(required = false) String site,
                                                  @RequestParam(required = false) String module,

@@ -59,7 +59,7 @@ public class IssueManagementLogic implements IssueManagementService {
     }
 
     @Override
-    public List<IssueManagement> findIssueInfo(String contents, String site, String module, String division_flag,
+    public List<IssueManagementDto> findIssueInfo(String contents, String site, String module, String division_flag,
                                                String applied_period_flag, String accept_flag, String requester_confirm,
                                                String requester, String contents_kr, String developer,
                                                String fromRegistrationStartDate,String toRegistrationEndDate,String fromRequestStartDate,String toRequestEndDate) {
@@ -94,11 +94,15 @@ public class IssueManagementLogic implements IssueManagementService {
         if(developer == null){
             developer = "";
         }
-        List<IssueManagement> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
+        List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate,fromRequestStartDate, toRequestEndDate);
+        List<IssueManagementDto> issueManagementDtoList = new ArrayList<>();
+        for(Object[] objects : list){
+            issueManagementDtoList.add(new IssueManagementDto(objects));
+        }
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
-        return list;
+        return issueManagementDtoList;
     }
 
     @Override
