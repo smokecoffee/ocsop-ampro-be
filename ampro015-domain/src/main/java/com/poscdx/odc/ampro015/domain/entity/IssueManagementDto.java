@@ -1,8 +1,10 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.tool.schema.spi.ScriptTargetOutput;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,6 +13,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class IssueManagementDto implements Serializable {
+    private IssueManagement issueManagement;
     private int seq;
     private Date registrationDate;
     private String requestDate;
@@ -33,30 +36,14 @@ public class IssueManagementDto implements Serializable {
     private String categoryFlag;
     private String requesterConfirm;
     private String finalConfirmDate;
-    private String photo;
+    private String requesterId;
+    private String developerName;
+    private String requesterAvatar;
 
     public IssueManagementDto(Object[] objects){
-        this.seq = (int) objects[0];
-        this.registrationDate = (Date) objects[1];
-        this.requestDate = (String) objects[2];
-        this.requester = (String) objects[3];
-        this.site = (String) objects[4];
-        this.module = (String) objects[5];
-        this.screenName = (String) objects[6];
-        this.divisionFlag = (String) objects[7];
-        this.appliedPeriodFlag = (String) objects[8];
-        this.contents = (String) objects[9];
-        this.contentsKR = (String) objects[10];
-        this.fileName = (String) objects[11];
-        this.developer = (String) objects[12];
-        this.acceptFlag = (String) objects[13];
-        this.status = (String) objects[14];
-        this.developComments = (String) objects[15];
-        this.developFromDate = (String) objects[16];
-        this.developToDate = (String) objects[17];
-        this.categoryFlag = (String) objects[18];
-        this.requesterConfirm = (String) objects[19];
-        this.finalConfirmDate = (String) objects[20];
-        this.photo = (String) objects[21];
+        issueManagement = new IssueManagement(objects);
+        this.developerName = (String) objects[23];
+        this.requesterAvatar = (objects[24] == null || ((String) objects[24]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[24];
     }
 }

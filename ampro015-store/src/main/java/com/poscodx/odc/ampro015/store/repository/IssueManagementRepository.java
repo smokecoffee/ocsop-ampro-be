@@ -13,18 +13,19 @@ import java.util.Map;
 public interface IssueManagementRepository extends JpaRepository<IssueManagementJpo, IssueManagementId> {
     @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
     List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
+
     @Query(value =
-                    "SELECT ISM.*,\n"+
-                            ",EMP1.NAME AS KOREA_PM_NAME\n" +
-                            ", EMP1.PHOTO AS KOREA_PM_PHOTO\n" +
-                            ", EMP2.NAME AS VIETNAM_PL_NAME,\n" +
-                            ", EMP2.PHOTO AS VIETNAM_PL_PHOTO\n" +
+                    "SELECT ISSUE.*\n"+
+//                            ", EMP1.NAME AS KOREA_PM_NAME\n" +
+                            ", EMP2.NAME AS DEV_NAME\n" +
+                            ", EMP1.PHOTO AS PHOTO\n" +
+//                            ", EMP2.PHOTO AS VIETNAM_PL_PHOTO\n" +
                             "FROM \n" +
                             "TB_M00_ISSUE_MANAGEMENT AS ISSUE\n" +
                             "JOIN TB_M00_EMPLOYEE EMP1\n" +
-                            "ON EMP1.EMP_ID = ISSUE.DEVELOPER \n" +
+                            "ON EMP1.EMP_ID = ISSUE.REQUESTER_ID \n" +
                             "JOIN TB_M00_EMPLOYEE EMP2\n" +
-                            "ON EMP2.EMP_ID = INFO.VIETNAM_PL \n" +
+                            "ON EMP2.EMP_ID = ISSUE.DEVELOPER \n" +
                             "WHERE 1= 1 \n" +
                             "AND (:contents IS NULL OR (ISSUE.CONTENTS LIKE CONCAT('%', :contents, '%')))\n" +
                             "AND (:site IS NULL OR (ISSUE.SITE LIKE CONCAT('%', :site, '%')))\n" +
@@ -36,9 +37,11 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                             "AND (:requester IS NULL OR (ISSUE.REQUESTER LIKE CONCAT('%', :requester, '%')))\n" +
                             "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                             "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
-                            "AND ((:fromStartDate IS NULL AND :toStartDate IS NULL) OR (ISSUE.START_DATE BETWEEN :fromStartDate AND :toStartDate))\n" +
-                            "AND ((:fromEndDate IS NULL AND :toEndDate IS NULL) OR (ISSUE.END_DATE BETWEEN :fromEndDate AND :toEndDate))"
-            , nativeQuery = true)
+                            "AND ((:fromStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE >= :fromStartDate))\n" +
+                            "AND ((:toStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE <= :toStartDate))\n" +
+                            "AND ((:fromEndDate IS NULL) OR (ISSUE.REQUEST_DATE >= :fromEndDate))" +
+                            "AND ((:toEndDate IS NULL) OR (ISSUE.REQUEST_DATE <= :toEndDate))"
+                            , nativeQuery = true)
     List<Object[]> findIssueInfo( @Param("contents") String contents,
                                             @Param("site") String site,
                                             @Param("module") String modules,

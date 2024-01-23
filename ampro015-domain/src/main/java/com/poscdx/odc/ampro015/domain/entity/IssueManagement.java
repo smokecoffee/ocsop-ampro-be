@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
@@ -37,8 +38,7 @@ public class IssueManagement {
     private String finalConfirmDate;
     private String requesterAvatar;
     private String requesterName;
-
-
+    private String requesterId;
     public String toJson(){
         return JsonUtil.toJson(this);
     }
@@ -60,7 +60,8 @@ public class IssueManagement {
         this.appliedPeriodFlag = (String) objects[9];
         this.contents = (String) objects[10];
         this.contentsKR = (String) objects[11];
-        this.fileName = (String) objects[12];
+        this.fileName = (objects[12] == null || ((String) objects[12]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[12];
         this.developer = (String) objects[13];
         this.acceptFlag = (String) objects[14];
         this.status = (String) objects[15];
@@ -70,8 +71,8 @@ public class IssueManagement {
         this.categoryFlag = (String) objects[19];
         this.requesterConfirm = (String) objects[20];
         this.finalConfirmDate = (String) objects[21];
-        this.requesterAvatar = (String) objects[22];
-        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
+        this.requesterId = (String) objects[22];
+//        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
     }
 
 }

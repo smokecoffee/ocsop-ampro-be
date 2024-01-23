@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
+import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -68,6 +69,7 @@ public class IssueManagementJpo implements Serializable {
     private String contentsKR;
 
     @NotNull
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "FILE_NAME")
     private String fileName;
 
@@ -98,11 +100,14 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "FINAL_CONFIRM_DATE")
     private String finalConfirmDate;
 
-    @Transient
-    private String koreaPmName;
+    @Column(name = "REQUESTER_ID")
+    private String requesterId;
 
-    @Transient
-    private String vietnamPlName;
+//    @Transient
+//    private String koreaPmName;
+//
+//    @Transient
+//    private String vietnamPlName;
 
     public IssueManagementJpo(IssueManagement domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

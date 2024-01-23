@@ -1,9 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
-import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
-import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
-import com.poscdx.odc.ampro015.domain.entity.IssueManagementResponse;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Pme00IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
@@ -45,6 +42,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         IssueManagementResponse response = new IssueManagementResponse();
         store.create(newIssueManagement);
         //pls check to upload file at here
+
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
@@ -101,6 +99,9 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         List<IssueManagementDto> issueManagementDtoList = new ArrayList<>();
         for(Object[] objects : list){
             issueManagementDtoList.add(new IssueManagementDto(objects));
+        }
+        for (IssueManagementDto dto : issueManagementDtoList) {
+
         }
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");

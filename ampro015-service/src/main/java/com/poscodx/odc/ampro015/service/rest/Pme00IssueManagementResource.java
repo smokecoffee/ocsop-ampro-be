@@ -106,21 +106,6 @@ public class Pme00IssueManagementResource {
     }
 
     /**
-     * Upload Image function
-     *
-     * @return Pme00IssueManagementResponse
-     * @author 202307_Phat
-     * @since 2024-01-23
-     */
-    @CrossOrigin
-    @PostMapping(path = "/upload/{service}")
-    public String uploadFile(@PathVariable("service") String serviceName,
-                             @RequestParam ("file") MultipartFile image) {
-        return this.serviceLifecycle.requestLevel2Service().uploadFile(bucketName, serviceName, image);
-    }
-
-
-    /**
      * Search Issue Management function
      *
      * @return Pme00IssueManagementResponse
