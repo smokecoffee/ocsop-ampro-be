@@ -1,7 +1,6 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Image;
-import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.posco.reuse.common.errorobjects.PosBaseException;
 import com.poscoict.base.share.jpo.PoscoEntityJpo;
 import lombok.Getter;
@@ -70,10 +69,5 @@ public class ImageJpo extends PoscoEntityJpo {
     @Override
     public void validateJpo() throws PosBaseException {
 
-    }
-
-    @PostLoad
-    public void imagePatchLoad() {
-        path = Constants.UPLOAD_STATIC_ASSET_FOLDER_PATH + path;
     }
 }

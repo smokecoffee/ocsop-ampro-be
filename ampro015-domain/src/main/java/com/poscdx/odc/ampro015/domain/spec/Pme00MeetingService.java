@@ -24,7 +24,6 @@ public interface Pme00MeetingService {
      *  @since 2023-11-11
      */
     List<Pme00Meeting> findAll();
-
     /**
      * Interface Modify Meeting
      * @author 202261_Son

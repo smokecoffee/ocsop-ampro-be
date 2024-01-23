@@ -40,7 +40,7 @@ public class EmployeeDetailsServiceImpl implements UserDetailsService {
         M00EmployeeJpo user = employeeRepository.findByName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with UserName: " + username));
 
-        List<Pme00RoleUser> roles = pme00RoleUserJpaStore.findByEmpId(user.getEmpId());
+        List<Pme00RoleUser> roles = pme00RoleUserJpaStore.findRoleUserByEmpId(user.getEmpId());
 
         String roleName = "ROLE_STAFF";
         if (!roles.isEmpty()) {
@@ -55,7 +55,7 @@ public class EmployeeDetailsServiceImpl implements UserDetailsService {
         M00EmployeeJpo user = employeeRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with Id: " + id));
 
-        List<Pme00RoleUser> roles = pme00RoleUserJpaStore.findByEmpId(user.getEmpId());
+        List<Pme00RoleUser> roles = pme00RoleUserJpaStore.findRoleUserByEmpId(user.getEmpId());
         // Optional<Pme00RoleJpo> role = roleRepository.findByName(user.getRole());
 
         if (!roles.isEmpty()) {
