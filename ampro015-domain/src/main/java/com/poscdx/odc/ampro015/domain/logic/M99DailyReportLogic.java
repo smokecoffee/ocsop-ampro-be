@@ -4,8 +4,9 @@ import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
 import com.poscdx.odc.ampro015.domain.spec.M99DailyReportService;
 import com.poscdx.odc.ampro015.domain.store.M99DailyReportStore;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,11 +54,16 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public List<M99DailyReport> findDailyReport(M99DailyReport m99DailyReport) {
+    public List<M99DailyReport> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize) {
         Pageable pageable;
+        if (pageSize == 0) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
+        }
 
         List<Object[]> resultList = this.store.findDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
-                                                                m99DailyReport.getFromDate(), m99DailyReport.getToDate());
+                                                                m99DailyReport.getFromDate(), m99DailyReport.getToDate(), pageable);
         List<M99DailyReport> dailyReportList = new ArrayList<>();
         for (Object[] obj : resultList) {
             dailyReportList.add(new M99DailyReport(obj));

@@ -22,5 +22,5 @@ public interface M99DailyReportService {
 
     List<M99DailyReport> findWorkingTimeByEmployeeId(String empId);
 
-    List<M99DailyReport> findDailyReport(M99DailyReport m99DailyReport);
+    List<M99DailyReport> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize);
 }
