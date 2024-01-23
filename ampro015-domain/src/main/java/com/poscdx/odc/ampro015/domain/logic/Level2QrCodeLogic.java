@@ -46,8 +46,8 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
     }
 
     @Override
-    public List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle, String owner, int status) {
-        List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(owner, status));
+    public List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle, int assetId, String emplId, int status) {
+        List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findByAssetAndOwnerAndStatus(assetId, emplId, status));
         List<AssetInfoDto> result = new ArrayList<>();
         if (!ObjectUtils.isEmpty(assetList)) {
             for (Asset asset : assetList) {
@@ -63,7 +63,7 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
 
     @Override
     public void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException {
-        List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(assetSearch.getOwner(), assetSearch.getStatus()));
+        List<Asset> assetList = new ArrayList<>(serviceLifecycle.requestAssetService().findAssetInfos(assetSearch.getEmpId(), assetSearch.getStatus()));
         List<AssetInfoDto> result = new ArrayList<>();
         if (!ObjectUtils.isEmpty(assetList)) {
             for (Asset asset : assetList) {

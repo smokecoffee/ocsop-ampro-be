@@ -18,4 +18,6 @@ public interface Pme00RoleUserRepository extends JpaRepository<Pme00RoleUserJpo,
     List<Pme00RoleUserJpo> findRoleUserByEmpId(@Param("emp_id") String empId);
 
     List<Pme00RoleUserJpo> findByRoleId(int roleId);
+
+    List<Pme00RoleUserJpo> findByEmpId(String empId);
 }

@@ -13,9 +13,9 @@ import java.util.stream.StreamSupport;
 
 @Getter
 @Setter
-@Entity(name = "ExcanAccessToken")
-@Table(name = "TB_EXCAN_ACCESS_TOKEN", schema = "POSCTZN")
-public class ExcanAccessTokenJpo
+@Entity(name = "LogoutAccessToken")
+@Table(name = "TB_PME00_LOGOUT_ACCESS_TOKEN", schema = "POSCTZN")
+public class LogoutAccessTokenJpo
 {
     @Id
     @Column(name = "ID")
@@ -36,10 +36,10 @@ public class ExcanAccessTokenJpo
     @Column(name = "DELETE_AT")
     private Date deleteAt;
 
-    public ExcanAccessTokenJpo() {
+    public LogoutAccessTokenJpo() {
     }
 
-    public ExcanAccessTokenJpo(LogoutAccessToken entity) {
+    public LogoutAccessTokenJpo(LogoutAccessToken entity) {
         BeanUtils.copyProperties(entity, this);
     }
 
@@ -49,7 +49,7 @@ public class ExcanAccessTokenJpo
         return retVal;
     }
 
-    public static List<LogoutAccessToken> toDomains(Iterable<ExcanAccessTokenJpo> jpos) {
-        return StreamSupport.stream(jpos.spliterator(), false).map((ExcanAccessTokenJpo::toDomain)).collect(Collectors.toList());
+    public static List<LogoutAccessToken> toDomains(Iterable<LogoutAccessTokenJpo> jpos) {
+        return StreamSupport.stream(jpos.spliterator(), false).map((LogoutAccessTokenJpo::toDomain)).collect(Collectors.toList());
     }
 }

@@ -14,7 +14,7 @@ public interface Level2QrCodeService {
 
     void updateAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto assetInfoDto);
 
-    List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle, String emplName, int status);
+    List<AssetInfoDto> findAssetList(ServiceLifecycle serviceLifecycle, int assetId, String emplId, int status);
 
     void exportExcel(ServiceLifecycle serviceLifecycle, HttpServletResponse response, AssetSearch assetSearch) throws IOException;
 

@@ -18,4 +18,7 @@ public interface Pme00RoleUserStore {
     List<Pme00RoleUser> findRoleUserByEmpId(String empId);
 
     List<Pme00RoleUser> findByRoleId(int roleId);
+
+    List<Pme00RoleUser> findByEmployeeId(String empId);
+
 }

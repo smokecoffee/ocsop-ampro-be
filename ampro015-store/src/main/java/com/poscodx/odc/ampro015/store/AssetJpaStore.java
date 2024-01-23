@@ -52,7 +52,7 @@ public class AssetJpaStore implements AssetStore {
 
     @Override
     public List<Asset> retrieveByOwnerAndStatus(String owner, int status) {
-        Iterable<AssetJpo> list =  this.repository.findByOwnerContainingAndStatusAndDeleteAtIsNull(owner,status);
+        Iterable<AssetJpo> list = this.repository.findByOwnerContainingAndStatusAndDeleteAtIsNull(owner, status);
         return AssetJpo.toDomains(list);
     }
 
@@ -61,4 +61,11 @@ public class AssetJpaStore implements AssetStore {
         AssetJpo findAssetJpo = this.repository.findByToken(token);
         return findAssetJpo.toDomain();
     }
+
+    @Override
+    public List<Asset> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status) {
+        Iterable<AssetJpo> list = this.repository.findByAssetAndOwnerAndStatus(assetId, emplId, status);
+        return AssetJpo.toDomains(list);
+    }
+
 }
