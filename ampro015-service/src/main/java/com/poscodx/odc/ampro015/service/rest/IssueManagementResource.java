@@ -12,46 +12,55 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+pls comment code by rule
 @RestController
 @RequestMapping("/issue-management")
-public class IssueManagementResource {
+public class IssueManagementResource { <-- pls change to name same : Pme00IssueManagementResource
 
     @Autowired
     private ServiceLifecycler serviceLifecycle;
 
+
+    pls comment code by rule
     public IssueManagementResource(ServiceLifecycler serviceLifecycle) {
         this.serviceLifecycle = serviceLifecycle;
     }
 
+    pls comment code by rule
     @CrossOrigin
-    @PostMapping("/insert")
+    @PostMapping("/insert") < remove insert
     public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement){
         return this.serviceLifecycle.requestIssueManagementService().create(serviceLifecycle,newIssueManagement);
     }
 
+    pls comment code by rule
     @PutMapping
     public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement){
         return this.serviceLifecycle.requestIssueManagementService().modify(serviceLifecycle,issueManagement);
     }
 
+    pls comment code by rule
     @DeleteMapping
     public IssueManagementResponse deleteIssue(@RequestBody IssueManagementId seq){
         return this.serviceLifecycle.requestIssueManagementService().remove(seq);
     }
 
+    pls comment code by rule
     @GetMapping("/")
     public List<IssueManagement> getAll() {
         List<IssueManagement> getAllIssue = serviceLifecycle.requestIssueManagementService().retrieveAll();
         return getAllIssue;
     }
 
+    pls comment code by rule
     @GetMapping("/getbyseqandsite")
     public List<IssueManagement> getBySeqAndSite(@RequestParam int seq,@RequestParam String site) {
         List<IssueManagement> getSeqAndSite = serviceLifecycle.requestIssueManagementService().retrieve(seq,site);
         return getSeqAndSite;
     }
 
-    @PostMapping(path="/search")
+    pls comment code by rule
+    @PostMapping(path="/search") <-- pls check, if not use remove
     public List<IssueManagement> searchByConditions(@RequestBody IssueManagement issueManagement) throws ParseException {
         return this.serviceLifecycle.requestIssueManagementService().searchIssue(issueManagement.getSite(),
                 issueManagement.getModule(), issueManagement.getDivisionFlag(), issueManagement.getAppliedPeriodFlag(),
@@ -59,7 +68,8 @@ public class IssueManagementResource {
                 issueManagement.getContents(), issueManagement.getContentsKR(), issueManagement.getDeveloper());
     }
 
-    @GetMapping(path="/search-content")
+    pls comment code by rule
+    @GetMapping(path="/search-content") <-- replace search-content to search
     public List<IssueManagementDto> searchByContents(@RequestParam(required = false) String contents,
                                                   @RequestParam(required = false) String site,
                                                   @RequestParam(required = false) String module,
@@ -80,7 +90,8 @@ public class IssueManagementResource {
                 toRegistrationEndDate,fromRequestStartDate,toRequestEndDate);
     }
 
-    @GetMapping(path="/find")
+    pls comment code by rule
+    @GetMapping(path="/find") <-- pls check, if not use remove
     public List<IssueManagementDto> findIssueDto(@RequestParam(required = false) String contents,
                                                  @RequestParam(required = false) String site,
                                                  @RequestParam(required = false) String module,

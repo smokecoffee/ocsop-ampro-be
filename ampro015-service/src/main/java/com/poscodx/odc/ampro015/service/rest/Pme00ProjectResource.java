@@ -38,6 +38,15 @@ public class Pme00ProjectResource {
     }
 
     @CrossOrigin
+    @PostMapping("/search-include-task")
+    public Map<String, Object> findProjectListWithTask(@RequestBody ProjectManagementDto dto,
+                                               @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
+                                               @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
+        PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithTask(serviceLifecycle, dto, pageNo, pageSize);
+    }
+
+    @CrossOrigin
     @GetMapping(path = "/monitoring")
     public Map<String, Object> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                         @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {

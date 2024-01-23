@@ -44,6 +44,7 @@ public class IssueManagementLogic implements IssueManagementService {
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.create(newIssueManagement);
+        pls check to upload file at here
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
@@ -53,6 +54,7 @@ public class IssueManagementLogic implements IssueManagementService {
     public IssueManagementResponse remove(IssueManagementId seq) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.delete(seq);
+        pls remove file, confirm with Mr Tri
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("This issue has been deleted");
         return response;

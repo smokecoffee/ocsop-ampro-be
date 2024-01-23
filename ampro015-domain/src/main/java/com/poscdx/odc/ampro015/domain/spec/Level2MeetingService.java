@@ -1,9 +1,6 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllMeetingResponse;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
-import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
-import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 
 import java.util.List;
@@ -52,4 +49,5 @@ public interface Level2MeetingService {
     Pme00AllRoomResponse getListRoom(ServiceLifecycle serviceLifecycle);
 
     Pme00AllMeetingResponse getMeetingByEndDate(ServiceLifecycle serviceLifecycle);
+
 }

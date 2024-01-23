@@ -3,10 +3,11 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2QrCodeService;
-import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
@@ -14,13 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Level2QrCodeLogic implements Level2QrCodeService {
 
@@ -205,23 +200,23 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
 
     @Override
     public String uploadFile(String folderAssetName, MultipartFile image) {
-        String fileName = image.getOriginalFilename();
-        String resultString = "";
-        Path root = Paths.get(Constants.UPLOAD_STATIC_ASSET_FOLDER_PATH + "\\");
-        try {
-            if (!Files.exists(root.resolve(folderAssetName))) {
-                Files.createDirectories(root.resolve(folderAssetName));
-            }
-            Path file = root.resolve(folderAssetName).resolve(image.getOriginalFilename());
-            try (OutputStream os = Files.newOutputStream(file)) {
-                os.write(image.getBytes());
-            }
-            resultString = fileName;
-        } catch (Exception e) {
-            logger.error("Failed to upload file: {}", e.getMessage(), e);
-            resultString = "Upload unsuccessfully!";
-        }
-        return resultString;
+//        String fileName = image.getOriginalFilename();
+//        String resultString = "";
+//        Path root = Paths.get(Constants.UPLOAD_STATIC_ASSET_FOLDER_PATH + "\\");
+//        try {
+//            if (!Files.exists(root.resolve(folderAssetName))) {
+//                Files.createDirectories(root.resolve(folderAssetName));
+//            }
+//            Path file = root.resolve(folderAssetName).resolve(image.getOriginalFilename());
+//            try (OutputStream os = Files.newOutputStream(file)) {
+//                os.write(image.getBytes());
+//            }
+//            resultString = fileName;
+//        } catch (Exception e) {
+//            logger.error("Failed to upload file: {}", e.getMessage(), e);
+//            resultString = "Upload unsuccessfully!";
+//        }
+        return null;
     }
 
 }

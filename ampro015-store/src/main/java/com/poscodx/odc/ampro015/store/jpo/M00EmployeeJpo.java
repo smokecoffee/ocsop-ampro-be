@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,8 +10,8 @@ import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -45,6 +46,7 @@ public class M00EmployeeJpo implements Serializable {
     private String phone;
     @Column(name = "ADDRESS")
     private String address;
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "PHOTO")
     private String avatar;
     @Column(name = "ASSET_NUMBER_PC")
@@ -95,5 +97,4 @@ public class M00EmployeeJpo implements Serializable {
     public static String decodePasswordByBase64(String requestPassword) {
         return new String(Base64.getDecoder().decode(StringUtils.defaultIfBlank(requestPassword, "")));
     }
-
 }

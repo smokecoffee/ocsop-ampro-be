@@ -3,7 +3,6 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.utils.Constants;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
@@ -30,7 +29,7 @@ public class A01Resource {
     private final ServiceLifecycle serviceLifecycle;
 
     @CrossOrigin
-    @GetMapping(path = "/")
+    @GetMapping(path = "/view-asset/")
     public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
         return this.serviceLifecycle.requestLevel2QrCodeService().getAsset(serviceLifecycle, token);

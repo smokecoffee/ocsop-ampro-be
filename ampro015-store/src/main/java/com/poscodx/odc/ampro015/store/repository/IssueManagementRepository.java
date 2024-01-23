@@ -37,7 +37,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                             "and ((:toStartDate IS NULL) OR (ism.registration_date <= :toStartDate))\n"+
                             "and ((:fromEndDate IS NULL) OR (ism.request_date >= :fromEndDate ))\n" +
                             "and ((:toEndDate IS NULL) OR (ism.request_date <= :toEndDate))\n"
-            , nativeQuery = true)
+            , nativeQuery = true) <--- bouble check and refactor same Pme00ProjectInfoRepository.findProjectInfo
     List<Object[]> findIssueInfo( @Param("contents") String contents,
                                             @Param("site") String site,
                                             @Param("module") String modules,
