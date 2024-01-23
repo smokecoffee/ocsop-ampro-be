@@ -21,7 +21,7 @@ public class M99DailyReportResource {
     private final ServiceLifecycle serviceLifecycle;
     @CrossOrigin
     @PostMapping("/search")
-    public List<M99DailyReport> findDailyReportList(@RequestBody M99DailyReport dto,
+    public Map<String, Object> findDailyReportList(@RequestBody M99DailyReport dto,
                                                     @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                     @RequestParam(required = false, defaultValue = "0", name = "pageSize") int pageSize) throws SQLException {
         return this.serviceLifecycle.requestM99DailyReportService().findDailyReport(dto, pageNo, pageSize);

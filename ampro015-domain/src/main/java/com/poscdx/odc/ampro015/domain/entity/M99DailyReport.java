@@ -27,6 +27,7 @@ public class M99DailyReport {
     private String empName;
     private Date fromDate;
     private Date toDate;
+    private String empImg;
 
     public M99DailyReport(Object[] object) {
         this.seq = (int) object[0];
@@ -42,6 +43,7 @@ public class M99DailyReport {
         this.lastUpdateTimestamp = (Date) object[10];
         this.status = object[11] == null ? 0 : (int) object[11];
         this.empName = (String) object[12];
+        this.empImg = "http://172.25.219.61:8080/img/" + (String) object[13];
     }
 
 }

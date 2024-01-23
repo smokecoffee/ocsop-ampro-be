@@ -7,9 +7,7 @@ import com.poscdx.odc.ampro015.domain.store.M99DailyReportStore;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class M99DailyReportLogic implements M99DailyReportService {
     private final M99DailyReportStore store;
@@ -54,7 +52,7 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public List<M99DailyReport> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize) {
+    public Map<String, Object> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize) {
         Pageable pageable;
         if (pageSize == 0) {
             pageable = Pageable.unpaged();
@@ -62,14 +60,22 @@ public class M99DailyReportLogic implements M99DailyReportService {
             pageable = PageRequest.of(pageNo, pageSize);
         }
 
-        List<Object[]> resultList = this.store.findDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
+        List<Object[]> dailyReportList = this.store.findDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
                                                                 m99DailyReport.getFromDate(), m99DailyReport.getToDate(), pageable);
-        List<M99DailyReport> dailyReportList = new ArrayList<>();
-        for (Object[] obj : resultList) {
-            dailyReportList.add(new M99DailyReport(obj));
+        List<M99DailyReport> infoList = new ArrayList<>();
+        for (Object[] obj : dailyReportList) {
+            infoList.add(new M99DailyReport(obj));
         }
 
-        return dailyReportList;
+        Map<String, Object> rs = new HashMap<>();
+
+        int total = this.store.countDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
+                                                    m99DailyReport.getFromDate(), m99DailyReport.getToDate());
+
+        rs.put("total", total);
+        rs.put("info", infoList);
+
+        return rs;
     }
 
 }
