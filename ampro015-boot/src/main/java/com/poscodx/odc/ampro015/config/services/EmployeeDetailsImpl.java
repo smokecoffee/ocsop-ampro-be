@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.config.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 
 
@@ -42,7 +43,8 @@ public class EmployeeDetailsImpl implements UserDetails {
     this.username = username;
     this.email = email;
     //this.avatar = avatar;
-    this.avatar = "http://172.25.219.61:8080/img/" + avatar;
+    this.avatar = (avatar == null || ((String) avatar).isEmpty()) ? null :
+            ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + avatar;
     this.password = password;
     this.role = role;
     this.authorities = authorities;
