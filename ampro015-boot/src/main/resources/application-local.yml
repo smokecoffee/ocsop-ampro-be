@@ -12,6 +12,14 @@ datasource:
 #  username: dev
 #  password: dbdev
 
+
+#  schema: posctzn
+#  url: jdbc:mariadb://172.25.219.61:3306/posctzn
+#  username: dev
+#  password: dbdev
+
+
+
   url: jdbc:mariadb://localhost:3306/posctzn
   username: root
   password: 123456
