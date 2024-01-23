@@ -59,4 +59,9 @@ public class M99DailyReportJpaStore implements M99DailyReportStore {
     public List<Object[]> findDailyReport(String employeeId, String projectNumber, Date fromDate, Date toDate, Pageable pageable) {
         return this.repository.findDailyReport(employeeId, projectNumber, fromDate, toDate, pageable);
     }
+
+    @Override
+    public int countDailyReport(String employeeId, String projectNumber, Date fromDate, Date toDate) {
+        return this.repository.countDailyReport(employeeId, projectNumber, fromDate, toDate);
+    }
 }
