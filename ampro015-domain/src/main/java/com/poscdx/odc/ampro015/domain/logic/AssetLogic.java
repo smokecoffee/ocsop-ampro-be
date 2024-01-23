@@ -40,12 +40,17 @@ public class AssetLogic implements AssetService {
 
     @Override
     public List<Asset> findAssetInfos(String owner, int status) {
-        return this.store.retrieveByOwnerAndStatus(owner,status);
+        return this.store.retrieveByOwnerAndStatus(owner, status);
     }
 
     @Override
     public Asset findByToken(String token) {
         return this.store.findByToken(token);
+    }
+
+    @Override
+    public List<Asset> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status) {
+        return this.store.findByAssetAndOwnerAndStatus(assetId, emplId, status);
     }
 
 }

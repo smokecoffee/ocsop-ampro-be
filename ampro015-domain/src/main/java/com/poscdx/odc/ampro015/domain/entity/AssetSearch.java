@@ -11,7 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AssetSearch extends PoscoEntity {
-    private String owner;
+    private int assetId;
+    private String empId;
     private int status;
     public String toJson() {
         return JsonUtil.toJson(this);

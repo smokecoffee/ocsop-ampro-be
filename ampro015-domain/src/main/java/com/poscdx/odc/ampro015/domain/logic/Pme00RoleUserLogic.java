@@ -38,4 +38,9 @@ public class Pme00RoleUserLogic implements Pme00RoleUserService {
         this.store.delete(id);
     }
 
+    @Override
+    public  List<Pme00RoleUser> findRoleUserByEmpId(String empId){
+        return this.store.findRoleUserByEmpId(empId);
+    }
+
 }

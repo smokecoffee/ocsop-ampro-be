@@ -1,27 +1,21 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.*;
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
-import com.poscdx.odc.ampro015.domain.utils.ExportExcel;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
-import com.poscdx.odc.ampro015.domain.utils.Constants;
-import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectsArgs;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.util.List;
 
 
+@RequiredArgsConstructor
 public class Level2Logic implements Level2Service {
+
+    private final MinioClient minioClient;
 
     @Override
     public String renderQRcode(String token) {
@@ -30,14 +24,29 @@ public class Level2Logic implements Level2Service {
     }
 
     @Override
-    public String uploadFile(String serviceName, MultipartFile image) {
-        String fileName = image.getOriginalFilename();
-        Path root = Paths.get(Constants.UPLOAD_FILE_PATH + serviceName + "\\" + fileName);
+    public String uploadFile(String bucketName, String serviceName, MultipartFile file) {
         try {
-            image.transferTo(root);
+            final String fileName = serviceName + "/" + file.getOriginalFilename();
+            InputStream inputStream = file.getInputStream();
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .stream(inputStream, inputStream.available(), -1)
+                    .contentType(file.getContentType())
+                    .build());
+            return fileName;
         } catch (Exception e) {
             return "Upload unsuccessfully!";
         }
-        return fileName;
+    }
+
+    @Override
+    public String removeFile(String bucketName, String serviceName, List<String> filenameList) {
+        try {
+            minioClient.removeObjects(bucketName, filenameList);
+            return "Delete unsuccessfully!";
+        } catch (Exception e) {
+            return "Delete unsuccessfully!";
+        }
     }
 }

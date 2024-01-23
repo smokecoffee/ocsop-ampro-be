@@ -59,5 +59,14 @@ public class M00EmployeeLogic implements M00EmployeeService {
         }
         return m00EmployeeList;
     }
+    @Override
+    public List<Object[]> findAllEmployee(){
+        return store.findAllEmployee();
+    }
+
+    @Override
+    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo){
+        return store.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
+    }
 
 }

@@ -48,3 +48,11 @@ bezkoder:
 
 cross:
   origins: "http://localhost:3000"
+
+
+
+  minio:
+    url: ${minio.url}
+    accessKey: ${minio.accessKey}
+    secretKey: ${minio.secretKey}
+    bucketName: ${minio.bucketName}

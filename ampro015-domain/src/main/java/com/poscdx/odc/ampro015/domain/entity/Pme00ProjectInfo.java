@@ -1,11 +1,9 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscdx.odc.ampro015.domain.utils.Constants;
-import com.poscoict.base.share.domain.PoscoEntity;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
-import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -56,10 +54,13 @@ public class Pme00ProjectInfo {
         this.framework = (String) objects[5];
         this.startDate = (Date) objects[6];
         this.endDate = (Date) objects[7];
-        this.image = (objects[8] == null || ((String) objects[8]).isEmpty()) ? null : Constants.UPLOAD_FILE_PATH + "Project\\" + (String) objects[8];
+        this.image = (objects[8] == null || ((String) objects[8]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[8];
         this.koreaPmName = (String) objects[9];
-        this.koreaPmImage = "http://172.25.219.61:8080/img/" + (String) objects[10];
+        this.koreaPmImage = (objects[10] == null || ((String) objects[10]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[10];
         this.vietnamPlName = (String) objects[11];
-        this.vietnamPlImage = "http://172.25.219.61:8080/img/" + (String) objects[12];
+        this.vietnamPlImage = (objects[12] == null || ((String) objects[12]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[12];
     }
 }

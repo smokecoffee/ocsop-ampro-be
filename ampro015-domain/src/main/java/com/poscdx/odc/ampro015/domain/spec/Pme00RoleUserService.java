@@ -16,4 +16,6 @@ public interface Pme00RoleUserService {
 
     void remove(int id);
 
+    List<Pme00RoleUser> findRoleUserByEmpId(String empId);
+
 }

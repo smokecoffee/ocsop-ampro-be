@@ -166,18 +166,18 @@ public class Level2MeetingLogic implements Level2MeetingService {
         } else {
             responseEntity.setStatus(HttpStatus.OK.value());
             List<Pme00EmployeeMeeting> editEmpMeets = listMeeting.get(0).getListMember();
+
             List<Pme00EmployeeMeeting> checkEmpMeets = serviceLifecycle.requestPme00EmployeeMeetingService()
                     .findByMeetingId(meetingId);
-            for(int j=0; j<checkEmpMeets.size(); j++){
-                if(meetingId == checkEmpMeets.get(j).getMeetingId()){
-                    int empMeetingId = checkEmpMeets.get(j).getEmpMeetId();
+            for (Pme00EmployeeMeeting checkEmpMeet : checkEmpMeets) {
+                if (meetingId == checkEmpMeet.getMeetingId()) {
+                    int empMeetingId = checkEmpMeet.getEmpMeetId();
                     serviceLifecycle.requestPme00EmployeeMeetingService().remove(empMeetingId);
                 }
             }
             for(int i = 0; i<editEmpMeets.size(); i++){
                   editEmpMeets.get(i).setEmpId(listMeeting.get(0).getListMember().get(i).getEmpId());
                   editEmpMeets.get(i).setEmpName(listMeeting.get(0).getListMember().get(i).getEmpName());
-
             }
             serviceLifecycle.requestPme00EmployeeMeetingService().modify(editEmpMeets);
             serviceLifecycle.requestPme00MeetingService().modify(listMeeting);
@@ -196,6 +196,7 @@ public class Level2MeetingLogic implements Level2MeetingService {
     @Override
     public Pme00AllMeetingResponse getListMeeting(ServiceLifecycle serviceLifecycle){
         Pme00AllMeetingResponse responseEntities = new Pme00AllMeetingResponse();
+//        List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
         List<Pme00Meeting> pme00MeetingList= serviceLifecycle.requestPme00MeetingService().findAll();
         for (Pme00Meeting pme00Meeting : pme00MeetingList) {
             int meetingId = pme00Meeting.getMeetingId();
@@ -211,7 +212,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
         responseEntities.setMessage("Get all meeting successfully");
         return responseEntities;
     }
-
     /**
      * Get List  Room function
      * @return Pme00AllMeetingResponse

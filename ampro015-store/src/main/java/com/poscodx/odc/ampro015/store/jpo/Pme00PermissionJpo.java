@@ -24,6 +24,8 @@ public class Pme00PermissionJpo
     private String name;
     @Column(name = "DESCRIPTION")
     private String description;
+    @Column(name = "GROUP")
+    private int group;
 
     public Pme00PermissionJpo() {
     }
