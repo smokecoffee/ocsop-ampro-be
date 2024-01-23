@@ -33,72 +33,72 @@ import java.util.stream.Collectors;
 @RequestMapping("/author")
 public class AuthResource {
 
-  private final AuthenticationManager authenticationManager;
-  private final ServiceLifecycle serviceLifecycle;
-  private final PasswordEncoder encoder;
-  private final JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+    private final ServiceLifecycle serviceLifecycle;
+    private final PasswordEncoder encoder;
+    private final JwtUtils jwtUtils;
 
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody M00Employee signUpRequest) {
-    return (ResponseEntity<?>) ResponseEntity.ok();
-  }
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody M00Employee signUpRequest) {
+        return (ResponseEntity<?>) ResponseEntity.ok();
+    }
 
-  @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getId(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getId(), loginRequest.getPassword()));
 
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.generateJwtToken(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
 
-    //EmployeeDetailsImpl userDetails1 = (EmployeeDetailsImpl) authentication.getPrincipal();
-    EmployeeDetailsImpl userDetails = (EmployeeDetailsImpl) authentication.getPrincipal();
+        //EmployeeDetailsImpl userDetails1 = (EmployeeDetailsImpl) authentication.getPrincipal();
+        EmployeeDetailsImpl userDetails = (EmployeeDetailsImpl) authentication.getPrincipal();
 
-    List<String> permissions = userDetails.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.toList());
+   List<String> permissions1 = userDetails.getAuthorities().stream()
+           .map(GrantedAuthority::getAuthority)
+           .collect(Collectors.toList());
 
-    LoginUserInfo userInfo = LoginUserInfo.builder()
-            .id(userDetails.getId())
-            .username(userDetails.getUsername())
-            .email(userDetails.getEmail())
-            .roleId(userDetails.getRole())
-            .avatar(userDetails.getAvatar())
-            .build();
-
-    return ResponseEntity.ok(new JwtResponse(jwt,
-            userInfo,
-            permissions));
-  }
-
-  @PostMapping("/logout")
-  public ResponseEntity<?> logout(HttpServletRequest request) {
-    String jwtToken = parseJwt(request);
-    System.out.println("jwt token: " + jwtToken);
-    if(jwtToken == null || jwtToken.isEmpty()){
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in yet!");
-    } else {
-      if(serviceLifecycle.requestExcanAccessTokenService().findByToken(jwtToken).isEmpty()){
-        //Save logout access token to blacklist
-        LogoutAccessToken token = LogoutAccessToken.builder()
-                .token(jwtToken)
-                .status(1) //blacklist token
+        LoginUserInfo userInfo = LoginUserInfo.builder()
+                .id(userDetails.getId())
+                .username(userDetails.getUsername())
+                .email(userDetails.getEmail())
+                .listRole(userDetails.getRole())
+                .avatar(userDetails.getAvatar())
                 .build();
-        serviceLifecycle.requestExcanAccessTokenService().register(token);
-      }
-      return ResponseEntity.ok().body("Logout successfully!");
-    }
-  }
 
-  private String parseJwt(HttpServletRequest request) {
-    String headerAuth = request.getHeader("Authorization");
-    System.out.println("Authorization: " + headerAuth);
-
-    if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-      return headerAuth.substring(7);
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userInfo,
+                userDetails.getListPermission()));
     }
 
-    return null;
-  }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        String jwtToken = parseJwt(request);
+        System.out.println("jwt token: " + jwtToken);
+        if (jwtToken == null || jwtToken.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in yet!");
+        } else {
+            if (serviceLifecycle.requestLogoutAccessTokenService().findByToken(jwtToken).isEmpty()) {
+                //Save logout access token to blacklist
+                LogoutAccessToken token = LogoutAccessToken.builder()
+                        .token(jwtToken)
+                        .status(1) //blacklist token
+                        .build();
+                serviceLifecycle.requestLogoutAccessTokenService().register(token);
+            }
+            return ResponseEntity.ok().body("Logout successfully!");
+        }
+    }
+
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+        System.out.println("Authorization: " + headerAuth);
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7);
+        }
+
+        return null;
+    }
 }

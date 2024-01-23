@@ -1,17 +1,17 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.LogoutAccessToken;
-import com.poscdx.odc.ampro015.domain.spec.ExcanAccessTokenService;
-import com.poscdx.odc.ampro015.domain.store.ExcanAccessTokenStore;
+import com.poscdx.odc.ampro015.domain.spec.LogoutAccessTokenService;
+import com.poscdx.odc.ampro015.domain.store.LogoutAccessTokenStore;
 
 import java.util.List;
 
 
-public class ExcanAccessTokenLogic implements ExcanAccessTokenService
+public class LogoutAccessTokenLogic implements LogoutAccessTokenService
 {
-    private final ExcanAccessTokenStore store;
+    private final LogoutAccessTokenStore store;
 
-    public ExcanAccessTokenLogic(ExcanAccessTokenStore store) {
+    public LogoutAccessTokenLogic(LogoutAccessTokenStore store) {
         this.store = store;
     }
 

@@ -55,4 +55,9 @@ public class Pme00RoleUserJpaStore implements Pme00RoleUserStore {
         return Pme00RoleUserJpo.toDomains(this.repository.findByRoleId(roleId));
     }
 
+    @Override
+    public List<Pme00RoleUser> findByEmployeeId(String empId) {
+        return Pme00RoleUserJpo.toDomains(this.repository.findByEmpId(empId));
+    }
+
 }

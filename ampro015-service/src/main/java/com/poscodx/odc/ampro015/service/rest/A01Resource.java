@@ -84,9 +84,10 @@ public class A01Resource {
     @PostMapping("/search")
     public List<AssetInfoDto> findAssetList(@RequestBody AssetSearch assetSearch) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
-        String owner = assetSearch.getOwner();
+        int assetID = assetSearch.getAssetId();
+        String empId = assetSearch.getEmpId();
         int status = assetSearch.getStatus();
-        return this.serviceLifecycle.requestLevel2QrCodeService().findAssetList(serviceLifecycle, owner, status);
+        return this.serviceLifecycle.requestLevel2QrCodeService().findAssetList(serviceLifecycle, assetID, empId, status);
     }
 
     /**
@@ -109,7 +110,7 @@ public class A01Resource {
         String headerValue = "attachment; filename=QR-CODE_" + currentDateTime+ ".xlsx";
         response.setHeader(headerKey,headerValue);
         AssetSearch assetSearch = new AssetSearch();
-        assetSearch.setOwner(owner);
+        assetSearch.setEmpId(owner);
         assetSearch.setStatus(status);
 
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset Export Excel QR-CODE_" + currentDateTime+ ".xlsx", this);
@@ -141,7 +142,7 @@ public class A01Resource {
     @CrossOrigin
     @PostMapping(path = "/uploadImage/Assets/{folderName}")
     public String uploadFile(@PathVariable("folderName") String folderAssetName,
-            @RequestParam("file") MultipartFile image) {
+                             @RequestParam("file") MultipartFile image) {
         // http://localhost:9720/asset/uploadImage/Assets/assetId
         return this.serviceLifecycle.requestLevel2QrCodeService().uploadFile(folderAssetName, image);
     }
