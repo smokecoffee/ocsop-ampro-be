@@ -77,46 +77,50 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         String passwordToMd5Hex = DigestUtils
                 .md5Hex(newEmployee.getPassword());
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
-        try{
-            M00Employee employee = new M00Employee();
-            employee.setEmpId(newEmployee.getEmpId());
-            employee.setSiteCode(newEmployee.getSite());
-            employee.setAvatar(newEmployee.getAvatar());
-            employee.setName(newEmployee.getName());
-            employee.setPassword(passwordToMd5Hex);
-            employee.setBirthday(newEmployee.getBirthDate());
-            employee.setJoinDate(newEmployee.getJoinDate());
-            employee.setMail(newEmployee.getEmail());
-            employee.setPersonalMail(newEmployee.getPersonalMail());
-            employee.setMobile(newEmployee.getMobile());
-            employee.setAddress(newEmployee.getAddress());
-            employee.setEmpStatus(newEmployee.getStatus());
-            employee.setRole("ADMIN");
-            M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
-
-            List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
-            Set<Integer> setId = listRoleUser.stream()
-                    .map(Pme00RoleUser::getRoleId)
-                    .collect(Collectors.toSet());
-
-            for (Pme00RoleUser pme00RoleUser : listRoleUser) {
-                if (setId.contains(pme00RoleUser.getRoleId())) {
-                    serviceLifecycle.requestPme00RoleUserService()
-                            .register(pme00RoleUser);
-                    setId.remove(pme00RoleUser.getRoleId());
-                }
-            }
-
-            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
-            pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
-
-        } catch (Exception e){
-//            e.printStackTrace();
+        M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService().find(newEmployee.getEmpId());
+        if(checkEmployee!=null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-            pme00AllLevel2EmployeeResponse.setMessage("This employee has been created");
+            pme00AllLevel2EmployeeResponse.setMessage("Employee is exits");
+        }else {
+            try{
+                M00Employee employee = new M00Employee();
+                employee.setEmpId(newEmployee.getEmpId());
+                employee.setSiteCode(newEmployee.getSite());
+                employee.setAvatar(newEmployee.getAvatar());
+                employee.setName(newEmployee.getName());
+                employee.setPassword(passwordToMd5Hex);
+                employee.setBirthday(newEmployee.getBirthDate());
+                employee.setJoinDate(newEmployee.getJoinDate());
+                employee.setMail(newEmployee.getEmail());
+                employee.setPersonalMail(newEmployee.getPersonalMail());
+                employee.setMobile(newEmployee.getMobile());
+                employee.setAddress(newEmployee.getAddress());
+                employee.setEmpStatus(newEmployee.getStatus());
+                employee.setRole("ADMIN");
+                M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
+
+                List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
+                Set<Integer> setId = listRoleUser.stream()
+                        .map(Pme00RoleUser::getRoleId)
+                        .collect(Collectors.toSet());
+
+                for (Pme00RoleUser pme00RoleUser : listRoleUser) {
+                    if (setId.contains(pme00RoleUser.getRoleId())) {
+                        serviceLifecycle.requestPme00RoleUserService()
+                                .register(pme00RoleUser);
+                        setId.remove(pme00RoleUser.getRoleId());
+                    }
+                }
+
+                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+                pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
+
+            } catch (Exception e){
+//            e.printStackTrace();
+                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                pme00AllLevel2EmployeeResponse.setMessage("This employee has been created");
+            }
         }
-//        pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
-//        pme00AllLevel2EmployeeResponse.setMessage("Add employee successfully");
         return pme00AllLevel2EmployeeResponse;
     }
     @Override
@@ -133,10 +137,9 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                                                         List<Pme00Employee> pme00EmployeeList){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String empId = pme00EmployeeList.get(0).getEmpId();
-        String passwordToMd5Hex = DigestUtils
-                .md5Hex(pme00EmployeeList.get(0).getPassword());
         Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
                 .searchPmeEmployee(serviceLifecycle, "", "", "", empId, "", "");
+        M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService().find(pme00EmployeeList.get(0).getEmpId());
         if(findEmployeeById==null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
@@ -158,7 +161,13 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setSiteCode(pme00EmployeeList.get(0).getSite());
             employee.setAvatar(pme00EmployeeList.get(0).getAvatar());
             employee.setName(pme00EmployeeList.get(0).getName());
-            employee.setPassword(passwordToMd5Hex);
+            if(pme00EmployeeList.get(0).getPassword().isEmpty()){
+                employee.setPassword(checkEmployee.getPassword());
+            }else {
+                String passwordToMd5Hex = DigestUtils
+                        .md5Hex(pme00EmployeeList.get(0).getPassword());
+                employee.setPassword(passwordToMd5Hex);
+            }
             employee.setBirthday(pme00EmployeeList.get(0).getBirthDate());
             employee.setJoinDate(pme00EmployeeList.get(0).getJoinDate());
             employee.setMail(pme00EmployeeList.get(0).getEmail());
