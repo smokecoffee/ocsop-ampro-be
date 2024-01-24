@@ -54,6 +54,10 @@ public class Pme00ProjectInfoJpo {
     @Column(name = "IMAGE")
     private String image;
 
+    @Convert(converter = StringCryptoConverter.class)
+    @Column(name = "FILE")
+    private String file;
+
     @Transient
     private String koreaPmName;
 

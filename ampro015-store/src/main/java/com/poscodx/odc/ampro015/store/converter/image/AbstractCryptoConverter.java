@@ -15,7 +15,10 @@ abstract class AbstractCryptoConverter<T> implements AttributeConverter<T, Strin
 
     @Override
     public T convertToEntityAttribute(String dbData) {
-        return stringToEntityAttribute(ConstantUtil.applyEmployeeAvatarPath(dbData, ""));
+        if (dbData != null && !dbData.isEmpty())
+            return stringToEntityAttribute(ConstantUtil.applyEmployeeAvatarPath(dbData, ""));
+        else
+            return stringToEntityAttribute("");
     }
 
     abstract T stringToEntityAttribute(String dbData);
