@@ -100,9 +100,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         for(Object[] objects : list){
             issueManagementDtoList.add(new IssueManagementDto(objects));
         }
-        for (IssueManagementDto dto : issueManagementDtoList) {
-
-        }
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
         return issueManagementDtoList;
