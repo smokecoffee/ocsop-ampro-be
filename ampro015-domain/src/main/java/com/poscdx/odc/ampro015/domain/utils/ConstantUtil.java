@@ -14,5 +14,12 @@ public class ConstantUtil {
         return (avatar == null || avatar.isEmpty()) ? null :
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + serviceName + avatar;
     }
+    public static void removeAvatarPath(String avatar, String serviceName) {
+        avatar = avatar.replace(ConstantUtil.UPLOAD_URL, "")
+                       .replace(ConstantUtil.UPLOAD_BUCKET, "");
+        if (avatar.lastIndexOf(serviceName) > 0) {
+            avatar = avatar.replaceFirst(serviceName + "/" , "");
+        }
+    }
 
 }
