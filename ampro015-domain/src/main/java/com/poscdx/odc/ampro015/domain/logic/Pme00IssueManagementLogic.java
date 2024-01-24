@@ -77,7 +77,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     public IssueManagementResponse remove(IssueManagementId seq) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.delete(seq);
-       // pls remove file, confirm with Mr Tri
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("This issue has been deleted");
         return response;
