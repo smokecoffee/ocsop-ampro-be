@@ -2,13 +2,13 @@ package com.poscodx.odc.ampro015.store;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
-import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
 import com.poscodx.odc.ampro015.store.repository.IssueManagementRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.Date;
 import java.util.List;
@@ -54,10 +54,12 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
+    public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                                        String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate, Pageable pageable) {
         return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate,requestFromStartDate,requestToEndDate);
+                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
+
 
     @Override
     public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
@@ -72,5 +74,11 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     @Override
     public List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, String request_date) {
         return this.repository.findIssueManagementDto(contents, site, modules, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
+    }
+
+    @Override
+    public int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
+        return this.repository.countIssueReport(contents, site, modules, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
 }

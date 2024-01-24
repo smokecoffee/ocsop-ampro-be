@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface Pme00IssueManagementService {
 
@@ -19,11 +20,11 @@ public interface Pme00IssueManagementService {
 
     IssueManagementResponse remove(IssueManagementId seq);
 
-    List<IssueManagementDto> findIssueInfo(String contents, String site, String module, String division_flag,
-                                        String applied_period_flag, String accept_flag, String requester_confirm,
-                                        String requester, String contents_kr, String developer,
-                                        String fromRegistrationStartDate,String toRegistrationEndDate,
-                                        String fromRequestStartDate,String toRequestEndDate);
+    Map<String,Object> findIssueInfo(String contents, String site, String module, String division_flag,
+                                     String applied_period_flag, String accept_flag, String requester_confirm,
+                                     String requester, String contents_kr, String developer,
+                                     String fromRegistrationStartDate, String toRegistrationEndDate,
+                                     String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize);
 
     List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
 

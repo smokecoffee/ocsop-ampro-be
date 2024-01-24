@@ -4,10 +4,12 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Pme00IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import java.util.*;
 
 public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
 
@@ -58,10 +60,14 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     }
 
     @Override
-    public List<IssueManagementDto> findIssueInfo(String contents, String site, String module, String division_flag,
-                                               String applied_period_flag, String accept_flag, String requester_confirm,
-                                               String requester, String contents_kr, String developer,
-                                               String fromRegistrationStartDate,String toRegistrationEndDate,String fromRequestStartDate,String toRequestEndDate) {
+    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) {
+        Pageable pageable;
+        if(pageSize == 0){
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
+        }
+
         IssueManagementResponse response = new IssueManagementResponse();
         if(contents == null){
             contents = "";
@@ -94,15 +100,22 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
             developer = "";
         }
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate,fromRequestStartDate, toRequestEndDate);
+                accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
         List<IssueManagementDto> issueManagementDtoList = new ArrayList<>();
         for(Object[] objects : list){
             issueManagementDtoList.add(new IssueManagementDto(objects));
         }
+        Map<String, Object> rs = new HashMap<>();
+        int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
+                accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate);
+        rs.put("total", total);
+        rs.put("info", issueManagementDtoList);
+
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
-        return issueManagementDtoList;
+        return rs;
     }
+
 
     @Override
     public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer) {
