@@ -1,7 +1,7 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Password;
+import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +57,7 @@ public class Level2Resource {
 
     @CrossOrigin
     @GetMapping(path = "/test")
-    public List<Pme00Password> test() {
+    public List<Pme00PasswordToken> test() {
         return this.serviceLifecycle.requestPasswordService().findAll();
     }
 }

@@ -26,7 +26,7 @@ public interface ServiceLifecycle {
     Level2TaskService requestLevel2TaskService();
     Pme00RoleService requestPme00RoleService();
     Pme00RoleUserService requestPme00RoleUserService();
-    Pme00PasswordService requestPasswordService();
+    Pme00PasswordTokenService requestPasswordService();
     Pme00PermissionService requestPme00PermissionService();
     Pme00PerRoleService requestPme00PerRoleService();
 

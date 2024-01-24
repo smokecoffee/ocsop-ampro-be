@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Pme00Password
+public class Pme00PasswordToken
 {
     private int id;
     private String empId;

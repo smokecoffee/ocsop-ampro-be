@@ -1,6 +1,6 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
-import com.poscdx.odc.ampro015.domain.entity.Pme00Password;
+import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @Entity(name = "Pme00Password")
 @Table(name = "TB_PME00_RESET_PASSWORD", schema = "POSCTZN")
-public class Pme00PasswordJpo
+public class Pme00PasswordTokenJpo
 {
     @Id
     @Column(name = "ID")
@@ -36,20 +36,20 @@ public class Pme00PasswordJpo
     @Column(name = "UPDATE_BY")
     private String updateBy;
 
-    public Pme00PasswordJpo() {
+    public Pme00PasswordTokenJpo() {
     }
 
-    public Pme00PasswordJpo(Pme00Password entity) {
+    public Pme00PasswordTokenJpo(Pme00PasswordToken entity) {
         BeanUtils.copyProperties(entity, this);
     }
 
-    public Pme00Password toDomain() {
-        Pme00Password retVal = new Pme00Password();
+    public Pme00PasswordToken toDomain() {
+        Pme00PasswordToken retVal = new Pme00PasswordToken();
         BeanUtils.copyProperties(this, retVal);
         return retVal;
     }
 
-    public static List<Pme00Password> toDomains(Iterable<Pme00PasswordJpo> jpos) {
-        return StreamSupport.stream(jpos.spliterator(), false).map((Pme00PasswordJpo::toDomain)).collect(Collectors.toList());
+    public static List<Pme00PasswordToken> toDomains(Iterable<Pme00PasswordTokenJpo> jpos) {
+        return StreamSupport.stream(jpos.spliterator(), false).map((Pme00PasswordTokenJpo::toDomain)).collect(Collectors.toList());
     }
 }
