@@ -28,7 +28,15 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     public List<IssueManagement> retrieveAll() {
         return this.store.retrieveAll();
     }
-
+    /**
+     * Modify issue management
+     *
+     * @param //ServiceLifecycle serviceLifecycle,IssueManagement modifyIssueManagement
+     * @param //dto
+     * @return Issue management response
+     * @author 202307_PhatNC
+     * @since: 2024-01-24
+     */
     @Override
     public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle,IssueManagement issueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
@@ -38,7 +46,15 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         return response;
     }
 
-
+    /**
+     * Create issue management
+     *
+     * @param //ServiceLifecycle serviceLifecycle,IssueManagement newIssueManagement
+     * @param //dto
+     * @return Issue management response
+     * @author 202307_PhatNC
+     * @since: 2024-01-24
+     */
     @Override
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
@@ -48,7 +64,15 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         response.setMessage("This issue has been created");
         return response;
     }
-
+    /**
+     * Remove issue management
+     *
+     * @param //IssueManagementId seq
+     * @param //dto
+     * @return Issue management response
+     * @author 202307_PhatNC
+     * @since: 2024-01-24
+     */
     @Override
     public IssueManagementResponse remove(IssueManagementId seq) {
         IssueManagementResponse response = new IssueManagementResponse();
@@ -59,6 +83,15 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         return response;
     }
 
+    /**
+     * Find issue management
+     *
+     * @param //IssueManagementId seq
+     * @param //dto
+     * @return Map response
+     * @author 202307_PhatNC
+     * @since: 2024-01-24
+     */
     @Override
     public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) {
         Pageable pageable;
@@ -115,8 +148,15 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         response.setMessage("OK");
         return rs;
     }
-
-
+    /**
+     * Search issue management
+     *
+     * @param //site,module,division_flag,applied_period_flag,accept_flag,request_confirm,requester,contents,contents_kr,developer
+     * @param //dto
+     * @return List IssueManagement
+     * @author 202307_PhatNC
+     * @since: 2024-01-24
+     */
     @Override
     public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer) {
         IssueManagementResponse response = new IssueManagementResponse();
@@ -126,6 +166,16 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         return list;
     }
 
+    /**
+     * findIssueDto
+     *
+     * @param //contents, site, module, division_flag, applied_period_flag,
+     *                 accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date
+     * @param //dto
+     * @return List IssueManagementDto
+     * @author 202307_PhatNC
+     * @since: 2024-01-24
+     */
     @Override
     public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, String request_date) {
         List<Object[]> resultList = this.store.findIssueManagementDto(contents, site, module, division_flag, applied_period_flag,
