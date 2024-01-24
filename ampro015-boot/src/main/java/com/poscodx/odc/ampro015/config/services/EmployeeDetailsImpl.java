@@ -18,7 +18,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Data
-public class EmployeeDetailsImpl implements UserDetails {
+public class
+EmployeeDetailsImpl implements UserDetails {
   private static final long serialVersionUID = 1L;
 
   private String id;
