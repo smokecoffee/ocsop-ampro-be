@@ -42,6 +42,13 @@ public class Level2Resource {
     }
 
     @CrossOrigin
+    @PostMapping(path = "/file-delete/{service}")
+    public String deleteFile(@PathVariable("service") String serviceName,
+                             @RequestBody List<String> filenameList) {
+        return this.serviceLifecycle.requestLevel2Service().removeFile(bucketName, serviceName, filenameList);
+    }
+
+    @CrossOrigin
     @GetMapping(path = "/getTaskStatus")
     public List<TaskStatusDto> getTaskStatus() {
         return this.serviceLifecycle.requestM00Codes030Service().getTaskStatus();

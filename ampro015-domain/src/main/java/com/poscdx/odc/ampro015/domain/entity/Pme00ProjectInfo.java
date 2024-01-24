@@ -58,9 +58,9 @@ public class Pme00ProjectInfo {
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[8];
         this.koreaPmName = (String) objects[9];
         this.koreaPmImage = (objects[10] == null || ((String) objects[10]).isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[10];
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[10];
         this.vietnamPlName = (String) objects[11];
         this.vietnamPlImage = (objects[12] == null || ((String) objects[12]).isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[12];
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[12];
     }
 }

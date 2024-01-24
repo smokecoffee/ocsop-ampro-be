@@ -46,7 +46,6 @@ public class M00EmployeeJpo implements Serializable {
     private String phone;
     @Column(name = "ADDRESS")
     private String address;
-    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "PHOTO")
     private String avatar;
     @Column(name = "ASSET_NUMBER_PC")
