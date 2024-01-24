@@ -51,7 +51,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @CrossOrigin
-    @PostMapping("/")
+    @PostMapping
     public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement) {
         return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement);
     }
