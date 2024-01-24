@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface IssueManagementRepository extends JpaRepository<IssueManagementJpo, IssueManagementId> {
-    @Query(value = "select * from tb_m00_issue_management tmim where seq like '%' and site like '%'",nativeQuery = true)
-    List<IssueManagementJpo> findBySeqAndSite(int seq,String site);
+    @Query(value = "SELECT * FROM TB_M00_ISSUE_MANAGEMENT  WHERE SEQ = :seq AND SITE LIKE :site",nativeQuery = true)
+    List<IssueManagementJpo> findBySeqAndSite(@Param("seq") int seq, @Param("site") String site);
 
     @Query(value =
             "SELECT\n" +
@@ -96,7 +96,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                             Pageable pageable
                                             );
 
-    @Query(value = "select * from tb_m00_issue_management tmim",nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_m00_issue_management tmim",nativeQuery = true)
     List<IssueManagementJpo> findAllRecord();
 
     @Query(value = "SELECT t.SITE \n" +
