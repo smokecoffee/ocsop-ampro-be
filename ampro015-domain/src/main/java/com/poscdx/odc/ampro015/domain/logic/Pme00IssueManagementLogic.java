@@ -42,7 +42,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         IssueManagementResponse response = new IssueManagementResponse();
         store.create(newIssueManagement);
         //pls check to upload file at here
-
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
