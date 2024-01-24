@@ -30,6 +30,7 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     private final Pme00RoleService pme00RoleService;
     private final Pme00RoleUserService pme00RoleUserService;
     private final Pme00PermissionService pme00PermissionService;
+    private final Pme00PasswordTokenService pme00PasswordTokenService;
     private final Pme00PerRoleService pme00PerRoleService;
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
@@ -138,6 +139,11 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     @Override
     public Pme00RoleUserService requestPme00RoleUserService() {
         return this.pme00RoleUserService;
+    }
+
+    @Override
+    public Pme00PasswordTokenService requestPasswordService() {
+        return this.pme00PasswordTokenService;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +43,21 @@ public class Level2Resource {
     }
 
     @CrossOrigin
+    @PostMapping(path = "/file-delete/{service}")
+    public String deleteFile(@PathVariable("service") String serviceName,
+                             @RequestBody List<String> filenameList) {
+        return this.serviceLifecycle.requestLevel2Service().removeFile(bucketName, serviceName, filenameList);
+    }
+
+    @CrossOrigin
     @GetMapping(path = "/getTaskStatus")
     public List<TaskStatusDto> getTaskStatus() {
         return this.serviceLifecycle.requestM00Codes030Service().getTaskStatus();
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/test")
+    public List<Pme00PasswordToken> test() {
+        return this.serviceLifecycle.requestPasswordService().findAll();
     }
 }
