@@ -20,7 +20,7 @@ public interface Pme00AnnouncementRepository extends JpaRepository<Pme00Announce
             "tpa.STATUS AS status,\n" +
             "tpa.DATE AS date,\n" +
             "tme.NAME AS creatorName, \n" +
-            "CONCAT('http://172.25.219.61:8080/img/',tme.PHOTO) AS avatar \n" +
+            "tme.PHOTO AS avatar \n" +
             "from tb_pme00_announcement tpa left join tb_m00_employee tme \n" +
             "on tpa.CREATOR_ID = tme.EMP_ID", nativeQuery = true)
     List<Map<String, String>> findAllAnnouncement();
@@ -33,7 +33,7 @@ public interface Pme00AnnouncementRepository extends JpaRepository<Pme00Announce
             "tpa.STATUS AS status,\n" +
             "tpa.DATE AS date,\n" +
             "tme.NAME AS creatorName, \n" +
-            "CONCAT('http://172.25.219.61:8080/img/',tme.PHOTO) AS avatar \n" +
+            "tme.PHOTO AS avatar \n" +
             "from tb_pme00_announcement tpa left join tb_m00_employee tme \n" +
             "on tpa.CREATOR_ID = tme.EMP_ID \n" +
             "WHERE  1= 1 \n" +

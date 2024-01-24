@@ -13,7 +13,7 @@ public interface Pme00EmployeeMeetingRepository extends JpaRepository<Pme00Emplo
             ",t.MEETING_ID \n" +
             ",t.EMP_ID \n" +
             ",t.EMP_NAME \n" +
-            ",CONCAT('http://172.25.219.61:8080/img/', p.PHOTO) as avatar \n" +
+            ",p.PHOTO as avatar \n" +
             "FROM tb_pme00_employee_meeting as t \n "+
             "JOIN tb_m00_employee as p on t.EMP_ID = p.EMP_ID \n"+
             "WHERE t.MEETING_ID = :meeting_id \n", nativeQuery = true)

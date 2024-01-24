@@ -4,10 +4,12 @@ import com.poscdx.odc.ampro015.domain.spec.Level2Service;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectsArgs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -33,8 +35,18 @@ public class Level2Logic implements Level2Service {
                     .contentType(file.getContentType())
                     .build());
             return fileName;
-            } catch (Exception e) {
+        } catch (Exception e) {
             return "Upload unsuccessfully!";
+        }
+    }
+
+    @Override
+    public String removeFile(String bucketName, String serviceName, List<String> filenameList) {
+        try {
+            minioClient.removeObjects(bucketName, filenameList);
+            return "Delete unsuccessfully!";
+        } catch (Exception e) {
+            return "Delete unsuccessfully!";
         }
     }
 }

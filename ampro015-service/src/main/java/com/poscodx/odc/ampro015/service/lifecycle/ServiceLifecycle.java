@@ -36,6 +36,7 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     private final Level2EmployeeService level2EmployeeService;
     private final ExcanAccessTokenService excanAccessTokenService;
     private final Pme00IssueManagementService pme00IssueManagementService;
+    private final LogoutAccessTokenService logoutAccessTokenService;
 
     @Override
     public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
@@ -151,8 +152,8 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     }
 
     @Override
-    public ExcanAccessTokenService requestExcanAccessTokenService() {
-        return this.excanAccessTokenService;
+    public LogoutAccessTokenService requestLogoutAccessTokenService() {
+        return this.logoutAccessTokenService;
     }
 
     @Override

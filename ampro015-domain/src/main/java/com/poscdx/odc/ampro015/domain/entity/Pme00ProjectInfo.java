@@ -57,8 +57,10 @@ public class Pme00ProjectInfo {
         this.image = (objects[8] == null || ((String) objects[8]).isEmpty()) ? null :
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[8];
         this.koreaPmName = (String) objects[9];
-        this.koreaPmImage = "http://172.25.219.61:8080/img/" + (String) objects[10];
+        this.koreaPmImage = (objects[10] == null || ((String) objects[10]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[10];
         this.vietnamPlName = (String) objects[11];
-        this.vietnamPlImage = "http://172.25.219.61:8080/img/" + (String) objects[12];
+        this.vietnamPlImage = (objects[12] == null || ((String) objects[12]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + objects[12];
     }
 }

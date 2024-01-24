@@ -33,4 +33,5 @@ public interface ServiceLifecycle {
     ExcanAccessTokenService requestExcanAccessTokenService();
 
     Pme00IssueManagementService requestPme00IssueManagementService();
+    LogoutAccessTokenService requestLogoutAccessTokenService();
 }
