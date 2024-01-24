@@ -137,10 +137,9 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                                                         List<Pme00Employee> pme00EmployeeList){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String empId = pme00EmployeeList.get(0).getEmpId();
-        String passwordToMd5Hex = DigestUtils
-                .md5Hex(pme00EmployeeList.get(0).getPassword());
         Pme00AllLevel2EmployeeResponse findEmployeeById = serviceLifecycle.requestLevel2EmployeeService()
                 .searchPmeEmployee(serviceLifecycle, "", "", "", empId, "", "");
+        M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService().find(pme00EmployeeList.get(0).getEmpId());
         if(findEmployeeById==null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
@@ -162,7 +161,13 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setSiteCode(pme00EmployeeList.get(0).getSite());
             employee.setAvatar(pme00EmployeeList.get(0).getAvatar());
             employee.setName(pme00EmployeeList.get(0).getName());
-            employee.setPassword(passwordToMd5Hex);
+            if(pme00EmployeeList.get(0).getPassword()==null){
+                employee.setPassword(checkEmployee.getPassword());
+            }else {
+                String passwordToMd5Hex = DigestUtils
+                        .md5Hex(pme00EmployeeList.get(0).getPassword());
+                employee.setPassword(passwordToMd5Hex);
+            }
             employee.setBirthday(pme00EmployeeList.get(0).getBirthDate());
             employee.setJoinDate(pme00EmployeeList.get(0).getJoinDate());
             employee.setMail(pme00EmployeeList.get(0).getEmail());
