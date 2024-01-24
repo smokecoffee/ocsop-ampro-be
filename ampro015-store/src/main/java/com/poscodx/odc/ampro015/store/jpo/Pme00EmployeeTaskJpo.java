@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,5 +51,10 @@ public class Pme00EmployeeTaskJpo {
 
     public static List<Pme00EmployeeTask> toDomains(Iterable<Pme00EmployeeTaskJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00EmployeeTaskJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @PostLoad
+    public void setAvatar() {
+        avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee/");
     }
 }
