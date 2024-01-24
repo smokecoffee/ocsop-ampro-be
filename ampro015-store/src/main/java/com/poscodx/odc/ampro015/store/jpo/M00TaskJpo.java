@@ -73,6 +73,9 @@ public class M00TaskJpo implements Serializable {
     @Column(name = "START_DATE")
     private Date startDate;
 
+    @Column(name = "STATUS_APPROVE")
+    private String statusApprove;
+
     public M00TaskJpo(M00Task domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }

@@ -25,6 +25,7 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             ",t.LAST_UPDATE_TIMESTAMP \n" +
             ",t.CREATION_TIMESTAMP \n" +
             ",t.START_DATE \n" +
+            ",t.STATUS_APPROVE \n" +
             " FROM tb_m00_task AS t \n" +
             " WHERE 1=1 \n"+
             " AND (:projectNumber IS NULL OR t.PROJECT_NUMBER LIKE :projectNumber)\n" +

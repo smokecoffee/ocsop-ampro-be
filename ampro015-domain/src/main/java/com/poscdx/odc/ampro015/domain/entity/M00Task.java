@@ -27,6 +27,7 @@ public class M00Task {
     private String category;
     private String passwordRequest;
     private Date startDate;
+    private String statusApprove;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
@@ -51,5 +52,6 @@ public class M00Task {
         this.category = (String) object[14];
         this.creationTimestamp = (Date) object[15];
         this.startDate = (Date) object[16];
+        this.statusApprove = (String) object[17];
     }
 }

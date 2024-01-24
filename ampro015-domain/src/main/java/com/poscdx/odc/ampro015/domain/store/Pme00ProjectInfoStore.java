@@ -27,9 +27,9 @@ public interface Pme00ProjectInfoStore {
     List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, String status,
                                    Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable);
 
-    List<Object[]> getKoreaPM();
+    List<Object[]> getKoreaPM(String projectNumber);
 
-    List<Object[]> getVietnamPL();
+    List<Object[]> getVietnamPL(String projectNumber);
 
     List<Object[]> getProjectMember(String cdV);
 

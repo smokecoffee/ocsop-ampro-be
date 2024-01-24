@@ -60,13 +60,13 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Object[]> getKoreaPM() {
-        return this.repository.getKoreaPM();
+    public List<Object[]> getKoreaPM(String projectNumber) {
+        return this.repository.getKoreaPM(projectNumber);
     }
 
     @Override
-    public List<Object[]> getVietnamPL() {
-        return this.repository.getVietnamPL();
+    public List<Object[]> getVietnamPL(String projectNumber) {
+        return this.repository.getVietnamPL(projectNumber);
     }
 
     @Override

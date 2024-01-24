@@ -29,9 +29,9 @@ public interface Pme00ProjectInfoService {
     List<Pme00ProjectInfo> findProjectInfo (String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                                             String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable);
 
-    List<M00Employee> getKoreaPM();
+    List<M00Employee> getKoreaPM(String projectNumber);
 
-    List<M00Employee> getVietnamPL();
+    List<M00Employee> getVietnamPL(String projectNumber);
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
                      String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);

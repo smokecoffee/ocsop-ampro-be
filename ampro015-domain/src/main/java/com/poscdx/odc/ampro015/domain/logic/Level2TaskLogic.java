@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
+import lombok.var;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -85,6 +86,18 @@ public class Level2TaskLogic implements Level2TaskService {
                     .filter(pme00EmployeeTask -> pme00EmployeeTask.getTaskName().equals(m00Task.getTaskName())
                             && pme00EmployeeTask.getProjectNumber().equals(m00Task.getProjectNumber()))
                     .collect(Collectors.toList());
+
+            List<M00Employee> plList = serviceLifecycle.requestPme00ProjectInfoService()
+                    .getVietnamPL(m00Task.getProjectNumber());
+            if (!plList.isEmpty()) {
+                response.setPlDto(plList.get(0));
+            }
+            List<M00Employee> pmList = serviceLifecycle.requestPme00ProjectInfoService()
+                    .getKoreaPM(m00Task.getProjectNumber());
+            if (!plList.isEmpty()) {
+                response.setPmDto(pmList.get(0));
+            }
+
             response.setTask(m00Task);
             response.setMembers(pme00EmployeeTasks);
             responseList.add(response);
@@ -250,6 +263,7 @@ public class Level2TaskLogic implements Level2TaskService {
                                                   String sortDirection) {
         //create pageable
         Pageable pageable = createPageable(pageNo, pageSize, sortBy, sortDirection);
+        //findProject
         //findAllTask
         List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().findTaskByConditions(projectNumber, taskName,
                 planDate, actualEndDate, status, taskOwnerId, category, pageable);
@@ -320,6 +334,16 @@ public class Level2TaskLogic implements Level2TaskService {
                 response.setMembers(pme00EmployeeTasks);
             } else {
                 response.setMembers(new ArrayList<>());
+            }
+            List<M00Employee> plList = serviceLifecycle.requestPme00ProjectInfoService()
+                                                                        .getVietnamPL(projectNumber);
+            if (!plList.isEmpty()) {
+                response.setPlDto(plList.get(0));
+            }
+            List<M00Employee> pmList = serviceLifecycle.requestPme00ProjectInfoService()
+                    .getKoreaPM(projectNumber);
+            if (!plList.isEmpty()) {
+                response.setPmDto(pmList.get(0));
             }
             Optional<M00Employee> optional;
             String empId = m00Task.getEmpId();
