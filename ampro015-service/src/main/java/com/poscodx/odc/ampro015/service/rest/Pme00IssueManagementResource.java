@@ -87,7 +87,7 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @GetMapping("/")
+    @GetMapping
     public List<IssueManagement> getAll() {
         List<IssueManagement> getAllIssue = serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
         return getAllIssue;
