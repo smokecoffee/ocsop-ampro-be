@@ -101,36 +101,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         }
 
         IssueManagementResponse response = new IssueManagementResponse();
-        if(contents == null){
-            contents = "";
-        }
-        if(site == null){
-            site = "";
-        }
-        if(module == null){
-            module = "";
-        }
-        if(division_flag == null){
-            division_flag = "";
-        }
-        if(applied_period_flag == null){
-            applied_period_flag = "";
-        }
-        if(accept_flag == null){
-            accept_flag = "";
-        }
-        if(requester_confirm == null){
-            requester_confirm = "";
-        }
-        if(requester == null){
-            requester = "";
-        }
-        if(contents_kr == null){
-            contents_kr = "";
-        }
-        if(developer == null){
-            developer = "";
-        }
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
         List<IssueManagementDto> issueManagementDtoList = new ArrayList<>();
