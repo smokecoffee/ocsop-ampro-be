@@ -1,7 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
-import com.posco.reuse.common.errorobjects.PosBaseException;
+import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,9 +50,9 @@ public class Pme00ProjectInfoJpo {
     @Column(name = "END_DATE")
     private Date endDate;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "IMAGE")
     private String image;
-
 
     @Transient
     private String koreaPmName;

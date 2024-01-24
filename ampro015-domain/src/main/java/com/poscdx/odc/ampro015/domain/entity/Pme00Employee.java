@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
@@ -38,7 +39,8 @@ public class Pme00Employee {
     }
 
     public Pme00Employee(Object[] object) {
-         this.avatar = "http://172.25.219.61:8080/img/"+ object[11];
+        this.avatar = (object[11] == null || ((String) object[11]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + object[11];
          this.empId = (String) object[0];
          this.name = (String) object[2];
          this.site = (String) object[28];

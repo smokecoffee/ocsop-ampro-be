@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscoict.base.share.domain.PoscoEntity;
 import lombok.*;
 
@@ -44,7 +45,8 @@ public class M00Employee {
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
-        this.avatar = "http://172.25.219.61:8080/img/" + objects[2];
+        this.avatar = (objects[2] == null || ((String) objects[2]).isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[2];
         this.birthday = (String) objects[3];
         this.ipAddress = (String) objects[4];
     }

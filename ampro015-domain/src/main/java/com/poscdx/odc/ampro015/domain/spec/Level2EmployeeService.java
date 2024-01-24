@@ -6,7 +6,6 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import java.util.List;
 
 public interface Level2EmployeeService {
-    Pme00AllLevel2EmployeeResponse getListPmeEmployee(ServiceLifecycle serviceLifecycle);
     Pme00AllLevel2EmployeeResponse searchPmeEmployee(ServiceLifecycle serviceLifecycle,
                                                      String site, String status, String name, String empId, String joinDateFrom, String joinDateTo);
     PmeSiteResponse findSiteEmp(ServiceLifecycle serviceLifecycle);

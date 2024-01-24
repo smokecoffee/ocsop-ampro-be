@@ -98,6 +98,7 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>7.1.4</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

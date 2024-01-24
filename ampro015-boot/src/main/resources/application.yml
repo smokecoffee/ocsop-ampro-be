@@ -49,6 +49,8 @@ bezkoder:
 cross:
   origins: "http://localhost:3000"
 
+
+
   minio:
     url: ${minio.url}
     accessKey: ${minio.accessKey}
