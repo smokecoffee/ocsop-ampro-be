@@ -20,4 +20,6 @@ public interface AssetService {
 
     Asset findByToken(String token);
 
+    List<Asset> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status);
+
 }
