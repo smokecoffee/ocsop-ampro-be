@@ -24,7 +24,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "ON EMP1.EMP_ID = ISSUE.REQUESTER_ID \n" +
                     "JOIN TB_M00_EMPLOYEE EMP2\n" +
                     "ON EMP2.EMP_ID = ISSUE.DEVELOPER \n" +
-                    "WHERE 1= 1 \n" +
+                    "WHERE  1 = 1 \n" +
                     "AND (:contents IS NULL OR (ISSUE.CONTENTS LIKE CONCAT('%', :contents, '%')))\n" +
                     "AND (:site IS NULL OR (ISSUE.SITE LIKE CONCAT('%', :site, '%')))\n" +
                     "AND (:module IS NULL OR (ISSUE.MODULE LIKE CONCAT('%', :module, '%')))\n" +
@@ -65,7 +65,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                             "ON EMP1.EMP_ID = ISSUE.REQUESTER_ID \n" +
                             "JOIN TB_M00_EMPLOYEE EMP2\n" +
                             "ON EMP2.EMP_ID = ISSUE.DEVELOPER \n" +
-                            "WHERE 1= 1 \n" +
+                            "WHERE 1 = 1 \n" +
                             "AND (:contents IS NULL OR (ISSUE.CONTENTS LIKE CONCAT('%', :contents, '%')))\n" +
                             "AND (:site IS NULL OR (ISSUE.SITE LIKE CONCAT('%', :site, '%')))\n" +
                             "AND (:module IS NULL OR (ISSUE.MODULE LIKE CONCAT('%', :module, '%')))\n" +
@@ -110,7 +110,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
             ",t.CONTENTS_KR \n" +
             ",t.DEVELOPER \n" +
             "FROM tb_m00_issue_management t \n" +
-            "WHERE 1=1 \n" +
+            "WHERE 1 = 1 \n" +
             "AND (:site IS NULL OR t.SITE LIKE :site)\n"+
             "AND (:module IS NULL OR t.MODULE LIKE :module)\n"+
             "AND (:division_flag IS NULL OR t.DIVISION_FLAG LIKE :division_flag)\n"+
