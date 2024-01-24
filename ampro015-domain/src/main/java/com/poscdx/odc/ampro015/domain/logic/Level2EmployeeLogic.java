@@ -161,7 +161,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setSiteCode(pme00EmployeeList.get(0).getSite());
             employee.setAvatar(pme00EmployeeList.get(0).getAvatar());
             employee.setName(pme00EmployeeList.get(0).getName());
-            if(pme00EmployeeList.get(0).getPassword()==null){
+            if(pme00EmployeeList.get(0).getPassword().isEmpty()){
                 employee.setPassword(checkEmployee.getPassword());
             }else {
                 String passwordToMd5Hex = DigestUtils
