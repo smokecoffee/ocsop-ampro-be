@@ -10,4 +10,9 @@ public class ConstantUtil {
     public static String UPLOAD_BUCKET = "";
 //    public static String UPLOAD_PATH = UPLOAD_URL + UPLOAD_BUCKET + "/";
 
+    public static String applyEmployeeAvatarPath(String avatar, String serviceName) {
+        return (avatar == null || avatar.isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + serviceName + avatar;
+    }
+
 }
