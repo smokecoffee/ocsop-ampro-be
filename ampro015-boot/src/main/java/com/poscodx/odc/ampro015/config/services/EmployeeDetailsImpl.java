@@ -41,8 +41,8 @@ public class EmployeeDetailsImpl implements UserDetails {
         this.username = username;
         this.email = email;
         //this.avatar = avatar;
-        this.avatar = (avatar == null || ((String) avatar).isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + avatar;
+        this.avatar = (avatar == null || avatar.isEmpty()) ? null :
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + avatar;
         this.password = password;
         this.role = role;
         this.authorities = authorities;
