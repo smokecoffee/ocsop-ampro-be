@@ -68,6 +68,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         entityInfo.setStatus(dto.getPme00ProjectInfo().getStatus());
         entityInfo.setFramework(dto.getPme00ProjectInfo().getFramework());
         entityInfo.setImage(dto.getPme00ProjectInfo().getImage());
+        entityInfo.setFile(dto.getPme00ProjectInfo().getFile());
 
         serviceLifecycle.requestPme00ProjectInfoService().register(entityInfo);
 
@@ -135,6 +136,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         entityInfo.setStatus(dto.getPme00ProjectInfo().getStatus());
         entityInfo.setFramework(dto.getPme00ProjectInfo().getFramework());
         entityInfo.setImage(dto.getPme00ProjectInfo().getImage());
+        entityInfo.setFile(dto.getPme00ProjectInfo().getFile());
         lstProjectInfo.add(entityInfo);
 
         serviceLifecycle.requestPme00ProjectInfoService().modify(lstProjectInfo);

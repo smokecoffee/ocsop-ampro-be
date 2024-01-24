@@ -27,6 +27,7 @@ public class Pme00ProjectInfo {
     private Date startDate;
     private Date endDate;
     private String image;
+    private String file;
     private String koreaPmName;
     private String koreaPmImage;
     private String vietnamPlName;
@@ -55,9 +56,10 @@ public class Pme00ProjectInfo {
         this.startDate = (Date) objects[6];
         this.endDate = (Date) objects[7];
         this.image = ConstantUtil.applyEmployeeAvatarPath((String) objects[8],"");
-        this.koreaPmName = (String) objects[9];
-        this.koreaPmImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[10], "Employee/");
-        this.vietnamPlName = (String) objects[11];
-        this.vietnamPlImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[12], "Employee/");
+        this.file = ConstantUtil.applyEmployeeAvatarPath((String) objects[9],"");
+        this.koreaPmName = (String) objects[10];
+        this.koreaPmImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[11], "Employee/");
+        this.vietnamPlName = (String) objects[12];
+        this.vietnamPlImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[13], "Employee/");
     }
 }
