@@ -43,7 +43,6 @@ public class IssueManagementDto implements Serializable {
     public IssueManagementDto(Object[] objects){
         issueManagement = new IssueManagement(objects);
         this.developerName = (String) objects[23];
-        this.requesterAvatar = (objects[24] == null || ((String) objects[24]).isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[24];
+        this.requesterAvatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[24], "Employee");
     }
 }
