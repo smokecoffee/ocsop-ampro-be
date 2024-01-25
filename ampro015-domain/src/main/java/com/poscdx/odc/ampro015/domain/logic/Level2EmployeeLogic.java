@@ -148,11 +148,9 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService()
                     .findRoleUserByEmpId(empId);
             for (Pme00RoleUser checkRoleUser : checkRoleUsers) {
-                for(Pme00RoleUser editRoleUser : editRoleUsers){
-                   if (empId.equals(checkRoleUser.getEmpId())&&(checkRoleUser.getRoleId()==editRoleUser.getRoleId())) {
-                       int roleUserId = checkRoleUser.getId();
-                       serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
-                   }
+                if (empId.equals(checkRoleUser.getEmpId())) {
+                    int roleUserId = checkRoleUser.getId();
+                    serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
                 }
             }
             for(int i=0; i<editRoleUsers.size(); i++){
