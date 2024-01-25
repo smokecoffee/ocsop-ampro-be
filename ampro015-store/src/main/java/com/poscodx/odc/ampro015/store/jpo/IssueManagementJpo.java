@@ -35,7 +35,7 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "REGISTRATION_DATE")
     private Date registrationDate;
 
-    @Column(name = "REQUEST_DATE")
+    @Column(name = "REQUEST_DATE_NEW")
     private String requestDate;
 
     @NotNull
@@ -85,10 +85,10 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "DEVELOP_COMMENTS")
     private String developComments;
 
-    @Column(name = "DEVELOP_FROM_DATE")
+    @Column(name = "DEVELOP_FROM_DATE_NEW")
     private String developFromDate;
 
-    @Column(name = "DEVELOP_TO_DATE")
+    @Column(name = "DEVELOP_TO_DATE_NEW")
     private String developToDate;
 
     @Column(name = "CATEGORY_FLAG")
@@ -97,7 +97,7 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "REQUESTER_CONFIRM")
     private String requesterConfirm;
 
-    @Column(name = "FINAL_CONFIRM_DATE")
+    @Column(name = "FINAL_CONFIRM_DATE_NEW")
     private String finalConfirmDate;
 
     @Column(name = "REQUESTER_ID")
