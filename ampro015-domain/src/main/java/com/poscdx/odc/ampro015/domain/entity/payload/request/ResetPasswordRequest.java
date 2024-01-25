@@ -13,5 +13,5 @@ public class ResetPasswordRequest {
 	@NotBlank
 	private String password;
 	@NotBlank
-	private String ConfirmPassword;
+	private String confirmPassword;
 }

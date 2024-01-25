@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageResponse {
-  private String message;
+public class ResetPasswordResponse extends  MessageResponse {
+  private int passwordTokenId;
+  private boolean error;
+  private String EmpId;
 }

@@ -5,14 +5,13 @@ import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
 import com.poscdx.odc.ampro015.domain.entity.payload.request.ForgotPasswordRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.request.LoginRequest;
-import com.poscdx.odc.ampro015.domain.entity.payload.response.ForgotPasswordResponse;
-import com.poscdx.odc.ampro015.domain.entity.payload.response.JwtResponse;
-import com.poscdx.odc.ampro015.domain.entity.payload.response.LoginUserInfo;
-import com.poscdx.odc.ampro015.domain.entity.payload.response.MessageResponse;
+import com.poscdx.odc.ampro015.domain.entity.payload.request.ResetPasswordRequest;
+import com.poscdx.odc.ampro015.domain.entity.payload.response.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscodx.odc.ampro015.config.jwt.JwtUtils;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.poi.hpsf.GUID;
 import org.hibernate.id.GUIDGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -104,7 +103,7 @@ public class AuthResource {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+    public ResponseEntity<?> ForgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
         M00Employee employee = serviceLifecycle.requestM00EmployeeService().getEmployeeByEmail(forgotPasswordRequest.getEmail());
         if(employee == null){
             ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
@@ -121,6 +120,61 @@ public class AuthResource {
             forgotPasswordResponse.setMessage("Please check email to process next step");
             return ResponseEntity.ok(forgotPasswordResponse);
         }
+    }
+    @CrossOrigin
+    @GetMapping("/reset-password/{token}")
+    public ResponseEntity<?> ResetPasswordGetToken(@PathVariable("token") String token) {
+        ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
+        Pme00PasswordToken pme00PasswordToken = serviceLifecycle.requestPasswordService().FindPasswordTokenByToken(token);
+        if(pme00PasswordToken==null){
+            resetPasswordResponse.setError(true);
+            resetPasswordResponse.setMessage("Token is not exists on system. Please check again!");
+            return ResponseEntity.ok(resetPasswordResponse);
+        }else {
+            if(pme00PasswordToken.IsExpired()){
+                resetPasswordResponse.setError(true);
+                resetPasswordResponse.setMessage("Token is expired!");
+            }else{
+                resetPasswordResponse.setError(false);
+                resetPasswordResponse.setMessage("");
+                resetPasswordResponse.setEmpId(pme00PasswordToken.getEmpId());
+            }
+            return ResponseEntity.ok(resetPasswordResponse);
+        }
+    }
+    @PostMapping("/reset-password/{token}")
+    public ResponseEntity<?> ResetPassword(@Valid @PathVariable("token") String token,
+                                           @Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
+        Pme00PasswordToken pme00PasswordToken = serviceLifecycle.requestPasswordService().FindPasswordTokenByToken(token);
+
+        M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().find(pme00PasswordToken.getEmpId());
+        if (m00Employee == null) {
+            resetPasswordResponse.setError(true);
+            resetPasswordResponse.setMessage("Token is not exists on system. Please check again!");
+            return ResponseEntity.ok(resetPasswordResponse);
+        } else {
+            if (pme00PasswordToken.IsExpired()) {
+                resetPasswordResponse.setError(true);
+                resetPasswordResponse.setMessage("Token is expired!");
+            } else {
+                if(!resetPasswordRequest.getPassword().equals(resetPasswordRequest.getConfirmPassword())){
+                    resetPasswordResponse.setError(true);
+                    resetPasswordResponse.setMessage("Password is not match!");
+                }else {
+                    String passwordToMd5Hex = DigestUtils
+                            .md5Hex(resetPasswordRequest.getPassword());
+                    m00Employee.setPassword(passwordToMd5Hex);
+                    M00Employee updateM00Employee = serviceLifecycle.requestM00EmployeeService().modify(m00Employee);
+
+                    resetPasswordResponse.setError(false);
+                    resetPasswordResponse.setMessage("Password is changed! You can login again, now!");
+                }
+            }
+            return ResponseEntity.ok(resetPasswordResponse);
+
+        }
+
     }
 
     @NotNull
