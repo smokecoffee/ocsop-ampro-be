@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.store;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
+import com.poscdx.odc.ampro015.domain.entity.IssueManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;

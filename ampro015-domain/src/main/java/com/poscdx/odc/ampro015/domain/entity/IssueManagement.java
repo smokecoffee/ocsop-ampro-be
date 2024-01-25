@@ -36,9 +36,10 @@ public class IssueManagement {
     private String categoryFlag;
     private String requesterConfirm;
     private String finalConfirmDate;
-    private String requesterAvatar;
     private String requesterName;
     private String requesterId;
+    private String developerName;
+    private String requesterAvatar;
     public String toJson(){
         return JsonUtil.toJson(this);
     }
@@ -71,6 +72,8 @@ public class IssueManagement {
         this.requesterConfirm = (String) objects[20];
         this.finalConfirmDate = (String) objects[21];
         this.requesterId = (String) objects[22];
+        this.developerName = (String) objects[23];
+        this.requesterAvatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[24], "Employee");
 //        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
     }
 

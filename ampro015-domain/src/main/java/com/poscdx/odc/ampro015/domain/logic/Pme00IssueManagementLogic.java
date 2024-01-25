@@ -103,15 +103,15 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         IssueManagementResponse response = new IssueManagementResponse();
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
-        List<IssueManagementDto> issueManagementDtoList = new ArrayList<>();
+        List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for(Object[] objects : list){
-            issueManagementDtoList.add(new IssueManagementDto(objects));
+            issueManagementDtoList.add(new IssueManagement(objects));
         }
         Map<String, Object> rs = new HashMap<>();
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate);
         rs.put("total", total);
-        rs.put("info", issueManagementDtoList);
+        rs.put("issueManagement", issueManagementDtoList);
 
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
