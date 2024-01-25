@@ -61,5 +61,6 @@ public class Pme00Employee {
         this.createByUserName = (String) object[28];
         this.createByUserPhoto = (object[29]== null ||((String) object[29]).isEmpty())? null:
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" +object[29];
+
     }
 }
