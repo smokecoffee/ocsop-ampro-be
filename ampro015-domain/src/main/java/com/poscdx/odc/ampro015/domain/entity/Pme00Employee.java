@@ -28,7 +28,11 @@ public class Pme00Employee {
     private String address;
     private String status;
     private String action;
+    private String createBy;
+    private String createByUserName;
+    private String createByUserPhoto;
     private List<Pme00RoleUser> listRoleUser;
+    private String nameCreateBy;
 
     public String toJson() {
         return JsonUtil.toJson(this);
@@ -53,5 +57,8 @@ public class Pme00Employee {
          this.address = (String) object[10];
          this.status = (String) object[29];
          this.action = (String) object[26];
+         this.createBy = (String) object[27];
+        this.createByUserName = (String) object[28];
+        this.createByUserPhoto = (String) object[29];
     }
 }

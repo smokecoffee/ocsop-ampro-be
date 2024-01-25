@@ -26,6 +26,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
                 .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
         List<Pme00RoleUser> pme00RoleUsers = serviceLifecycle.requestPme00RoleUserService().findRoleUserByEmpId(empId);
+
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
         for(Object[] object : listPme00Employee){
             Pme00Employee employee = new Pme00Employee(object);
