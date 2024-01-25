@@ -201,7 +201,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         }
         pme00GenderResponse.setStatus(HttpStatus.OK.value());
         pme00GenderResponse.setListData(pme00Genders);
-        pme00GenderResponse.setMessage("Get all role successfully");
+        pme00GenderResponse.setMessage("Get all gender successfully");
         return pme00GenderResponse;
     }
 
