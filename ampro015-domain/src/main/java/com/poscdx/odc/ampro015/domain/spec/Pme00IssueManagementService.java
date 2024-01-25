@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,8 @@ public interface Pme00IssueManagementService {
 
     IssueManagementResponse remove(IssueManagementId seq);
 
-    Map<String,Object> findIssueInfo(String contents, String site, String module, String division_flag,
-                                     String applied_period_flag, String accept_flag, String requester_confirm,
-                                     String requester, String contents_kr, String developer,
-                                     String fromRegistrationStartDate, String toRegistrationEndDate,
-                                     String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize);
+    Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester,
+                                      String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException;
 
     List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
 
@@ -32,5 +30,5 @@ public interface Pme00IssueManagementService {
                                           @RequestParam String division_flag, @RequestParam String applied_period_flag,
                                           @RequestParam String accept_flag, @RequestParam String requester_confirm,
                                           @RequestParam String requester, @RequestParam String contents_kr, @RequestParam String developer,
-                                          @RequestParam Date registration_date, @RequestParam String request_date);
+                                          @RequestParam Date registration_date, @RequestParam Date request_date);
 }

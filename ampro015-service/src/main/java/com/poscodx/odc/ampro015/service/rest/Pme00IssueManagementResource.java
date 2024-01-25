@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +132,7 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                       @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize
     ) throws ParseException {
+        System.out.println(fromRegistrationStartDate);
         return this.serviceLifecycle.requestPme00IssueManagementService().findIssueInfo(contents, site, module, division_flag,
                 applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate,
                 toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageNo, pageSize);

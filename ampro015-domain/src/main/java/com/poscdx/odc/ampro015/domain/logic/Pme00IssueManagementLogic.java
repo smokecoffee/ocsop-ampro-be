@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
@@ -92,24 +95,27 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) {
+    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException {
         Pageable pageable;
         if(pageSize == 0){
             pageable = Pageable.unpaged();
         } else {
             pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         }
-
+        Date _fromRegistrationStartDate = (fromRegistrationStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRegistrationStartDate) : null;
+        Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRegistrationEndDate) : null;
+        Date _fromRequestStartDate = (fromRequestStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRequestStartDate) : null;
+        Date _toRequestEndDate = (toRequestEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRequestEndDate) : null;
         IssueManagementResponse response = new IssueManagementResponse();
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
+                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for(Object[] objects : list){
             issueManagementDtoList.add(new IssueManagement(objects));
         }
         Map<String, Object> rs = new HashMap<>();
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate);
+                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
         rs.put("total", total);
         rs.put("issueManagement", issueManagementDtoList);
 
@@ -146,7 +152,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, String request_date) {
+    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, Date request_date) {
         List<Object[]> resultList = this.store.findIssueManagementDto(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
         List<IssueManagementDto> resultItemDtoList = new ArrayList<>();

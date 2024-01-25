@@ -28,19 +28,19 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "SEQ")
     private int seq;
 
-    @Id
-    @Column(name = "SITE")
-    private String site;
-
     @Column(name = "REGISTRATION_DATE")
     private Date registrationDate;
 
     @Column(name = "REQUEST_DATE_NEW")
-    private String requestDate;
+    private Date requestDate;
 
     @NotNull
     @Column(name = "REQUESTER")
     private String requester;
+
+    @Id
+    @Column(name = "SITE")
+    private String site;
 
     @NotNull
     @Column(name = "MODULE")
@@ -85,23 +85,24 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "DEVELOP_COMMENTS")
     private String developComments;
 
-    @Column(name = "DEVELOP_FROM_DATE_NEW")
-    private String developFromDate;
-
-    @Column(name = "DEVELOP_TO_DATE_NEW")
-    private String developToDate;
-
     @Column(name = "CATEGORY_FLAG")
     private String categoryFlag;
 
     @Column(name = "REQUESTER_CONFIRM")
     private String requesterConfirm;
 
-    @Column(name = "FINAL_CONFIRM_DATE_NEW")
-    private String finalConfirmDate;
-
     @Column(name = "REQUESTER_ID")
     private String requesterId;
+
+    @Column(name = "DEVELOP_FROM_DATE_NEW")
+    private Date developFromDate;
+
+    @Column(name = "DEVELOP_TO_DATE_NEW")
+    private Date developToDate;
+
+    @Column(name = "FINAL_CONFIRM_DATE_NEW")
+    private Date finalConfirmDate;
+
 
 //    @Transient
 //    private String koreaPmName;

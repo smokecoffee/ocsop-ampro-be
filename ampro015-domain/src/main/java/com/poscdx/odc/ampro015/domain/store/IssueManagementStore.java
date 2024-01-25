@@ -20,16 +20,13 @@ public interface IssueManagementStore {
 
 
     List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
-                                 String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate, Pageable pageable);
+                                 Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate, Pageable pageable);
 
     List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
 
-    List<Object[]> findIssueManagementDto(String contents, String site, String modules,String division_flag,
-                                          String applied_period_flag, String accept_flag, String requester_confirm,
-                                          String requester, String contents_kr, String developer,
-                                          Date registration_date, String request_date);
+    List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, Date request_date);
 
     int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
-                        String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate, String requestToEndDate);
+                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate);
 
 }

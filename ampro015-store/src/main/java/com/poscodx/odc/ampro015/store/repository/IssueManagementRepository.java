@@ -50,8 +50,8 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                          @Param("requester") String requester,
                          @Param("contents_kr") String contents_kr,
                          @Param("developer") String developer,
-                         @Param("fromStartDate") String registrationFromStartDate, @Param("toStartDate") String registrationToEndDate,
-                         @Param("fromEndDate") String requestFromStartDate, @Param("toEndDate") String requestToEndDate);
+                         @Param("fromStartDate") Date registrationFromStartDate, @Param("toStartDate") Date registrationToEndDate,
+                         @Param("fromEndDate") Date requestFromStartDate, @Param("toEndDate") Date requestToEndDate);
 
     @Query(value =
                     "SELECT ISSUE.*\n"+
@@ -78,8 +78,8 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                             "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                             "AND ((:fromStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE >= :fromStartDate))\n" +
                             "AND ((:toStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE <= :toStartDate))\n" +
-                            "AND ((:fromEndDate IS NULL) OR (ISSUE.REQUEST_DATE >= :fromEndDate))" +
-                            "AND ((:toEndDate IS NULL) OR (ISSUE.REQUEST_DATE <= :toEndDate))"
+                            "AND ((:fromEndDate IS NULL) OR (ISSUE.REQUEST_DATE_NEW >= :fromEndDate))" +
+                            "AND ((:toEndDate IS NULL) OR (ISSUE.REQUEST_DATE_NEW <= :toEndDate))"
                             , nativeQuery = true)
     List<Object[]> findIssueInfo( @Param("contents") String contents,
                                             @Param("site") String site,
@@ -91,8 +91,8 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                             @Param("requester") String requester,
                                             @Param("contents_kr") String contents_kr,
                                             @Param("developer") String developer,
-                                            @Param("fromStartDate") String registrationFromStartDate, @Param("toStartDate") String registrationToEndDate,
-                                            @Param("fromEndDate") String requestFromStartDate, @Param("toEndDate") String requestToEndDate,
+                                            @Param("fromStartDate") Date registrationFromStartDate, @Param("toStartDate") Date registrationToEndDate,
+                                            @Param("fromEndDate") Date requestFromStartDate, @Param("toEndDate") Date requestToEndDate,
                                             Pageable pageable
                                             );
 
@@ -149,6 +149,6 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
     List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag,
                                           String applied_period_flag, String accept_flag, String requester_confirm,
                                           String requester, String contents_kr, String developer, Date registration_date,
-                                          String request_date);
+                                          Date request_date);
 
 }

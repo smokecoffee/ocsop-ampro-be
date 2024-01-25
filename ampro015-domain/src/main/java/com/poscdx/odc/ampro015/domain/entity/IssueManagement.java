@@ -16,7 +16,7 @@ import java.util.Date;
 public class IssueManagement {
     private int seq;
     private Date registrationDate;
-    private String requestDate;
+    private Date requestDate;
     private String requester;
     private String site;
     private String module;
@@ -31,11 +31,11 @@ public class IssueManagement {
     private String acceptFlag;
     private String status;
     private String developComments;
-    private String developFromDate;
-    private String developToDate;
+    private Date developFromDate;
+    private Date developToDate;
     private String categoryFlag;
     private String requesterConfirm;
-    private String finalConfirmDate;
+    private Date finalConfirmDate;
     private String requesterName;
     private String requesterId;
     private String developerName;
@@ -51,7 +51,7 @@ public class IssueManagement {
     public IssueManagement(Object[] objects){
         this.seq = (int) objects[0];
         this.registrationDate = (Date) objects[1];
-        this.requestDate = (String) objects[2];
+//        this.requestDate = (Date) objects[2];
         this.requester = (String) objects[3];
         this.site = (String) objects[4];
         this.module = (String) objects[5];
@@ -66,14 +66,21 @@ public class IssueManagement {
         this.acceptFlag = (String) objects[14];
         this.status = (String) objects[15];
         this.developComments = (String) objects[16];
-        this.developFromDate = (String) objects[17];
-        this.developToDate = (String) objects[18];
+//        this.developFromDate = (Date) objects[17];
+//        this.developToDate = (Date) objects[18];
         this.categoryFlag = (String) objects[19];
         this.requesterConfirm = (String) objects[20];
-        this.finalConfirmDate = (String) objects[21];
+//        this.finalConfirmDate = (Date) objects[21];
         this.requesterId = (String) objects[22];
-        this.developerName = (String) objects[23];
-        this.requesterAvatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[24], "Employee");
+
+        this.requestDate = (Date) objects[23];
+        this.developFromDate = (Date) objects[24];
+        this.finalConfirmDate = (Date) objects[25];
+        this.developToDate = (Date) objects[26];
+
+
+        this.developerName = (String) objects[27];
+        this.requesterAvatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[28], "Employee");
 //        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
     }
 
