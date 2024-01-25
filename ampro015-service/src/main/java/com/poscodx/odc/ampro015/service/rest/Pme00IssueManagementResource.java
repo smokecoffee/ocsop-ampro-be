@@ -63,6 +63,7 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
+    @CrossOrigin
     @PutMapping
     public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement) {
         return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement);
@@ -75,6 +76,7 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
+    @CrossOrigin
     @DeleteMapping
     public IssueManagementResponse deleteIssue(@RequestBody IssueManagementId seq) {
         return this.serviceLifecycle.requestPme00IssueManagementService().remove(seq);
@@ -87,6 +89,7 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
+    @CrossOrigin
     @GetMapping
     public List<IssueManagement> getAll() {
         List<IssueManagement> getAllIssue = serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
@@ -100,6 +103,7 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
+    @CrossOrigin
     @GetMapping("/getbyseqandsite")
     public List<IssueManagement> getBySeqAndSite(@RequestParam int seq, @RequestParam String site) {
         List<IssueManagement> getSeqAndSite = serviceLifecycle.requestPme00IssueManagementService().retrieve(seq, site);
@@ -114,6 +118,7 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
+    @CrossOrigin
     @GetMapping(path = "/search")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
                                       @RequestParam(required = false) String site,
