@@ -55,6 +55,8 @@ public class Pme00MemberJpo {
 
     @PostLoad
     public void setAvatar() {
-        avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee/");
+        if (avatar != null && !avatar.isEmpty()) {
+            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
+        }
     }
 }

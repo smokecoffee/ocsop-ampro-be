@@ -45,7 +45,7 @@ public class M00Employee {
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
-        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[2], "Employee/");
+        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[2], "Employee");
         this.birthday = (String) objects[3];
         this.ipAddress = (String) objects[4];
     }

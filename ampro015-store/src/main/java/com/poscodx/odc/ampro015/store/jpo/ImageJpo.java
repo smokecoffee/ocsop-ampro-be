@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Image;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.posco.reuse.common.errorobjects.PosBaseException;
 import com.poscoict.base.share.jpo.PoscoEntityJpo;
 import lombok.Getter;
@@ -69,5 +70,12 @@ public class ImageJpo extends PoscoEntityJpo {
     @Override
     public void validateJpo() throws PosBaseException {
 
+    }
+
+    @PostLoad
+    private void addUrlPath() {
+        if (path != null && !path.isEmpty()) {
+            path = ConstantUtil.applyEmployeeAvatarPath(path, "Asset");
+        }
     }
 }
