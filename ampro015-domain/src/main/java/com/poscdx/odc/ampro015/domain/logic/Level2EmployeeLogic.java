@@ -188,4 +188,21 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         return pme00AllLevel2EmployeeResponse;
     }
 
+    public Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle){
+        Pme00GenderResponse pme00GenderResponse = new Pme00GenderResponse();
+        final int cdTpId = 68;
+        List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId);
+        List<Pme00Gender> pme00Genders = new ArrayList<>();
+        for (M00Codes030 m00Codes030 : m00Codes030s){
+            Pme00Gender pme00Gender = new Pme00Gender();
+            pme00Gender.setCdV(m00Codes030.getCdV());
+            pme00Gender.setCdvMeaning(m00Codes030.getCdvMeaning());
+            pme00Genders.add(pme00Gender);
+        }
+        pme00GenderResponse.setStatus(HttpStatus.OK.value());
+        pme00GenderResponse.setListData(pme00Genders);
+        pme00GenderResponse.setMessage("Get all role successfully");
+        return pme00GenderResponse;
+    }
+
 }

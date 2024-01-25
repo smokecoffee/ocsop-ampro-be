@@ -56,4 +56,10 @@ public class Pme00EmployeeResource {
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
         return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
+
+    @GetMapping("/findGender")
+    @CrossOrigin
+    public Pme00GenderResponse findGender() {
+        return this.serviceLifecycle.requestLevel2EmployeeService().findGender(serviceLifecycle);
+    }
 }
