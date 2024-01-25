@@ -60,7 +60,7 @@ public class Pme00Employee {
         this.createBy = (String) object[27];
         this.createByUserName = (String) object[29];
         this.createByUserPhoto = (object[29]== null ||((String) object[29]).isEmpty())? null:
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" +object[29];
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" +object[30];
 
     }
 }
