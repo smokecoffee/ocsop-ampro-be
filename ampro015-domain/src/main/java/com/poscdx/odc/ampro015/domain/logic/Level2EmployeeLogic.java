@@ -96,6 +96,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 employee.setMobile(newEmployee.getMobile());
                 employee.setAddress(newEmployee.getAddress());
                 employee.setEmpStatus(newEmployee.getStatus());
+                employee.setCreateBy(newEmployee.getCreateBy());
                 employee.setRole("ADMIN");
                 M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
@@ -174,7 +175,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setMobile(pme00EmployeeList.get(0).getMobile());
             employee.setAddress(pme00EmployeeList.get(0).getAddress());
             employee.setEmpStatus(pme00EmployeeList.get(0).getStatus());
-            employee.setCreateBy(pme00EmployeeList.get(0).getCreateBy());
+            employee.setCreateBy(checkEmployee.getCreateBy());
             employee.setRole("ADMIN");
 
             serviceLifecycle.requestM00EmployeeService().modify(employee);
