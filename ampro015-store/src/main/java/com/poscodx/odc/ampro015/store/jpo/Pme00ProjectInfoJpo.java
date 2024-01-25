@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,11 +51,9 @@ public class Pme00ProjectInfoJpo {
     @Column(name = "END_DATE")
     private Date endDate;
 
-    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "IMAGE")
     private String image;
 
-    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "FILE")
     private String file;
 
@@ -78,4 +77,13 @@ public class Pme00ProjectInfoJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00ProjectInfoJpo::toDomain).collect(Collectors.toList());
     }
 
+    @PostLoad
+    private void addUrlPath() {
+        if (image != null && !image.isEmpty()) {
+            image = ConstantUtil.applyEmployeeAvatarPath(image, "Project");
+        }
+        if (file != null && !file.isEmpty()) {
+            file = ConstantUtil.applyEmployeeAvatarPath(file, "Project");
+        }
+    }
 }

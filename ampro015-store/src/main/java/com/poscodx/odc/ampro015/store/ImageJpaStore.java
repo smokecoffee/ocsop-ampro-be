@@ -20,11 +20,7 @@ public class ImageJpaStore implements ImageStore {
     @Override
     public Image retrieve(int id) {
         Optional<ImageJpo> retVal = this.repository.findById(id);
-        if (retVal.isPresent()) {
-            return retVal.get().toDomain();
-        } else {
-            return null;
-        }
+        return retVal.map(ImageJpo::toDomain).orElse(null);
     }
 
     @Override

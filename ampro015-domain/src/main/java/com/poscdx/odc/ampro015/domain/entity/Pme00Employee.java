@@ -40,7 +40,7 @@ public class Pme00Employee {
 
     public Pme00Employee(Object[] object) {
          this.empId = (String) object[0];
-        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) object[11], "Employee/");
+        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) object[11], "Employee");
         this.name = (String) object[2];
          this.site = (String) object[28];
          this.siteCode = (String) object[1];
