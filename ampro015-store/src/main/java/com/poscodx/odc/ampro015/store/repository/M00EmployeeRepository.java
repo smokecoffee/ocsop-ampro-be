@@ -74,4 +74,9 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
 
     List<M00EmployeeJpo> findAllByEmpIdIn(List<String> id);
 
+    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE, e.IP_ADDRESS, e.MAIL\n"+
+            "FROM tb_m00_employee AS e\n"+
+            "WHERE e.MAIL = :email ", nativeQuery = true)
+    List<Object[]> getEmployeeByEmail(@Param("email") String email);
+
 }

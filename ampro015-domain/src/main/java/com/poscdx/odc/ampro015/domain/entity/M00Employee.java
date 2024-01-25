@@ -49,5 +49,6 @@ public class M00Employee {
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[2];
         this.birthday = (String) objects[3];
         this.ipAddress = (String) objects[4];
+        this.mail = (String) objects[5];
     }
 }

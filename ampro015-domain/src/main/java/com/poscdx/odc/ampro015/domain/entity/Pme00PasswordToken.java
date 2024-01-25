@@ -14,7 +14,7 @@ public class Pme00PasswordToken
     private int id;
     private String empId;
     private String token;
-    private int expire;
+    private long expire;
     private Date createAt;
     private String createBy;
     private Date updateAt;

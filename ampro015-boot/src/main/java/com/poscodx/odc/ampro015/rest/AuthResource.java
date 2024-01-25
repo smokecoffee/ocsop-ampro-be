@@ -2,13 +2,20 @@ package com.poscodx.odc.ampro015.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.LogoutAccessToken;
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
+import com.poscdx.odc.ampro015.domain.entity.payload.request.ForgotPasswordRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.request.LoginRequest;
+import com.poscdx.odc.ampro015.domain.entity.payload.response.ForgotPasswordResponse;
 import com.poscdx.odc.ampro015.domain.entity.payload.response.JwtResponse;
 import com.poscdx.odc.ampro015.domain.entity.payload.response.LoginUserInfo;
+import com.poscdx.odc.ampro015.domain.entity.payload.response.MessageResponse;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscodx.odc.ampro015.config.jwt.JwtUtils;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.hpsf.GUID;
+import org.hibernate.id.GUIDGenerator;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +29,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
@@ -89,6 +101,43 @@ public class AuthResource {
             }
             return ResponseEntity.ok().body("Logout successfully!");
         }
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+        M00Employee employee = serviceLifecycle.requestM00EmployeeService().getEmployeeByEmail(forgotPasswordRequest.getEmail());
+        if(employee == null){
+            ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+            forgotPasswordResponse.setError(true);
+            forgotPasswordResponse.setMessage("Email is not exists on system. Please check again!");
+            return ResponseEntity.ok(forgotPasswordResponse);
+        }else{
+            UUID uuid = UUID. randomUUID();
+            Pme00PasswordToken pme00PasswordToken = getPme00PasswordToken(employee, uuid);
+            Pme00PasswordToken savePme00PasswordToken = serviceLifecycle.requestPasswordService().register(pme00PasswordToken);
+            //TODO: send email with build info: need to service send email provider
+            ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+            forgotPasswordResponse.setError(false);
+            forgotPasswordResponse.setMessage("Please check email to process next step");
+            return ResponseEntity.ok(forgotPasswordResponse);
+        }
+    }
+
+    @NotNull
+    private static Pme00PasswordToken getPme00PasswordToken(M00Employee employee, UUID uuid) {
+        Pme00PasswordToken pme00PasswordToken=new Pme00PasswordToken();
+        pme00PasswordToken.setEmpId(employee.getEmpId());
+        pme00PasswordToken.setToken(uuid.toString());
+        pme00PasswordToken.setCreateAt(new Date());
+        pme00PasswordToken.setCreateBy("0");
+        pme00PasswordToken.setUpdateAt(new Date());
+        pme00PasswordToken.setUpdateBy("0");
+        long currentTimeInMillis = System.currentTimeMillis();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTimeInMillis);
+        calendar.add(Calendar.HOUR, 24);
+        pme00PasswordToken.setExpire(calendar.getTimeInMillis());
+        return pme00PasswordToken;
     }
 
     private String parseJwt(HttpServletRequest request) {

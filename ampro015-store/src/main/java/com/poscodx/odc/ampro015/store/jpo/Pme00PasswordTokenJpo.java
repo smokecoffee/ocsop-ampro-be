@@ -26,7 +26,7 @@ public class Pme00PasswordTokenJpo
     @Column(name = "TOKEN")
     private String token;
     @Column(name = "EXPIRE")
-    private int expire;
+    private long expire;
     @Column(name = "CREATE_AT")
     private Date createAt;
     @Column(name = "CREATE_BY")
