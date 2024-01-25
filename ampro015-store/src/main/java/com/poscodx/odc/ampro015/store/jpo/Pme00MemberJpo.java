@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00Member;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.posco.reuse.common.errorobjects.PosBaseException;
 import com.poscoict.base.share.jpo.PoscoEntityJpo;
 import lombok.Getter;
@@ -50,5 +51,10 @@ public class Pme00MemberJpo {
 
     public static List<Pme00Member> toDomains(Iterable<Pme00MemberJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00MemberJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @PostLoad
+    public void setAvatar() {
+        avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee/");
     }
 }
