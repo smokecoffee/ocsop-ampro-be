@@ -108,21 +108,20 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRegistrationEndDate) : null;
         Date _fromRequestStartDate = (fromRequestStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRequestStartDate) : null;
         Date _toRequestEndDate = (toRequestEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRequestEndDate) : null;
-        IssueManagementResponse response = new IssueManagementResponse();
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for (Object[] objects : list) {
             issueManagementDtoList.add(new IssueManagement(objects));
         }
-        Map<String, Object> rs = new HashMap<>();
+        Map<String, Object> responses = new HashMap<>();
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
-        rs.put("status", HttpStatus.FOUND.value());
-        rs.put("message","OK");
-        rs.put("total", total);
-        rs.put("data", issueManagementDtoList);
-        return rs;
+        responses.put("status", HttpStatus.FOUND.value());
+        responses.put("message","OK");
+        responses.put("total", total);
+        responses.put("data", issueManagementDtoList);
+        return responses;
     }
 
     /**
