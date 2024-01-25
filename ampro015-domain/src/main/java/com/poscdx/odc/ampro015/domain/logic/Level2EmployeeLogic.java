@@ -111,7 +111,6 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                         setId.remove(pme00RoleUser.getRoleId());
                     }
                 }
-
                 pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
                 pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
 
@@ -175,6 +174,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setMobile(pme00EmployeeList.get(0).getMobile());
             employee.setAddress(pme00EmployeeList.get(0).getAddress());
             employee.setEmpStatus(pme00EmployeeList.get(0).getStatus());
+            employee.setCreateBy(pme00EmployeeList.get(0).getCreateBy());
             employee.setRole("ADMIN");
 
             serviceLifecycle.requestM00EmployeeService().modify(employee);
