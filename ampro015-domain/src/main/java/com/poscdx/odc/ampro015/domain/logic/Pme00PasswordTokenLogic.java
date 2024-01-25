@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
 import com.poscdx.odc.ampro015.domain.spec.Pme00PasswordTokenService;
 import com.poscdx.odc.ampro015.domain.store.Pme00PasswordTokenStore;
@@ -37,5 +38,12 @@ public class Pme00PasswordTokenLogic implements Pme00PasswordTokenService
     @Override
     public void remove(int id) {
         this.store.delete(id);
+    }
+
+    @Override
+    public Pme00PasswordToken FindPasswordTokenByToken(String token) {
+        List<Object[]> objects =  store.FindPasswordTokenByToken(token);
+        if(objects.isEmpty()) return  null;
+        return new Pme00PasswordToken((objects.get(0)));
     }
 }

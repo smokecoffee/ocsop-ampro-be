@@ -49,4 +49,9 @@ public class Pme00PasswordTokenJpaStore
     public void delete(int id) {
         this.repository.deleteById(id);
     }
+
+    @Override
+    public List<Object[]> FindPasswordTokenByToken(String token) {
+        return this.repository.FindPasswordTokenByToken(token);
+    }
 }

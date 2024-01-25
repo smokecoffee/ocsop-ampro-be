@@ -16,5 +16,5 @@ public interface Pme00PasswordTokenService {
 
     public void remove(int id);
 
-    //void findEmail(String );
+    public Pme00PasswordToken FindPasswordTokenByToken(String token);
 }
