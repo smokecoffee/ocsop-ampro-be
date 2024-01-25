@@ -39,10 +39,9 @@ public class Pme00Employee {
     }
 
     public Pme00Employee(Object[] object) {
-        this.avatar = (object[11] == null || ((String) object[11]).isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + object[11];
          this.empId = (String) object[0];
-         this.name = (String) object[2];
+        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) object[11], "Employee");
+        this.name = (String) object[2];
          this.site = (String) object[28];
          this.siteCode = (String) object[1];
          this.birthDate = (String) object[4];

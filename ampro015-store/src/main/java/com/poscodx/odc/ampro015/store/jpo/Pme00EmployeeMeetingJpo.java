@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeMeeting;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,4 +50,10 @@ public class Pme00EmployeeMeetingJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00EmployeeMeetingJpo::toDomain).collect(Collectors.toList());
     }
 
+    @PostLoad
+    public void setAvatar() {
+        if (avatar != null && !avatar.isEmpty()) {
+            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
+        }
+    }
 }
