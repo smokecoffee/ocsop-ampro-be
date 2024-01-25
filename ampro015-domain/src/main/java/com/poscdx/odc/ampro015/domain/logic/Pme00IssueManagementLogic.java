@@ -119,7 +119,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
         rs.put("total", total);
-        rs.put("issueManagement", issueManagementDtoList);
+        rs.put("data", issueManagementDtoList);
 
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
