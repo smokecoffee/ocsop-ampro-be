@@ -26,7 +26,6 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
                 .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
         List<Pme00RoleUser> pme00RoleUsers = serviceLifecycle.requestPme00RoleUserService().findRoleUserByEmpId(empId);
-
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
         for(Object[] object : listPme00Employee){
             Pme00Employee employee = new Pme00Employee(object);
@@ -149,9 +148,11 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService()
                     .findRoleUserByEmpId(empId);
             for (Pme00RoleUser checkRoleUser : checkRoleUsers) {
-                if (empId.equals(checkRoleUser.getEmpId())) {
-                    int roleUserId = checkRoleUser.getId();
-                    serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
+                for(Pme00RoleUser editRoleUser : editRoleUsers){
+                   if (empId.equals(checkRoleUser.getEmpId())&&(checkRoleUser.getRoleId()==editRoleUser.getRoleId())) {
+                       int roleUserId = checkRoleUser.getId();
+                       serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
+                   }
                 }
             }
             for(int i=0; i<editRoleUsers.size(); i++){
