@@ -24,13 +24,14 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
 
     @Override
     public List<IssueManagement> retrieve(int seq, String site) {
-        return this.store.retrieve(seq,site);
+        return this.store.retrieve(seq, site);
     }
 
     @Override
     public List<IssueManagement> retrieveAll() {
         return this.store.retrieveAll();
     }
+
     /**
      * Modify issue management
      *
@@ -41,7 +42,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle,IssueManagement issueManagement) {
+    public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.update(issueManagement);
         response.setStatus(HttpStatus.CREATED.value());
@@ -59,7 +60,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public IssueManagementResponse create(ServiceLifecycle serviceLifecycle,IssueManagement newIssueManagement) {
+    public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.create(newIssueManagement);
         //pls check to upload file at here
@@ -67,6 +68,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         response.setMessage("This issue has been created");
         return response;
     }
+
     /**
      * Remove issue management
      *
@@ -97,7 +99,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException {
         Pageable pageable;
-        if(pageSize == 0){
+        if (pageSize == 0) {
             pageable = Pageable.unpaged();
         } else {
             pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
@@ -110,7 +112,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
-        for(Object[] objects : list){
+        for (Object[] objects : list) {
             issueManagementDtoList.add(new IssueManagement(objects));
         }
         Map<String, Object> rs = new HashMap<>();
@@ -123,6 +125,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         response.setMessage("OK");
         return rs;
     }
+
     /**
      * Search issue management
      *
@@ -135,7 +138,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer) {
         IssueManagementResponse response = new IssueManagementResponse();
-        List<IssueManagement> list = this.store.searchIssue(site,module,division_flag,applied_period_flag,accept_flag,request_confirm,requester,contents,contents_kr,developer);
+        List<IssueManagement> list = this.store.searchIssue(site, module, division_flag, applied_period_flag, accept_flag, request_confirm, requester, contents, contents_kr, developer);
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
         return list;
@@ -145,7 +148,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * findIssueDto
      *
      * @param //contents, site, module, division_flag, applied_period_flag,
-     *                 accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date
+     *                    accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date
      * @param //dto
      * @return List IssueManagementDto
      * @author 202307_PhatNC

@@ -40,15 +40,16 @@ public class IssueManagement {
     private String requesterId;
     private String developerName;
     private String requesterAvatar;
-    public String toJson(){
+
+    public String toJson() {
         return JsonUtil.toJson(this);
     }
 
-    public static IssueManagement fromJson(String json){
+    public static IssueManagement fromJson(String json) {
         return JsonUtil.fromJson(json, IssueManagement.class);
     }
 
-    public IssueManagement(Object[] objects){
+    public IssueManagement(Object[] objects) {
         this.seq = (int) objects[0];
         this.registrationDate = (Date) objects[1];
 //        this.requestDate = (Date) objects[2];

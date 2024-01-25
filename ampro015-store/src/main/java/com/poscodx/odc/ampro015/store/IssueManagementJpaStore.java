@@ -65,8 +65,8 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
                                              String accept_flag, String request_confirm, String requester,
                                              String contents, String contents_kr, String developer) {
-        List<Map<String,String>> mapList = this.repository.searchIssue(site,module,division_flag,applied_period_flag,
-                accept_flag,request_confirm,requester,contents,contents_kr,developer);
+        List<Map<String, String>> mapList = this.repository.searchIssue(site, module, division_flag, applied_period_flag,
+                accept_flag, request_confirm, requester, contents, contents_kr, developer);
         ObjectMapper mapper = new ObjectMapper();
         return mapList.stream().map(item -> mapper.convertValue(item, IssueManagement.class)).collect(Collectors.toList());
     }
