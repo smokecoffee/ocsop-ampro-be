@@ -18,3 +18,12 @@ minio:
   accessKey: 2046KAWetUZYcG8nubg0
   secretKey: cpxDglli2pZI3KdiIsG1ZdJVi0wgRCFlBwQlK5OJ
   bucketName: ampro
+
+
+email:
+  smtpHostServer: 127.0.0.1
+  smtpHostServerPort: 578
+  emailId: no_reply@posco.net
+  emailIdAlias: no_reply
+  emailPass: abc@123
+  frontEndUrl: http://localhost:3000
