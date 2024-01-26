@@ -5,10 +5,14 @@ import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectsArgs;
+import io.minio.RemoveObjectsArgs.Builder;
+import io.minio.messages.DeleteObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -43,8 +47,13 @@ public class Level2Logic implements Level2Service {
     @Override
     public String removeFile(String bucketName, String serviceName, List<String> filenameList) {
         try {
-            minioClient.removeObjects(bucketName, filenameList);
-            return "Delete unsuccessfully!";
+            List<String> deleteList = new ArrayList<>();
+            filenameList.forEach(filename -> deleteList.add("/" + serviceName + "/" + filename));
+
+            for (String deleteString : deleteList) {
+                minioClient.removeObject(bucketName, deleteString);
+            }
+            return "Delete successfully!";
         } catch (Exception e) {
             return "Delete unsuccessfully!";
         }

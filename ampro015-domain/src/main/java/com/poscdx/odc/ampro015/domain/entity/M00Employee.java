@@ -41,12 +41,12 @@ public class M00Employee {
     private String initEmpId;
     private Date endDate;
     private String empStatus;
+    private String createBy;
 
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
-        this.avatar = (objects[2] == null || ((String) objects[2]).isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" + objects[2];
+        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[2], "Employee");
         this.birthday = (String) objects[3];
         this.ipAddress = (String) objects[4];
     }

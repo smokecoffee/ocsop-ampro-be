@@ -42,6 +42,8 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
     List<Object[]> findAllEmployee();
 
     @Query(value = "SELECT E.*\n" +
+            ",E1.NAME AS CREATE_USER_NAME\n" +
+            ",E1.PHOTO AS CREATE_USER_PHOTO\n" +
             ",CODE1.CD_V_MEANING AS SITE\n" +
             ",CODE2.CD_V_MEANING AS STATUS\n" +
             " FROM\n" +
@@ -50,6 +52,8 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " ON CODE1.CD_V = E.SITE_CODE \n" +
             " JOIN TB_M00_CODES030 CODE2\n" +
             " ON CODE2.CD_V = E.EMP_STATUS \n" +
+            " LEFT JOIN TB_M00_EMPLOYEE AS E1\n" +
+            " ON E.CREATE_BY = E1.EMP_ID \n" +
             " WHERE 1=1\n" +
             " AND CODE1.CD_TP_ID = 51"+
             " AND CODE2.CD_TP_ID = 99"+
