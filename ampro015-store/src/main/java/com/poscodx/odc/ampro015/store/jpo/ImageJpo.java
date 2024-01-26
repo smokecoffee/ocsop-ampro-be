@@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @Entity(name = "Image")
 @Table(name = "TB_A01_IMAGE", schema = "AMPRO")
-public class ImageJpo extends PoscoEntityJpo {
+public class ImageJpo  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -65,11 +65,6 @@ public class ImageJpo extends PoscoEntityJpo {
 
     public static List<Image> toDomains(Iterable<ImageJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(ImageJpo::toDomain).collect(Collectors.toList());
-    }
-
-    @Override
-    public void validateJpo() throws PosBaseException {
-
     }
 
     @PostLoad

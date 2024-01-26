@@ -13,13 +13,13 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Field extends PoscoEntity {
+public class Field {
     private int id;
     private int assetId;
     private int sort;
     private String name;
     private String value;
-    private int createBy;
+    private String createBy;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
     private Date createAt;
     private String updateBy;
