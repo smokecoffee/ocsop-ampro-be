@@ -38,7 +38,7 @@ public class IssueManagement {
     private String requesterConfirm;
     private Date finalConfirmDate;
     private String requesterId;
-    private String developerName;
+    //private String developerName;
 
 
     public String toJson() {
@@ -73,8 +73,8 @@ public class IssueManagement {
         this.developFromDate = (Date) objects[24];
         this.requesterId = (String) objects[25];
         this.developToDate = (Date) objects[26];
-        this.developerName = (String) objects[27];
-//        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
+        // this.developerName = (String) objects[27];
+        // this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
     }
 
 }
