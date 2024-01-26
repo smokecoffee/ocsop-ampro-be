@@ -90,8 +90,7 @@ public class Pme00IssueManagementResource {
     @CrossOrigin
     @GetMapping
     public List<IssueManagement> getAll() {
-        List<IssueManagement> getAllIssue = serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
-        return getAllIssue;
+        return serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
     }
 
     /**
