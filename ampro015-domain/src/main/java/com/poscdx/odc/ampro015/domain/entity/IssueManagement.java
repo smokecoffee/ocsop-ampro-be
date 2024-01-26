@@ -17,7 +17,7 @@ public class IssueManagement {
     private int seq;
     private String seqString;
     private Date registrationDate;
-    private Date requestDate;
+    private String requestDate;
     private String requester;
     private String site;
     private String module;
@@ -37,7 +37,6 @@ public class IssueManagement {
     private String categoryFlag;
     private String requesterConfirm;
     private Date finalConfirmDate;
-    private String requesterName;
     private String requesterId;
     private String developerName;
 
@@ -70,10 +69,9 @@ public class IssueManagement {
         this.developComments = (String) objects[16];
         this.categoryFlag = (String) objects[19];
         this.requesterConfirm = (String) objects[20];
-        this.requesterId = (String) objects[22];
-        this.requestDate = (Date) objects[23];
+        this.requestDate = (String) objects[23];
         this.developFromDate = (Date) objects[24];
-        this.finalConfirmDate = (Date) objects[25];
+        this.requesterId = (String) objects[25];
         this.developToDate = (Date) objects[26];
         this.developerName = (String) objects[27];
 //        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
