@@ -34,6 +34,7 @@ public class Pme00Employee {
     private List<Pme00RoleUser> listRoleUser;
     private String nameCreateBy;
     private String gender;
+    private String ipAddress;
 
     public String toJson() {
         return JsonUtil.toJson(this);
@@ -63,6 +64,7 @@ public class Pme00Employee {
         this.createByUserPhoto = (object[30]== null ||((String) object[29]).isEmpty())? null:
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" +object[30];
         this.gender = (String) object[28];
+        this.ipAddress = (String) object[7];
 
     }
 }

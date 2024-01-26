@@ -21,11 +21,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                                                             String name,
                                                             String empId,
                                                             String joinDateFrom,
-                                                            String joinDateTo){
+                                                            String joinDateTo,
+                                                            String gender){
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
 
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
-                .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
+                .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo, gender);
 
         List<Pme00RoleUser> pme00RoleUsers = serviceLifecycle.requestPme00RoleUserService().findRoleUserByEmpId(empId);
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
@@ -100,6 +101,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 employee.setEmpStatus(newEmployee.getStatus());
                 employee.setCreateBy(newEmployee.getCreateBy());
                 employee.setGender(newEmployee.getGender());
+                employee.setIpAddress(newEmployee.getIpAddress());
                 employee.setRole("ADMIN");
                 M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
@@ -182,7 +184,8 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 checkEmployee.setAddress(pme00EmployeeEdit.getAddress());
                 checkEmployee.setEmpStatus(pme00EmployeeEdit.getStatus());
                 checkEmployee.setCreateBy(checkEmployee.getCreateBy());
-                checkEmployee.setGender(checkEmployee.getGender());
+                checkEmployee.setGender(pme00EmployeeEdit.getGender());
+                checkEmployee.setIpAddress(pme00EmployeeEdit.getIpAddress());
                 checkEmployee.setRole("ADMIN");
 
                 serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);

@@ -64,7 +64,7 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     }
 
     @Override
-    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo) {
-        return this.repository.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
+    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo, String gender) {
+        return this.repository.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
 }
