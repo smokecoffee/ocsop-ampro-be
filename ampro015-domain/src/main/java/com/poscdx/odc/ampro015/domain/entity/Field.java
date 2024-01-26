@@ -22,7 +22,7 @@ public class Field extends PoscoEntity {
     private int createBy;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
     private Date createAt;
-    private int updateBy;
+    private String updateBy;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
     private Date updateAt;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)

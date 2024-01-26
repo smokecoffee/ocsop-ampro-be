@@ -108,7 +108,7 @@ public class Level2QrCodeLogic implements Level2QrCodeService {
      * @param userId           int
      */
     @Override
-    public void deleteAsset(ServiceLifecycle serviceLifecycle, String token, int userId) {
+    public void deleteAsset(ServiceLifecycle serviceLifecycle, String token, String userId) {
         if (StringUtils.isNotBlank(token)) {
             Asset asset = serviceLifecycle.requestAssetService().findByToken(token);
             if (Objects.nonNull(asset)) {
