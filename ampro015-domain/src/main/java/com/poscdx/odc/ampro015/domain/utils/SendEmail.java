@@ -1,6 +1,12 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.Console;
@@ -19,17 +25,22 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-
+@Component
 public class SendEmail {
     private static final String MAIL_SMTP_SERVER_KEY = "mail.smtp.host";
     private static final String MAIL_SMTP_SERVER_PORT_KEY = "mail.smtp.port";
     private static final String MAIL_SMTP_SERVER_AUTH_KEY = "mail.smtp.auth";
     private static final String MAIL_SMTP_SERVER_START_TLS_KEY = "mail.smtp.starttls.enable";
 
+    @Autowired
+    private static MailConfig mailConfig;
+
 
 
     public static void LoadTemplate() throws IOException {
         try {
+
+
             String html = new String(Files.readAllBytes(ResourceUtils.getFile("classpath:password-reset.html").toPath()));
             sendEmailWithoutAuthentication("xuan.nguyenthanh@posco.net","Reset Password",html);
 
@@ -137,6 +148,23 @@ public class SendEmail {
         props.put(MAIL_SMTP_SERVER_KEY, ConstantUtil.MAIL_SMTP_SERVER);
         Session session = Session.getInstance(props, null);
         sendEmail(session,toEmail, subject, body);
+    }
+    public static void sendEmailWithAuthentication(String toEmail, String subject, String body){
+        Properties props = System.getProperties();
+        props.put(MAIL_SMTP_SERVER_KEY, ConstantUtil.MAIL_SMTP_SERVER);
+        props.put("mail.smtp.auth", "true");
+        //props.put("mail.smtp.port", "25");
+        props.put("proxySet", "true");
+        props.put("ProxyHost", "forward.posco.net");
+        props.put("ProxyPort", "80");
+        Authenticator auth = new Authenticator() {
+            //override the getPasswordAuthentication method
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("ss","ss");
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+       // sendEmail(session,toEmail, subject, body);
     }
 
     public static void sendEmailWithAuthenticationTLS(String toEmail, String subject, String body){

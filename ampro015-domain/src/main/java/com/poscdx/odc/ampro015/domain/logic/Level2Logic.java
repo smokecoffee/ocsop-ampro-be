@@ -1,13 +1,16 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
+import com.poscdx.odc.ampro015.domain.utils.MailSender;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+import com.poscdx.odc.ampro015.domain.utils.SendEmail;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectsArgs;
 import io.minio.RemoveObjectsArgs.Builder;
 import io.minio.messages.DeleteObject;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -18,6 +21,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class Level2Logic implements Level2Service {
+
+    @Value("${minio.bucketName}")
+    private String bucketName;
 
     private final MinioClient minioClient;
 
@@ -58,4 +64,10 @@ public class Level2Logic implements Level2Service {
             return "Delete unsuccessfully!";
         }
     }
+
+    @Override
+    public String sendMail(String recipient, String username, String password, String subject, String body) {
+         SendEmail.sendEmailWithAuthentication("xuan.nguyenthanh@posco.net", "Your email subject", "<b>Hello, this is the body of the email.</b>");
+    return "OK"
+;    }
 }

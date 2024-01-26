@@ -15,4 +15,8 @@ public interface Level2EmployeeService {
     PmeRoleResponse findAllRole(ServiceLifecycle serviceLifecycle);
     Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
                                                 List<Pme00Employee> pme00EmployeeList);
+
+    Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle);
+
+
 }

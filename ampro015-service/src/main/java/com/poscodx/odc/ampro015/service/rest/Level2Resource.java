@@ -4,13 +4,11 @@ import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.utils.SendEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -59,12 +57,7 @@ public class Level2Resource {
 
     @CrossOrigin
     @GetMapping(path = "/test")
-    public List<Pme00PasswordToken> test()  {
-        try {
-            SendEmail.LoadTemplate();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return this.serviceLifecycle.requestPasswordService().findAll();
+    public String test(@RequestBody String recipient) {
+        return this.serviceLifecycle.requestLevel2Service().sendMail(recipient, "", "", "", "");
     }
 }

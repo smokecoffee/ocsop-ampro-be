@@ -10,13 +10,17 @@ public class ConstantUtil {
 
     public static String UPLOAD_URL = "";
     public static String UPLOAD_BUCKET = "";
-//    public static String UPLOAD_PATH = UPLOAD_URL + UPLOAD_BUCKET + "/";
 
-    public static String MAIL_SMTP_SERVER = "";
+    public static String MAIL_HOST = "116.123.216.77";
+//    public static String MAIL_ADDRESS = "no-reply@posco.com";
+    public static String MAIL_ADDRESS = "no-reply@example.com";
+    public static String MAIL_NAME = "ODC데이터포털";
+
+    public static String MAIL_SMTP_SERVER = "116.123.216.77";
     public static String MAIL_SMTP_SERVER_PORT = "";
-    public static String MAIL_SMTP_EMAIL_ID = "";
-    public static String MAIL_SMTP_EMAIL_ID_ALIAS = "";
-    public static String MAIL_SMTP_EMAIL_PASSWORD = "";
+    public static String MAIL_SMTP_EMAIL_ID = "no-reply@example.com";
+    public static String MAIL_SMTP_EMAIL_ID_ALIAS = "ODC데이터포털";
+    public static String MAIL_SMTP_EMAIL_PASSWORD = "ss";
     public static String MAIL_FRONT_END_URL = "http://localhost:3000";
 
     public static String applyEmployeeAvatarPath(String avatar, String serviceName) {
