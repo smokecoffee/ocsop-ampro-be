@@ -11,15 +11,11 @@ public class ConstantUtil {
     public static String UPLOAD_URL = "";
     public static String UPLOAD_BUCKET = "";
 
-    public static String MAIL_HOST = "116.123.216.77";
-//    public static String MAIL_ADDRESS = "no-reply@posco.com";
-    public static String MAIL_ADDRESS = "no-reply@example.com";
-    public static String MAIL_NAME = "ODC데이터포털";
-
     public static String MAIL_SMTP_SERVER = "116.123.216.77";
-    public static String MAIL_SMTP_SERVER_PORT = "";
+    public static String MAIL_SMTP_SERVER_PORT = "25";
     public static String MAIL_SMTP_EMAIL_ID = "no-reply@example.com";
     public static String MAIL_SMTP_EMAIL_ID_ALIAS = "ODC데이터포털";
+    public static String MAIL_SMTP_EMAIL_USERNAME = "ss";
     public static String MAIL_SMTP_EMAIL_PASSWORD = "ss";
     public static String MAIL_FRONT_END_URL = "http://localhost:3000";
 

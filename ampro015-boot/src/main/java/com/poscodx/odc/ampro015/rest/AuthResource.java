@@ -9,31 +9,29 @@ import com.poscdx.odc.ampro015.domain.entity.payload.request.ResetPasswordReques
 import com.poscdx.odc.ampro015.domain.entity.payload.response.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscodx.odc.ampro015.MailConfig;
 import com.poscodx.odc.ampro015.config.jwt.JwtUtils;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.poi.hpsf.GUID;
-import org.hibernate.id.GUIDGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -49,6 +47,7 @@ public class AuthResource {
     private final ServiceLifecycle serviceLifecycle;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
+    private final MailConfig mailConfig;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody M00Employee signUpRequest) {
@@ -116,6 +115,24 @@ public class AuthResource {
             Pme00PasswordToken pme00PasswordToken = getPme00PasswordToken(employee, uuid);
             Pme00PasswordToken savePme00PasswordToken = serviceLifecycle.requestPasswordService().register(pme00PasswordToken);
             //TODO: send email with build info: need to service send email provider
+            String resetHtmlTemplate = LoadTemplate();
+            ConstantUtil.MAIL_SMTP_SERVER = mailConfig.getSmtpHostServer();
+            ConstantUtil.MAIL_SMTP_SERVER_PORT = mailConfig.getSmtpHostServerPort();
+            ConstantUtil.MAIL_SMTP_EMAIL_ID = mailConfig.getEmailId();
+            ConstantUtil.MAIL_SMTP_EMAIL_ID_ALIAS = mailConfig.getEmailName();
+            ConstantUtil.MAIL_SMTP_EMAIL_USERNAME = mailConfig.getUserName();
+            ConstantUtil.MAIL_SMTP_EMAIL_PASSWORD = mailConfig.getPassword();
+            ConstantUtil.MAIL_FRONT_END_URL = mailConfig.getFrontEndUrl();
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("url", mailConfig.getFrontEndUrl());
+            map.put("token",uuid.toString());
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                resetHtmlTemplate = resetHtmlTemplate.replace("${" + entry.getKey() + "}", entry.getValue());
+            }
+
+            serviceLifecycle.requestLevel2Service().sendMail(employee.getMail(),mailConfig.getSubject(),resetHtmlTemplate);
+
             ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
             forgotPasswordResponse.setError(false);
             forgotPasswordResponse.setMessage("Please check email to process next step");
@@ -125,6 +142,8 @@ public class AuthResource {
     @CrossOrigin
     @GetMapping("/reset-password/{token}")
     public ResponseEntity<?> ResetPasswordGetToken(@PathVariable("token") String token) {
+        //String s = LoadTemplate();
+
         ResetPasswordResponse resetPasswordResponse = new ResetPasswordResponse();
         Pme00PasswordToken pme00PasswordToken = serviceLifecycle.requestPasswordService().FindPasswordTokenByToken(token);
         if(pme00PasswordToken==null){
@@ -195,6 +214,15 @@ public class AuthResource {
         return pme00PasswordToken;
     }
 
+    private String LoadTemplate() {
+        try {
+            return new String(Files.readAllBytes(ResourceUtils.getFile("classpath:password-reset.html").toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return "";
+    }
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
         System.out.println("Authorization: " + headerAuth);

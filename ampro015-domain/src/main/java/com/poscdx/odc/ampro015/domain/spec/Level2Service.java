@@ -13,4 +13,6 @@ public interface Level2Service {
     String removeFile(String bucketName, String serviceName, List<String> fileName);
 
     String sendMail(String recipient, String username, String password, String subject, String body);
+
+    boolean sendMail(String mail, String subject,String resetHtmlTemplate);
 }
