@@ -41,6 +41,7 @@ public class M00Employee {
     private String initEmpId;
     private Date endDate;
     private String empStatus;
+    private String createBy;
 
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];

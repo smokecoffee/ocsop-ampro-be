@@ -96,6 +96,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 employee.setMobile(newEmployee.getMobile());
                 employee.setAddress(newEmployee.getAddress());
                 employee.setEmpStatus(newEmployee.getStatus());
+                employee.setCreateBy(newEmployee.getCreateBy());
                 employee.setRole("ADMIN");
                 M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
@@ -111,7 +112,6 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                         setId.remove(pme00RoleUser.getRoleId());
                     }
                 }
-
                 pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
                 pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
 
@@ -175,6 +175,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             employee.setMobile(pme00EmployeeList.get(0).getMobile());
             employee.setAddress(pme00EmployeeList.get(0).getAddress());
             employee.setEmpStatus(pme00EmployeeList.get(0).getStatus());
+            employee.setCreateBy(checkEmployee.getCreateBy());
             employee.setRole("ADMIN");
 
             serviceLifecycle.requestM00EmployeeService().modify(employee);
@@ -185,6 +186,23 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
         }
         return pme00AllLevel2EmployeeResponse;
+    }
+
+    public Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle){
+        Pme00GenderResponse pme00GenderResponse = new Pme00GenderResponse();
+        final int cdTpId = 68;
+        List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId);
+        List<Pme00Gender> pme00Genders = new ArrayList<>();
+        for (M00Codes030 m00Codes030 : m00Codes030s){
+            Pme00Gender pme00Gender = new Pme00Gender();
+            pme00Gender.setCdV(m00Codes030.getCdV());
+            pme00Gender.setCdvMeaning(m00Codes030.getCdvMeaning());
+            pme00Genders.add(pme00Gender);
+        }
+        pme00GenderResponse.setStatus(HttpStatus.OK.value());
+        pme00GenderResponse.setListData(pme00Genders);
+        pme00GenderResponse.setMessage("Get all gender successfully");
+        return pme00GenderResponse;
     }
 
 }
