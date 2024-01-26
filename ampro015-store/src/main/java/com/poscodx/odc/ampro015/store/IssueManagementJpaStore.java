@@ -48,7 +48,7 @@ public class IssueManagementJpaStore implements IssueManagementStore {
 
     @Override
     public void delete(IssueManagementId id) {
-        this.repository.deleteById(id);
+        this.repository.findById(id).ifPresent(repository::delete);
     }
 
     @Override
