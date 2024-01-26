@@ -113,8 +113,6 @@ public class AuthResource {
         }else{
             UUID uuid = UUID. randomUUID();
             Pme00PasswordToken pme00PasswordToken = getPme00PasswordToken(employee, uuid);
-            Pme00PasswordToken savePme00PasswordToken = serviceLifecycle.requestPasswordService().register(pme00PasswordToken);
-            //TODO: send email with build info: need to service send email provider
             String resetHtmlTemplate = LoadTemplate();
             ConstantUtil.MAIL_SMTP_SERVER = mailConfig.getSmtpHostServer();
             ConstantUtil.MAIL_SMTP_SERVER_PORT = mailConfig.getSmtpHostServerPort();
@@ -130,13 +128,18 @@ public class AuthResource {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 resetHtmlTemplate = resetHtmlTemplate.replace("${" + entry.getKey() + "}", entry.getValue());
             }
-
-            serviceLifecycle.requestLevel2Service().sendMail(employee.getMail(),mailConfig.getSubject(),resetHtmlTemplate);
-
-            ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
-            forgotPasswordResponse.setError(false);
-            forgotPasswordResponse.setMessage("Please check email to process next step");
-            return ResponseEntity.ok(forgotPasswordResponse);
+            if(serviceLifecycle.requestLevel2Service().sendMail(employee.getMail(),mailConfig.getSubject(),resetHtmlTemplate)){
+                serviceLifecycle.requestPasswordService().register(pme00PasswordToken);
+                ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+                forgotPasswordResponse.setError(false);
+                forgotPasswordResponse.setMessage("Please check email to process next step");
+                return ResponseEntity.ok(forgotPasswordResponse);
+            }else {
+                ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+                forgotPasswordResponse.setError(true);
+                forgotPasswordResponse.setMessage("Have Error when send email. Please contact with administrator");
+                return ResponseEntity.ok(forgotPasswordResponse);
+            }
         }
     }
     @CrossOrigin
