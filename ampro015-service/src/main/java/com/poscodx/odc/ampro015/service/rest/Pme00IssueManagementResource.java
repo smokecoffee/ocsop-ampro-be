@@ -90,7 +90,7 @@ public class Pme00IssueManagementResource {
     @CrossOrigin
     @GetMapping
     public List<IssueManagement> getAll() {
-        return serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
+        return this.serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
     }
 
     /**
@@ -103,8 +103,7 @@ public class Pme00IssueManagementResource {
     @CrossOrigin
     @GetMapping("/getbyseqandsite")
     public List<IssueManagement> getBySeqAndSite(@RequestParam int seq, @RequestParam String site) {
-        List<IssueManagement> getSeqAndSite = serviceLifecycle.requestPme00IssueManagementService().retrieve(seq, site);
-        return getSeqAndSite;
+        return this.serviceLifecycle.requestPme00IssueManagementService().retrieve(seq, site);
     }
 
 
