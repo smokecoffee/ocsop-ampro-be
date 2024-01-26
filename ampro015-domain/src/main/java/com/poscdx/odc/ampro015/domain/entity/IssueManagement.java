@@ -15,6 +15,7 @@ import java.util.Date;
 @Data
 public class IssueManagement {
     private int seq;
+    private String seqString;
     private Date registrationDate;
     private Date requestDate;
     private String requester;
@@ -50,8 +51,10 @@ public class IssueManagement {
     }
 
     public IssueManagement(Object[] objects) {
+
         this.seq = (int) objects[0];
         this.registrationDate = (Date) objects[1];
+        this.seqString = "CD" + seq;
 //        this.requestDate = (Date) objects[2];
         this.requester = (String) objects[3];
         this.site = (String) objects[4];
