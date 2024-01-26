@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
+import com.poscdx.odc.ampro015.domain.utils.MailSender;
 import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
@@ -57,5 +58,10 @@ public class Level2Logic implements Level2Service {
         } catch (Exception e) {
             return "Delete unsuccessfully!";
         }
+    }
+
+    @Override
+    public String sendMail(String recipient, String username, String password, String subject, String body) {
+        return MailSender.sendMail(recipient, username, password, subject, body);
     }
 }

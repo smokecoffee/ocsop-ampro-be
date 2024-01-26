@@ -57,8 +57,8 @@ public class Level2Resource {
     }
 
     @CrossOrigin
-    @GetMapping(path = "/test/{cdV}")
-    public List<Pme00Member> test(@PathVariable("cdV") String cdV) {
-        return this.serviceLifecycle.requestPme00MemberService().getListMemberByCdVId(cdV);
+    @GetMapping(path = "/test")
+    public String test(@RequestBody String recipient) {
+        return this.serviceLifecycle.requestLevel2Service().sendMail(recipient, "", "", "", "");
     }
 }
