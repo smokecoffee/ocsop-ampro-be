@@ -17,7 +17,7 @@ public class IssueManagement {
     private int seq;
     private String seqString;
     private Date registrationDate;
-    private String requestDate;
+    private Date requestDate;
     private String requester;
     private String site;
     private String module;
@@ -69,7 +69,7 @@ public class IssueManagement {
         this.developComments = (String) objects[16];
         this.categoryFlag = (String) objects[19];
         this.requesterConfirm = (String) objects[20];
-        this.requestDate = (String) objects[23];
+        this.requestDate = (Date) objects[23];
         this.developFromDate = (Date) objects[24];
         this.requesterId = (String) objects[25];
         this.developToDate = (Date) objects[26];
