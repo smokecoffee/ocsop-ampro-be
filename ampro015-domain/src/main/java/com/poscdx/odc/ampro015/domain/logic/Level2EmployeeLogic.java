@@ -26,6 +26,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
                 .searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
+
         List<Pme00RoleUser> pme00RoleUsers = serviceLifecycle.requestPme00RoleUserService().findRoleUserByEmpId(empId);
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
         for(Object[] object : listPme00Employee){
@@ -98,6 +99,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 employee.setAddress(newEmployee.getAddress());
                 employee.setEmpStatus(newEmployee.getStatus());
                 employee.setCreateBy(newEmployee.getCreateBy());
+                employee.setGender(newEmployee.getGender());
                 employee.setRole("ADMIN");
                 M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
@@ -180,6 +182,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 checkEmployee.setAddress(pme00EmployeeEdit.getAddress());
                 checkEmployee.setEmpStatus(pme00EmployeeEdit.getStatus());
                 checkEmployee.setCreateBy(checkEmployee.getCreateBy());
+                checkEmployee.setGender(checkEmployee.getGender());
                 checkEmployee.setRole("ADMIN");
 
                 serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);

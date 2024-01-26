@@ -80,6 +80,8 @@ public class M00EmployeeJpo implements Serializable {
     private String empStatus;
     @Column(name="CREATE_BY")
     private String createBy;
+    @Column(name="GENDER")
+    private String gender;
 
     public M00EmployeeJpo(M00Employee domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

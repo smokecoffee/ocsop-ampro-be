@@ -33,6 +33,7 @@ public class Pme00Employee {
     private String createByUserPhoto;
     private List<Pme00RoleUser> listRoleUser;
     private String nameCreateBy;
+    private String gender;
 
     public String toJson() {
         return JsonUtil.toJson(this);
@@ -59,8 +60,9 @@ public class Pme00Employee {
         this.action = (String) object[26];
         this.createBy = (String) object[27];
         this.createByUserName = (String) object[29];
-        this.createByUserPhoto = (object[29]== null ||((String) object[29]).isEmpty())? null:
+        this.createByUserPhoto = (object[30]== null ||((String) object[29]).isEmpty())? null:
                 ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" +object[30];
+        this.gender = (String) object[28];
 
     }
 }
