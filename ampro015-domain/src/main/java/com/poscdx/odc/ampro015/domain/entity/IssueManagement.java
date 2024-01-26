@@ -51,7 +51,6 @@ public class IssueManagement {
     }
 
     public IssueManagement(Object[] objects) {
-
         this.seq = (int) objects[0];
         this.registrationDate = (Date) objects[1];
         this.seqString = "CD" + seq;
@@ -76,13 +75,10 @@ public class IssueManagement {
         this.requesterConfirm = (String) objects[20];
 //        this.finalConfirmDate = (Date) objects[21];
         this.requesterId = (String) objects[22];
-
         this.requestDate = (Date) objects[23];
         this.developFromDate = (Date) objects[24];
         this.finalConfirmDate = (Date) objects[25];
         this.developToDate = (Date) objects[26];
-
-
         this.developerName = (String) objects[27];
         this.requesterAvatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[28], "Employee");
 //        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
