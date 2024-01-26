@@ -63,7 +63,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
         store.create(newIssueManagement);
-        //pls check to upload file at here
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
@@ -97,7 +96,12 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException {
+    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag,
+                                             String applied_period_flag, String accept_flag, String requester_confirm,
+                                             String requester, String contents_kr, String developer,
+                                             String fromRegistrationStartDate, String toRegistrationEndDate,
+                                             String fromRequestStartDate, String toRequestEndDate,
+                                             int pageNo, int pageSize) throws ParseException {
         Pageable pageable;
         if (pageSize == 0) {
             pageable = Pageable.unpaged();
@@ -109,16 +113,18 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         Date _fromRequestStartDate = (fromRequestStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRequestStartDate) : null;
         Date _toRequestEndDate = (toRequestEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRequestEndDate) : null;
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
+                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate,
+                _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for (Object[] objects : list) {
             issueManagementDtoList.add(new IssueManagement(objects));
         }
         Map<String, Object> responses = new HashMap<>();
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate, _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
+                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate,
+                _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
         responses.put("status", HttpStatus.FOUND.value());
-        responses.put("message","OK");
+        responses.put("message", "OK");
         responses.put("total", total);
         responses.put("data", issueManagementDtoList);
         return responses;
@@ -134,9 +140,12 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer) {
+    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
+                                             String accept_flag, String request_confirm, String requester, String contents,
+                                             String contents_kr, String developer) {
         IssueManagementResponse response = new IssueManagementResponse();
-        List<IssueManagement> list = this.store.searchIssue(site, module, division_flag, applied_period_flag, accept_flag, request_confirm, requester, contents, contents_kr, developer);
+        List<IssueManagement> list = this.store.searchIssue(site, module, division_flag, applied_period_flag,
+                accept_flag, request_confirm, requester, contents, contents_kr, developer);
         response.setStatus(HttpStatus.FOUND.value());
         response.setMessage("OK");
         return list;
@@ -153,7 +162,10 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, Date request_date) {
+    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag,
+                                                 String applied_period_flag, String accept_flag, String requester_confirm,
+                                                 String requester, String contents_kr, String developer,
+                                                 Date registration_date, Date request_date) {
         List<Object[]> resultList = this.store.findIssueManagementDto(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
         List<IssueManagementDto> resultItemDtoList = new ArrayList<>();

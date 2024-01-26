@@ -54,8 +54,10 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
-                                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate, Pageable pageable) {
+    public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag,
+                                        String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
+                                        Date requestToEndDate, Pageable pageable) {
         return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
@@ -72,13 +74,19 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registration_date, Date request_date) {
-        return this.repository.findIssueManagementDto(contents, site, modules, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
+    public List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag,
+                                                 String applied_period_flag, String accept_flag, String requester_confirm,
+                                                 String requester, String contents_kr, String developer, Date registration_date, Date request_date) {
+        return this.repository.findIssueManagementDto(contents, site, modules, division_flag, applied_period_flag, accept_flag,
+                                    requester_confirm, requester, contents_kr, developer, registration_date, request_date);
     }
 
     @Override
-    public int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String contents_kr, String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
+    public int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag,
+                               String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                               Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
         return this.repository.countIssueReport(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate);
+                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate,
+                registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
 }
