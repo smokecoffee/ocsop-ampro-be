@@ -39,7 +39,8 @@ public interface M99DailyReportRepository extends JpaRepository<M99DailyReportJp
         "WHERE 1= 1\n" +
              "AND (:employeeId IS NULL OR :employeeId = '' OR :employeeId = DR.EMPLOYEE_ID)\n" +
              "AND (:projectNumber IS NULL OR :projectNumber = '' OR (DR.PROJECT_NUMBER LIKE CONCAT('%', :projectNumber, '%')))\n" +
-             "AND ((:fromDate IS NULL AND :toDate IS NULL) OR ((:fromDate = '' AND :toDate = '')) OR (DR.REGISTER_DATE BETWEEN :fromDate AND :toDate))"
+             "AND ((:fromDate IS NULL) OR (DR.REGISTER_DATE >= :fromDate))\n" +
+             "AND ((:toDate IS NULL) OR  (DR.REGISTER_DATE <= :toDate))"
         , nativeQuery = true)
     int countDailyReport(@Param("employeeId") String employeeId, @Param("projectNumber") String projectNumber,
                          @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
