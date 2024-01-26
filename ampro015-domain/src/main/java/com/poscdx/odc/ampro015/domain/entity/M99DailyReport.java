@@ -1,5 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -36,14 +37,14 @@ public class M99DailyReport {
         this.projectNumber = (String) object[3];
         this.contents = (String) object[4];
         this.remarks = (String) object[5];
-        this.fileName = (String) object[6];
+        this.fileName = ConstantUtil.applyEmployeeAvatarPath((String) object[6], "Report");
         this.opSatDate = (Date) object[7];
         this.opDnDate = (Date) object[8];
         this.creationTimestamp = (Date) object[9];
         this.lastUpdateTimestamp = (Date) object[10];
         this.status = object[11] == null ? 0 : (int) object[11];
         this.empName = (String) object[12];
-        this.empImg = "http://172.25.219.61:8080/img/" + (String) object[13];
+        this.empImg = ConstantUtil.applyEmployeeAvatarPath((String) object[13], "Employee");
     }
 
 }

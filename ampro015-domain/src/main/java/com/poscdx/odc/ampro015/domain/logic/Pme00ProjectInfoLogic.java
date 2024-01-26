@@ -70,7 +70,9 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
                                                   Date toStartDate,
                                                   Date fromEndDate,
                                                   Date toEndDate, Pageable pageable){
-        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, status, fromStartDate, toStartDate, fromEndDate, toEndDate, pageable);
+        List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework,
+                                                               status, fromStartDate, toStartDate, fromEndDate,
+                                                               toEndDate, pageable);
         List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
         for(Object[] obj : resultList){
             pme00ProjectInfoList.add(new Pme00ProjectInfo(obj));

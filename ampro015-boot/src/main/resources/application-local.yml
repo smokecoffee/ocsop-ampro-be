@@ -18,3 +18,9 @@ minio:
   accessKey: 2046KAWetUZYcG8nubg0
   secretKey: cpxDglli2pZI3KdiIsG1ZdJVi0wgRCFlBwQlK5OJ
   bucketName: ampro
+
+mail:
+  smtp:
+    host: 116.123.216.77
+    address: no-reply@posco.com
+    name: ODC데이터포털

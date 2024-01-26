@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -59,6 +60,13 @@ public class M99DailyReportJpo implements Serializable {
 
     public static List<M99DailyReport> toDomains(Iterable<M99DailyReportJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(M99DailyReportJpo::toDomain).collect(Collectors.toList());
+    }
+
+    @PostLoad
+    private void addUrlPath() {
+        if (fileName != null && !fileName.isEmpty()) {
+            fileName = ConstantUtil.applyEmployeeAvatarPath(fileName, "Report");
+        }
     }
 
 }

@@ -120,18 +120,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers(HttpMethod.GET, "**/asset-view.do/**").permitAll()
                 .antMatchers(HttpMethod.GET, "**/asset/view-asset/**").permitAll()
                 .antMatchers(HttpMethod.POST, "**/asset/view-asset/**").permitAll()
-
-//            .antMatchers(HttpMethod.GET, "**/asset.do").permitAll()
-//            .antMatchers(HttpMethod.POST, "**/asset.do").permitAll()
-//            .antMatchers(HttpMethod.GET, "**/booking.do").permitAll()
-//            .antMatchers(HttpMethod.POST, "**/booking.do").permitAll()
-//            .antMatchers(HttpMethod.GET, "**/project-monitoring.do").permitAll()
-//            .antMatchers(HttpMethod.POST, "**/project-monitoring.do").permitAll()
-//            .antMatchers(HttpMethod.GET, "**/task.do").permitAll()
-//            .antMatchers(HttpMethod.POST, "**/task.do").permitAll()
-//            .antMatchers(HttpMethod.GET, "**/projects.do").permitAll()
-//            .antMatchers(HttpMethod.POST, "**/projects.do").permitAll()
-
                 .anyRequest().permitAll();
 //                .anyRequest().authenticated();
         // Add JWT token filter

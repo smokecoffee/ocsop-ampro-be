@@ -46,7 +46,6 @@ public class M00EmployeeJpo implements Serializable {
     private String phone;
     @Column(name = "ADDRESS")
     private String address;
-    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "PHOTO")
     private String avatar;
     @Column(name = "ASSET_NUMBER_PC")
@@ -79,6 +78,10 @@ public class M00EmployeeJpo implements Serializable {
     private Date endDate;
     @Column(name = "EMP_STATUS")
     private String empStatus;
+    @Column(name="CREATE_BY")
+    private String createBy;
+    @Column(name="GENDER")
+    private String gender;
 
     public M00EmployeeJpo(M00Employee domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
