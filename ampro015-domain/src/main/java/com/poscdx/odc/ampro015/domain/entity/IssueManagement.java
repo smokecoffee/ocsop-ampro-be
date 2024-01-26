@@ -54,7 +54,6 @@ public class IssueManagement {
         this.seq = (int) objects[0];
         this.registrationDate = (Date) objects[1];
         this.seqString = "CD-" + seq;
-//        this.requestDate = (Date) objects[2];
         this.requester = (String) objects[3];
         this.site = (String) objects[4];
         this.module = (String) objects[5];
@@ -69,11 +68,8 @@ public class IssueManagement {
         this.acceptFlag = (String) objects[14];
         this.status = (String) objects[15];
         this.developComments = (String) objects[16];
-//        this.developFromDate = (Date) objects[17];
-//        this.developToDate = (Date) objects[18];
         this.categoryFlag = (String) objects[19];
         this.requesterConfirm = (String) objects[20];
-//        this.finalConfirmDate = (Date) objects[21];
         this.requesterId = (String) objects[22];
         this.requestDate = (Date) objects[23];
         this.developFromDate = (Date) objects[24];
