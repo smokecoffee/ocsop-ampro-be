@@ -8,6 +8,7 @@ import com.poscdx.odc.ampro015.domain.entity.payload.request.LoginRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.request.ResetPasswordRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.response.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscodx.odc.ampro015.config.jwt.JwtUtils;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -189,7 +190,7 @@ public class AuthResource {
         long currentTimeInMillis = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(currentTimeInMillis);
-        calendar.add(Calendar.HOUR, 24);
+        calendar.add(Calendar.HOUR, ConstantUtil.MAX_EXPIRE_TOKEN);
         pme00PasswordToken.setExpire(calendar.getTimeInMillis());
         return pme00PasswordToken;
     }

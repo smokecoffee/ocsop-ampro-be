@@ -60,3 +60,10 @@ cross:
     accessKey: ${minio.accessKey}
     secretKey: ${minio.secretKey}
     bucketName: ${minio.bucketName}
+
+email:
+  smtpHostServer: ${email.smtpHostServer}
+  emailId: ${email.emailId}
+  emailIdAlias:  ${email.emailIdAlias}
+  emailPass:  ${email.emailPass}
+  frontEndUrl:  ${email.frontEndUrl}
