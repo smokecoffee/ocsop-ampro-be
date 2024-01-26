@@ -1,9 +1,11 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00Member;
+import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
 import com.poscdx.odc.ampro015.domain.spec.Pme00MemberService;
 import com.poscdx.odc.ampro015.domain.store.Pme00MemberStore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pme00MemberLogic implements Pme00MemberService {
@@ -40,7 +42,14 @@ public class Pme00MemberLogic implements Pme00MemberService {
 
     @Override
     public List<Pme00Member> getListMemberByCdVId(String cdVId){
-        return this.store.getListMemberByCdVId(cdVId);
+
+        List<Object[]> resultList =  this.store.getListMemberByCdVId(cdVId);
+        List<Pme00Member> pme00MemberList = new ArrayList<>();
+        for(Object[] obj : resultList){
+            pme00MemberList.add(new Pme00Member(obj));
+        }
+
+        return pme00MemberList;
     }
 
     @Override
