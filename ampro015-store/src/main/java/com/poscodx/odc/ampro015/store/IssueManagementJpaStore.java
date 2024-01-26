@@ -24,7 +24,6 @@ public class IssueManagementJpaStore implements IssueManagementStore {
         this.repository = repository;
     }
 
-
     @Override
     public List<IssueManagement> retrieve(int seq, String site) {
         Iterable<IssueManagementJpo> list = this.repository.findBySeqAndSite(seq, site);
@@ -59,9 +58,9 @@ public class IssueManagementJpaStore implements IssueManagementStore {
                                         Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
                                         Date requestToEndDate, Pageable pageable) {
         return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
+                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate,
+                registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
-
 
     @Override
     public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
