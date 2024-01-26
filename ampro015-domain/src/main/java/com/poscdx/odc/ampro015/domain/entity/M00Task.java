@@ -28,6 +28,8 @@ public class M00Task {
     private String passwordRequest;
     private Date startDate;
     private String statusApprove;
+    private String attach_File;
+    private Integer estimate_Day;
     public String toJson() {
         return JsonUtil.toJson(this);
     }
@@ -53,5 +55,7 @@ public class M00Task {
         this.creationTimestamp = (Date) object[15];
         this.startDate = (Date) object[16];
         this.statusApprove = (String) object[17];
+        this.attach_File = (String) object[18];
+        this.estimate_Day = (Integer) object[19];
     }
 }
