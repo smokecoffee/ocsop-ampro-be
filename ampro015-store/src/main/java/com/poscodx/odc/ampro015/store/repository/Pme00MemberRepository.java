@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface Pme00MemberRepository extends JpaRepository<Pme00MemberJpo, Integer> {
 
-    @Query(value = "SELECT * FROM TB_PME00_MEMBER WHERE (:cdVId IS NULL OR CD_V_ID =:cdVId)", nativeQuery = true)
-    List<Pme00MemberJpo> getListMemberByCdVId(@Param("cdVId") String cdVId);
+    @Query(value = "SELECT M.*, E.NAME , E.PHOTO  \n" +
+            "FROM TB_PME00_MEMBER M\n" +
+            "JOIN  TB_M00_EMPLOYEE E\n" +
+            "ON M.EMP_ID = E.EMP_ID \n" +
+            "WHERE (:cdVId IS NULL OR CD_V_ID =:cdVId)", nativeQuery = true)
+    List<Object[]> getListMemberByCdVId(@Param("cdVId") String cdVId);
 
     @Modifying
     @Transactional
