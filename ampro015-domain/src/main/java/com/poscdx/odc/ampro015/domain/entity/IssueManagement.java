@@ -40,7 +40,7 @@ public class IssueManagement {
     private String requesterName;
     private String requesterId;
     private String developerName;
-    private String requesterAvatar;
+
 
     public String toJson() {
         return JsonUtil.toJson(this);
@@ -76,7 +76,6 @@ public class IssueManagement {
         this.finalConfirmDate = (Date) objects[25];
         this.developToDate = (Date) objects[26];
         this.developerName = (String) objects[27];
-        this.requesterAvatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[28], "Employee");
 //        this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
     }
 
