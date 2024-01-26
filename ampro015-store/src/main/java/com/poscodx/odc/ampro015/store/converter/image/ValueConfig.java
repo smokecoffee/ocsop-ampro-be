@@ -7,9 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValueConfig {
 
-//    public static String MINIO_URL;
-//    public static String BUCKET_NAME;
-
     @Value("${minio.url}")
     public void setUrl(String url) {
         ConstantUtil.UPLOAD_URL = url;

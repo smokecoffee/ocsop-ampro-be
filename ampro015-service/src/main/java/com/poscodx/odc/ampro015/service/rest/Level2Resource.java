@@ -57,7 +57,7 @@ public class Level2Resource {
 
     @CrossOrigin
     @GetMapping(path = "/test")
-    public List<Pme00PasswordToken> test() {
-        return this.serviceLifecycle.requestPasswordService().findAll();
+    public String test(@RequestBody String recipient) {
+        return this.serviceLifecycle.requestLevel2Service().sendMail(recipient, "", "", "", "");
     }
 }

@@ -8,7 +8,11 @@ public class ConstantUtil {
 
     public static String UPLOAD_URL = "";
     public static String UPLOAD_BUCKET = "";
-//    public static String UPLOAD_PATH = UPLOAD_URL + UPLOAD_BUCKET + "/";
+
+    public static String MAIL_HOST = "116.123.216.77";
+//    public static String MAIL_ADDRESS = "no-reply@posco.com";
+    public static String MAIL_ADDRESS = "no-reply@posco.com";
+    public static String MAIL_NAME = "ODC데이터포털";
 
     public static String applyEmployeeAvatarPath(String avatar, String serviceName) {
         if (!serviceName.isEmpty()) {
