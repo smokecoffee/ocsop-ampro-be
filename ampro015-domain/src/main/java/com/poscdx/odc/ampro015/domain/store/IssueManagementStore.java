@@ -17,7 +17,7 @@ public interface IssueManagementStore {
 
     IssueManagement create(IssueManagement entity);
 
-    void delete(IssueManagementId seq);
+    void delete(IssueManagementId id);
 
 
     List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag,
