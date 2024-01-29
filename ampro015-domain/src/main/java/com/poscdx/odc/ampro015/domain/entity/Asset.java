@@ -13,17 +13,17 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Asset extends PoscoEntity {
+public class Asset  {
     private int id;
     private String token;
     private String owner;
     private int duration;
     private String qrcode;
     private int status;
-    private int createBy;
+    private String createBy;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
     private Date createAt;
-    private int updateBy;
+    private String updateBy;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
     private Date updateAt;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
