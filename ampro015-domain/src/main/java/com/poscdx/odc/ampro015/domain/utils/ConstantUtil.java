@@ -1,5 +1,7 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class ConstantUtil {
 
     public static final int CD_TP_ID = 63;
@@ -8,9 +10,7 @@ public class ConstantUtil {
 
     public static String UPLOAD_URL = "";
     public static String UPLOAD_BUCKET = "";
-
     public static String MAIL_HOST = "116.123.216.77";
-//    public static String MAIL_ADDRESS = "no-reply@posco.com";
     public static String MAIL_ADDRESS = "no-reply@posco.com";
     public static String MAIL_NAME = "ODC데이터포털";
 
