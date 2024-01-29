@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @Entity(name = "Field")
 @Table(name = "TB_A01_FIELD", schema = "AMPRO")
-public class FieldJpo extends PoscoEntityJpo {
+public class FieldJpo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,8 +67,4 @@ public class FieldJpo extends PoscoEntityJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(FieldJpo::toDomain).collect(Collectors.toList());
     }
 
-    @Override
-    public void validateJpo() throws PosBaseException {
-
-    }
 }
