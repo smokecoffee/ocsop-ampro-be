@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.List;
@@ -50,8 +51,8 @@ public class Pme00IssueManagementResource {
      */
     @CrossOrigin
     @PostMapping
-    public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement) {
-        return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement);
+    public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement, MultipartFile fileUpload) {
+        return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement, fileUpload);
     }
 
     /**
@@ -63,8 +64,8 @@ public class Pme00IssueManagementResource {
      */
     @CrossOrigin
     @PutMapping
-    public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement) {
-        return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement);
+    public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement, MultipartFile fileUpload) {
+        return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement, fileUpload);
     }
 
     /**
@@ -77,7 +78,7 @@ public class Pme00IssueManagementResource {
     @CrossOrigin
     @DeleteMapping
     public IssueManagementResponse deleteIssue(@RequestBody IssueManagementId seq) {
-        return this.serviceLifecycle.requestPme00IssueManagementService().remove(seq);
+        return this.serviceLifecycle.requestPme00IssueManagementService().remove(seq, serviceLifecycle);
     }
 
     /**
