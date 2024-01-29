@@ -38,5 +38,4 @@ public interface IssueManagementStore {
 
     int maxSeq();
 
-    String requester();
 }

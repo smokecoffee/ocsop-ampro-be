@@ -93,9 +93,4 @@ public class IssueManagementJpaStore implements IssueManagementStore {
         return repository.maxSeq();
     }
 
-    @Override
-    public String requester() {
-        return null;
-    }
-
 }
