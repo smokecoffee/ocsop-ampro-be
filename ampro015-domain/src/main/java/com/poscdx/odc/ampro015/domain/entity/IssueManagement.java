@@ -77,7 +77,6 @@ public class IssueManagement {
         this.developToDate = (Date) objects[25];
         this.finalConfirmDate = (Date) objects[26];
         // this.developerName = (String) objects[27];
-        // this.requesterName = "http://172.25.219.61:8080/img/" + (String) objects[23];
     }
 
 }
