@@ -20,7 +20,7 @@ public interface Level2QrCodeService {
 
     AssetInfoDto getAsset(ServiceLifecycle serviceLifecycle, String token);
 
-    void deleteAsset(ServiceLifecycle serviceLifecycle, String token, int userId);
+    void deleteAsset(ServiceLifecycle serviceLifecycle, String token, String userId);
 
     ResponseEntity<AssetInfoDto> createAsset(ServiceLifecycle serviceLifecycle, AssetInfoDto request);
 

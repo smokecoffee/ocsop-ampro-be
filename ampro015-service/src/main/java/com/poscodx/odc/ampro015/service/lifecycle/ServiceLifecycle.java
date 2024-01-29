@@ -35,6 +35,7 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     private final Level2TaskService level2TaskService;
     private final Level2QrCodeService level2QrCodeService;
     private final Level2EmployeeService level2EmployeeService;
+    private final Pme00IssueManagementService pme00IssueManagementService;
     private final LogoutAccessTokenService logoutAccessTokenService;
 
     @Override
@@ -123,7 +124,7 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     }
 
     @Override
-    public M00Codes020Service requestM00Codes020Service(){return this.m00Codes020Service;};
+    public M00Codes020Service requestM00Codes020Service(){return this.m00Codes020Service;}
 
     @Override
     public Level2TaskService requestLevel2TaskService() {
@@ -168,6 +169,13 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     @Override
     public Level2EmployeeService requestLevel2EmployeeService() {
         return this.level2EmployeeService;
+    }
+
+
+
+    @Override
+    public Pme00IssueManagementService requestPme00IssueManagementService(){
+        return  this.pme00IssueManagementService;
     }
 
 }
