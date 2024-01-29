@@ -33,11 +33,11 @@ public class Pme00MemberJpo {
     @Column(name = "EMP_ID")
     private String empId;
 
-    @Column(name = "EMP_NAME")
-    private String empName;
-
-    @Column(name = "AVATAR")
-    private String avatar;
+//    @Column(name = "EMP_NAME")
+//    private String empName;
+//
+//    @Column(name = "AVATAR")
+//    private String avatar;
 
     public Pme00MemberJpo(Pme00Member domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
@@ -53,10 +53,10 @@ public class Pme00MemberJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00MemberJpo::toDomain).collect(Collectors.toList());
     }
 
-    @PostLoad
-    public void setAvatar() {
-        if (avatar != null && !avatar.isEmpty()) {
-            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
-        }
-    }
+//    @PostLoad
+//    public void setAvatar() {
+//        if (avatar != null && !avatar.isEmpty()) {
+//            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
+//        }
+//    }
 }

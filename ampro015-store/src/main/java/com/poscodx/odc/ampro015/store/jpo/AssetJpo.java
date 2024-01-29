@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @Entity(name = "Asset")
 @Table(name = "TB_A01_ASSET", schema = "AMPRO")
-public class AssetJpo extends PoscoEntityJpo {
+public class AssetJpo  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +32,6 @@ public class AssetJpo extends PoscoEntityJpo {
     @Column(name = "OWNER")
     private String owner;
 
-    @Column(name = "EMP_ID")
-    private String empId;
-
     @Column(name = "DURATION")
     private int duration;
 
@@ -45,13 +42,13 @@ public class AssetJpo extends PoscoEntityJpo {
     private int status;
 
     @Column(name = "CREATE_BY")
-    private int createBy;
+    private String createBy;
 
     @Column(name = "CREATE_AT")
     private Date createAt;
 
     @Column(name = "UPDATE_BY")
-    private int updateBy;
+    private String updateBy;
 
     @Column(name = "UPDATE_AT")
     private Date updateAt;
@@ -73,8 +70,8 @@ public class AssetJpo extends PoscoEntityJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(AssetJpo::toDomain).collect(Collectors.toList());
     }
 
-    @Override
-    public void validateJpo() throws PosBaseException {
-
-    }
+//    @Override
+//    public void validateJpo() throws PosBaseException {
+//
+//    }
 }

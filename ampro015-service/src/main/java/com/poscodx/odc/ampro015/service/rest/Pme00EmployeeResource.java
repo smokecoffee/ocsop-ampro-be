@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -41,8 +42,11 @@ public class Pme00EmployeeResource {
 
     @PostMapping("/")
     @CrossOrigin
-    public Pme00AllLevel2EmployeeResponse addEmpoyee(@RequestBody Pme00Employee newEmployee) {
-        return this.serviceLifecycle.requestLevel2EmployeeService().addEmployee(serviceLifecycle,newEmployee);
+    public Pme00AllLevel2EmployeeResponse addEmployee(@RequestParam ("data") String dtoString,
+                                                     @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
+        return this.serviceLifecycle
+                   .requestLevel2EmployeeService()
+                   .addEmployee(serviceLifecycle, Pme00Employee.fromJson(dtoString), imageUpload);
     }
 
     @GetMapping("/findAllRole")
@@ -56,4 +60,11 @@ public class Pme00EmployeeResource {
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
         return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
+
+    @GetMapping("/findGender")
+    @CrossOrigin
+    public Pme00GenderResponse findGender() {
+        return this.serviceLifecycle.requestLevel2EmployeeService().findGender(serviceLifecycle);
+    }
+
 }

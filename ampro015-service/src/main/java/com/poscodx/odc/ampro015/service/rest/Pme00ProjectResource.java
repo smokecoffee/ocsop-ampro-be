@@ -1,18 +1,17 @@
 package com.poscodx.odc.ampro015.service.rest;
-import com.poscdx.odc.ampro015.domain.entity.*;
+
+import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
+import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
-import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,14 +54,23 @@ public class Pme00ProjectResource {
 
     @CrossOrigin
     @PostMapping("")
-    public boolean register(@RequestBody ProjectManagementDto dto) throws SQLException {
-        return this.serviceLifecycle.requestLevel2ProjectService().registerProject(serviceLifecycle, dto);
+    public boolean register(@RequestParam ("data") String dtoString,
+                            @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                            @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+
+        return this.serviceLifecycle
+                   .requestLevel2ProjectService()
+                   .registerProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
     }
 
     @CrossOrigin
     @PutMapping("")
-    public boolean modify(@RequestBody ProjectManagementDto dto) throws SQLException {
-        return this.serviceLifecycle.requestLevel2ProjectService().modifyProject(serviceLifecycle, dto);
+    public boolean modify(@RequestParam ("data") String dtoString,
+                          @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                          @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle
+                   .requestLevel2ProjectService()
+                   .modifyProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
     }
 
     @CrossOrigin

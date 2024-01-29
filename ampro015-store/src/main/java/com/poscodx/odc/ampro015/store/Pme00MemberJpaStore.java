@@ -47,9 +47,8 @@ public class Pme00MemberJpaStore implements Pme00MemberStore {
     }
 
     @Override
-    public List<Pme00Member> getListMemberByCdVId(String cdVId){
-        List<Pme00MemberJpo> retVal = this.repository.getListMemberByCdVId(cdVId);;
-        return Pme00MemberJpo.toDomains(retVal);
+    public List<Object[]> getListMemberByCdVId(String cdVId){
+        return this.repository.getListMemberByCdVId(cdVId);
     }
 
     @Override
