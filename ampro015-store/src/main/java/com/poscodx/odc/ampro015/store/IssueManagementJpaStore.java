@@ -87,4 +87,15 @@ public class IssueManagementJpaStore implements IssueManagementStore {
                 accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate,
                 registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
+
+    @Override
+    public int maxSeq() {
+        return repository.maxSeq();
+    }
+
+    @Override
+    public String requester() {
+        return null;
+    }
+
 }

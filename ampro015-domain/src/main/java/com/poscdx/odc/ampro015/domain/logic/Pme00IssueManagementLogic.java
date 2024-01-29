@@ -62,6 +62,8 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement) {
         IssueManagementResponse response = new IssueManagementResponse();
+        int seq = store.maxSeq() + 1;
+        newIssueManagement.setSeq(seq);
         store.create(newIssueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");

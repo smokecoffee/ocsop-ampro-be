@@ -62,7 +62,9 @@ public class IssueManagement {
         this.appliedPeriodFlag = (String) objects[9];
         this.contents = (String) objects[10];
         this.contentsKR = (String) objects[11];
-        this.fileName = ConstantUtil.applyEmployeeAvatarPath((String) objects[12], "Issues");
+        //this.fileName = ConstantUtil.applyEmployeeAvatarPath((String) objects[12], "Issues");
+        this.fileName = (objects[12]== null ||((String) objects[12]).isEmpty())? null:
+                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/Employee/" +objects[12];
         this.developer = (String) objects[13];
         this.acceptFlag = (String) objects[14];
         this.status = (String) objects[15];
