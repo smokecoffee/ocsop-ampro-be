@@ -164,50 +164,5 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         return responses;
     }
 
-    /**
-     * Search issue management
-     *
-     * @param //site,module,division_flag,applied_period_flag,accept_flag,request_confirm,requester,contents,contents_kr,developer
-     * @param //dto
-     * @return List IssueManagement
-     * @author 202307_PhatNC
-     * @since: 2024-01-24
-     */
-    @Override
-    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
-                                             String accept_flag, String request_confirm, String requester, String contents,
-                                             String contents_kr, String developer) {
-        IssueManagementResponse response = new IssueManagementResponse();
-        List<IssueManagement> list = this.store.searchIssue(site, module, division_flag, applied_period_flag,
-                accept_flag, request_confirm, requester, contents, contents_kr, developer);
-        response.setStatus(HttpStatus.FOUND.value());
-        response.setMessage("OK");
-        return list;
-    }
 
-    /**
-     * findIssueDto
-     *
-     * @param //contents, site, module, division_flag, applied_period_flag,
-     *                    accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date
-     * @param //dto
-     * @return List IssueManagementDto
-     * @author 202307_PhatNC
-     * @since: 2024-01-24
-     */
-    @Override
-    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag,
-                                                 String applied_period_flag, String accept_flag, String requester_confirm,
-                                                 String requester, String contents_kr, String developer,
-                                                 Date registration_date, Date request_date) {
-        List<Object[]> resultList = this.store.findIssueManagementDto(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
-        List<IssueManagementDto> resultItemDtoList = new ArrayList<>();
-        IssueManagementDto resultItemDto;
-        for (Object[] objects : resultList) {
-            resultItemDto = new IssueManagementDto(objects);
-            resultItemDtoList.add(resultItemDto);
-        }
-        return resultItemDtoList;
-    }
 }

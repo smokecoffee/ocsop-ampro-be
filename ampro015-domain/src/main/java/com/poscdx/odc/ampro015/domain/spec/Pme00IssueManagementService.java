@@ -53,20 +53,5 @@ public interface Pme00IssueManagementService {
      */
     Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id,
                                       String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException;
-    /**
-     * Interface find issue info by param return list
-     * @author 202307_Phat
-     *  * @since 2024-01-23
-     */
-    List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag, String request_confirm, String requester, String contents, String contents_kr, String developer);
-    /**
-     * Interface find issue info dto by param return list
-     * @author 202307_Phat
-     *  * @since 2024-01-23
-     */
-    List<IssueManagementDto> findIssueDto(@RequestParam String contents, @RequestParam String site, @RequestParam String module,
-                                          @RequestParam String division_flag, @RequestParam String applied_period_flag,
-                                          @RequestParam String accept_flag, @RequestParam String requester_confirm,
-                                          @RequestParam String requester, @RequestParam String contents_kr, @RequestParam String developer,
-                                          @RequestParam Date registration_date, @RequestParam Date request_date);
+
 }
