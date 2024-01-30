@@ -55,8 +55,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
             }
             serviceLifecycle.requestLevel2Service()
                     .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
-        }
-        if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
