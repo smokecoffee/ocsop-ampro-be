@@ -57,8 +57,8 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         }
         IssueManagementResponse response = new IssueManagementResponse();
         store.update(issueManagement);
-        if(fileUpload != null){
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET,"Issue",fileUpload);
+        if (fileUpload != null) {
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
         response.setStatus(HttpStatus.CREATED.value());
@@ -80,8 +80,8 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         IssueManagementResponse response = new IssueManagementResponse();
         int seq = store.maxSeq() + 1;
         newIssueManagement.setSeq(seq);
-        if(fileUpload != null){
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET,"Issue",fileUpload);
+        if (fileUpload != null) {
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
         store.create(newIssueManagement);
