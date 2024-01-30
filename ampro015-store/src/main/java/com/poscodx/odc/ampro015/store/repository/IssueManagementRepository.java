@@ -39,7 +39,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                     "AND ((:fromStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) >= concat(:fromStartDate , ' 00:00:00')))\n" +
                     "AND ((:toStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) <= concat(:toStartDate , ' 99:99:99')))\n" +
-                    "AND ((:fromEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) >= concat(:fromEndDate, ' 00:00:00'))) " +
+                    "AND ((:fromEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) >= concat(:fromEndDate, ' 00:00:00')))\n" +
                     "AND ((:toEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) <= concat(:toEndDate, ' 99:99:99')))"
             , nativeQuery = true)
     int countIssueReport(@Param("contents") String contents,
@@ -82,7 +82,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                     "AND ((:fromStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) >= concat(:fromStartDate , ' 00:00:00')))\n" +
                     "AND ((:toStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) <= concat(:toStartDate , ' 99:99:99')))\n" +
-                    "AND ((:fromEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) >= concat(:fromEndDate, ' 00:00:00'))) " +
+                    "AND ((:fromEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) >= concat(:fromEndDate, ' 00:00:00')))\n" +
                     "AND ((:toEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) <= concat(:toEndDate, ' 99:99:99')))"
             , nativeQuery = true)
     List<Object[]> findIssueInfo(
