@@ -2,7 +2,6 @@ package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
-import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,60 +26,87 @@ public class M00EmployeeJpo implements Serializable {
     @Id
     @Column(name = "EMP_ID")
     private String empId;
+
     @Column(name = "SITE_CODE")
     private String siteCode;
+
     @Column(name = "NAME")
     private String name;
+
     @Column(name = "JOIN_DATE")
     private String joinDate;
+
     @Column(name = "BIRTH_DATE")
     private String birthDate;
+
     @Column(name = "MAIL")
     private String mail;
+
     @Column(name = "PERSONAL_MAIL")
     private String personalMail;
+
     @Column(name = "IP_ADDRESS")
     private String ipAddress;
+
     @Column(name = "MOBILE")
     private String mobile;
+
     @Column(name = "PHONE")
     private String phone;
+
     @Column(name = "ADDRESS")
     private String address;
+
     @Column(name = "PHOTO")
     private String avatar;
+
     @Column(name = "ASSET_NUMBER_PC")
     private String assetNumberPC;
+
     @Column(name = "ASSET_NUMBER_PC_INSTALL_DATE")
     private String assetNumberPCInstallDate;
+
     @Column(name = "SERIAL_NO_PC")
     private String serialNumberPC;
+
     @Column(name = "ASSET_NUMBER_MONITOR1")
     private String assetNumberMonitor1;
+
     @Column(name = "SERIAL_NO_MONITOR1")
     private String serialNumberMonitor1;
+
     @Column(name = "ASSET_NUMBER_MONITOR2")
     private String assetNumberMonitor2;
+
     @Column(name = "SERIAL_NO_MONITOR2")
     private String serialNumberMonitor2;
+
     @Column(name = "ASSET_NUMBER_PHONE")
     private String assetNumberPhone;
+
     @Column(name = "CREATION_TIMESTAMP")
     private Date creationTimestamp;
+
     @Column(name = "LAST_UPDATE_TIMESTAMP")
     private Date lastUpdateTimestamp;
+
     @Column(name = "PASSWORD")
     private String password;
+
     @Column(name = "ROLE")
     private String role;
+
     @Column(name = "INIT_EMP_ID")
     private String initEmpId;
+
     @Column(name = "END_DATE")
     private Date endDate;
+
     @Column(name = "EMP_STATUS")
     private String empStatus;
     @Column(name="CREATE_BY")
     private String createBy;
+
     @Column(name="GENDER")
     private String gender;
 

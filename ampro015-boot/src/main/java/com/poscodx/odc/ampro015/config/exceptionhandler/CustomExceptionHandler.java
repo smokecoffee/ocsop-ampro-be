@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
 @ControllerAdvice
 public class CustomExceptionHandler {
@@ -88,4 +87,13 @@ public class CustomExceptionHandler {
         body.put("path", request.getServletPath());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity <Map<String, String>> handleValidationExceptions( MethodArgumentNotValidException ex){
+//        Map<String, String> errors = new HashMap<>();
+//        ex.getBindingResult().getAllErrors().forEach((errors)->{
+//            String mail = ((String)).g
+//        });
+//        return ResponseEntity.badRequest().body(errors);
+//    }
 }

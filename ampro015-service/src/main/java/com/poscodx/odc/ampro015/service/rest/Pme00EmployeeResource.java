@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -54,7 +55,7 @@ public class Pme00EmployeeResource {
 
     @PutMapping("/")
     @CrossOrigin
-    public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
+    public Pme00AllLevel2EmployeeResponse editEmployee(@Valid @RequestBody List<Pme00Employee> pme00EmployeeList) {
         return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
 

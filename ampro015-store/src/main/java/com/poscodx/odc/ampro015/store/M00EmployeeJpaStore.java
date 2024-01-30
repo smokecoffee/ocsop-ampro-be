@@ -38,12 +38,10 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     @Override
     public Pme00Employee update2(Pme00Employee entity) {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+//        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.S);
         modelMapper.getConfiguration().setSkipNullEnabled(true);
-
         M00EmployeeJpo jpoToUpdate = this.repository.findById(entity.getEmpId()).get();
-        jpoToUpdate = modelMapper.map(entity, M00EmployeeJpo.class);
-//        M00EmployeeJpo jpoToUpdate = new M00EmployeeJpo(entity);
+        modelMapper.map(entity, jpoToUpdate);
         jpoToUpdate.setRole("User");
         M00EmployeeJpo updatedJpo = this.repository.save(jpoToUpdate);
         return updatedJpo.toDomain2();
