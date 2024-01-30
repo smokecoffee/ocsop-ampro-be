@@ -2,7 +2,6 @@ package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
-import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -103,12 +102,6 @@ public class IssueManagementJpo implements Serializable {
     @Column(name = "FINAL_CONFIRM_DATE_NEW")
     private Date finalConfirmDate;
 
-
-//    @Transient
-//    private String koreaPmName;
-//
-//    @Transient
-//    private String vietnamPlName;
 
     public IssueManagementJpo(IssueManagement domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

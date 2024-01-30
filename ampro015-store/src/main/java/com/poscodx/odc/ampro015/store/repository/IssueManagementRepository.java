@@ -34,6 +34,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:accept_flag IS NULL OR (ISSUE.ACCEPT_FLAG LIKE CONCAT('%', :accept_flag, '%')))\n" +
                     "AND (:requester_confirm IS NULL OR (ISSUE.REQUESTER_CONFIRM LIKE CONCAT('%', :requester_confirm, '%')))\n" +
                     "AND (:requester IS NULL OR (ISSUE.REQUESTER LIKE CONCAT('%', :requester, '%')))\n" +
+                    "AND (:requester_id IS NULL OR (ISSUE.REQUESTER_ID = :requester_id))\n" +
                     "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                     "AND ((:fromStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE >= :fromStartDate))\n" +
@@ -49,6 +50,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                          @Param("accept_flag") String accept_flag,
                          @Param("requester_confirm") String requester_confirm,
                          @Param("requester") String requester,
+                         @Param("requester_id") String requester_id,
                          @Param("contents_kr") String contents_kr,
                          @Param("developer") String developer,
                          @Param("fromStartDate") Date registrationFromStartDate, @Param("toStartDate") Date registrationToEndDate,
@@ -75,6 +77,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:accept_flag IS NULL OR (ISSUE.ACCEPT_FLAG LIKE CONCAT('%', :accept_flag, '%')))\n" +
                     "AND (:requester_confirm IS NULL OR (ISSUE.REQUESTER_CONFIRM LIKE CONCAT('%', :requester_confirm, '%')))\n" +
                     "AND (:requester IS NULL OR (ISSUE.REQUESTER LIKE CONCAT('%', :requester, '%')))\n" +
+                    "AND (:requester_id IS NULL OR (ISSUE.REQUESTER_ID = :requester_id))\n" +
                     "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                     "AND ((:fromStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE >= :fromStartDate))\n" +
@@ -90,6 +93,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                  @Param("accept_flag") String accept_flag,
                                  @Param("requester_confirm") String requester_confirm,
                                  @Param("requester") String requester,
+                                 @Param("requester_id") String requester_id,
                                  @Param("contents_kr") String contents_kr,
                                  @Param("developer") String developer,
                                  @Param("fromStartDate") Date registrationFromStartDate, @Param("toStartDate") Date registrationToEndDate,
