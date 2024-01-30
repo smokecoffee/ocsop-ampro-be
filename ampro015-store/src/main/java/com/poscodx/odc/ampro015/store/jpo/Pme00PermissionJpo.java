@@ -25,7 +25,7 @@ public class Pme00PermissionJpo
     @Column(name = "DESCRIPTION")
     private String description;
     @Column(name = "GROUP")
-    private int group;
+    private String group;
 
     public Pme00PermissionJpo() {
     }

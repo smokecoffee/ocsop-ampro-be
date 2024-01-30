@@ -13,7 +13,7 @@ public interface M99DailyReportService {
 
     List<M99DailyReport> findAll();
 
-    M99DailyReport modify(M99DailyReport requestUpdateTask);
+    M99DailyReport modify(M99DailyReport requestUpdate);
 
     void modifyByList(List<M99DailyReport> entityList);
 

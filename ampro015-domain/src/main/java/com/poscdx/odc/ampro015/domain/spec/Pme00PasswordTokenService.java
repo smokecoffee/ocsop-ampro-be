@@ -15,4 +15,6 @@ public interface Pme00PasswordTokenService {
     public Pme00PasswordToken register(Pme00PasswordToken entity);
 
     public void remove(int id);
+
+    public Pme00PasswordToken FindPasswordTokenByToken(String token);
 }
