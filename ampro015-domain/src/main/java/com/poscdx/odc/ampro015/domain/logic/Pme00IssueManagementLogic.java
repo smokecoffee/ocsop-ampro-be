@@ -141,8 +141,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         } else {
             pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
         Date _fromRegistrationStartDate = (fromRegistrationStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRegistrationStartDate) : null;
         Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRegistrationEndDate) : null;
         Date _fromRequestStartDate = (fromRequestStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRequestStartDate) : null;
