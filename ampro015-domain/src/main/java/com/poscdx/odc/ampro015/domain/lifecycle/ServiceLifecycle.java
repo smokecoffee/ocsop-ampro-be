@@ -33,5 +33,6 @@ public interface ServiceLifecycle {
     Pme00IssueManagementService requestPme00IssueManagementService();
     LogoutAccessTokenService requestLogoutAccessTokenService();
 
+    S91MenuService requestS91MenuService();
 
 }

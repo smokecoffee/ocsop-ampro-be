@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.S91Menu;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
@@ -50,6 +51,11 @@ public class Level2Resource {
     @GetMapping(path = "/getTaskStatus")
     public List<TaskStatusDto> getTaskStatus() {
         return this.serviceLifecycle.requestM00Codes030Service().getTaskStatus();
+    }
+
+    @PostMapping(path = "/left-menu")
+    public List<S91Menu> getLeftMenuByPermission(@RequestBody List<String> permissionList) {
+        return serviceLifecycle.requestS91MenuService().findMenuByPermission(permissionList);
     }
 
     @CrossOrigin

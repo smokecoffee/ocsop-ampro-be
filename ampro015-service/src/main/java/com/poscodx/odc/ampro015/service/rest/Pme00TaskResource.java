@@ -7,10 +7,15 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Router API for task management
@@ -58,6 +63,10 @@ public class Pme00TaskResource {
                                        @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize,
                                        @RequestParam(required = false, defaultValue = "lastUpdateTimestamp", name = "sortBy") String sortBy,
                                        @RequestParam(required = false, defaultValue = "ASC", name = "sortDirection") String sortDirection) {
+
+
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        List<String> listAuthorities = authorities.stream().map(Object::toString).collect(Collectors.toList());
         return this.serviceLifecycle.requestLevel2TaskService().findTaskByConditions(serviceLifecycle, projectNumber,
                 taskName, planDate, actualEndDate, status, employeeId, category, pageNo, pageSize, sortBy, sortDirection);
     }

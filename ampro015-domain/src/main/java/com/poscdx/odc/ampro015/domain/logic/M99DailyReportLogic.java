@@ -28,8 +28,8 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public M99DailyReport modify(M99DailyReport requestUpdateTask) {
-        return this.store.update(requestUpdateTask);
+    public M99DailyReport modify(M99DailyReport requestUpdate) {
+        return this.store.update(requestUpdate);
     }
 
     @Override

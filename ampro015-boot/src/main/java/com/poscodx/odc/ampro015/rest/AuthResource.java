@@ -68,8 +68,7 @@ public class AuthResource {
                 .build();
 
         return ResponseEntity.ok(new JwtResponse(jwt,
-                userInfo,
-                userDetails.getListPermission()));
+                userInfo, userDetails.getListPermission()));
     }
 
     @PostMapping("/logout")

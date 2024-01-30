@@ -71,7 +71,7 @@ public class EmployeeDetailsServiceImpl implements UserDetailsService {
             // Set<String> perName = perIds.stream().map(i ->
             // Objects.requireNonNull(permissionRepository.findById(i).orElse(null)).getName()).collect(Collectors.toSet());
             // return EmployeeDetailsImpl.build(user, perName);
-            List<Map<Integer, String>> listPermission = new ArrayList<>();
+            List<Map<String, String>> listPermission = new ArrayList<>();
             for (Pme00RoleUser roleUser : roles) {
                 List<Integer> perIds = perRoleRepository.findByRoleId(roleUser.getRoleId()).stream()
                         .map(Pme00PerRoleJpo::getPermissionId).collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class EmployeeDetailsServiceImpl implements UserDetailsService {
                     Optional<Pme00PermissionJpo> permission = permissionRepository.findById(permissionId);
                     if (permission.isPresent()) {
                         //perName.add(permission.get().getName());
-                        Map<Integer, String> per = new HashMap<>();
+                        Map<String, String> per = new HashMap<>();
                         per.put(permission.get().getGroup(), permission.get().getName());
                         listPermission.add(per);
                     }
