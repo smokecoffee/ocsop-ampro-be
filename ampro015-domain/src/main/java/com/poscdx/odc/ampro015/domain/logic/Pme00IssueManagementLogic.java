@@ -141,10 +141,11 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         } else {
             pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         }
-        Date _fromRegistrationStartDate = (fromRegistrationStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRegistrationStartDate) : null;
-        Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRegistrationEndDate) : null;
-        Date _fromRequestStartDate = (fromRequestStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRequestStartDate) : null;
-        Date _toRequestEndDate = (toRequestEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRequestEndDate) : null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date _fromRegistrationStartDate = (fromRegistrationStartDate != null) ? dateFormat.parse(fromRegistrationStartDate) : null;
+        Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? dateFormat.parse(toRegistrationEndDate) : null;
+        Date _fromRequestStartDate = (fromRequestStartDate != null) ? dateFormat.parse(fromRequestStartDate) : null;
+        Date _toRequestEndDate = (toRequestEndDate != null) ? dateFormat.parse(toRequestEndDate) : null;
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
                 _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
