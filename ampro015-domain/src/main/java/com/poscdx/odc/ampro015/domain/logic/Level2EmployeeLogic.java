@@ -4,6 +4,8 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 
 
 public class Level2EmployeeLogic implements Level2EmployeeService {
@@ -84,45 +88,90 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService().find(newEmployee.getEmpId());
         if(checkEmployee!=null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-            pme00AllLevel2EmployeeResponse.setMessage("Employee is exits");
+            pme00AllLevel2EmployeeResponse.setMessage("Employee exist");
         }else {
             try{
-                M00Employee employee = new M00Employee();
-                employee.setEmpId(newEmployee.getEmpId());
-                employee.setSiteCode(newEmployee.getSite());
-                employee.setAvatar(newEmployee.getAvatar());
-                employee.setName(newEmployee.getName());
-                employee.setPassword(passwordToMd5Hex);
-                employee.setBirthday(newEmployee.getBirthDate());
-                employee.setJoinDate(newEmployee.getJoinDate());
-                employee.setMail(newEmployee.getEmail());
-                employee.setPersonalMail(newEmployee.getPersonalMail());
-                employee.setMobile(newEmployee.getMobile());
-                employee.setAddress(newEmployee.getAddress());
-                employee.setEmpStatus(newEmployee.getStatus());
-                employee.setCreateBy(newEmployee.getCreateBy());
-                employee.setGender(newEmployee.getGender());
-                employee.setIpAddress(newEmployee.getIpAddress());
-                employee.setRole("ADMIN");
-                M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
-                List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
-                Set<Integer> setId = listRoleUser.stream()
-                        .map(Pme00RoleUser::getRoleId)
-                        .collect(Collectors.toSet());
+                if(newEmployee.getSite().isEmpty()){
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
+                }else if(newEmployee.getAvatar().isEmpty()){
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Avatar could not match");
+                }else if(newEmployee.getName().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Name could not match");
+                }else if(newEmployee.getPassword().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee getPassword could not match");
+                }else if(newEmployee.getBirthDate().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee BirthDate could not match");
+                }else if(newEmployee.getJoinDate().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee JoinDate could not match");
+                }else if(newEmployee.getMail().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Mail could not match");
+                }else if(newEmployee.getPersonalMail().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee PersonalMail could not match");
+                }else if(newEmployee.getMobile().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Mobile could not match");
+                }else if(newEmployee.getAddress().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Address could not match");
+                }else if(newEmployee.getStatus().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Status could not match");
+                }else if(newEmployee.getCreateBy().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee CreateBy could not match");
+                }else if(newEmployee.getGender().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Gender could not match");
+                }else if(newEmployee.getIpAddress().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee getIpAddress could not match");
+                }else {
+                    M00Employee employee = new M00Employee();
+                    employee.setEmpId(newEmployee.getEmpId());
+                    employee.setSiteCode(newEmployee.getSite());
+                    employee.setAvatar(newEmployee.getAvatar());
+                    employee.setName(newEmployee.getName());
+                    employee.setPassword(passwordToMd5Hex);
+                    employee.setBirthDate(newEmployee.getBirthDate());
+                    employee.setJoinDate(newEmployee.getJoinDate());
+                    employee.setMail(newEmployee.getMail());
+                    employee.setPersonalMail(newEmployee.getPersonalMail());
+                    employee.setMobile(newEmployee.getMobile());
+                    employee.setAddress(newEmployee.getAddress());
+                    employee.setEmpStatus(newEmployee.getStatus());
+                    employee.setCreateBy(newEmployee.getCreateBy());
+                    employee.setGender(newEmployee.getGender());
+                    employee.setIpAddress(newEmployee.getIpAddress());
+                    employee.setRole("ADMIN");
+                    M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
-                for (Pme00RoleUser pme00RoleUser : listRoleUser) {
-                    if (setId.contains(pme00RoleUser.getRoleId())) {
-                        serviceLifecycle.requestPme00RoleUserService()
-                                .register(pme00RoleUser);
-                        setId.remove(pme00RoleUser.getRoleId());
+                    List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
+                    Set<Integer> setId = listRoleUser.stream()
+                            .map(Pme00RoleUser::getRoleId)
+                            .collect(Collectors.toSet());
+
+                    for (Pme00RoleUser pme00RoleUser : listRoleUser) {
+                        if (setId.contains(pme00RoleUser.getRoleId())) {
+                            serviceLifecycle.requestPme00RoleUserService()
+                                    .register(pme00RoleUser);
+                            setId.remove(pme00RoleUser.getRoleId());
+                        }
                     }
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
                 }
-                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
-                pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
 
             } catch (Exception e){
-//            e.printStackTrace();
+            e.printStackTrace();
                 pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                 pme00AllLevel2EmployeeResponse.setMessage("This employee has been created");
             }
@@ -138,9 +187,36 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pmeRoleResponse.setMessage("Get all role successfully");
         return pmeRoleResponse;
     }
+
+
     @Override
     public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
                                                         List<Pme00Employee> pme00EmployeeList){
+//        ModelMapper modelMapper = new ModelMapper();
+//
+//        //convert List<Pme00Employee> to List<M00Employee>
+////        List<M00Employee> m00Employees = pme00EmployeeList.stream().map(i -> modelMapper.map(i, M00Employee.class)).collect(Collectors.toList());
+////        List<M00Employee> m00Employees = pme00EmployeeList.stream().map(i -> modelMapper.map(i, M00Employee.class)).collect(Collectors.toList());
+//        List<Pme00RoleUser> pme00RoleUsers = pme00EmployeeList.stream().flatMap(i -> i.getListRoleUser().stream()).collect(Collectors.toList());
+//
+//        //Update for List<Pme00Employee>
+////        serviceLifecycle.requestM00EmployeeService().modifyByList(m00Employees);
+//        serviceLifecycle.requestM00EmployeeService().modifyByList2(pme00EmployeeList);
+//
+//        //Update for List<Pme00RoleUser>
+//        serviceLifecycle.requestPme00RoleUserService().modify(pme00RoleUsers);
+//
+//        //set response
+//
+//        Pme00AllLevel2EmployeeResponse result = new Pme00AllLevel2EmployeeResponse();
+//        result.setStatus(HttpStatus.OK.value());
+//        result.setListData(pme00EmployeeList);
+//        result.setMessage("Update successfully!");
+//
+//        return result;
+
+
+
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         if(pme00EmployeeList.isEmpty()){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
@@ -182,7 +258,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 }else if(pme00EmployeeEdit.getJoinDate().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee joinDate could not match");
-                }else if(pme00EmployeeEdit.getEmail().isEmpty()) {
+                }else if(pme00EmployeeEdit.getMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee email could not match");
                 }else if(pme00EmployeeEdit.getPersonalMail().isEmpty()) {
@@ -217,9 +293,9 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                     }
                     checkEmployee.setPassword(checkEmployee.getPassword());
                     checkEmployee.setIpAddress(pme00EmployeeEdit.getIpAddress());
-                    checkEmployee.setBirthday(pme00EmployeeEdit.getBirthDate());
+                    checkEmployee.setBirthDate(pme00EmployeeEdit.getBirthDate());
                     checkEmployee.setJoinDate(pme00EmployeeEdit.getJoinDate());
-                    checkEmployee.setMail(pme00EmployeeEdit.getEmail());
+                    checkEmployee.setMail(pme00EmployeeEdit.getMail());
                     checkEmployee.setPersonalMail(pme00EmployeeEdit.getPersonalMail());
                     checkEmployee.setIpAddress(pme00EmployeeEdit.getIpAddress());
                     checkEmployee.setMobile(pme00EmployeeEdit.getMobile());

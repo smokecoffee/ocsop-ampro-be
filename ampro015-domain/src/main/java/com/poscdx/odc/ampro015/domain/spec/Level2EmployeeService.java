@@ -17,6 +17,4 @@ public interface Level2EmployeeService {
                                                 List<Pme00Employee> pme00EmployeeList);
 
     Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle);
-
-
 }

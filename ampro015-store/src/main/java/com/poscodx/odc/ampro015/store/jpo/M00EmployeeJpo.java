@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,7 @@ public class M00EmployeeJpo implements Serializable {
     @Column(name = "JOIN_DATE")
     private String joinDate;
     @Column(name = "BIRTH_DATE")
-    private String birthday;
+    private String birthDate;
     @Column(name = "MAIL")
     private String mail;
     @Column(name = "PERSONAL_MAIL")
@@ -86,6 +87,9 @@ public class M00EmployeeJpo implements Serializable {
     public M00EmployeeJpo(M00Employee domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }
+    public M00EmployeeJpo(Pme00Employee domainEntity) {
+        BeanUtils.copyProperties(domainEntity, this);
+    }
 
     public M00Employee toDomain() {
         M00Employee domainEntity = new M00Employee();
@@ -93,8 +97,18 @@ public class M00EmployeeJpo implements Serializable {
         return domainEntity;
     }
 
+    public Pme00Employee toDomain2() {
+        Pme00Employee domainEntity = new Pme00Employee();
+        BeanUtils.copyProperties(this, domainEntity);
+        return domainEntity;
+    }
+
     public static List<M00Employee> toDomains(Iterable<M00EmployeeJpo> jpos) {
         return StreamSupport.stream(jpos.spliterator(), false).map(M00EmployeeJpo::toDomain).collect(Collectors.toList());
+    }
+
+    public static List<Pme00Employee> toDomains2(Iterable<M00EmployeeJpo> jpos) {
+        return StreamSupport.stream(jpos.spliterator(), false).map(M00EmployeeJpo::toDomain2).collect(Collectors.toList());
     }
 
     public static String decodePasswordByBase64(String requestPassword) {

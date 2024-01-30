@@ -21,7 +21,7 @@ public class Pme00Employee {
     private String siteCode;
     private String birthDate;
     private String joinDate;
-    private String email;
+    private String mail;
     private String personalMail;
     private String password;
     private String mobile;
@@ -53,7 +53,7 @@ public class Pme00Employee {
         this.siteCode = (String) object[1];
         this.birthDate = (String) object[4];
         this.joinDate = (String) object[3];
-        this.email = (String) object[5];
+        this.mail = (String) object[5];
         this.personalMail = (String) object[6];
         this.mobile = (String) object[8];
         this.address = (String) object[10];

@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ public interface M00EmployeeService {
 
     M00Employee modify(M00Employee requestUpdateTask);
     void modifyByList(List<M00Employee> entityList);
+    void modifyByList2(List<Pme00Employee> pme00EmployeeList);
 
     M00Employee register(M00Employee entity);
 

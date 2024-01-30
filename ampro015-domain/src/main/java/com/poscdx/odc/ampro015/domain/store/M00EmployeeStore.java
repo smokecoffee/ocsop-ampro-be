@@ -10,6 +10,7 @@ public interface M00EmployeeStore {
     M00Employee retrieve(String id);
 
     M00Employee update(M00Employee entity);
+    Pme00Employee update2(Pme00Employee entity);
 
     M00Employee create(M00Employee entity);
 

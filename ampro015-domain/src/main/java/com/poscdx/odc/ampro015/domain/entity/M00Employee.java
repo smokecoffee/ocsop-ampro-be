@@ -18,7 +18,7 @@ public class M00Employee {
     private String siteCode;
     private String name;
     private String joinDate;
-    private String birthday;
+    private String birthDate;
     private String mail;
     private String personalMail;
     private String ipAddress;
@@ -48,7 +48,7 @@ public class M00Employee {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
         this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[2], "Employee");
-        this.birthday = (String) objects[3];
+        this.birthDate = (String) objects[3];
         this.ipAddress = (String) objects[4];
     }
 }
