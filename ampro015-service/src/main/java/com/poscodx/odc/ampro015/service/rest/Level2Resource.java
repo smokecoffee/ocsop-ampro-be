@@ -1,9 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Member;
-import com.poscdx.odc.ampro015.domain.entity.Pme00PasswordToken;
-import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,5 +57,11 @@ public class Level2Resource {
     @GetMapping(path = "/test")
     public String test(@RequestBody String recipient) {
         return this.serviceLifecycle.requestLevel2Service().sendMail(recipient, "", "", "", "");
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/getListProject")
+    public List<M00Codes030>  listProject(@RequestParam ("user") String user){
+        return this.serviceLifecycle.requestM00Codes030Service().getListProject(user);
     }
 }

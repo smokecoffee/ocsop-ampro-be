@@ -1,5 +1,6 @@
 package com.poscodx.odc.ampro015.store.repository;
 
+import com.poscdx.odc.ampro015.domain.entity.M00Codes030;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
 import com.poscodx.odc.ampro015.store.jpo.M00Codes030Jpo;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,4 +50,11 @@ public interface M00Codes030Repository extends JpaRepository<M00Codes030Jpo, M00
             "WHERE CD_TP_ID = 64 \n" +
             "AND CATEGORY_GROUP_ID = 56", nativeQuery = true)
     List<Object[]> getTaskStatus();
+
+    @Query(value = "SELECT CODE030.*\n" +
+            "FROM TB_M00_CODES030 CODE030\n" +
+            "JOIN TB_PME00_MEMBER MEM\n" +
+            "ON CODE030.CD_V = MEM.CD_V_ID \n" +
+            "WHERE MEM.EMP_ID = :user\n", nativeQuery = true)
+    List<M00Codes030Jpo> getListProject(@Param("user") String user);
 }
