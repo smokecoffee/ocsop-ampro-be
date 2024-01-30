@@ -44,7 +44,7 @@ public class Pme00EmployeeResource {
 
     @PostMapping("/")
     @CrossOrigin
-    public Pme00AllLevel2EmployeeResponse addEmpoyee(@Valid @RequestBody Pme00Employee newEmployee) {
+    public Pme00AllLevel2EmployeeResponse addEmpoyee(@RequestBody Pme00Employee newEmployee) {
         return this.serviceLifecycle.requestLevel2EmployeeService().addEmployee(serviceLifecycle,newEmployee);
     }
 

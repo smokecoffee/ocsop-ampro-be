@@ -18,43 +18,43 @@ public class Pme00Employee {
 
     private String avatar;
 
-    @NotBlank(message = "EmpId is required")
-    @NotEmpty(message = "EmpId cannot be empty")
+//    @NotBlank(message = "EmpId is required")
+//    @NotEmpty(message = "EmpId cannot be empty")
     private String empId;
-
-    @NotBlank(message = "Name is required")
-    @NotEmpty(message = "Name cannot be empty")
+//
+//    @NotBlank(message = "Name is required")
+//    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
     private String site;
 
-    @NotBlank(message = "SiteCode is required")
-    @NotEmpty(message = "SiteCode cannot be empty")
+//    @NotBlank(message = "SiteCode is required")
+//    @NotEmpty(message = "SiteCode cannot be empty")
     private String siteCode;
 
     private String birthDate;
     private String joinDate;
 
-    @NotBlank(message = "Mail is required")
-    @NotEmpty(message = "Mail cannot be empty")
+//    @NotBlank(message = "Mail is required")
+//    @NotEmpty(message = "Mail cannot be empty")
     private String mail;
 
-    @NotBlank(message = "PersonalMail is required")
-    @NotEmpty(message = "PersonalMail cannot be empty")
+//    @NotBlank(message = "PersonalMail is required")
+//    @NotEmpty(message = "PersonalMail cannot be empty")
     private String personalMail;
 
-    @NotBlank(message = "Password is required")
-    @NotEmpty(message = "Password cannot be empty")
+//    @NotBlank(message = "Password is required")
+//    @NotEmpty(message = "Password cannot be empty")
     private String password;
-
-    @NotBlank(message = "Mobile is required")
-    @NotEmpty(message = "Mobile cannot be empty")
+//
+//    @NotBlank(message = "Mobile is required")
+//    @NotEmpty(message = "Mobile cannot be empty")
     private String mobile;
 
     private String address;
 
-    @NotBlank(message = "Status is required")
-    @NotEmpty(message = "status cannot be empty")
+//    @NotBlank(message = "Status is required")
+//    @NotEmpty(message = "status cannot be empty")
     private String status;
 
     private String action;
@@ -64,8 +64,8 @@ public class Pme00Employee {
     private List<Pme00RoleUser> listRoleUser;
     private String nameCreateBy;
 
-    @NotBlank(message = "Gender is required")
-    @NotEmpty(message = "Gender cannot be empty")
+//    @NotBlank(message = "Gender is required")
+//    @NotEmpty(message = "Gender cannot be empty")
     private String gender;
 
     private String ipAddress;
