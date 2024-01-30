@@ -37,8 +37,8 @@ public class M00EmployeeLogic implements M00EmployeeService {
     }
 
     @Override
-    public void modifyByList2(List<Pme00Employee> pme00EmployeeList) {
-        pme00EmployeeList.forEach(this.store::update2);
+    public Pme00Employee modifyByList2(Pme00Employee pme00Employee) {
+        return this.store.update2(pme00Employee);
     }
 
     @Override

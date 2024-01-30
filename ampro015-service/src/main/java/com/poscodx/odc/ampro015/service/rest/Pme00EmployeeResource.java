@@ -3,6 +3,7 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.common.config.ConfigDef;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,7 +44,7 @@ public class Pme00EmployeeResource {
 
     @PostMapping("/")
     @CrossOrigin
-    public Pme00AllLevel2EmployeeResponse addEmpoyee(@RequestBody Pme00Employee newEmployee) {
+    public Pme00AllLevel2EmployeeResponse addEmpoyee(@Valid @RequestBody Pme00Employee newEmployee) {
         return this.serviceLifecycle.requestLevel2EmployeeService().addEmployee(serviceLifecycle,newEmployee);
     }
 
@@ -55,7 +56,7 @@ public class Pme00EmployeeResource {
 
     @PutMapping("/")
     @CrossOrigin
-    public Pme00AllLevel2EmployeeResponse editEmployee(@Valid @RequestBody List<Pme00Employee> pme00EmployeeList) {
+    public Pme00AllLevel2EmployeeResponse editEmployee(@Valid @RequestBody Pme00Employee  pme00EmployeeList) {
         return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
 

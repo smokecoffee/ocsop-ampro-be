@@ -174,7 +174,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
             } catch (Exception e){
             e.printStackTrace();
                 pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                pme00AllLevel2EmployeeResponse.setMessage("This employee has been created");
+                pme00AllLevel2EmployeeResponse.setMessage(e.getMessage());
             }
         }
         return pme00AllLevel2EmployeeResponse;
@@ -192,19 +192,19 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
     @Override
     public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
-                                                        List<Pme00Employee> pme00EmployeeList){
-        List<Pme00RoleUser> pme00RoleUsers = pme00EmployeeList
-                .stream()
-                .flatMap(i -> i.getListRoleUser()
-                .stream()).collect(Collectors.toList());
+                                                        Pme00Employee pme00Employee){
+        List<Pme00RoleUser> pme00RoleUsers = pme00Employee.getListRoleUser();
+//        pme00RoleUsers.add()
+//                .stream()
+//                .flatMap(i -> i.getListRoleUser()
+//                .stream()).collect(Collectors.toList());
         //Update for List<Pme00Employee>
-        serviceLifecycle.requestM00EmployeeService().modifyByList2(pme00EmployeeList);
+        serviceLifecycle.requestM00EmployeeService().modifyByList2(pme00Employee);
         //Update for List<Pme00RoleUser>
         serviceLifecycle.requestPme00RoleUserService().modify(pme00RoleUsers);
         //set response
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
-        pme00AllLevel2EmployeeResponse.setListData(pme00EmployeeList);
         pme00AllLevel2EmployeeResponse.setMessage("Update successfully!");
 
         return pme00AllLevel2EmployeeResponse;

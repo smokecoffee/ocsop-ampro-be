@@ -13,7 +13,7 @@ public interface M00EmployeeService {
 
     M00Employee modify(M00Employee requestUpdateTask);
     void modifyByList(List<M00Employee> entityList);
-    void modifyByList2(List<Pme00Employee> pme00EmployeeList);
+    Pme00Employee modifyByList2(Pme00Employee pme00Employee);
 
     M00Employee register(M00Employee entity);
 
