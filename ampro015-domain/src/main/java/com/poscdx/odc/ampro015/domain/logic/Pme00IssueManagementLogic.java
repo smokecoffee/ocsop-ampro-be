@@ -118,6 +118,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         return response;
     }
 
+
     /**
      * Find issue management
      *
@@ -130,7 +131,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag,
                                              String applied_period_flag, String accept_flag, String requester_confirm,
-                                             String requester, String contents_kr, String developer,
+                                             String requester, String requester_id, String contents_kr, String developer,
                                              String fromRegistrationStartDate, String toRegistrationEndDate,
                                              String fromRequestStartDate, String toRequestEndDate,
                                              int pageNo, int pageSize) throws ParseException {
@@ -147,7 +148,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         Date _fromRequestStartDate = (fromRequestStartDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(fromRequestStartDate) : null;
         Date _toRequestEndDate = (toRequestEndDate != null) ? new SimpleDateFormat("yyyy-MM-dd").parse(toRequestEndDate) : null;
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate,
+                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
                 _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for (Object[] objects : list) {
@@ -155,7 +156,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         }
         Map<String, Object> responses = new HashMap<>();
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, _fromRegistrationStartDate,
+                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
                 _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
         responses.put("status", HttpStatus.FOUND.value());
         responses.put("message", "OK");

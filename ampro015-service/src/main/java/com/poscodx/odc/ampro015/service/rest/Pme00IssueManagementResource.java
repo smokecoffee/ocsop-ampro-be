@@ -125,6 +125,7 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false) String accept_flag,
                                       @RequestParam(required = false) String requester_confirm,
                                       @RequestParam(required = false) String requester,
+                                      @RequestParam(required = false) String requester_id,
                                       @RequestParam(required = false) String contents_kr,
                                       @RequestParam(required = false) String developer,
                                       @RequestParam(required = false) String fromRegistrationStartDate,
@@ -136,7 +137,7 @@ public class Pme00IssueManagementResource {
     ) throws ParseException {
         return this.serviceLifecycle.requestPme00IssueManagementService()
                                     .findIssueInfo(contents, site, module, division_flag,
-                                                    applied_period_flag, accept_flag, requester_confirm, requester,
+                                                    applied_period_flag, accept_flag, requester_confirm, requester, requester_id,
                                                     contents_kr, developer, fromRegistrationStartDate,
                                                     toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageNo, pageSize);
     }
