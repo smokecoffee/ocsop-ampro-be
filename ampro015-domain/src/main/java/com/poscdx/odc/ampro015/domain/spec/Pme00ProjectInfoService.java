@@ -27,12 +27,12 @@ public interface Pme00ProjectInfoService {
     List<M00Employee> getProjectMember(String cdV);
 
     List<Pme00ProjectInfo> findProjectInfo (String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                                            String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable);
+                                            String framework, boolean searchAllStatus, List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable);
 
     List<M00Employee> getKoreaPM();
 
     List<M00Employee> getVietnamPL();
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                     String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);
+                     String framework, boolean searchAllStatus, List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);
 }

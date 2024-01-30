@@ -25,7 +25,7 @@ public interface Pme00ProjectInfoStore {
     void delete (String cdVId);
 
     List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                                   String framework, String status, Date fromStartDate, Date toStartDate,
+                                   String framework, boolean searchAllStatus, List<String> searchStatus, Date fromStartDate, Date toStartDate,
                                    Date fromEndDate, Date toEndDate, Pageable pageable);
 
     List<Object[]> getKoreaPM();
@@ -35,5 +35,5 @@ public interface Pme00ProjectInfoStore {
     List<Object[]> getProjectMember(String cdV);
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL,
-                     String framework, String status, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);
+                     String framework, boolean searchAllStatus, List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);
 }
