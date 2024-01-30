@@ -20,7 +20,6 @@ public interface M99DailyReportService {
     M99DailyReport register(M99DailyReport entity);
 
     void remove(int seq);
-
     List<M99DailyReport> findWorkingTimeByEmployeeId(String empId);
 
     Map<String, Object> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize);

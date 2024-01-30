@@ -1,11 +1,8 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
-import com.poscoict.base.share.domain.PoscoEntity;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
-
-import java.util.Date;
 
 
 @Getter
@@ -33,6 +30,6 @@ public class Pme00Member {
         this.cdVId = (String) objects[1];
         this.empId = (String) objects[2];
         this.empName = (String) objects[3];
-        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[4], "Employee");
+        this.avatar = Utils.applyEmployeeAvatarPath((String) objects[4], "Employee");
     }
 }

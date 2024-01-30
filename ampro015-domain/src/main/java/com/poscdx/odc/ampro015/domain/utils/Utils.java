@@ -1,8 +1,13 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-public class ConstantUtil {
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Utils {
 
 
     public static final int MAX_EXPIRE_TOKEN = 24;// for expire token reset pass with max expire time by hour
@@ -26,14 +31,17 @@ public class ConstantUtil {
             serviceName += "/";
         }
         return (avatar == null || avatar.isEmpty()) ? null :
-                ConstantUtil.UPLOAD_URL + ConstantUtil.UPLOAD_BUCKET + "/" + serviceName + avatar;
+                Utils.UPLOAD_URL + Utils.UPLOAD_BUCKET + "/" + serviceName + avatar;
     }
     public static void removeAvatarPath(String avatar, String serviceName) {
-        avatar = avatar.replace(ConstantUtil.UPLOAD_URL, "")
-                       .replace(ConstantUtil.UPLOAD_BUCKET, "");
+        avatar = avatar.replace(Utils.UPLOAD_URL, "")
+                       .replace(Utils.UPLOAD_BUCKET, "");
         if (avatar.lastIndexOf(serviceName) > 0) {
             avatar = avatar.replaceFirst(serviceName + "/" , "");
         }
     }
-
+    public static List<String> getPermissionList() {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return authorities.stream().map(Object::toString).collect(Collectors.toList());
+    }
 }

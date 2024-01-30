@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/dashboard")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Pme00DashboardResource {
     private final ServiceLifecycle serviceLifecycle;
 
@@ -20,7 +20,6 @@ public class Pme00DashboardResource {
         return this.serviceLifecycle.requestLevel3DashboardService().loadDashboard(serviceLifecycle, empId);
     }
 
-    @CrossOrigin
     @PostMapping
     public Pme00DashboardSettingDto modifyDashboard(@RequestBody Pme00DashboardSetting entity) {
         return this.serviceLifecycle.requestLevel3DashboardService().modifyDashboard(serviceLifecycle, entity);
