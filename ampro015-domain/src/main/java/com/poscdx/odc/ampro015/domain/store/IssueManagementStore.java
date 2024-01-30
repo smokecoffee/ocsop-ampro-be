@@ -36,4 +36,6 @@ public interface IssueManagementStore {
                         String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
                         Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate);
 
+    int maxSeq();
+
 }

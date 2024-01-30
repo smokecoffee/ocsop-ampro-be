@@ -1,5 +1,7 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class ConstantUtil {
 
 

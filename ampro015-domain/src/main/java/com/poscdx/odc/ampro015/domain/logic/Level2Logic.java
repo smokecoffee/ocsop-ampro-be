@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +47,29 @@ public class Level2Logic implements Level2Service {
         }
     }
 
+//    @Override
+//    public String uploadFile(String bucketName, String serviceName, File file) {
+//        try {
+//            final String fileName = serviceName + "/" + file.getName();
+//            InputStream inputStream = Files.newInputStream(file.toPath());
+//
+//            // Upload the file to the MinIO server
+//            minioClient.putObject(
+//                    PutObjectArgs.builder()
+//                            .bucket(bucketName)
+//                            .object(fileName)
+//                            .stream(inputStream, inputStream.available(), -1)
+//                            .build());
+//
+//            return fileName;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "Upload unsuccessfully!";
+//        }
+//    }
+
     @Override
-    public String removeFile(String bucketName, String serviceName, List<String> filenameList) {
+    public boolean removeFile(String bucketName, String serviceName, List<String> filenameList) {
         try {
             List<String> deleteList = new ArrayList<>();
             filenameList.forEach(filename -> deleteList.add("/" + serviceName + "/" + filename));
@@ -54,9 +77,9 @@ public class Level2Logic implements Level2Service {
             for (String deleteString : deleteList) {
                 minioClient.removeObject(bucketName, deleteString);
             }
-            return "Delete successfully!";
+            return true;
         } catch (Exception e) {
-            return "Delete unsuccessfully!";
+            return false;
         }
     }
 
