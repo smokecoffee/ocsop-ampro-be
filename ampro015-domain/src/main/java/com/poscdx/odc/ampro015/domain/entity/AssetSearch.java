@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssetSearch extends PoscoEntity {
+public class AssetSearch {
     private int assetId;
     private String empId;
     private int status;

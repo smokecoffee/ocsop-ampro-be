@@ -38,4 +38,10 @@ public class M99DailyReportResource {
     public M99DailyReport modify(@RequestBody M99DailyReport dto) throws SQLException {
         return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
     }
+
+    @CrossOrigin
+    @GetMapping("/working-time")
+    public List findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
+        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
+    }
 }

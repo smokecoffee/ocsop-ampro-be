@@ -70,7 +70,7 @@ public class A01Resource {
 
     @CrossOrigin
     @DeleteMapping(path = "/")
-    public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) int userId) {
+    public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) String userId) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] Asset Token : " +JsonUtil.toJson(token), this);
         this.serviceLifecycle.requestLevel2QrCodeService().deleteAsset(serviceLifecycle, token, userId);
     }

@@ -27,7 +27,7 @@ public class EmployeeDetailsImpl implements UserDetails {
 
     private List<String> role;
 
-  private List<Map<Integer, String>> listPermission;
+  private List<Map<String, String>> listPermission;
 
   @JsonIgnore
   private String password;
@@ -36,7 +36,7 @@ public class EmployeeDetailsImpl implements UserDetails {
   private Collection<? extends GrantedAuthority> authorities;
 
     public EmployeeDetailsImpl(String id, String username, String email, String avatar, String password, List<String> role,
-                               Collection<? extends GrantedAuthority> authorities, List<Map<Integer, String>> listPermission) {
+                               Collection<? extends GrantedAuthority> authorities, List<Map<String, String>> listPermission) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -48,10 +48,10 @@ public class EmployeeDetailsImpl implements UserDetails {
         this.listPermission = listPermission;
     }
 
-    public static EmployeeDetailsImpl build(M00EmployeeJpo user, List<String> listRoles, List<Map<Integer, String>> listPermission) {
+    public static EmployeeDetailsImpl build(M00EmployeeJpo user, List<String> listRoles, List<Map<String, String>> listPermission) {
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        for (Map<Integer, String> map : listPermission) {
+        for (Map<String, String> map : listPermission) {
             Set set = map.keySet();
             for (Object key : set) {
                 authorities.add(new SimpleGrantedAuthority(map.get(key)));
