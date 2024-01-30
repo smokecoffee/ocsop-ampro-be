@@ -2,11 +2,13 @@ package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.M99DailyReportService;
 import com.poscdx.odc.ampro015.domain.store.M99DailyReportStore;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -28,8 +30,9 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public M99DailyReport modify(M99DailyReport requestUpdateTask) {
-        return this.store.update(requestUpdateTask);
+    public M99DailyReport modify(ServiceLifecycle serviceLifecycle, M99DailyReport dto,
+                                 MultipartFile imageUpload, MultipartFile fileUpload) {
+        return this.store.update(dto);
     }
 
     @Override
@@ -38,8 +41,9 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public M99DailyReport register(M99DailyReport entity) {
-        return store.create(entity);
+    public M99DailyReport register(ServiceLifecycle serviceLifecycle, M99DailyReport dto,
+                                   MultipartFile imageUpload, MultipartFile fileUpload) {
+        return this.store.create(dto);
     }
 
     @Override

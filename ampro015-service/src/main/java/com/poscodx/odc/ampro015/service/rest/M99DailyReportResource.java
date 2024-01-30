@@ -7,6 +7,7 @@ import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
 import java.sql.SQLException;
@@ -29,14 +30,24 @@ public class M99DailyReportResource {
 
     @CrossOrigin
     @PostMapping("")
-    public M99DailyReport register(@RequestBody M99DailyReport dto) throws SQLException {
-        return this.serviceLifecycle.requestM99DailyReportService().register(dto);
+    public M99DailyReport register(@RequestParam ("data") String dtoString,
+                                   @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                                   @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+
+        return this.serviceLifecycle
+                .requestM99DailyReportService()
+                .register(serviceLifecycle, M99DailyReport.fromJson(dtoString), imageUpload, fileUpload);
     }
 
     @CrossOrigin
     @PutMapping("")
-    public M99DailyReport modify(@RequestBody M99DailyReport dto) throws SQLException {
-        return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
+    public M99DailyReport modify(@RequestParam ("data") String dtoString,
+                                 @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                                 @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+
+        return this.serviceLifecycle
+                .requestM99DailyReportService()
+                .modify(serviceLifecycle, M99DailyReport.fromJson(dtoString), imageUpload, fileUpload);
     }
 
     @CrossOrigin

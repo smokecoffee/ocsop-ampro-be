@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
 import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -45,6 +46,10 @@ public class M99DailyReport {
         this.status = object[11] == null ? 0 : (int) object[11];
         this.empName = (String) object[12];
         this.empImg = ConstantUtil.applyEmployeeAvatarPath((String) object[13], "Employee");
+    }
+
+    public static M99DailyReport fromJson(String json) {
+        return JsonUtil.fromJson(json, M99DailyReport.class);
     }
 
 }
