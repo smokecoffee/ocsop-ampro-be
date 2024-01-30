@@ -50,5 +50,7 @@ public class M00Employee {
         this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[2], "Employee");
         this.birthday = (String) objects[3];
         this.ipAddress = (String) objects[4];
+        if(objects.length>5)// process for case get emp by email. need to investigate function more than flexible
+            this.mail = (String) objects[5];
     }
 }

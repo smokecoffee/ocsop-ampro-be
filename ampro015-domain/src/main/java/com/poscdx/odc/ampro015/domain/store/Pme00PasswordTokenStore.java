@@ -15,4 +15,6 @@ public interface Pme00PasswordTokenStore {
     public Pme00PasswordToken create(Pme00PasswordToken entity);
 
     public void delete(int id);
+
+    List<Object[]> FindPasswordTokenByToken(String token);
 }

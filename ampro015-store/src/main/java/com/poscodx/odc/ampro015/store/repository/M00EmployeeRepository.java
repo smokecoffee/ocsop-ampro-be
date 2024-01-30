@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, String> {
 
-    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE, e.IP_ADDRESS\n"+
+    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE, e.IP_ADDRESS, e.MAIL\n"+
             "FROM tb_m00_employee AS e\n"+
             "WHERE e.EMP_ID IN :empId", nativeQuery = true)
     List<Object[]> getEmployeeByEmployeeId(@Param("empId") Set<String> empId);
@@ -23,6 +23,7 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             ",E.PHOTO\n" +
             ",E.BIRTH_DATE\n" +
             ",E.IP_ADDRESS\n" +
+            ",E.MAIL\n" +
             " FROM\n" +
             " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
             " WHERE\n" +
@@ -77,5 +78,10 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
     Optional<M00EmployeeJpo> findByName(String userName);
 
     List<M00EmployeeJpo> findAllByEmpIdIn(List<String> id);
+
+    @Query(value = "SELECT e.EMP_ID, e.NAME, e.PHOTO, e.BIRTH_DATE, e.IP_ADDRESS, e.MAIL\n"+
+            "FROM tb_m00_employee AS e\n"+
+            "WHERE e.MAIL = :email ", nativeQuery = true)
+    List<Object[]> getEmployeeByEmail(@Param("email") String email);
 
 }
