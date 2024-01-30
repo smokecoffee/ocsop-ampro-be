@@ -24,7 +24,7 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
                 ", EMP2.NAME AS VIETNAM_PL_NAME\n" +
                 ", EMP2.PHOTO AS VIETNAM_PL_PHOTO\n" +
             "FROM \n" +
-                "TB_PME00_PROJECT_INFO AS INFO\n" +
+                "TB_PME00_PROJECT_INFO INFO\n" +
             "JOIN TB_M00_EMPLOYEE EMP1\n" +
                 "ON EMP1.EMP_ID = INFO.KOREA_PM \n" +
             "JOIN TB_M00_EMPLOYEE EMP2\n" +
