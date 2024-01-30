@@ -4,10 +4,12 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Pme00IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         return this.store.retrieveAll();
     }
 
+
     /**
      * Modify issue management
      *
@@ -42,9 +45,22 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement) {
+    public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload) {
+        if (fileUpload != null) {
+            List<String> fileName = new ArrayList<>();
+            List<IssueManagement> issueList = store.retrieve(issueManagement.getSeq(), issueManagement.getSite());
+            for (IssueManagement issue : issueList) {
+                fileName.add(issue.getFileName());
+            }
+            serviceLifecycle.requestLevel2Service()
+                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
+        }
         IssueManagementResponse response = new IssueManagementResponse();
         store.update(issueManagement);
+        if(fileUpload != null){
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET,"Issue",fileUpload);
+            result.contains("Issue");
+        }
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been updated");
         return response;
@@ -60,8 +76,14 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement) {
+    public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement, MultipartFile fileUpload) {
         IssueManagementResponse response = new IssueManagementResponse();
+        int seq = store.maxSeq() + 1;
+        newIssueManagement.setSeq(seq);
+        if(fileUpload != null){
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET,"Issue",fileUpload);
+            result.contains("Issue");
+        }
         store.create(newIssueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
@@ -78,9 +100,19 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public IssueManagementResponse remove(IssueManagementId seq) {
+    public IssueManagementResponse remove(IssueManagementId seq, ServiceLifecycle serviceLifecycle) {
         IssueManagementResponse response = new IssueManagementResponse();
-        store.delete(seq);
+        List<String> fileName = new ArrayList<>();
+        List<IssueManagement> issueList = store.retrieve(seq.getSeq(), seq.getSite());
+        if (!issueList.isEmpty()) {
+            for (IssueManagement issue : issueList) {
+                fileName.add(issue.getFileName());
+            }
+            serviceLifecycle.requestLevel2Service()
+                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
+            store.delete(seq);
+        }
+
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("This issue has been deleted");
         return response;

@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.spec;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -32,19 +33,19 @@ public interface Pme00IssueManagementService {
      * @author 202307_Phat
      *  * @since 2024-01-23
      */
-    IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement);
+    IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload);
     /**
      * Interface Create issue
      * @author 202307_Phat
      *  * @since 2024-01-23
      */
-    IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement);
+    IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload);
     /**
      * Interface Remove issue
      * @author 202307_Phat
      *  * @since 2024-01-23
      */
-    IssueManagementResponse remove(IssueManagementId seq);
+    IssueManagementResponse remove(IssueManagementId seq, ServiceLifecycle serviceLifecycle);
     /**
      * Interface find issue info by param return map
      * @author 202307_Phat

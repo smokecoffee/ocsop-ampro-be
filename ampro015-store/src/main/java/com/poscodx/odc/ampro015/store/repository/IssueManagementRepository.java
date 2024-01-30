@@ -152,4 +152,13 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                           String requester, String contents_kr, String developer, Date registration_date,
                                           Date request_date);
 
+
+    @Query(value = "SELECT MAX(SEQ) FROM tb_m00_issue_management ", nativeQuery = true )
+    int maxSeq();
+
+    @Query(value = "SELECT t.REQUESTER FROM tb_m00_issue_management t \n" +
+            "JOIN tb_m00_employee tme \n" +
+            "ON t.DEVELOPER = tme.EMP_ID \n", nativeQuery = true)
+    String requester();
+
 }

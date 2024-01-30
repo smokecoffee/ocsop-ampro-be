@@ -69,7 +69,7 @@ public class IssueManagementJpo implements Serializable {
     private String contentsKR;
 
     @NotNull
-    @Convert(converter = StringCryptoConverter.class)
+//    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "FILE_NAME")
     private String fileName;
 
