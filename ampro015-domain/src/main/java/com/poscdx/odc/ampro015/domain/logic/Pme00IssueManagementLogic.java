@@ -47,8 +47,8 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload) {
         IssueManagementResponse response = new IssueManagementResponse();
+        List<String> fileName = new ArrayList<>();
         if (fileUpload != null) {
-            List<String> fileName = new ArrayList<>();
             List<IssueManagement> issueList = store.retrieve(issueManagement.getSeq(), issueManagement.getSite());
             for (IssueManagement issue : issueList) {
                 fileName.add(issue.getFileName());
