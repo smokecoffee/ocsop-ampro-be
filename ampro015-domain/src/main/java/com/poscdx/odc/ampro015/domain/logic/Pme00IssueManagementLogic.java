@@ -53,12 +53,14 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
             for (IssueManagement issue : issueList) {
                 fileName.add(issue.getFileName());
             }
+        }
+        store.update(issueManagement);
+        if(fileUpload != null){
             serviceLifecycle.requestLevel2Service()
                     .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
             String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
-        store.update(issueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been updated");
         return response;
