@@ -21,7 +21,7 @@ public interface IssueManagementStore {
 
 
     List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                                 String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                                 String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
                                  Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
                                  Date requestToEndDate, Pageable pageable);
 
@@ -33,7 +33,7 @@ public interface IssueManagementStore {
                                           Date registration_date, Date request_date);
 
     int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                        String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                        String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
                         Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate);
 
     int maxSeq();

@@ -53,18 +53,17 @@ public class IssueManagementJpaStore implements IssueManagementStore {
 
     @Override
     public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                                        String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                                        String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
                                         Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
                                         Date requestToEndDate, Pageable pageable) {
         return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate,
+                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate,
                 registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
 
     @Override
-    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
-                                             String accept_flag, String request_confirm, String requester,
-                                             String contents, String contents_kr, String developer) {
+    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag, String accept_flag,
+                                             String request_confirm, String requester, String contents, String contents_kr, String developer) {
         List<Map<String, String>> mapList = this.repository.searchIssue(site, module, division_flag, applied_period_flag,
                 accept_flag, request_confirm, requester, contents, contents_kr, developer);
         ObjectMapper mapper = new ObjectMapper();
@@ -76,15 +75,15 @@ public class IssueManagementJpaStore implements IssueManagementStore {
                                                  String applied_period_flag, String accept_flag, String requester_confirm,
                                                  String requester, String contents_kr, String developer, Date registration_date, Date request_date) {
         return this.repository.findIssueManagementDto(contents, site, modules, division_flag, applied_period_flag, accept_flag,
-                                    requester_confirm, requester, contents_kr, developer, registration_date, request_date);
+                requester_confirm, requester, contents_kr, developer, registration_date, request_date);
     }
 
     @Override
     public int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                               String accept_flag, String requester_confirm, String requester, String contents_kr, String developer,
+                               String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
                                Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
         return this.repository.countIssueReport(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registrationFromStartDate,
+                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate,
                 registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
 
