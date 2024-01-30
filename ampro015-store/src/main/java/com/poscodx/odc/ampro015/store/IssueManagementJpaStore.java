@@ -1,6 +1,5 @@
 package com.poscodx.odc.ampro015.store;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 public class IssueManagementJpaStore implements IssueManagementStore {
