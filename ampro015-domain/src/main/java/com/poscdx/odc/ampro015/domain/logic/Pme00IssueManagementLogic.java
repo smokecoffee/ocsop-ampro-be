@@ -46,6 +46,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      */
     @Override
     public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload) {
+        IssueManagementResponse response = new IssueManagementResponse();
         if (fileUpload != null) {
             List<String> fileName = new ArrayList<>();
             List<IssueManagement> issueList = store.retrieve(issueManagement.getSeq(), issueManagement.getSite());
@@ -55,12 +56,11 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
             serviceLifecycle.requestLevel2Service()
                     .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
         }
-        IssueManagementResponse response = new IssueManagementResponse();
-        store.update(issueManagement);
         if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
+        store.update(issueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been updated");
         return response;
