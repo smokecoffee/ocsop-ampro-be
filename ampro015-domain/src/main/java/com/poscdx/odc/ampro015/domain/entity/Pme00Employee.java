@@ -84,7 +84,7 @@ public class Pme00Employee {
                 Utils.UPLOAD_URL + Utils.UPLOAD_BUCKET + "/Employee/" + object[11];
         this.empId = (String) object[0];
         this.name = (String) object[2];
-        this.site = (String) object[31];
+        this.site = (String) object[32];
         this.siteCode = (String) object[1];
         this.birthDate = (String) object[4];
         this.joinDate = (String) object[3];
@@ -96,8 +96,8 @@ public class Pme00Employee {
         this.action = (String) object[26];
         this.createBy = (String) object[27];
         this.createByUserName = (String) object[29];
-        this.createByUserPhoto = (object[30]== null ||((String) object[30]).isEmpty())? null:
-                Utils.UPLOAD_URL + Utils.UPLOAD_BUCKET + "/Employee/" +object[30];
+        this.createByUserPhoto = (object[31]== null ||((String) object[31]).isEmpty())? null:
+                Utils.UPLOAD_URL + Utils.UPLOAD_BUCKET + "/Employee/" +object[31];
         this.gender = (String) object[28];
         this.ipAddress = (String) object[7];
 
