@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -17,6 +18,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class Level2Logic implements Level2Service {
+
+    @Value("${minio.bucketName}")
+    private String bucketName;
 
     private final MinioClient minioClient;
 
@@ -81,6 +85,12 @@ public class Level2Logic implements Level2Service {
 
     @Override
     public String sendMail(String recipient, String username, String password, String subject, String body) {
-        return MailSender.sendMail(recipient, username, password, subject, body);
+         MailSender.sendEmailWithAuthentication("", "Your email subject", "<b>Hello, this is the body of the email.</b>");
+    return "OK";
+    }
+
+    @Override
+    public boolean sendMail(String mail,String subject, String resetHtmlTemplate) {
+        return MailSender.sendEmailWithAuthentication(mail, subject, resetHtmlTemplate);
     }
 }

@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
-import com.poscoict.base.share.domain.PoscoEntity;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.*;
 
 import java.util.Date;
@@ -47,8 +46,10 @@ public class M00Employee {
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
-        this.avatar = ConstantUtil.applyEmployeeAvatarPath((String) objects[2], "Employee");
+        this.avatar = Utils.applyEmployeeAvatarPath((String) objects[2], "Employee");
         this.birthday = (String) objects[3];
         this.ipAddress = (String) objects[4];
+        if(objects.length>5)// process for case get emp by email. need to investigate function more than flexible
+            this.mail = (String) objects[5];
     }
 }

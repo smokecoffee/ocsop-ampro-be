@@ -8,12 +8,18 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Router API for task management
@@ -21,6 +27,7 @@ import java.util.Map;
  * @author 202296_Duong
  * @since 2023-11-11
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/task")
@@ -34,7 +41,6 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @GetMapping(path = "/getAll")
     public List<M00TaskDto> findAll(@RequestParam String projectNumber) {
         return this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber);
@@ -48,7 +54,6 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @GetMapping(path = "/search")
     public ResponseEntity<?> searchTask(@RequestParam(required = false, name = "projectNumber") String projectNumber,
                                        @RequestParam(required = false, name = "taskName") String taskName,
@@ -72,18 +77,10 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @PostMapping("")
     public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
         return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest);
     }
-
-    //    @CrossOrigin
-//    @PostMapping("")
-//    public boolean insertTask(@RequestBody M00TaskDto newTaskRequest,  @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
-//                              @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-//        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
-//    }
 
     /**
      * Update Task function
@@ -92,7 +89,6 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @PutMapping("")
     public boolean updateTask(@RequestBody M00TaskDto newTaskRequest,
                               @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
@@ -107,7 +103,6 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @DeleteMapping("")
     public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
         return this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
@@ -120,7 +115,6 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @PostMapping("/search")
     public ResponseEntity<?> searchTask(@RequestBody TaskSearchDTO searchTask) {
         String employeeId = searchTask.getEmpId();
@@ -138,9 +132,8 @@ public class Pme00TaskResource {
      * @author 202260_tri
      * @since 2024-01-11
      */
-    @CrossOrigin
     @GetMapping("/employee/{id}")
-    public M00Employee searchTask(@PathVariable("id") String employeeId) {
+    public M00Employee getTaskOwner(@PathVariable("id") String employeeId) {
         return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
     }
 

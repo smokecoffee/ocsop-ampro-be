@@ -13,14 +13,13 @@ public interface M99DailyReportService {
 
     List<M99DailyReport> findAll();
 
-    M99DailyReport modify(M99DailyReport requestUpdateTask);
+    M99DailyReport modify(M99DailyReport requestUpdate);
 
     void modifyByList(List<M99DailyReport> entityList);
 
     M99DailyReport register(M99DailyReport entity);
 
     void remove(int seq);
-
     List<M99DailyReport> findWorkingTimeByEmployeeId(String empId);
 
     Map<String, Object> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize);

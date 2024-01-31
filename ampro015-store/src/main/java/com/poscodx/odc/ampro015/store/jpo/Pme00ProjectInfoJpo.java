@@ -1,8 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00ProjectInfo;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
-import com.poscodx.odc.ampro015.store.converter.image.StringCryptoConverter;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -80,10 +79,10 @@ public class Pme00ProjectInfoJpo {
     @PostLoad
     private void addUrlPath() {
         if (image != null && !image.isEmpty()) {
-            image = ConstantUtil.applyEmployeeAvatarPath(image, "Project");
+            image = Utils.applyEmployeeAvatarPath(image, "Project");
         }
         if (file != null && !file.isEmpty()) {
-            file = ConstantUtil.applyEmployeeAvatarPath(file, "Project");
+            file = Utils.applyEmployeeAvatarPath(file, "Project");
         }
     }
 }

@@ -2,12 +2,15 @@ package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employee")
@@ -16,7 +19,7 @@ public class Pme00EmployeeResource {
     private final ServiceLifecycle serviceLifecycle;
 
     @GetMapping("/search")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('GET_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(
             @RequestParam(required = false, name = "site") String site,
             @RequestParam(required = false, name = "status") String status,
@@ -29,19 +32,18 @@ public class Pme00EmployeeResource {
     }
 
     @GetMapping("/findSiteEmp")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('GET_EMPLOYEE')")
     public PmeSiteResponse findSiteEmp() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findSiteEmp(serviceLifecycle);
     }
 
     @GetMapping("/findStatusEmp")
-    @CrossOrigin
     public PmeStatusResponse findStatus() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findStatus(serviceLifecycle);
     }
 
     @PostMapping("/")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('ADD_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse addEmployee(@RequestParam ("data") String dtoString,
                                                      @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
         return this.serviceLifecycle
@@ -50,19 +52,17 @@ public class Pme00EmployeeResource {
     }
 
     @GetMapping("/findAllRole")
-    @CrossOrigin
     public PmeRoleResponse findAllRole() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findAllRole(serviceLifecycle);
     }
 
     @PutMapping("/")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('UPDATE_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
         return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
 
     @GetMapping("/findGender")
-    @CrossOrigin
     public Pme00GenderResponse findGender() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findGender(serviceLifecycle);
     }

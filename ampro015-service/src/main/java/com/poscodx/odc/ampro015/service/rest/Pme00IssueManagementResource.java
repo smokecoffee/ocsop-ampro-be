@@ -7,6 +7,7 @@ import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,13 +21,12 @@ import java.util.Map;
  * @author 202307_Phat
  * @since 2024-01-23
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/issue-management")
 @RequiredArgsConstructor
 public class Pme00IssueManagementResource {
 
-    @Value("${minio.bucketName}")
-    private String bucketName;
     @Autowired
     private ServiceLifecycle serviceLifecycle;
 
@@ -49,8 +49,8 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @CrossOrigin
     @PostMapping
+//    @PreAuthorize("hasAuthority('ADD_ISSUE')")
     public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement, MultipartFile fileUpload) {
         return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement, fileUpload);
     }
@@ -62,8 +62,8 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @CrossOrigin
     @PutMapping
+//    @PreAuthorize("hasAuthority('UPDATE_ISSUE, UPDATE_ISSUE_OWNER')")
     public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement, MultipartFile fileUpload) {
         return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement, fileUpload);
     }
@@ -75,8 +75,8 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @CrossOrigin
     @DeleteMapping
+//    @PreAuthorize("hasAuthority('DELETE_ISSUE, DELETE_ISSUE_OWNER')")
     public IssueManagementResponse deleteIssue(@RequestBody IssueManagementId seq) {
         return this.serviceLifecycle.requestPme00IssueManagementService().remove(seq, serviceLifecycle);
     }
@@ -88,8 +88,8 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @CrossOrigin
     @GetMapping
+//    @PreAuthorize("hasAuthority('GET_ISSUE, GET_ISSUE_OWNER')")
     public List<IssueManagement> getAll() {
         return this.serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
     }
@@ -101,8 +101,8 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @CrossOrigin
     @GetMapping("/getbyseqandsite")
+//    @PreAuthorize("hasAuthority('GET_ISSUE, GET_ISSUE_OWNER')")
     public List<IssueManagement> getBySeqAndSite(@RequestParam int seq, @RequestParam String site) {
         return this.serviceLifecycle.requestPme00IssueManagementService().retrieve(seq, site);
     }
@@ -115,8 +115,8 @@ public class Pme00IssueManagementResource {
      * @author 202307_Phat
      * @since 2024-01-23
      */
-    @CrossOrigin
     @GetMapping(path = "/search")
+//    @PreAuthorize("hasAuthority('GET_ISSUE, GET_ISSUE_OWNER')")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
                                       @RequestParam(required = false) String site,
                                       @RequestParam(required = false) String module,
@@ -125,6 +125,7 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false) String accept_flag,
                                       @RequestParam(required = false) String requester_confirm,
                                       @RequestParam(required = false) String requester,
+                                      @RequestParam(required = false) String requester_id,
                                       @RequestParam(required = false) String contents_kr,
                                       @RequestParam(required = false) String developer,
                                       @RequestParam(required = false) String fromRegistrationStartDate,
@@ -136,7 +137,7 @@ public class Pme00IssueManagementResource {
     ) throws ParseException {
         return this.serviceLifecycle.requestPme00IssueManagementService()
                                     .findIssueInfo(contents, site, module, division_flag,
-                                                    applied_period_flag, accept_flag, requester_confirm, requester,
+                                                    applied_period_flag, accept_flag, requester_confirm, requester, requester_id,
                                                     contents_kr, developer, fromRegistrationStartDate,
                                                     toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageNo, pageSize);
     }
