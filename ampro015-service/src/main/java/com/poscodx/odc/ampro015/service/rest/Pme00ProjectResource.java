@@ -4,9 +4,11 @@ import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,14 +23,15 @@ import java.util.Map;
  * @author : 202301_Duyen
  * @since : 2023-11-30
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/project")
 @RequiredArgsConstructor
 public class Pme00ProjectResource {
     private final ServiceLifecycle serviceLifecycle;
 
-    @CrossOrigin
     @PostMapping("/search")
+    @PreAuthorize("hasAnyAuthority('GET_PROJECT,GET_PROJECT_OWNER')")
     public Map<String, Object> findProjectList(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
@@ -36,8 +39,8 @@ public class Pme00ProjectResource {
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, dto, pageNo, pageSize);
     }
 
-    @CrossOrigin
     @PostMapping("/search-include-task")
+    @PreAuthorize("hasAnyAuthority('VIEW_PROJECT_MONITORING')")
     public Map<String, Object> findProjectListWithTask(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
@@ -45,55 +48,63 @@ public class Pme00ProjectResource {
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithTask(serviceLifecycle, dto, pageNo, pageSize);
     }
 
-    @CrossOrigin
     @GetMapping(path = "/monitoring")
+    @PreAuthorize("hasAnyAuthority('GET_PROJECT,GET_PROJECT_OWNER')")
     public Map<String, Object> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                         @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
-        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, pageNo, pageSize);
+        if (Utils.checkPermission("GET_PROJECT_OWNER")) {
+            String id = Utils.getLoginUserDetail();
+            if (id != null) {
+                return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, id, pageNo, pageSize);
+            }
+        }
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, null, pageNo, pageSize);
     }
 
-    @CrossOrigin
     @PostMapping("")
-    public boolean register(@RequestParam ("data") String dtoString,
+    @PreAuthorize("hasAnyAuthority('ADD_PROJECT')")
+    public List<Object> register(@RequestParam ("data") String dtoString,
                             @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                             @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
                    .registerProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
     }
 
-    @CrossOrigin
     @PutMapping("")
+    @PreAuthorize("hasAnyAuthority('UPDATE_PROJECT,UPDATE_PROJECT_OWNER')")
     public boolean modify(@RequestParam ("data") String dtoString,
                           @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                           @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+//        List<Object> resultList = new ArrayList<>();
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
                    .modifyProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
+//        return resultList;
     }
 
-    @CrossOrigin
     @DeleteMapping("")
+    @PreAuthorize("hasAnyAuthority('DELETE_PROJECT,DELETE_PROJECT_OWNER')")
     public boolean delete(@RequestBody M00Codes030Id id) throws SQLException {
+//        List<Object> resultList = new ArrayList<>();
         return this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
+//        return resultList;
     }
 
-    @CrossOrigin
     @GetMapping("/search-pm-pl/{type}")
-    public List<M00Employee> getKoreaPM (@PathVariable("type") String type) {
+    public List<M00Employee> getKoreaPM (@PathVariable("type") String type,
+                                         @RequestParam(value = "projectNumber", required = false) String projectNumber) {
         if (type.equals("pm")){
-            return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
+            return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM(projectNumber);
         }
         else if (type.equals("pl")) {
-            return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL();
+            return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL(projectNumber);
         }
         else
             return new ArrayList<>();
 
     }
 
-    @CrossOrigin
     @GetMapping("/search-member/{cdV}")
     public List<M00Employee> findProjectMember(@PathVariable("cdV") String cdV) {
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectMember(serviceLifecycle, cdV);

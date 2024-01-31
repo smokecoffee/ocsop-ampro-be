@@ -1,10 +1,11 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Pme00ProjectInfo
@@ -22,6 +23,7 @@ public class Pme00ProjectInfo {
     private int period;
     private String koreaPm;
     private String vietnamPl;
+    private List<String> searchStatus;
     private String status;
     private String framework;
     private Date startDate;
@@ -55,11 +57,11 @@ public class Pme00ProjectInfo {
         this.framework = (String) objects[5];
         this.startDate = (Date) objects[6];
         this.endDate = (Date) objects[7];
-        this.image = ConstantUtil.applyEmployeeAvatarPath((String) objects[8],"Project");
-        this.file = ConstantUtil.applyEmployeeAvatarPath((String) objects[9],"Project");
+        this.image = Utils.applyEmployeeAvatarPath((String) objects[8],"Project");
+        this.file = Utils.applyEmployeeAvatarPath((String) objects[9],"Project");
         this.koreaPmName = (String) objects[10];
-        this.koreaPmImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[11], "Employee");
+        this.koreaPmImage = Utils.applyEmployeeAvatarPath((String) objects[11], "Employee");
         this.vietnamPlName = (String) objects[12];
-        this.vietnamPlImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[13], "Employee");
+        this.vietnamPlImage = Utils.applyEmployeeAvatarPath((String) objects[13], "Employee");
     }
 }

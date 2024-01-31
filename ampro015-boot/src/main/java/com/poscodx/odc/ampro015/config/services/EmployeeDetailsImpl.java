@@ -2,11 +2,10 @@ package com.poscodx.odc.ampro015.config.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +14,7 @@ import java.util.*;
 
 @Data
 public class EmployeeDetailsImpl implements UserDetails {
+
     private static final long serialVersionUID = 1L;
 
     private String id;
@@ -27,37 +27,39 @@ public class EmployeeDetailsImpl implements UserDetails {
 
     private List<String> role;
 
-  private List<Map<String, String>> listPermission;
+    private Map <String, List<String>> permissionMap;
 
   @JsonIgnore
   private String password;
 
-
   private Collection<? extends GrantedAuthority> authorities;
 
     public EmployeeDetailsImpl(String id, String username, String email, String avatar, String password, List<String> role,
-                               Collection<? extends GrantedAuthority> authorities, List<Map<String, String>> listPermission) {
+                               Collection<? extends GrantedAuthority> authorities, Map <String, List<String>> permissionMap) {
         this.id = id;
         this.username = username;
         this.email = email;
-        //this.avatar = avatar;
-        this.avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
+        this.avatar = Utils.applyEmployeeAvatarPath(avatar, "Employee");
         this.password = password;
         this.role = role;
         this.authorities = authorities;
-        this.listPermission = listPermission;
+        this.permissionMap = permissionMap;
     }
 
     public static EmployeeDetailsImpl build(M00EmployeeJpo user, List<String> listRoles, List<Map<String, String>> listPermission) {
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        Map <String, List<String>> permissionMap = new HashMap<>();
+        List<String> permissionList;
         for (Map<String, String> map : listPermission) {
-            Set set = map.keySet();
-            for (Object key : set) {
+            Set<String> set = map.keySet();
+            for (String key : set) {
                 authorities.add(new SimpleGrantedAuthority(map.get(key)));
+                permissionList = permissionMap.get(key) == null ? new ArrayList<>() : permissionMap.get(key);
+                if (!permissionList.contains(map.get(key))) permissionList.add(map.get(key));
+                permissionMap.put(key, permissionList);
             }
         }
-        //Collections.singleton(new SimpleGrantedAuthority(roleName));
 
         return new EmployeeDetailsImpl(
                 user.getEmpId(),
@@ -67,7 +69,7 @@ public class EmployeeDetailsImpl implements UserDetails {
                 user.getPassword(),
                 listRoles,
                 authorities,
-                listPermission);
+                permissionMap);
     }
 
     @Override

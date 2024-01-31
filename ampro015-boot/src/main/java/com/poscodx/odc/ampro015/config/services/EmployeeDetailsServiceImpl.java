@@ -2,12 +2,12 @@ package com.poscodx.odc.ampro015.config.services;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00RoleUser;
 import com.poscodx.odc.ampro015.store.Pme00RoleUserJpaStore;
+import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import com.poscodx.odc.ampro015.store.jpo.Pme00PerRoleJpo;
 import com.poscodx.odc.ampro015.store.jpo.Pme00PermissionJpo;
-import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
+import com.poscodx.odc.ampro015.store.repository.M00EmployeeRepository;
 import com.poscodx.odc.ampro015.store.repository.Pme00PerRoleRepository;
 import com.poscodx.odc.ampro015.store.repository.Pme00PermissionRepository;
-import com.poscodx.odc.ampro015.store.repository.M00EmployeeRepository;
 import com.poscodx.odc.ampro015.store.repository.Pme00RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployeeDetailsServiceImpl implements UserDetailsService {
+
     @Autowired
     M00EmployeeRepository employeeRepository;
     @Autowired
@@ -89,5 +90,4 @@ public class EmployeeDetailsServiceImpl implements UserDetailsService {
         }
         return new EmployeeDetailsImpl(user.getEmpId(), user.getName(), user.getMail(), user.getAvatar(), user.getPassword(), listRoles, null, null);
     }
-
 }

@@ -107,19 +107,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Set permissions on endpoints
         http.authorizeRequests()
                 // Our public endpoints
-                .antMatchers(HttpMethod.POST, "/author/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/author/signin").permitAll()
-                .antMatchers(HttpMethod.POST, "/author/logout").permitAll()
-                .antMatchers(HttpMethod.GET, "/images/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/user-management/**").permitAll()
-
-                .antMatchers(HttpMethod.GET, "**/dashboard.do").permitAll()
-                .antMatchers(HttpMethod.POST, "**/dashboard.do").permitAll()
-                .antMatchers(HttpMethod.GET, "**/dashboard.do/**").permitAll()
-                .antMatchers(HttpMethod.POST, "**/dashboard.do/**").permitAll()
-                // .antMatchers(HttpMethod.GET, "**/asset-view.do/**").permitAll()
-                .antMatchers(HttpMethod.GET, "**/asset/view-asset/**").permitAll()
-                .antMatchers(HttpMethod.POST, "**/asset/view-asset/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/author/signup").permitAll()
+//                .antMatchers(HttpMethod.POST, "/author/signin").permitAll()
+//                .antMatchers(HttpMethod.POST, "/author/logout").permitAll()
+//                .antMatchers(HttpMethod.GET, "/images/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/user-management/**").permitAll()
+//
+//                .antMatchers(HttpMethod.GET, "**/dashboard.do").permitAll()
+//                .antMatchers(HttpMethod.POST, "**/dashboard.do").permitAll()
+//                .antMatchers(HttpMethod.GET, "**/dashboard.do/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "**/dashboard.do/**").permitAll()
+//                // .antMatchers(HttpMethod.GET, "**/asset-view.do/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "**/asset/view-asset/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "**/asset/view-asset/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/level2/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/level2/**").permitAll()
                 .anyRequest().permitAll();
 //                .anyRequest().authenticated();
         // Add JWT token filter

@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 

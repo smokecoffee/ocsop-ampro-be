@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2MeetingService;
 import org.springframework.http.HttpStatus;
+
 import java.util.*;
 import java.util.stream.Collectors;
 /**
@@ -124,7 +125,6 @@ public class Level2MeetingLogic implements Level2MeetingService {
      */
     @Override
     public Pme00MeetingResponse deleteMeeting(ServiceLifecycle serviceLifecycle, int meetingId){
-
         Pme00MeetingResponse responseEntity = new Pme00MeetingResponse();
 
         Pme00Meeting findMeeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);

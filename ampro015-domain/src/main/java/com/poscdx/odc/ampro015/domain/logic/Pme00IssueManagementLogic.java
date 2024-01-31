@@ -4,7 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Pme00IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -53,12 +53,12 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
                 fileName.add(issue.getFileName());
             }
             serviceLifecycle.requestLevel2Service()
-                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
+                    .removeFile(Utils.UPLOAD_BUCKET, "Issue", fileName);
         }
         IssueManagementResponse response = new IssueManagementResponse();
         store.update(issueManagement);
         if (fileUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
         response.setStatus(HttpStatus.CREATED.value());
@@ -81,7 +81,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         int seq = store.maxSeq() + 1;
         newIssueManagement.setSeq(seq);
         if (fileUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
         store.create(newIssueManagement);
@@ -109,7 +109,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
                 fileName.add(issue.getFileName());
             }
             serviceLifecycle.requestLevel2Service()
-                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
+                    .removeFile(Utils.UPLOAD_BUCKET, "Issue", fileName);
             store.delete(seq);
         }
 
@@ -163,51 +163,5 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         responses.put("data", issueManagementDtoList);
         return responses;
     }
-
-    /**
-     * Search issue management
-     *
-     * @param //site,module,division_flag,applied_period_flag,accept_flag,request_confirm,requester,contents,contents_kr,developer
-     * @param //dto
-     * @return List IssueManagement
-     * @author 202307_PhatNC
-     * @since: 2024-01-24
-     */
-    @Override
-    public List<IssueManagement> searchIssue(String site, String module, String division_flag, String applied_period_flag,
-                                             String accept_flag, String request_confirm, String requester, String contents,
-                                             String contents_kr, String developer) {
-        IssueManagementResponse response = new IssueManagementResponse();
-        List<IssueManagement> list = this.store.searchIssue(site, module, division_flag, applied_period_flag,
-                accept_flag, request_confirm, requester, contents, contents_kr, developer);
-        response.setStatus(HttpStatus.FOUND.value());
-        response.setMessage("OK");
-        return list;
-    }
-
-    /**
-     * findIssueDto
-     *
-     * @param //contents, site, module, division_flag, applied_period_flag,
-     *                    accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date
-     * @param //dto
-     * @return List IssueManagementDto
-     * @author 202307_PhatNC
-     * @since: 2024-01-24
-     */
-    @Override
-    public List<IssueManagementDto> findIssueDto(String contents, String site, String module, String division_flag,
-                                                 String applied_period_flag, String accept_flag, String requester_confirm,
-                                                 String requester, String contents_kr, String developer,
-                                                 Date registration_date, Date request_date) {
-        List<Object[]> resultList = this.store.findIssueManagementDto(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, contents_kr, developer, registration_date, request_date);
-        List<IssueManagementDto> resultItemDtoList = new ArrayList<>();
-        IssueManagementDto resultItemDto;
-        for (Object[] objects : resultList) {
-            resultItemDto = new IssueManagementDto(objects);
-            resultItemDtoList.add(resultItemDto);
-        }
-        return resultItemDtoList;
-    }
+    
 }

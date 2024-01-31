@@ -30,8 +30,12 @@ public class Pme00RoleUserJpaStore implements Pme00RoleUserStore {
     }
 
     @Override
-    public Pme00RoleUser update(Pme00RoleUser Pme00RoleUser) {
-        Pme00RoleUserJpo jpoToUpdate = new Pme00RoleUserJpo(Pme00RoleUser);
+    public Pme00RoleUser update(Pme00RoleUser pme00RoleUser) {
+//        List<Pme00RoleUserJpo> deletedList = repository.findRoleUserByEmpId(pme00RoleUser.getEmpId());
+//        for (Pme00RoleUserJpo user : deletedList) {
+//            repository.deleteById(user.getId());
+//        }
+        Pme00RoleUserJpo jpoToUpdate = new Pme00RoleUserJpo(pme00RoleUser);
         Pme00RoleUserJpo updatedJpo = this.repository.save(jpoToUpdate);
         return updatedJpo.toDomain();
     }

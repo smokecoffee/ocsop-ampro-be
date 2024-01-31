@@ -2,7 +2,7 @@ package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.M00EmployeeTaskId;
 import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -56,7 +56,7 @@ public class Pme00EmployeeTaskJpo {
     @PostLoad
     public void setAvatar() {
         if (avatar != null && !avatar.isEmpty()) {
-            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
+            avatar = Utils.applyEmployeeAvatarPath(avatar, "Employee");
         }
     }
 }
