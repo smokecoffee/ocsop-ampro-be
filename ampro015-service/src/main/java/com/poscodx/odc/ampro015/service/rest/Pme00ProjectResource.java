@@ -1,8 +1,6 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
-import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.posco.reuse.common.logging.PosLogWriterIF;
@@ -66,29 +64,51 @@ public class Pme00ProjectResource {
     public List<Object> register(@RequestParam ("data") String dtoString,
                             @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                             @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+        ProjectManagementDto dto = ProjectManagementDto.fromJson(dtoString);
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
-                   .registerProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
+                   .registerProject(serviceLifecycle, dto, imageUpload, fileUpload);
     }
 
     @PutMapping("")
     @PreAuthorize("hasAnyAuthority('UPDATE_PROJECT,UPDATE_PROJECT_OWNER')")
-    public boolean modify(@RequestParam ("data") String dtoString,
+    public List<Object> modify(@RequestParam ("data") String dtoString,
                           @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                           @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-//        List<Object> resultList = new ArrayList<>();
+        ProjectManagementDto dto = ProjectManagementDto.fromJson(dtoString);
+        if (Utils.checkPermission("UPDATE_PROJECT_OWNER")) {
+            String id = Utils.getLoginUserDetail();
+            if (!dto.getM00Codes030().getCreatedProgramId().equals(id) &&
+                !dto.getPme00ProjectInfo().getKoreaPm().equals(id) &&
+                !dto.getPme00ProjectInfo().getVietnamPl().equals(id)) {
+                List<Object> result = new ArrayList<>();
+                result.add(false);
+                result.add(Utils.NO_PERMISSION);
+                return result;
+            }
+        }
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
-                   .modifyProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
-//        return resultList;
+                   .modifyProject(serviceLifecycle, dto, imageUpload, fileUpload);
     }
 
     @DeleteMapping("")
     @PreAuthorize("hasAnyAuthority('DELETE_PROJECT,DELETE_PROJECT_OWNER')")
-    public boolean delete(@RequestBody M00Codes030Id id) throws SQLException {
-//        List<Object> resultList = new ArrayList<>();
+    public List<Object> delete(@RequestBody M00Codes030Id id) throws SQLException {
+        if (Utils.checkPermission("UPDATE_PROJECT_OWNER")) {
+            String userId = Utils.getLoginUserDetail();
+            ProjectManagementDto dto = serviceLifecycle.requestLevel2ProjectService()
+                                                       .findProjectById(serviceLifecycle, id);
+            if (!dto.getM00Codes030().getCreatedProgramId().equals(userId) &&
+                    !dto.getPme00ProjectInfo().getKoreaPm().equals(userId) &&
+                    !dto.getPme00ProjectInfo().getVietnamPl().equals(userId)) {
+                List<Object> result = new ArrayList<>();
+                result.add(false);
+                result.add(Utils.NO_PERMISSION);
+                return result;
+            }
+        }
         return this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
-//        return resultList;
     }
 
     @GetMapping("/search-pm-pl/{type}")
