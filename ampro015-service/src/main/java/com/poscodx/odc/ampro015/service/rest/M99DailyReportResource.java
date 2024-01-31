@@ -22,7 +22,7 @@ import java.util.Map;
 public class M99DailyReportResource {
     private final ServiceLifecycle serviceLifecycle;
     @PostMapping("/search")
-//    @PreAuthorize("hasAuthority('GET_REPORT, GET_REPORT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
     public Map<String, Object> findDailyReportList(@RequestBody M99DailyReport dto,
                                                     @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                     @RequestParam(required = false, defaultValue = "0", name = "pageSize") int pageSize) throws SQLException {
@@ -30,19 +30,19 @@ public class M99DailyReportResource {
     }
 
     @PostMapping("")
-//    @PreAuthorize("hasAuthority('ADD_REPORT')")
+    @PreAuthorize("hasAnyAuthority('ADD_REPORT')")
     public M99DailyReport register(@RequestBody M99DailyReport dto) throws SQLException {
         return this.serviceLifecycle.requestM99DailyReportService().register(dto);
     }
 
     @PutMapping("")
-//    @PreAuthorize("hasAuthority('UPDATE_REPORT, UPDATE_REPORT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_REPORT,UPDATE_REPORT_OWNER')")
     public M99DailyReport modify(@RequestBody M99DailyReport dto) throws SQLException {
         return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
     }
 
     @GetMapping("/working-time")
-//    @PreAuthorize("hasAuthority('GET_REPORT, GET_REPORT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
     public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
         return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
     }

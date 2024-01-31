@@ -19,7 +19,7 @@ public class Pme00EmployeeResource {
     private final ServiceLifecycle serviceLifecycle;
 
     @GetMapping("/search")
-//    @PreAuthorize("hasAuthority('GET_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('GET_EMPLOYEE,GET_EMPLOYEE_OWNER')")
     public Pme00AllLevel2EmployeeResponse searchPmeEmployee(
             @RequestParam(required = false, name = "site") String site,
             @RequestParam(required = false, name = "status") String status,
@@ -32,7 +32,7 @@ public class Pme00EmployeeResource {
     }
 
     @GetMapping("/findSiteEmp")
-//    @PreAuthorize("hasAuthority('GET_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('GET_EMPLOYEE')")
     public PmeSiteResponse findSiteEmp() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findSiteEmp(serviceLifecycle);
     }
@@ -43,7 +43,7 @@ public class Pme00EmployeeResource {
     }
 
     @PostMapping("/")
-//    @PreAuthorize("hasAuthority('ADD_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('ADD_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse addEmployee(@RequestParam ("data") String dtoString,
                                                      @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
         return this.serviceLifecycle
@@ -57,7 +57,7 @@ public class Pme00EmployeeResource {
     }
 
     @PutMapping("/")
-//    @PreAuthorize("hasAuthority('UPDATE_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
         return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
     }
