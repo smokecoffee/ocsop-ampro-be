@@ -32,9 +32,9 @@ public interface Pme00ProjectInfoService {
                                                      List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, String empId,
                                                      Pageable pageable);
 
-    List<M00Employee> getKoreaPM();
+    List<M00Employee> getKoreaPM(String projectNumber);
 
-    List<M00Employee> getVietnamPL();
+    List<M00Employee> getVietnamPL(String projectNumber);
 
     int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
                         List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate);

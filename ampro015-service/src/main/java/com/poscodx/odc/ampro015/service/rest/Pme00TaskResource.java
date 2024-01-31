@@ -2,6 +2,7 @@ package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
+import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -78,8 +81,10 @@ public class Pme00TaskResource {
      */
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('ADD_TASK')")
-    public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
-        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest);
+    public boolean insertTask(@RequestBody M00TaskDto newTaskRequest,
+                                        @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                                        @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
     }
 
     /**
@@ -91,8 +96,10 @@ public class Pme00TaskResource {
      */
     @PutMapping("")
     @PreAuthorize("hasAnyAuthority('UPDATE_TASK, UPDATE_TASK_OWNER')")
-    public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) {
-        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest);
+    public boolean updateTask(@RequestBody M00TaskDto newTaskRequest,
+                              @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                              @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
     }
 
     /**

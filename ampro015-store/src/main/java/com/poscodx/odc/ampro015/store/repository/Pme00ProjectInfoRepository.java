@@ -95,8 +95,10 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
             "JOIN \n" +
                 "TB_M00_EMPLOYEE AS EMP\n" +
             "ON \n" +
-                "INFO.KOREA_PM = EMP.EMP_ID", nativeQuery = true)
-    List<Object[]> getKoreaPM();
+                "INFO.KOREA_PM = EMP.EMP_ID\n" +
+            "WHERE \n" +
+                "(:projectNumber IS NULL OR INFO.CD_V = :projectNumber)", nativeQuery = true)
+    List<Object[]> getKoreaPM(@Param("projectNumber") String projectNumber);
 
     @Query(value =
             "SELECT DISTINCT \n" +
@@ -110,8 +112,10 @@ public interface Pme00ProjectInfoRepository extends JpaRepository<Pme00ProjectIn
             "JOIN \n" +
                 "TB_M00_EMPLOYEE AS EMP\n" +
             "ON \n" +
-                "INFO.VIETNAM_PL = EMP.EMP_ID", nativeQuery = true)
-    List<Object[]> getVietnamPL();
+                "INFO.VIETNAM_PL = EMP.EMP_ID\n" +
+            "WHERE \n" +
+                "(:projectNumber IS NULL OR INFO.CD_V = :projectNumber)", nativeQuery = true)
+    List<Object[]> getVietnamPL(@Param("projectNumber") String projectoNumber);
 
     @Query(value =
             "SELECT E.EMP_ID \n" +

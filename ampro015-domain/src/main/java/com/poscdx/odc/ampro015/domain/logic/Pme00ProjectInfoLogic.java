@@ -110,8 +110,8 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public List<M00Employee> getKoreaPM() {
-        List<Object[]> resultList = this.store.getKoreaPM();
+    public List<M00Employee> getKoreaPM(String projectNumber) {
+        List<Object[]> resultList = this.store.getKoreaPM(projectNumber);
         List<M00Employee> m00EmployeeList = new ArrayList<>();
         for (Object[] obj : resultList) {
             m00EmployeeList.add(new M00Employee(obj));
@@ -120,8 +120,8 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public List<M00Employee> getVietnamPL() {
-        List<Object[]> resultList = this.store.getVietnamPL();
+    public List<M00Employee> getVietnamPL(String projectNumber) {
+        List<Object[]> resultList = this.store.getVietnamPL(projectNumber);
         List<M00Employee> m00EmployeeList = new ArrayList<>();
         for (Object[] obj : resultList) {
             m00EmployeeList.add(new M00Employee(obj));

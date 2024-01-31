@@ -32,14 +32,17 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+    public List<Object> registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
                                    MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException {
+        List<Object> resultList = new ArrayList<>();
         if (dto != null) {
 
             // Check project code exists
             if(checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                     && checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-                return  false;
+                resultList.add(false);
+                resultList.add("Project already exists!");
+                return resultList;
             }
 
             // Insert data M00Codes030
@@ -91,14 +94,21 @@ public class Level2ProjectLogic implements Level2ProjectService {
         if (imageUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", imageUpload);
             if (!result.contains("Project")) {
-                return false;
+                resultList.add(false);
+                resultList.add("Project created. However, image could not be saved.");
+                return resultList;
             }
         }
         if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", fileUpload);
-            return result.contains("Project");
+            if (!result.contains("Project")) {
+                resultList.add(false);
+                resultList.add("Project created. However, file could not be saved.");
+                return resultList;
+            }
         }
-        return true;
+        resultList.add(true);
+        return resultList;
     }
 
     /**
@@ -112,25 +122,31 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+    public List<Object> modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
                                  MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException {
+
+        List<Object> resultList = new ArrayList<>();
 
         // Check project code exists
         if(!checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                 || !checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-            return  false;
+            resultList.add(false);
+            resultList.add("Project already exists!");
+            return resultList;
         }
 
         //  Delete old file/image
-        if (imageUpload != null || fileUpload != null) {
+        String imageNew = dto.getPme00ProjectInfo().getImage();
+        String fileNew = dto.getPme00ProjectInfo().getFile();
+        if (imageUpload != null || fileUpload != null || imageNew.isEmpty() || fileNew.isEmpty()) {
             Pme00ProjectInfo projectInfo = serviceLifecycle.requestPme00ProjectInfoService().find(dto.getM00Codes030().getCdV());
             List<String> fileName = new ArrayList<>();
-            if (imageUpload != null) {
+            if (imageUpload != null || imageNew.isEmpty()) {
                 String imageString = projectInfo.getImage();
                 imageString = imageString.substring(imageString.lastIndexOf("/") + 1);
                 fileName.add(imageString);
             }
-            if (fileUpload != null) {
+            if (fileUpload != null || fileNew.isEmpty()) {
                 String fileString = projectInfo.getFile();
                 fileString = fileString.substring(fileString.lastIndexOf("/") + 1);
                 fileName.add(fileString);
@@ -138,7 +154,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
             boolean result = serviceLifecycle.requestLevel2Service()
                     .removeFile(Utils.UPLOAD_BUCKET, "Project", fileName);
             if (!result) {
-                return false;
+                resultList.add(false);
+                resultList.add("Project updated. However, file(s) could not be saved.");
+                return resultList;
             }
         }
         // Update data M00Codes030
@@ -195,14 +213,21 @@ public class Level2ProjectLogic implements Level2ProjectService {
         if (imageUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", imageUpload);
             if (!result.contains("Project")) {
-                return false;
+                resultList.add(false);
+                resultList.add("Project created. However, image could not be saved.");
+                return resultList;
             }
         }
         if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", fileUpload);
-            return result.contains("Project");
+            if (!result.contains("Project")) {
+                resultList.add(false);
+                resultList.add("Project created. However, file could not be saved.");
+                return resultList;
+            }
         }
-        return true;
+        resultList.add(true);
+        return resultList;
     }
 
     /**
@@ -216,7 +241,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
+    public List<Object> deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
+
+        List<Object> resultList = new ArrayList<>();
 
         // Check project code exists
         if(checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, id.getCdV())
@@ -248,7 +275,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
             boolean result = serviceLifecycle.requestLevel2Service()
                     .removeFile(Utils.UPLOAD_BUCKET, "Project", fileName);
             if (!result) {
-                return false;
+                resultList.add(false);
+                resultList.add("Error occurred while attempting to delete file(s) from server.");
+                return resultList;
             }
 
             // Delete project Pme00ProjectInfo
@@ -259,10 +288,13 @@ public class Level2ProjectLogic implements Level2ProjectService {
             id.setCategoryGroupId(Utils.CATEGORY_GROUP_ID);
             serviceLifecycle.requestM00Codes030Service().remove(id);
 
-            return true;
+            resultList.add(true);
+            return resultList;
         }
 
-        return false;
+        resultList.add(false);
+        resultList.add("Error occurred while attempting to delete project.");
+        return resultList;
     }
 
     /**
@@ -495,6 +527,14 @@ public class Level2ProjectLogic implements Level2ProjectService {
     @Override
     public List<M00Employee> getProjectMember(ServiceLifecycle serviceLifecycle, String cdV) {
         return serviceLifecycle.requestPme00ProjectInfoService().getProjectMember(cdV);
+    }
+
+    @Override
+    public ProjectManagementDto findProjectById(ServiceLifecycle serviceLifecycle, M00Codes030Id id) {
+        ProjectManagementDto dto = new ProjectManagementDto();
+        dto.setM00Codes030(serviceLifecycle.requestM00Codes030Service().find(id));
+        dto.setPme00ProjectInfo(serviceLifecycle.requestPme00ProjectInfoService().find(id.getCdV()));
+        return dto;
     }
 
     /**
