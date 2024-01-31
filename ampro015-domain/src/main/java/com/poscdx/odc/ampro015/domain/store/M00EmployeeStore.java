@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 
 import java.util.List;
 import java.util.Set;
@@ -10,6 +9,7 @@ public interface M00EmployeeStore {
     M00Employee retrieve(String id);
 
     M00Employee update(M00Employee entity);
+//    Pme00Employee update2(Pme00Employee entity);
 
     M00Employee create(M00Employee entity);
 
@@ -23,6 +23,9 @@ public interface M00EmployeeStore {
 
     List<Object[]> findAllEmployee();
 
-    List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo);
+    List<Object[]> searchPmeEmployee(String site, String status, String name, String empId,
+                                     String joinDateFrom, String joinDateTo, String gender);
+
     List<Object[]> getEmployeeByEmail(String email);
+
 }

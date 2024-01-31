@@ -31,7 +31,7 @@ public class Pme00ProjectResource {
     private final ServiceLifecycle serviceLifecycle;
 
     @PostMapping("/search")
-//    @PreAuthorize("hasAuthority('GET_PROJECT, GET_PROJECT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_PROJECT,GET_PROJECT_OWNER')")
     public Map<String, Object> findProjectList(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
@@ -40,7 +40,7 @@ public class Pme00ProjectResource {
     }
 
     @PostMapping("/search-include-task")
-//    @PreAuthorize("hasAuthority('VIEW_PROJECT_MONITORING, VIEW_PROJECT_MONITORING_OWNER')")
+    @PreAuthorize("hasAnyAuthority('VIEW_PROJECT_MONITORING')")
     public Map<String, Object> findProjectListWithTask(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
@@ -49,14 +49,20 @@ public class Pme00ProjectResource {
     }
 
     @GetMapping(path = "/monitoring")
-//    @PreAuthorize("hasAuthority('GET_PROJECT, GET_PROJECT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_PROJECT,GET_PROJECT_OWNER')")
     public Map<String, Object> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                         @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
-        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, pageNo, pageSize);
+        if (Utils.checkPermission("GET_PROJECT_OWNER")) {
+            String id = Utils.getLoginUserDetail();
+            if (id != null) {
+                return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, id, pageNo, pageSize);
+            }
+        }
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, null, pageNo, pageSize);
     }
 
     @PostMapping("")
-//    @PreAuthorize("hasAuthority('ADD_PROJECT')")
+    @PreAuthorize("hasAnyAuthority('ADD_PROJECT')")
     public boolean register(@RequestParam ("data") String dtoString,
                             @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                             @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
@@ -67,7 +73,7 @@ public class Pme00ProjectResource {
     }
 
     @PutMapping("")
-//    @PreAuthorize("hasAuthority('UPDATE_PROJECT, UPDATE_PROJECT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_PROJECT,UPDATE_PROJECT_OWNER')")
     public boolean modify(@RequestParam ("data") String dtoString,
                           @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                           @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
@@ -77,7 +83,7 @@ public class Pme00ProjectResource {
     }
 
     @DeleteMapping("")
-//    @PreAuthorize("hasAuthority('DELETE_PROJECT, DELETE_PROJECT_OWNER')")
+    @PreAuthorize("hasAnyAuthority('DELETE_PROJECT,DELETE_PROJECT_OWNER')")
     public boolean delete(@RequestBody M00Codes030Id id) throws SQLException {
         return this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
     }

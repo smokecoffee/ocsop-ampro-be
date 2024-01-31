@@ -1,6 +1,7 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscdx.odc.ampro015.domain.spec.M00EmployeeService;
 import com.poscdx.odc.ampro015.domain.store.M00EmployeeStore;
 
@@ -36,6 +37,16 @@ public class M00EmployeeLogic implements M00EmployeeService {
     }
 
     @Override
+    public Pme00Employee modifyByList2(Pme00Employee pme00Employee) {
+        return null;
+    }
+
+//    @Override
+//    public Pme00Employee modifyByList2(Pme00Employee pme00Employee) {
+//        return this.store.update2(pme00Employee);
+//    }
+
+    @Override
     public M00Employee register(M00Employee entity) {
         return store.create(entity);
     }
@@ -65,8 +76,8 @@ public class M00EmployeeLogic implements M00EmployeeService {
     }
 
     @Override
-    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo){
-        return store.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
+    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo, String gender){
+        return store.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
     @Override
     public M00Employee getEmployeeByEmail(String email) {

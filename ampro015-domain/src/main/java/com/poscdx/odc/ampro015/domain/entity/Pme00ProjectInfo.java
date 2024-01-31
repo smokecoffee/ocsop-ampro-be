@@ -5,6 +5,7 @@ import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Pme00ProjectInfo
@@ -22,6 +23,7 @@ public class Pme00ProjectInfo {
     private int period;
     private String koreaPm;
     private String vietnamPl;
+    private List<String> searchStatus;
     private String status;
     private String framework;
     private Date startDate;

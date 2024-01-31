@@ -25,7 +25,7 @@ public interface Level2ProjectService {
 
     Map<String, Object> getProjectListWithTask (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize);
 
-    Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, int pageNo, int pageSize);
+    Map<String, Object> getProjectListWithEmpId (ServiceLifecycle serviceLifecycle, String empId, int pageNo, int pageSize);
 
     List<M00Employee> getProjectMember (ServiceLifecycle serviceLifecycle, String cdV);
 

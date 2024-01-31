@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.entity;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.*;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 
@@ -17,7 +18,7 @@ public class M00Employee {
     private String siteCode;
     private String name;
     private String joinDate;
-    private String birthday;
+    private String birthDate;
     private String mail;
     private String personalMail;
     private String ipAddress;
@@ -42,12 +43,12 @@ public class M00Employee {
     private String empStatus;
     private String createBy;
     private String gender;
-
+    private LocalTime startWorkingTime;
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
         this.avatar = Utils.applyEmployeeAvatarPath((String) objects[2], "Employee");
-        this.birthday = (String) objects[3];
+        this.birthDate = (String) objects[3];
         this.ipAddress = (String) objects[4];
         if(objects.length>5)// process for case get emp by email. need to investigate function more than flexible
             this.mail = (String) objects[5];

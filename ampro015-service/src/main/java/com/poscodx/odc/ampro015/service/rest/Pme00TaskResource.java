@@ -42,6 +42,7 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @GetMapping(path = "/getAll")
+    @PreAuthorize("hasAnyAuthority('GET_TASK,GET_TASK_OWNER')")
     public List<M00TaskDto> findAll(@RequestParam String projectNumber) {
         return this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber);
     }
@@ -55,6 +56,7 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @GetMapping(path = "/search")
+    @PreAuthorize("hasAnyAuthority('GET_TASK,GET_TASK_OWNER')")
     public ResponseEntity<?> searchTask(@RequestParam(required = false, name = "projectNumber") String projectNumber,
                                        @RequestParam(required = false, name = "taskName") String taskName,
                                        @RequestParam(required = false, name = "planDate") String planDate,
@@ -78,6 +80,7 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('ADD_TASK')")
     public boolean insertTask(@RequestBody M00TaskDto newTaskRequest,
                                         @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                                         @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
@@ -92,6 +95,7 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @PutMapping("")
+    @PreAuthorize("hasAnyAuthority('UPDATE_TASK, UPDATE_TASK_OWNER')")
     public boolean updateTask(@RequestBody M00TaskDto newTaskRequest,
                               @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                               @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
@@ -106,6 +110,7 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @DeleteMapping("")
+    @PreAuthorize("hasAnyAuthority('DELETE_TASK,DELETE_TASK_OWNER')")
     public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
         return this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
     }
@@ -118,6 +123,7 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @PostMapping("/search")
+    @PreAuthorize("hasAnyAuthority('GET_TASK,GET_TASK_OWNER')")
     public ResponseEntity<?> searchTask(@RequestBody TaskSearchDTO searchTask) {
         String employeeId = searchTask.getEmpId();
         if (StringUtils.isNotEmpty(employeeId)) {
@@ -138,7 +144,6 @@ public class Pme00TaskResource {
     public M00Employee getTaskOwner(@PathVariable("id") String employeeId) {
         return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
     }
-
 
 
 }
