@@ -41,9 +41,9 @@ public class M99DailyReportResource {
         return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
     }
 
-    @GetMapping("/working-time")
-    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
-    public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
-        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
-    }
+//    @GetMapping("/working-time")
+//    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
+//    public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
+//        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
+//    }
 }

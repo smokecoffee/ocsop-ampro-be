@@ -58,13 +58,8 @@ public class Pme00EmployeeResource {
     public PmeRoleResponse findAllRole() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findAllRole(serviceLifecycle);
     }
-//
-//    @PutMapping("/")
-//<<<<<<< HEAD
-//    public Pme00AllLevel2EmployeeResponse editEmployee(@Valid @RequestBody Pme00Employee  pme00Employee) {
-////    @PreAuthorize("hasAuthority('UPDATE_EMPLOYEE')")
-//        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00Employee);
 
+    @PutMapping("/")
     @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestParam ("data") String dtoString,
      @RequestParam (value = "file", required = false) MultipartFile imageUpload) {

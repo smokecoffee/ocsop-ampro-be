@@ -208,10 +208,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 //
 //        return pme00AllLevel2EmployeeResponse;
 
+
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         String empId = pme00Employee.getEmpId();
         M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService()
                 .find(pme00Employee.getEmpId());
+
         if (checkEmployee == null) {
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
@@ -280,9 +282,15 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                     serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);
                     serviceLifecycle.requestPme00RoleUserService().modify(editRoleUsers);
 
-
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
                     pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
+
+                    if (imageUpload != null || pme00Employee.getAvatar().isEmpty()) {
+                        List<String> imageList = new ArrayList<>();
+                        imageList.add(checkEmployee.getAvatar());
+                        boolean result = serviceLifecycle.requestLevel2Service()
+                                .removeFile(Utils.UPLOAD_BUCKET, "Project", imageList);
+                    }
 
                     if (imageUpload != null) {
                         String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET,
