@@ -19,5 +19,5 @@ public interface AssetStore {
 
     Asset findByToken(String token);
 
-    List<Asset> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status);
+    List<Object[]> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status);
 }

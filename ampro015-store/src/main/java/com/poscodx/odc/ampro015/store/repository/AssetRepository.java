@@ -8,13 +8,17 @@ import org.springframework.data.repository.query.Param;
 
 public interface AssetRepository extends JpaRepository<AssetJpo, Integer> {
 
-   @Query(value = "SELECT *\n" +
-           "FROM TB_A01_ASSET a\n" +
-           "WHERE (:emplId IS NULL OR :emplId = '' OR a.OWNER = :emplId)\n" +
-           "AND (:assetId IS NULL OR :assetId = 0 OR a.ID = :assetId)\n" +
-           "AND a.STATUS = :status\n" +
-           "AND a.DELETE_AT IS NULL", nativeQuery = true)
-   List<AssetJpo> findByAssetAndOwnerAndStatus(@Param("assetId") int assetId, @Param("emplId") String emplId,
+    @Query(value = "SELECT a.*\n" +
+            ", b.NAME AS OWNER_NAME\n" +
+            ", b.PHOTO AS OWNER_IMAGE \n" +
+            "FROM TB_A01_ASSET a\n" +
+            "INNER JOIN tb_m00_employee b\n" +
+            "ON a.OWNER = b.EMP_ID \n" +
+            "WHERE (:empId IS NULL OR :empId = '' OR a.OWNER = :empId)\n" +
+            "AND (:assetId IS NULL OR :assetId = 0 OR a.ID = :assetId)\n" +
+            "AND a.STATUS = :status\n" +
+            "AND a.DELETE_AT IS NULL", nativeQuery = true)
+   List<Object[]>  findByAssetAndOwnerAndStatus(@Param("assetId") int assetId, @Param("empId") String empId,
                                             @Param("status") int status);
 
     AssetJpo findByToken(String token);
