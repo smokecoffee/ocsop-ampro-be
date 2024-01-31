@@ -31,23 +31,21 @@ public class M99DailyReportResource {
     @CrossOrigin
     @PostMapping("")
     public M99DailyReport register(@RequestParam ("data") String dtoString,
-                                   @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                                    @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
 
         return this.serviceLifecycle
-                .requestM99DailyReportService()
-                .register(serviceLifecycle, M99DailyReport.fromJson(dtoString), imageUpload, fileUpload);
+                   .requestM99DailyReportService()
+                   .register(serviceLifecycle, M99DailyReport.fromJson(dtoString), fileUpload);
     }
 
     @CrossOrigin
     @PutMapping("")
     public M99DailyReport modify(@RequestParam ("data") String dtoString,
-                                 @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                                  @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
 
         return this.serviceLifecycle
-                .requestM99DailyReportService()
-                .modify(serviceLifecycle, M99DailyReport.fromJson(dtoString), imageUpload, fileUpload);
+                   .requestM99DailyReportService()
+                   .modify(serviceLifecycle, M99DailyReport.fromJson(dtoString), fileUpload);
     }
 
     @CrossOrigin

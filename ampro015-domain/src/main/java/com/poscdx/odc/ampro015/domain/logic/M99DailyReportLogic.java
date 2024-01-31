@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.M99DailyReportService;
 import com.poscdx.odc.ampro015.domain.store.M99DailyReportStore;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,24 +31,41 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public M99DailyReport modify(ServiceLifecycle serviceLifecycle, M99DailyReport dto,
-                                 MultipartFile imageUpload, MultipartFile fileUpload) {
+    public M99DailyReport modify(ServiceLifecycle serviceLifecycle, M99DailyReport dto, MultipartFile fileUpload) {
+        M99DailyReport oldReport = serviceLifecycle.requestM99DailyReportService().find(dto.getSeq());
+        List<String> fileNameList = new ArrayList<>();
+        if (oldReport.getFileName() != null && !oldReport.getFileName().isEmpty()) {
+            serviceLifecycle.requestLevel2Service()
+                            .removeFile(ConstantUtil.UPLOAD_BUCKET, "Report", fileNameList);
+        }
+        if (fileUpload != null) {
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Report", fileUpload);
+            if (!result.contains("Report")) {
+                return null;
+            }
+        }
         return this.store.update(dto);
     }
 
     @Override
-    public void modifyByList(List<M99DailyReport> entityList) {
-        entityList.forEach(this.store::update);
-    }
-
-    @Override
-    public M99DailyReport register(ServiceLifecycle serviceLifecycle, M99DailyReport dto,
-                                   MultipartFile imageUpload, MultipartFile fileUpload) {
+    public M99DailyReport register(ServiceLifecycle serviceLifecycle, M99DailyReport dto, MultipartFile fileUpload) {
+        if (fileUpload != null) {
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Report", fileUpload);
+            if (!result.contains("Report")) {
+                return null;
+            }
+        }
         return this.store.create(dto);
     }
 
     @Override
-    public void remove(int seq) {
+    public void remove(ServiceLifecycle serviceLifecycle, int seq) {
+        M99DailyReport oldReport = serviceLifecycle.requestM99DailyReportService().find(seq);
+        List<String> fileNameList = new ArrayList<>();
+        if (oldReport.getFileName() != null && !oldReport.getFileName().isEmpty()) {
+            serviceLifecycle.requestLevel2Service()
+                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Report", fileNameList);
+        }
         store.delete(seq);
     }
 

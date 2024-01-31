@@ -16,15 +16,11 @@ public interface M99DailyReportService {
 
     List<M99DailyReport> findAll();
 
-    M99DailyReport modify(ServiceLifecycle serviceLifecycle, M99DailyReport dto,
-                          MultipartFile imageUpload, MultipartFile fileUpload);
+    M99DailyReport modify(ServiceLifecycle serviceLifecycle, M99DailyReport dto, MultipartFile fileUpload);
 
-    void modifyByList(List<M99DailyReport> entityList);
+    M99DailyReport register(ServiceLifecycle serviceLifecycle, M99DailyReport dto, MultipartFile fileUpload);
 
-    M99DailyReport register(ServiceLifecycle serviceLifecycle, M99DailyReport dto,
-                            MultipartFile imageUpload, MultipartFile fileUpload);
-
-    void remove(int seq);
+    void remove(ServiceLifecycle serviceLifecycle, int seq);
 
     List<M99DailyReport> findWorkingTimeByEmployeeId(String empId);
 
