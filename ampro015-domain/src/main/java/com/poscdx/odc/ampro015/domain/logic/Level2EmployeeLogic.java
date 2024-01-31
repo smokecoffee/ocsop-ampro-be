@@ -170,8 +170,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                pme00AllLevel2EmployeeResponse.setMessage(e.getMessage());
+                pme00AllLevel2EmployeeResponse.setMessage("An unusual error has occurred, please notify the administrator");
             }
         }
         return pme00AllLevel2EmployeeResponse;

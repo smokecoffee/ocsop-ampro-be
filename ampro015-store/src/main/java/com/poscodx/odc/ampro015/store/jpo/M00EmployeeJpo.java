@@ -112,7 +112,7 @@ public class M00EmployeeJpo implements Serializable {
     private String gender;
 
     @Column(name="START_WORKING_TIME")
-    private Date startWorkingTime;
+    private Integer startWorkingTime;
 
     public M00EmployeeJpo(M00Employee domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

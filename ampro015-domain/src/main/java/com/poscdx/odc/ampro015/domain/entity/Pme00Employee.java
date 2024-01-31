@@ -64,7 +64,7 @@ public class Pme00Employee {
     private String createByUserPhoto;
     private List<Pme00RoleUser> listRoleUser;
     private String nameCreateBy;
-    private Date startWorkingTime;
+    private Integer startWorkingTime;
 
 //    @NotBlank(message = "Gender is required")
 //    @NotEmpty(message = "Gender cannot be empty")
