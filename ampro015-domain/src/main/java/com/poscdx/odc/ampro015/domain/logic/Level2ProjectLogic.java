@@ -3,7 +3,7 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2ProjectService;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,7 +37,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         if (dto != null) {
 
             // Check project code exists
-            if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
+            if(checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                     && checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
                 return  false;
             }
@@ -45,10 +45,10 @@ public class Level2ProjectLogic implements Level2ProjectService {
             // Insert data M00Codes030
             M00Codes030 entityCodes030 = new M00Codes030();
 
-            int seq = serviceLifecycle.requestM00Codes030Service().getMaxSeqInquiry(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID) + 1;
+            int seq = serviceLifecycle.requestM00Codes030Service().getMaxSeqInquiry(Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID) + 1;
 
-            entityCodes030.setCdTpId(ConstantUtil.CD_TP_ID);
-            entityCodes030.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
+            entityCodes030.setCdTpId(Utils.CD_TP_ID);
+            entityCodes030.setCategoryGroupId(Utils.CATEGORY_GROUP_ID);
             entityCodes030.setCdV(dto.getM00Codes030().getCdV());
             entityCodes030.setCdvMeaning(dto.getM00Codes030().getCdvMeaning());
             entityCodes030.setCdVExplain(dto.getM00Codes030().getCdVExplain());
@@ -89,13 +89,13 @@ public class Level2ProjectLogic implements Level2ProjectService {
         }
         // insert file/image
         if (imageUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Project", imageUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", imageUpload);
             if (!result.contains("Project")) {
                 return false;
             }
         }
         if (fileUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Project", fileUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", fileUpload);
             return result.contains("Project");
         }
         return true;
@@ -116,7 +116,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
                                  MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException {
 
         // Check project code exists
-        if(!checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
+        if(!checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                 || !checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
             return  false;
         }
@@ -136,7 +136,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 fileName.add(fileString);
             }
             boolean result = serviceLifecycle.requestLevel2Service()
-                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Project", fileName);
+                    .removeFile(Utils.UPLOAD_BUCKET, "Project", fileName);
             if (!result) {
                 return false;
             }
@@ -145,8 +145,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
         List<M00Codes030> lstCodes030 = new ArrayList<>();
         M00Codes030 entityCodes030 = new M00Codes030();
 
-        entityCodes030.setCdTpId(ConstantUtil.CD_TP_ID);
-        entityCodes030.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
+        entityCodes030.setCdTpId(Utils.CD_TP_ID);
+        entityCodes030.setCategoryGroupId(Utils.CATEGORY_GROUP_ID);
         entityCodes030.setCdV(dto.getM00Codes030().getCdV());
         entityCodes030.setCdvMeaning(dto.getM00Codes030().getCdvMeaning());
         entityCodes030.setCdVExplain(dto.getM00Codes030().getCdVExplain());
@@ -193,13 +193,13 @@ public class Level2ProjectLogic implements Level2ProjectService {
         }
 
         if (imageUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Project", imageUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", imageUpload);
             if (!result.contains("Project")) {
                 return false;
             }
         }
         if (fileUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Project", fileUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", fileUpload);
             return result.contains("Project");
         }
         return true;
@@ -219,7 +219,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
     public boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException {
 
         // Check project code exists
-        if(checkExistsM00Codes030(serviceLifecycle, ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, id.getCdV())
+        if(checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, id.getCdV())
                  && checkExistsPme00ProjectInfo(serviceLifecycle, id.getCdV())){
             // Delete tasks
             List<M00Task> m00TaskDtoList = serviceLifecycle.requestM00TaskService().findAll(id.getCdV());
@@ -246,7 +246,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
             fileString = fileString.substring(fileString.lastIndexOf("/") + 1);
             fileName.add(fileString);
             boolean result = serviceLifecycle.requestLevel2Service()
-                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Project", fileName);
+                    .removeFile(Utils.UPLOAD_BUCKET, "Project", fileName);
             if (!result) {
                 return false;
             }
@@ -255,8 +255,8 @@ public class Level2ProjectLogic implements Level2ProjectService {
             serviceLifecycle.requestPme00ProjectInfoService().remove(id.getCdV());
 
             // Delete project M00Codes030
-            id.setCdTpId(ConstantUtil.CD_TP_ID);
-            id.setCategoryGroupId(ConstantUtil.CATEGORY_GROUP_ID);
+            id.setCdTpId(Utils.CD_TP_ID);
+            id.setCategoryGroupId(Utils.CATEGORY_GROUP_ID);
             serviceLifecycle.requestM00Codes030Service().remove(id);
 
             return true;
@@ -370,7 +370,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
 
             rsDto.setPme00ProjectInfo(projectInfo);
             //Set project name
-            M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, projectInfo.getCdV());
+            M00Codes030Id m00Codes030Id = new M00Codes030Id(Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, projectInfo.getCdV());
             String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
             String creatorId = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCreatedProgramId();
             M00Codes030 m00Codes030 = new M00Codes030();
@@ -463,7 +463,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 newObject.setLstMember(listMember);
 
                 //Set project name
-                M00Codes030Id m00Codes030Id = new M00Codes030Id(ConstantUtil.CD_TP_ID, ConstantUtil.CATEGORY_GROUP_ID, pme00ProjectInfo.getCdV());
+                M00Codes030Id m00Codes030Id = new M00Codes030Id(Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, pme00ProjectInfo.getCdV());
                 String projectName = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCdvMeaning();
                 String creatorId = serviceLifecycle.requestM00Codes030Service().find(m00Codes030Id).getCreatedProgramId();
                 M00Codes030 m00Codes030 = new M00Codes030();

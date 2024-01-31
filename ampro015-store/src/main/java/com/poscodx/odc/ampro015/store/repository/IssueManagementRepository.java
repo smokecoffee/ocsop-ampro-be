@@ -8,9 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import org.springframework.data.domain.Pageable;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
 
 public interface IssueManagementRepository extends JpaRepository<IssueManagementJpo, IssueManagementId> {
     @Query(value = "SELECT * FROM TB_M00_ISSUE_MANAGEMENT  WHERE SEQ = :seq AND SITE LIKE :site", nativeQuery = true)
@@ -37,10 +36,10 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:requester_id IS NULL OR (ISSUE.REQUESTER_ID = :requester_id))\n" +
                     "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
-                    "AND ((:fromStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE >= :fromStartDate))\n" +
-                    "AND ((:toStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE <= :toStartDate))\n" +
-                    "AND ((:fromEndDate IS NULL) OR (ISSUE.REQUEST_DATE >= :fromEndDate))" +
-                    "AND ((:toEndDate IS NULL) OR (ISSUE.REQUEST_DATE <= :toEndDate))"
+                    "AND ((:fromStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) >= concat(:fromStartDate , ' 00:00:00')))\n" +
+                    "AND ((:toStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) <= concat(:toStartDate , ' 99:99:99')))\n" +
+                    "AND ((:fromEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) >= concat(:fromEndDate, ' 00:00:00')))\n" +
+                    "AND ((:toEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) <= concat(:toEndDate, ' 99:99:99')))"
             , nativeQuery = true)
     int countIssueReport(@Param("contents") String contents,
                          @Param("site") String site,
@@ -53,8 +52,8 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                          @Param("requester_id") String requester_id,
                          @Param("contents_kr") String contents_kr,
                          @Param("developer") String developer,
-                         @Param("fromStartDate") Date registrationFromStartDate, @Param("toStartDate") Date registrationToEndDate,
-                         @Param("fromEndDate") Date requestFromStartDate, @Param("toEndDate") Date requestToEndDate);
+                         @Param("fromStartDate") String registrationFromStartDate, @Param("toStartDate") String registrationToEndDate,
+                         @Param("fromEndDate") String requestFromStartDate, @Param("toEndDate") String requestToEndDate);
 
     @Query(value =
             "SELECT ISSUE.*\n" +
@@ -80,12 +79,13 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:requester_id IS NULL OR (ISSUE.REQUESTER_ID = :requester_id))\n" +
                     "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
-                    "AND ((:fromStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE >= :fromStartDate))\n" +
-                    "AND ((:toStartDate IS NULL) OR (ISSUE.REGISTRATION_DATE <= :toStartDate))\n" +
-                    "AND ((:fromEndDate IS NULL) OR (ISSUE.REQUEST_DATE_NEW >= :fromEndDate))" +
-                    "AND ((:toEndDate IS NULL) OR (ISSUE.REQUEST_DATE_NEW <= :toEndDate))"
+                    "AND ((:fromStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) >= concat(:fromStartDate , ' 00:00:00')))\n" +
+                    "AND ((:toStartDate IS NULL) OR (to_char(ISSUE.REGISTRATION_DATE) <= concat(:toStartDate , ' 99:99:99')))\n" +
+                    "AND ((:fromEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) >= concat(:fromEndDate, ' 00:00:00')))\n" +
+                    "AND ((:toEndDate IS NULL) OR (to_char(ISSUE.REQUEST_DATE_NEW) <= concat(:toEndDate, ' 99:99:99')))"
             , nativeQuery = true)
-    List<Object[]> findIssueInfo(@Param("contents") String contents,
+    List<Object[]> findIssueInfo(
+                                @Param("contents") String contents,
                                  @Param("site") String site,
                                  @Param("module") String modules,
                                  @Param("division_flag") String division_flag,
@@ -96,73 +96,11 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                                  @Param("requester_id") String requester_id,
                                  @Param("contents_kr") String contents_kr,
                                  @Param("developer") String developer,
-                                 @Param("fromStartDate") Date registrationFromStartDate, @Param("toStartDate") Date registrationToEndDate,
-                                 @Param("fromEndDate") Date requestFromStartDate, @Param("toEndDate") Date requestToEndDate,
+                                 @Param("fromStartDate") String registrationFromStartDate, @Param("toStartDate") String registrationToEndDate,
+                                 @Param("fromEndDate") String requestFromStartDate, @Param("toEndDate") String requestToEndDate,
                                  Pageable pageable
     );
 
-    @Query(value = "SELECT * FROM tb_m00_issue_management tmim", nativeQuery = true)
-    List<IssueManagementJpo> findAllRecord();
-
-    @Query(value = "SELECT t.SITE \n" +
-            ",t.MODULE \n" +
-            ",t.DIVISION_FLAG \n" +
-            ",t.APPLIED_PERIOD_FLAG \n" +
-            ",t.ACCEPT_FLAG \n" +
-            ",t.REQUEST_CONFIRM \n" +
-            ",t.REQUESTER \n" +
-            ",t.CONTENTS \n" +
-            ",t.CONTENTS_KR \n" +
-            ",t.DEVELOPER \n" +
-            "FROM tb_m00_issue_management t \n" +
-            "WHERE 1 = 1 \n" +
-            "AND (:site IS NULL OR t.SITE LIKE :site)\n" +
-            "AND (:module IS NULL OR t.MODULE LIKE :module)\n" +
-            "AND (:division_flag IS NULL OR t.DIVISION_FLAG LIKE :division_flag)\n" +
-            "AND (:applied_period_flag IS NULL OR t.APPLIED_PERIOD_FLAG LIKE :applied_period_flag)\n" +
-            "AND (:accept_flag IS NULL OR t.ACCEPT_FLAG LIKE :accept_flag)\n" +
-            "AND (:request_confirm IS NULL OR t.REQUEST_CONFIRM LIKE :request_confirm)\n" +
-            "AND (:requester IS NULL OR t.REQUESTER LIKE :requester)\n" +
-            "AND (:contents IS NULL OR t.CONTENTS LIKE :contents)\n" +
-            "AND (:contents_kr IS NULL OR t.CONTENTS_KR LIKE :contents_kr)\n" +
-            "AND (:developer IS NULL OR t.DEVELOPER LIKE :developer)\n", nativeQuery = true)
-    List<Map<String, String>> searchIssue(@Param("site") String site,
-                                          @Param("module") String module,
-                                          @Param("division_flag") String division_flag,
-                                          @Param("applied_period_flag") String applied_period_flag,
-                                          @Param("accept_flag") String accept_flag,
-                                          @Param("request_confirm") String request_confirm,
-                                          @Param("requester") String requester,
-                                          @Param("contents") String contents,
-                                          @Param("contents_kr") String contents_kr,
-                                          @Param("developer") String developer);
-
-    @Query(value = "SELECT t.CONTENT \n" +
-            ",t.SITE \n" +
-            ",t.DIVISION_FLAG \n" +
-            ",t.APPLIED_PERIOD_FLAG \n" +
-            ",t.ACCEPT_FLAG \n" +
-            ",t.REQUEST_CONFIRM \n" +
-            ",t.REQUESTER \n" +
-            ",t.CONTENTS \n" +
-            ",t.CONTENTS_KR \n" +
-            ",t.DEVELOPER \n" +
-            ",tme.PHOTO \n" +
-            "FROM tb_m00_issue_management t \n" +
-            "JOIN tb_m00_employee tme \n" +
-            "ON t.DEVELOPER = tme.EMP_ID \n", nativeQuery = true)
-    List<Object[]> findIssueManagementDto(String contents, String site, String modules, String division_flag,
-                                          String applied_period_flag, String accept_flag, String requester_confirm,
-                                          String requester, String contents_kr, String developer, Date registration_date,
-                                          Date request_date);
-
-
     @Query(value = "SELECT MAX(SEQ) FROM tb_m00_issue_management ", nativeQuery = true )
     int maxSeq();
-
-    @Query(value = "SELECT t.REQUESTER FROM tb_m00_issue_management t \n" +
-            "JOIN tb_m00_employee tme \n" +
-            "ON t.DEVELOPER = tme.EMP_ID \n", nativeQuery = true)
-    String requester();
-
 }

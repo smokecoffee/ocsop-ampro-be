@@ -1,9 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.*;
-
-import java.util.Date;
 
 
 @Getter

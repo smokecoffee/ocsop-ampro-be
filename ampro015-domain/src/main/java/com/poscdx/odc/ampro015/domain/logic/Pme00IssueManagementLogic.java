@@ -4,7 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Pme00IssueManagementService;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -53,12 +53,12 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
                 fileName.add(issue.getFileName());
             }
             serviceLifecycle.requestLevel2Service()
-                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
+                    .removeFile(Utils.UPLOAD_BUCKET, "Issue", fileName);
         }
         IssueManagementResponse response = new IssueManagementResponse();
         store.update(issueManagement);
         if (fileUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
         response.setStatus(HttpStatus.CREATED.value());
@@ -81,7 +81,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         int seq = store.maxSeq() + 1;
         newIssueManagement.setSeq(seq);
         if (fileUpload != null) {
-            String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileUpload);
+            String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
         store.create(newIssueManagement);
@@ -109,7 +109,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
                 fileName.add(issue.getFileName());
             }
             serviceLifecycle.requestLevel2Service()
-                    .removeFile(ConstantUtil.UPLOAD_BUCKET, "Issue", fileName);
+                    .removeFile(Utils.UPLOAD_BUCKET, "Issue", fileName);
             store.delete(seq);
         }
 

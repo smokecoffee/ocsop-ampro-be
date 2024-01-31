@@ -3,7 +3,7 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,7 +121,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
                 // upload File
                 if (imageUpload != null) {
-                    String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Employee", imageUpload);
+                    String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Employee", imageUpload);
                     if (!result.contains(Objects.requireNonNull(imageUpload.getOriginalFilename()))) {
                         pme00AllLevel2EmployeeResponse.setMessage("Employee has been created, but image failed to upload");
                     }

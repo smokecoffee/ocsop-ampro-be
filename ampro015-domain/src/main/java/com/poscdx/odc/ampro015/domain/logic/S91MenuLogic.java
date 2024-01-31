@@ -27,6 +27,10 @@ public class S91MenuLogic implements S91MenuService {
 
     @Override
     public List<S91Menu> findMenuByPermission(List<String> permissionList) {
+        if (permissionList == null || permissionList.isEmpty()) {
+            permissionList = new ArrayList<>();
+            permissionList.add("");
+        }
         return store.findMenuByPermission(permissionList);
     }
 

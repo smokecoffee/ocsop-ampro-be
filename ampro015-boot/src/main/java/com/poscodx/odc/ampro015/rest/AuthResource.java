@@ -8,7 +8,7 @@ import com.poscdx.odc.ampro015.domain.entity.payload.request.LoginRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.request.ResetPasswordRequest;
 import com.poscdx.odc.ampro015.domain.entity.payload.response.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.poscodx.odc.ampro015.MailConfig;
 import com.poscodx.odc.ampro015.config.jwt.JwtUtils;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsImpl;
@@ -17,7 +17,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -79,7 +78,7 @@ public class AuthResource {
                 .build();
 
         return ResponseEntity.ok(new JwtResponse(jwt,
-                userInfo, userDetails.getListPermission()));
+                userInfo, userDetails.getPermissionMap()));
     }
 
     @PostMapping("/logout")
@@ -113,13 +112,13 @@ public class AuthResource {
             UUID uuid = UUID. randomUUID();
             Pme00PasswordToken pme00PasswordToken = getPme00PasswordToken(employee, uuid);
             String resetHtmlTemplate = LoadTemplate();
-            ConstantUtil.MAIL_SMTP_SERVER = mailConfig.getSmtpHostServer();
-            ConstantUtil.MAIL_SMTP_SERVER_PORT = mailConfig.getSmtpHostServerPort();
-            ConstantUtil.MAIL_SMTP_EMAIL_ID = mailConfig.getEmailId();
-            ConstantUtil.MAIL_SMTP_EMAIL_ID_ALIAS = mailConfig.getEmailName();
-            ConstantUtil.MAIL_SMTP_EMAIL_USERNAME = mailConfig.getUserName();
-            ConstantUtil.MAIL_SMTP_EMAIL_PASSWORD = mailConfig.getPassword();
-            ConstantUtil.MAIL_FRONT_END_URL = mailConfig.getFrontEndUrl();
+            Utils.MAIL_SMTP_SERVER = mailConfig.getSmtpHostServer();
+            Utils.MAIL_SMTP_SERVER_PORT = mailConfig.getSmtpHostServerPort();
+            Utils.MAIL_SMTP_EMAIL_ID = mailConfig.getEmailId();
+            Utils.MAIL_SMTP_EMAIL_ID_ALIAS = mailConfig.getEmailName();
+            Utils.MAIL_SMTP_EMAIL_USERNAME = mailConfig.getUserName();
+            Utils.MAIL_SMTP_EMAIL_PASSWORD = mailConfig.getPassword();
+            Utils.MAIL_FRONT_END_URL = mailConfig.getFrontEndUrl();
 
             Map<String, String> map = new HashMap<String, String>();
             map.put("url", mailConfig.getFrontEndUrl());
@@ -211,7 +210,7 @@ public class AuthResource {
         long currentTimeInMillis = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(currentTimeInMillis);
-        calendar.add(Calendar.HOUR, ConstantUtil.MAX_EXPIRE_TOKEN);
+        calendar.add(Calendar.HOUR, Utils.MAX_EXPIRE_TOKEN);
         pme00PasswordToken.setExpire(calendar.getTimeInMillis());
         return pme00PasswordToken;
     }
