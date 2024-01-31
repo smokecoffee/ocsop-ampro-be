@@ -5,9 +5,6 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscdx.odc.ampro015.domain.store.M00EmployeeStore;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import com.poscodx.odc.ampro015.store.repository.M00EmployeeRepository;
-import org.modelmapper.Conditions;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,18 +31,6 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
         M00EmployeeJpo updatedJpo = this.repository.save(jpoToUpdate);
         return updatedJpo.toDomain();
     }
-
-//    @Override
-//    public Pme00Employee update2(Pme00Employee entity) {
-//        ModelMapper modelMapper = new ModelMapper();
-////        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.S);
-//        modelMapper.getConfiguration().setSkipNullEnabled(true);
-//        M00EmployeeJpo jpoToUpdate = this.repository.findById(entity.getEmpId()).get();
-//        modelMapper.map(entity, jpoToUpdate);
-//        jpoToUpdate.setRole("User");
-//        M00EmployeeJpo updatedJpo = this.repository.save(jpoToUpdate);
-//        return updatedJpo.toDomain2();
-//    }
 
     @Override
     public M00Employee create(M00Employee entity) {

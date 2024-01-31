@@ -55,10 +55,10 @@ public class Pme00ProjectResource {
         if (Utils.checkPermission("GET_PROJECT_OWNER")) {
             String id = Utils.getLoginUserDetail();
             if (id != null) {
-//                return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, id, pageNo, pageSize);
+                return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, id, pageNo, pageSize);
             }
         }
-        return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, pageNo, pageSize);
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, null, pageNo, pageSize);
     }
 
     @PostMapping("")
