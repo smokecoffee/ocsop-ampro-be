@@ -1,10 +1,12 @@
 package com.poscdx.odc.ampro015.domain.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -26,6 +28,8 @@ public class Utils {
     public static String MAIL_SMTP_EMAIL_PASSWORD = "ss";
     public static String MAIL_FRONT_END_URL = "http://localhost:3000";
 
+    private static List<String> permissionList;
+
     public static String applyEmployeeAvatarPath(String avatar, String serviceName) {
         if (!serviceName.isEmpty()) {
             serviceName += "/";
@@ -40,8 +44,26 @@ public class Utils {
             avatar = avatar.replaceFirst(serviceName + "/" , "");
         }
     }
-    public static List<String> getPermissionList() {
+
+    public static String getLoginUserDetail() {
+        try {
+            Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> principalMap = mapper.readValue(mapper.writeValueAsString(object), Map.class);
+            return (String) principalMap.get("id");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    private static void getPermissionList() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        return authorities.stream().map(Object::toString).collect(Collectors.toList());
+        permissionList = authorities.stream().map(Object::toString).collect(Collectors.toList());
+    }
+
+    public static boolean checkPermission(String permission) {
+        if (permissionList == null) getPermissionList();
+        return permissionList.contains(permission);
     }
 }

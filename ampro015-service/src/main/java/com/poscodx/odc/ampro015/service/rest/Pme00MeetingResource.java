@@ -34,7 +34,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @GetMapping("/")
-//    @PreAuthorize("hasAuthority('GET_MEETING')")
+    @PreAuthorize("hasAnyAuthority('GET_MEETING')")
     public Pme00AllMeetingResponse getListMeeting() {
         return this.serviceLifecycle.requestBookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
@@ -47,7 +47,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @DeleteMapping("/{meetingId}")
-//    @PreAuthorize("hasAuthority('DELETE_MEETING, DELETE_MEETING_OWNER')")
+    @PreAuthorize("hasAnyAuthority('DELETE_MEETING,DELETE_MEETING_OWNER')")
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
@@ -60,7 +60,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @PostMapping("/")
-//    @PreAuthorize("hasAuthority('ADD_MEETING')")
+    @PreAuthorize("hasAnyAuthority('ADD_MEETING')")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) throws ParseException {
        return this.serviceLifecycle.requestBookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
     }
@@ -73,11 +73,10 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @GetMapping("/{meetingId}")
-//    @PreAuthorize("hasAuthority('GET_MEETING')")
+    @PreAuthorize("hasAnyAuthority('GET_MEETING')")
     public Pme00MeetingResponse getInfoBookingRoom(@PathVariable int meetingId) {
        return this.serviceLifecycle.requestBookingMeetingRoomService().getInfoBookingRoom(serviceLifecycle,meetingId);
     }
-
 
     /**
      * Edit Meeting Booking Room By Id function
@@ -87,7 +86,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @PutMapping("/")
-//    @PreAuthorize("hasAuthority('UPDATE_MEETING, UPDATE_MEETING_OWNER')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_MEETING,UPDATE_MEETING_OWNER')")
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
@@ -98,13 +97,13 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @GetMapping("/findAllRoom")
-//    @PreAuthorize("hasAuthority('GET_MEETING')")
+    @PreAuthorize("hasAnyAuthority('GET_MEETING')")
     public Pme00AllRoomResponse getListRoom(){
         return this.serviceLifecycle.requestBookingMeetingRoomService().getListRoom(serviceLifecycle);
     }
 
     @GetMapping("/getMeetingRoomByEndDate")
-//    @PreAuthorize("hasAuthority('GET_MEETING')")
+    @PreAuthorize("hasAnyAuthority('GET_MEETING')")
     public Pme00AllMeetingResponse getMeetingRoomByEndDate(){
         return this.serviceLifecycle.requestBookingMeetingRoomService().getMeetingByEndDate(serviceLifecycle);
     }

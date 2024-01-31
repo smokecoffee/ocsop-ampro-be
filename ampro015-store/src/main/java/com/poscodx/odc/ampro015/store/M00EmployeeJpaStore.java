@@ -72,4 +72,5 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     public List<Object[]> getEmployeeByEmail(String email) {
         return this.repository.getEmployeeByEmail(email);
     }
+
 }
