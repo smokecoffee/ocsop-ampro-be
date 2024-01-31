@@ -4,18 +4,12 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
 
 
 public class Level2EmployeeLogic implements Level2EmployeeService {
@@ -193,122 +187,113 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
     @Override
     public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
                                                         Pme00Employee pme00Employee){
-        List<Pme00RoleUser> pme00RoleUsers = pme00Employee.getListRoleUser();
-//        pme00RoleUsers.add()
-//                .stream()
-//                .flatMap(i -> i.getListRoleUser()
-//                .stream()).collect(Collectors.toList());
-        //Update for List<Pme00Employee>
-        serviceLifecycle.requestM00EmployeeService().modifyByList2(pme00Employee);
-        //Update for List<Pme00RoleUser>
-        serviceLifecycle.requestPme00RoleUserService().modify(pme00RoleUsers);
-        //set response
-        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
-        pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
-        pme00AllLevel2EmployeeResponse.setMessage("Update successfully!");
-
-        return pme00AllLevel2EmployeeResponse;
-
-
-
+//        List<Pme00RoleUser> pme00RoleUsers = pme00Employee.getListRoleUser();
+////        pme00RoleUsers.add()
+////                .stream()
+////                .flatMap(i -> i.getListRoleUser()
+////                .stream()).collect(Collectors.toList());
+//        //Update for List<Pme00Employee>
+//        serviceLifecycle.requestM00EmployeeService().modifyByList2(pme00Employee);
+//        //Update for List<Pme00RoleUser>
+//        serviceLifecycle.requestPme00RoleUserService().modify(pme00RoleUsers);
+//        //set response
 //        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
-//        if(pme00EmployeeList.isEmpty()){
-//            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//            pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
-//        }else {
-//            String empId = pme00EmployeeList.get(0).getEmpId();
-//            Pme00Employee pme00EmployeeEdit = pme00EmployeeList.get(0);
-//            M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService()
-//                    .find(pme00EmployeeList.get(0).getEmpId());
-//            if(checkEmployee==null){
-//                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
-//            }else {
-//                List<Pme00RoleUser> editRoleUsers = pme00EmployeeList.get(0).getListRoleUser();
-//                List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService()
-//                        .findRoleUserByEmpId(empId);
-//                for (Pme00RoleUser checkRoleUser : checkRoleUsers) {
-//                    if (empId.equals(checkRoleUser.getEmpId())) {
-//                        int roleUserId = checkRoleUser.getId();
-//                        serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
-//                    }
-//                }
-//                for(int i=0; i<editRoleUsers.size(); i++){
-//                    editRoleUsers.get(i).setRoleId(pme00EmployeeEdit.getListRoleUser().get(i).getRoleId());
-//                }
-//                checkEmployee.setEmpId(pme00EmployeeEdit.getEmpId());
-//                if(pme00EmployeeEdit.getSiteCode().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
-//                }else if(pme00EmployeeEdit.getAvatar().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee Avatar could not match");
-//                }else if(pme00EmployeeEdit.getName().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee name could not match");
-//                }else if(pme00EmployeeEdit.getBirthDate().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee birthDate could not match");
-//                }else if(pme00EmployeeEdit.getJoinDate().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee joinDate could not match");
-//                }else if(pme00EmployeeEdit.getMail().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee email could not match");
-//                }else if(pme00EmployeeEdit.getPersonalMail().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee personalMail could not match");
-//                }else if(pme00EmployeeEdit.getMobile().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee mobile could not match");
-//                }else if(pme00EmployeeEdit.getAddress().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee address could not match");
-//                }else if(pme00EmployeeEdit.getStatus().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee status could not match");
-//                }else if(pme00EmployeeEdit.getGender().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee gender could not match");
-//                }else if(pme00EmployeeEdit.getIpAddress().isEmpty()) {
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-//                    pme00AllLevel2EmployeeResponse.setMessage("This employee ipAddress could not match");
-//                }else {
-//                    //set gia tri
-//                    checkEmployee.setSiteCode(pme00EmployeeEdit.getSiteCode());
-//                    checkEmployee.setAvatar(pme00EmployeeEdit.getAvatar());
-//                    checkEmployee.setName(pme00EmployeeEdit.getName());
-//                    if(pme00EmployeeEdit.getPassword().isEmpty()){
-//                        checkEmployee.setPassword(checkEmployee.getPassword());
-//                    }else {
-//                        String passwordToMd5Hex = DigestUtils
-//                                .md5Hex(pme00EmployeeEdit.getPassword());
-//                        checkEmployee.setPassword(passwordToMd5Hex);
-//                    }
-//                    checkEmployee.setPassword(checkEmployee.getPassword());
-//                    checkEmployee.setIpAddress(pme00EmployeeEdit.getIpAddress());
-//                    checkEmployee.setBirthDate(pme00EmployeeEdit.getBirthDate());
-//                    checkEmployee.setJoinDate(pme00EmployeeEdit.getJoinDate());
-//                    checkEmployee.setMail(pme00EmployeeEdit.getMail());
-//                    checkEmployee.setPersonalMail(pme00EmployeeEdit.getPersonalMail());
-//                    checkEmployee.setIpAddress(pme00EmployeeEdit.getIpAddress());
-//                    checkEmployee.setMobile(pme00EmployeeEdit.getMobile());
-//                    checkEmployee.setAddress(pme00EmployeeEdit.getAddress());
-//                    checkEmployee.setEmpStatus(pme00EmployeeEdit.getStatus());
-//                    checkEmployee.setGender(pme00EmployeeEdit.getGender());
-//                    checkEmployee.setRole("ADMIN");
-//                    //xu ly
-//                    serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);
-//                    serviceLifecycle.requestPme00RoleUserService().modify(editRoleUsers);
+//        pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+//        pme00AllLevel2EmployeeResponse.setMessage("Update successfully!");
 //
-//                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
-//                    pme00AllLevel2EmployeeResponse.setListData(pme00EmployeeList);
-//                    pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
-//
-//                }
-//            }
-//        }
 //        return pme00AllLevel2EmployeeResponse;
+
+        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse =new Pme00AllLevel2EmployeeResponse();
+            String empId = pme00Employee.getEmpId();
+            M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService()
+                    .find(pme00Employee.getEmpId());
+            if(checkEmployee==null){
+                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
+            }else {
+                List<Pme00RoleUser> editRoleUsers = pme00Employee.getListRoleUser();
+                List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService()
+                        .findRoleUserByEmpId(empId);
+                for (Pme00RoleUser checkRoleUser : checkRoleUsers) {
+                    if (empId.equals(checkRoleUser.getEmpId())) {
+                        int roleUserId = checkRoleUser.getId();
+                        serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
+                    }
+                }
+                for(int i=0; i<editRoleUsers.size(); i++){
+                    editRoleUsers.get(i).setRoleId(pme00Employee.getListRoleUser().get(i).getRoleId());
+                }
+                checkEmployee.setEmpId(pme00Employee.getEmpId());
+                if(pme00Employee.getSiteCode().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
+                }else if(pme00Employee.getAvatar().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee Avatar could not match");
+                }else if(pme00Employee.getName().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee name could not match");
+                }else if(pme00Employee.getBirthDate().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee birthDate could not match");
+                }else if(pme00Employee.getJoinDate().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee joinDate could not match");
+                }else if(pme00Employee.getMail().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee email could not match");
+                }else if(pme00Employee.getPersonalMail().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee personalMail could not match");
+                }else if(pme00Employee.getMobile().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee mobile could not match");
+                }else if(pme00Employee.getAddress().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee address could not match");
+                }else if(pme00Employee.getStatus().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee status could not match");
+                }else if(pme00Employee.getGender().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee gender could not match");
+                }else if(pme00Employee.getIpAddress().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee ipAddress could not match");
+                }else {
+                    //set gia tri
+                    checkEmployee.setSiteCode(pme00Employee.getSiteCode());
+                    checkEmployee.setAvatar(pme00Employee.getAvatar());
+                    checkEmployee.setName(pme00Employee.getName());
+                    if(pme00Employee.getPassword().isEmpty()){
+                        checkEmployee.setPassword(checkEmployee.getPassword());
+                    }else {
+                        String passwordToMd5Hex = DigestUtils
+                                .md5Hex(pme00Employee.getPassword());
+                        checkEmployee.setPassword(passwordToMd5Hex);
+                    }
+                    checkEmployee.setPassword(checkEmployee.getPassword());
+                    checkEmployee.setIpAddress(pme00Employee.getIpAddress());
+                    checkEmployee.setBirthDate(pme00Employee.getBirthDate());
+                    checkEmployee.setJoinDate(pme00Employee.getJoinDate());
+                    checkEmployee.setMail(pme00Employee.getMail());
+                    checkEmployee.setPersonalMail(pme00Employee.getPersonalMail());
+                    checkEmployee.setIpAddress(pme00Employee.getIpAddress());
+                    checkEmployee.setMobile(pme00Employee.getMobile());
+                    checkEmployee.setAddress(pme00Employee.getAddress());
+                    checkEmployee.setEmpStatus(pme00Employee.getStatus());
+                    checkEmployee.setGender(pme00Employee.getGender());
+                    checkEmployee.setRole("ADMIN");
+                    //xu ly
+                    serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);
+                    serviceLifecycle.requestPme00RoleUserService().modify(editRoleUsers);
+
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+                    pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
+
+                }
+            }
+        return pme00AllLevel2EmployeeResponse;
     }
 
     public Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle){
