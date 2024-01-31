@@ -34,7 +34,6 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
         for(Object[] object : listPme00Employee){
             Pme00Employee employee = new Pme00Employee(object);
-//            EmployeeDto employeeDto = new EmployeeDto(object);
             employee.setListRoleUser(pme00RoleUsers);
             pme00Employees1.add(employee);
         }
@@ -94,21 +93,16 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 if(newEmployee.getSiteCode().isEmpty()){
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
-                }else if(newEmployee.getAvatar().isEmpty()){
+                }else if(newEmployee.getEmpId().isEmpty()){
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee Avatar could not match");
-                }else if(newEmployee.getName().isEmpty()) {
+                    pme00AllLevel2EmployeeResponse.setMessage("This employee EmpId could not match");
+                }
+                else if(newEmployee.getName().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Name could not match");
                 }else if(newEmployee.getPassword().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee getPassword could not match");
-                }else if(newEmployee.getBirthDate().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee BirthDate could not match");
-                }else if(newEmployee.getJoinDate().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee JoinDate could not match");
                 }else if(newEmployee.getMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Mail could not match");
@@ -118,21 +112,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 }else if(newEmployee.getMobile().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Mobile could not match");
-                }else if(newEmployee.getAddress().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee Address could not match");
                 }else if(newEmployee.getStatus().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Status could not match");
-                }else if(newEmployee.getCreateBy().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee CreateBy could not match");
                 }else if(newEmployee.getGender().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Gender could not match");
-                }else if(newEmployee.getIpAddress().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee getIpAddress could not match");
                 }else {
                     M00Employee employee = new M00Employee();
                     employee.setEmpId(newEmployee.getEmpId());
@@ -173,7 +158,8 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
                 // upload File
                 if (imageUpload != null) {
-                    String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Employee", imageUpload);
+                    String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET,
+                            "Employee", imageUpload);
                     if (!result.contains(Objects.requireNonNull(imageUpload.getOriginalFilename()))) {
                         pme00AllLevel2EmployeeResponse.setMessage("Employee has been created, but image failed to upload");
                     }
@@ -244,18 +230,9 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 if(pme00Employee.getSiteCode().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
-                }else if(pme00Employee.getAvatar().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee Avatar could not match");
                 }else if(pme00Employee.getName().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee name could not match");
-                }else if(pme00Employee.getBirthDate().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee birthDate could not match");
-                }else if(pme00Employee.getJoinDate().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee joinDate could not match");
                 }else if(pme00Employee.getMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee email could not match");
@@ -265,18 +242,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                 }else if(pme00Employee.getMobile().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee mobile could not match");
-                }else if(pme00Employee.getAddress().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee address could not match");
                 }else if(pme00Employee.getStatus().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee status could not match");
                 }else if(pme00Employee.getGender().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee gender could not match");
-                }else if(pme00Employee.getIpAddress().isEmpty()) {
-                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                    pme00AllLevel2EmployeeResponse.setMessage("This employee ipAddress could not match");
                 }else {
                     //set gia tri
                     checkEmployee.setSiteCode(pme00Employee.getSiteCode());
