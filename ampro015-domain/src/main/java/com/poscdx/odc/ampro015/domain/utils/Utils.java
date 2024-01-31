@@ -16,6 +16,7 @@ public class Utils {
     public static final int CD_TP_ID = 63;
 
     public static final int CATEGORY_GROUP_ID = 56;
+    public static final String NO_PERMISSION = "You don't have permission to perform this action.";
 
     public static String UPLOAD_URL = "";
     public static String UPLOAD_BUCKET = "";
