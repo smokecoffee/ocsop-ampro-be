@@ -32,14 +32,17 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     @Transactional(rollbackFor = { SQLException.class })
-    public boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+    public List<Object> registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
                                    MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException {
+        List<Object> resultList = new ArrayList<>();
         if (dto != null) {
 
             // Check project code exists
             if(checkExistsM00Codes030(serviceLifecycle, Utils.CD_TP_ID, Utils.CATEGORY_GROUP_ID, dto.getM00Codes030().getCdV())
                     && checkExistsPme00ProjectInfo(serviceLifecycle, dto.getPme00ProjectInfo().getCdV())){
-                return  false;
+                resultList.add(false);
+                resultList.add("Project already exists!");
+                return resultList;
             }
 
             // Insert data M00Codes030
@@ -91,14 +94,21 @@ public class Level2ProjectLogic implements Level2ProjectService {
         if (imageUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", imageUpload);
             if (!result.contains("Project")) {
-                return false;
+                resultList.add(false);
+                resultList.add("Project created. However, image could not be saved.");
+                return resultList;
             }
         }
         if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Project", fileUpload);
-            return result.contains("Project");
+            if (!result.contains("Project")) {
+                resultList.add(false);
+                resultList.add("Project created. However, file could not be saved.");
+                return resultList;
+            }
         }
-        return true;
+        resultList.add(true);
+        return resultList;
     }
 
     /**

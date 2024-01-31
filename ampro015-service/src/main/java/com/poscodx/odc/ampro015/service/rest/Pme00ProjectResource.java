@@ -63,10 +63,9 @@ public class Pme00ProjectResource {
 
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('ADD_PROJECT')")
-    public boolean register(@RequestParam ("data") String dtoString,
+    public List<Object> register(@RequestParam ("data") String dtoString,
                             @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                             @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
                    .registerProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
@@ -77,15 +76,19 @@ public class Pme00ProjectResource {
     public boolean modify(@RequestParam ("data") String dtoString,
                           @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                           @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+//        List<Object> resultList = new ArrayList<>();
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
                    .modifyProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
+//        return resultList;
     }
 
     @DeleteMapping("")
     @PreAuthorize("hasAnyAuthority('DELETE_PROJECT,DELETE_PROJECT_OWNER')")
     public boolean delete(@RequestBody M00Codes030Id id) throws SQLException {
+//        List<Object> resultList = new ArrayList<>();
         return this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
+//        return resultList;
     }
 
     @GetMapping("/search-pm-pl/{type}")

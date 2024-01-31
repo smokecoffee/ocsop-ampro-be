@@ -56,7 +56,7 @@ public class Pme00MeetingResource {
             String id = Utils.getLoginUserDetail();
             Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
             if (!pme00Meeting.getCreatorId().equals(id)) {
-                return new Pme00MeetingResponse(HttpStatus.FORBIDDEN.value(), null,Utils.NO_PERMISSION);
+                return new Pme00MeetingResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
             }
         }
         return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface Level2ProjectService {
 
-    boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+    List<Object> registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
                             MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
     boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
