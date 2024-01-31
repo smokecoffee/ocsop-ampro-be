@@ -54,10 +54,18 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus, List<String> searchStatus,
-                                          Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable){
+    public List<Object[]> findProjectInfo(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+                                          List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, Pageable pageable){
         return this.repository.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework, searchAllStatus,
                 searchStatus, fromStartDate, toStartDate, fromEndDate, toEndDate, pageable);
+    }
+
+    @Override
+    public List<Object[]> findProjectInfoWithEmpId(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+                                                   List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, String empId,
+                                                   Pageable pageable) {
+        return this.repository.findProjectInfoWithEmpId(cdV, meaning, period, koreaPM, vietnamPL, framework, searchAllStatus,
+                searchStatus, fromStartDate, toStartDate, fromEndDate, toEndDate, empId, pageable);
     }
 
     @Override
@@ -76,9 +84,16 @@ public class Pme00ProjectInfoJpaStore implements Pme00ProjectInfoStore {
     }
 
     @Override
-    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus, List<String> searchStatus,
-                               Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate){
+    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+                               List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate){
         return this.repository.countProject(cdV, meaning, period, koreaPM, vietnamPL, framework, searchAllStatus,
                                             searchStatus, fromStartDate, toStartDate, fromEndDate, toEndDate);
+    }
+
+    @Override
+    public int getCountProjectWithEmpId(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+                                        List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, String empId) {
+        return this.repository.countProjectWithEmpId(cdV, meaning, period, koreaPM, vietnamPL, framework, searchAllStatus,
+                searchStatus, fromStartDate, toStartDate, fromEndDate, toEndDate, empId);
     }
 }

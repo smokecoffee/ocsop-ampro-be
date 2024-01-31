@@ -63,7 +63,7 @@ public class Utils {
     }
 
     public static boolean checkPermission(String permission) {
-        if (permissionList == null) getPermissionList();
+        getPermissionList();
         return permissionList.contains(permission);
     }
 }

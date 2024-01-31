@@ -49,7 +49,6 @@ public class Level2Resource {
 
     @PostMapping(path = "/left-menu")
     public List<S91Menu> getLeftMenuByPermission(@RequestBody List<String> permissionList) {
-        System.out.println(Utils.getPermissionList());
         return serviceLifecycle.requestS91MenuService().findMenuByPermission(permissionList);
     }
 
