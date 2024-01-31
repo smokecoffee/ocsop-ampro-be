@@ -63,9 +63,8 @@ public class AssetJpaStore implements AssetStore {
     }
 
     @Override
-    public List<Asset> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status) {
-        Iterable<AssetJpo> list = this.repository.findByAssetAndOwnerAndStatus(assetId, emplId, status);
-        return AssetJpo.toDomains(list);
+    public List<Object[]> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status) {
+        return this.repository.findByAssetAndOwnerAndStatus(assetId, emplId, status);
     }
 
 }
