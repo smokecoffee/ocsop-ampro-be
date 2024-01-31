@@ -92,12 +92,13 @@ public class Pme00ProjectResource {
     }
 
     @GetMapping("/search-pm-pl/{type}")
-    public List<M00Employee> getKoreaPM (@PathVariable("type") String type) {
+    public List<M00Employee> getKoreaPM (@PathVariable("type") String type,
+                                         @RequestParam(value = "projectNumber", required = false) String projectNumber) {
         if (type.equals("pm")){
-            return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM();
+            return this.serviceLifecycle.requestPme00ProjectInfoService().getKoreaPM(projectNumber);
         }
         else if (type.equals("pl")) {
-            return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL();
+            return this.serviceLifecycle.requestPme00ProjectInfoService().getVietnamPL(projectNumber);
         }
         else
             return new ArrayList<>();
