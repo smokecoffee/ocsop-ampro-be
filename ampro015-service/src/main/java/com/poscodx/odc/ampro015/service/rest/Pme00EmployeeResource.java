@@ -66,8 +66,10 @@ public class Pme00EmployeeResource {
 //        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00Employee);
 
     @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE')")
-    public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody Pme00Employee pme00Employee) {
-        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00Employee);
+    public Pme00AllLevel2EmployeeResponse editEmployee(@RequestParam ("data") String dtoString,
+     @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
+        return this.serviceLifecycle.requestLevel2EmployeeService()
+                .editEmployee(serviceLifecycle,Pme00Employee.fromJson(dtoString),imageUpload);
     }
 
     @GetMapping("/findGender")

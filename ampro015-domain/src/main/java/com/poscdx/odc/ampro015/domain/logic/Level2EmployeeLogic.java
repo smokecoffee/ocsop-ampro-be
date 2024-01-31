@@ -24,7 +24,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                                                             String empId,
                                                             String joinDateFrom,
                                                             String joinDateTo,
-                                                            String gender){
+                                                            String gender) {
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
 
         List<Object[]> listPme00Employee = serviceLifecycle.requestM00EmployeeService()
@@ -32,7 +32,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
         List<Pme00RoleUser> pme00RoleUsers = serviceLifecycle.requestPme00RoleUserService().findRoleUserByEmpId(empId);
         List<Pme00Employee> pme00Employees1 = new ArrayList<>();
-        for(Object[] object : listPme00Employee){
+        for (Object[] object : listPme00Employee) {
             Pme00Employee employee = new Pme00Employee(object);
             employee.setListRoleUser(pme00RoleUsers);
             pme00Employees1.add(employee);
@@ -44,12 +44,12 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
     }
 
     @Override
-    public PmeSiteResponse findSiteEmp(ServiceLifecycle serviceLifecycle){
+    public PmeSiteResponse findSiteEmp(ServiceLifecycle serviceLifecycle) {
         PmeSiteResponse pmeSiteResponse = new PmeSiteResponse();
         final int cdTpId1 = 51;
         List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId1);
         List<Pme00Site> pme00Sites = new ArrayList<>();
-        for(M00Codes030 m00Codes030 : m00Codes030s){
+        for (M00Codes030 m00Codes030 : m00Codes030s) {
             Pme00Site pme00Site = new Pme00Site();
             pme00Site.setCD_V(m00Codes030.getCdV());
             pme00Site.setCD_V_MEANING(m00Codes030.getCdvMeaning());
@@ -60,13 +60,14 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pmeSiteResponse.setMessage("Get all site successfully");
         return pmeSiteResponse;
     }
+
     @Override
-    public PmeStatusResponse findStatus(ServiceLifecycle serviceLifecycle){
+    public PmeStatusResponse findStatus(ServiceLifecycle serviceLifecycle) {
         PmeStatusResponse pmeStatusResponse = new PmeStatusResponse();
         final int cdTpId2 = 99;
         List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId2);
         List<Pme00Status> pme00Statuses = new ArrayList<>();
-        for(M00Codes030 m00Codes030 : m00Codes030s){
+        for (M00Codes030 m00Codes030 : m00Codes030s) {
             Pme00Status pme00Status = new Pme00Status();
             pme00Status.setCD_V(m00Codes030.getCdV());
             pme00Status.setCD_V_MEANING(m00Codes030.getCdvMeaning());
@@ -77,48 +78,48 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pmeStatusResponse.setMessage("Get all status successfully");
         return pmeStatusResponse;
     }
+
     @Override
     public Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle,
                                                       Pme00Employee newEmployee,
-                                                      MultipartFile imageUpload){
+                                                      MultipartFile imageUpload) {
         String passwordToMd5Hex = DigestUtils.md5Hex(newEmployee.getPassword());
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService().find(newEmployee.getEmpId());
-        if(checkEmployee != null){
+        if (checkEmployee != null) {
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("Employee exist");
-        }else {
-            try{
+        } else {
+            try {
 
-                if(newEmployee.getSiteCode().isEmpty()){
+                if (newEmployee.getSiteCode().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
-                }else if(newEmployee.getEmpId().isEmpty()){
+                } else if (newEmployee.getEmpId().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee EmpId could not match");
-                }
-                else if(newEmployee.getName().isEmpty()) {
+                } else if (newEmployee.getName().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Name could not match");
-                }else if(newEmployee.getPassword().isEmpty()) {
+                } else if (newEmployee.getPassword().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee getPassword could not match");
-                }else if(newEmployee.getMail().isEmpty()) {
+                } else if (newEmployee.getMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Mail could not match");
-                }else if(newEmployee.getPersonalMail().isEmpty()) {
+                } else if (newEmployee.getPersonalMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee PersonalMail could not match");
-                }else if(newEmployee.getMobile().isEmpty()) {
+                } else if (newEmployee.getMobile().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Mobile could not match");
-                }else if(newEmployee.getStatus().isEmpty()) {
+                } else if (newEmployee.getStatus().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Status could not match");
-                }else if(newEmployee.getGender().isEmpty()) {
+                } else if (newEmployee.getGender().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee Gender could not match");
-                }else {
+                } else {
                     M00Employee employee = new M00Employee();
                     employee.setEmpId(newEmployee.getEmpId());
                     employee.setSiteCode(newEmployee.getSite());
@@ -175,8 +176,9 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         }
         return pme00AllLevel2EmployeeResponse;
     }
+
     @Override
-    public PmeRoleResponse findAllRole(ServiceLifecycle serviceLifecycle){
+    public PmeRoleResponse findAllRole(ServiceLifecycle serviceLifecycle) {
         PmeRoleResponse pmeRoleResponse = new PmeRoleResponse();
         List<Pme00Role> pme00Roles = serviceLifecycle.requestPme00RoleService().findAll();
         pmeRoleResponse.setStatus(HttpStatus.OK.value());
@@ -188,7 +190,8 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 
     @Override
     public Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
-                                                        Pme00Employee pme00Employee){
+                                                       Pme00Employee pme00Employee,
+                                                       MultipartFile imageUpload) {
 //        List<Pme00RoleUser> pme00RoleUsers = pme00Employee.getListRoleUser();
 ////        pme00RoleUsers.add()
 ////                .stream()
@@ -205,14 +208,15 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
 //
 //        return pme00AllLevel2EmployeeResponse;
 
-        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse =new Pme00AllLevel2EmployeeResponse();
-            String empId = pme00Employee.getEmpId();
-            M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService()
-                    .find(pme00Employee.getEmpId());
-            if(checkEmployee==null){
-                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
-                pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
-            }else {
+        Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
+        String empId = pme00Employee.getEmpId();
+        M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService()
+                .find(pme00Employee.getEmpId());
+        if (checkEmployee == null) {
+            pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
+            pme00AllLevel2EmployeeResponse.setMessage("This employee could not be found");
+        } else {
+            try {
                 List<Pme00RoleUser> editRoleUsers = pme00Employee.getListRoleUser();
                 List<Pme00RoleUser> checkRoleUsers = serviceLifecycle.requestPme00RoleUserService()
                         .findRoleUserByEmpId(empId);
@@ -222,39 +226,39 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                         serviceLifecycle.requestPme00RoleUserService().remove(roleUserId);
                     }
                 }
-                for(int i=0; i<editRoleUsers.size(); i++){
+                for (int i = 0; i < editRoleUsers.size(); i++) {
                     editRoleUsers.get(i).setRoleId(pme00Employee.getListRoleUser().get(i).getRoleId());
                 }
                 checkEmployee.setEmpId(pme00Employee.getEmpId());
-                if(pme00Employee.getSiteCode().isEmpty()) {
+                if (pme00Employee.getSiteCode().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee SiteCode could not match");
-                }else if(pme00Employee.getName().isEmpty()) {
+                } else if (pme00Employee.getName().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee name could not match");
-                }else if(pme00Employee.getMail().isEmpty()) {
+                } else if (pme00Employee.getMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee email could not match");
-                }else if(pme00Employee.getPersonalMail().isEmpty()) {
+                } else if (pme00Employee.getPersonalMail().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee personalMail could not match");
-                }else if(pme00Employee.getMobile().isEmpty()) {
+                } else if (pme00Employee.getMobile().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee mobile could not match");
-                }else if(pme00Employee.getStatus().isEmpty()) {
+                } else if (pme00Employee.getStatus().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee status could not match");
-                }else if(pme00Employee.getGender().isEmpty()) {
+                } else if (pme00Employee.getGender().isEmpty()) {
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                     pme00AllLevel2EmployeeResponse.setMessage("This employee gender could not match");
-                }else {
+                } else {
                     //set gia tri
                     checkEmployee.setSiteCode(pme00Employee.getSiteCode());
                     checkEmployee.setAvatar(pme00Employee.getAvatar());
                     checkEmployee.setName(pme00Employee.getName());
-                    if(pme00Employee.getPassword().isEmpty()){
+                    if (pme00Employee.getPassword().isEmpty()) {
                         checkEmployee.setPassword(checkEmployee.getPassword());
-                    }else {
+                    } else {
                         String passwordToMd5Hex = DigestUtils
                                 .md5Hex(pme00Employee.getPassword());
                         checkEmployee.setPassword(passwordToMd5Hex);
@@ -276,20 +280,36 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                     serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);
                     serviceLifecycle.requestPme00RoleUserService().modify(editRoleUsers);
 
+
                     pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
                     pme00AllLevel2EmployeeResponse.setMessage("Edit employee successfully");
 
+                    if (imageUpload != null) {
+                        String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET,
+                                "Employee", imageUpload);
+                        if (!result.contains(Objects.requireNonNull(imageUpload.getOriginalFilename()))) {
+                            pme00AllLevel2EmployeeResponse.setMessage("Employee has been created, but image failed to upload");
+                        }
+                    }
+
+                    pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
+                    pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
                 }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                pme00AllLevel2EmployeeResponse.setMessage("An unusual error has occurred, please notify the administrator");
             }
+        }
         return pme00AllLevel2EmployeeResponse;
     }
-
-    public Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle){
+    @Override
+    public Pme00GenderResponse findGender (ServiceLifecycle serviceLifecycle){
         Pme00GenderResponse pme00GenderResponse = new Pme00GenderResponse();
         final int cdTpId = 68;
         List<M00Codes030> m00Codes030s = serviceLifecycle.requestM00Codes030Service().findM00Codes030ById(cdTpId);
         List<Pme00Gender> pme00Genders = new ArrayList<>();
-        for (M00Codes030 m00Codes030 : m00Codes030s){
+        for (M00Codes030 m00Codes030 : m00Codes030s) {
             Pme00Gender pme00Gender = new Pme00Gender();
             pme00Gender.setCdV(m00Codes030.getCdV());
             pme00Gender.setCdvMeaning(m00Codes030.getCdvMeaning());
@@ -300,5 +320,4 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pme00GenderResponse.setMessage("Get all gender successfully");
         return pme00GenderResponse;
     }
-
 }
