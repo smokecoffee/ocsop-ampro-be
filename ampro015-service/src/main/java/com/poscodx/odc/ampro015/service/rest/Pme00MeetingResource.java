@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author 202261_Son
  * @since 2023-11-11
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/meeting")
@@ -32,7 +34,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @GetMapping("/")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('GET_MEETING')")
     public Pme00AllMeetingResponse getListMeeting() {
         return this.serviceLifecycle.requestBookingMeetingRoomService().getListMeeting(serviceLifecycle);
     }
@@ -45,7 +47,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @DeleteMapping("/{meetingId}")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('DELETE_MEETING, DELETE_MEETING_OWNER')")
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
@@ -58,7 +60,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @PostMapping("/")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('ADD_MEETING')")
     public Pme00MeetingResponse addMeeting(@RequestBody Pme00Meeting newMeeting) throws ParseException {
        return this.serviceLifecycle.requestBookingMeetingRoomService().addMeeting(serviceLifecycle, newMeeting );
     }
@@ -71,7 +73,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @GetMapping("/{meetingId}")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('GET_MEETING')")
     public Pme00MeetingResponse getInfoBookingRoom(@PathVariable int meetingId) {
        return this.serviceLifecycle.requestBookingMeetingRoomService().getInfoBookingRoom(serviceLifecycle,meetingId);
     }
@@ -85,7 +87,7 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @PutMapping("/")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('UPDATE_MEETING, UPDATE_MEETING_OWNER')")
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
@@ -96,13 +98,13 @@ public class Pme00MeetingResource {
      * @since 2023-11-11
      */
     @GetMapping("/findAllRoom")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('GET_MEETING')")
     public Pme00AllRoomResponse getListRoom(){
         return this.serviceLifecycle.requestBookingMeetingRoomService().getListRoom(serviceLifecycle);
     }
 
     @GetMapping("/getMeetingRoomByEndDate")
-    @CrossOrigin
+//    @PreAuthorize("hasAuthority('GET_MEETING')")
     public Pme00AllMeetingResponse getMeetingRoomByEndDate(){
         return this.serviceLifecycle.requestBookingMeetingRoomService().getMeetingByEndDate(serviceLifecycle);
     }

@@ -10,9 +10,9 @@ public class JwtResponse {
     private String token;
     private String type = "Bearer";
     private LoginUserInfo userInfo;
-    private List<Map<String, String>> permissions;
+    private Map <String, List<String>> permissions;
 
-    public JwtResponse(String accessToken, LoginUserInfo userInfo, List<Map<String, String>> permissions) {
+    public JwtResponse(String accessToken, LoginUserInfo userInfo, Map <String, List<String>> permissions) {
         this.token = accessToken;
         this.userInfo = userInfo;
         this.permissions = permissions;

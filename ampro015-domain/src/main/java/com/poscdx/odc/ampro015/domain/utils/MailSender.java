@@ -1,28 +1,11 @@
 package com.poscdx.odc.ampro015.domain.utils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
-import java.io.Console;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 
 public class MailSender {
@@ -47,7 +30,7 @@ public class MailSender {
             msg.addHeader("format", "flowed");
             msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-            msg.setFrom(new InternetAddress(ConstantUtil.MAIL_SMTP_EMAIL_ID, ConstantUtil.MAIL_SMTP_EMAIL_ID_ALIAS));
+            msg.setFrom(new InternetAddress(Utils.MAIL_SMTP_EMAIL_ID, Utils.MAIL_SMTP_EMAIL_ID_ALIAS));
 
             //msg.setReplyTo(InternetAddress.parse(ConstantUtil.MAIL_SMTP_EMAIL_ID, false));
 
@@ -72,16 +55,16 @@ public class MailSender {
 
     public static boolean sendEmailWithAuthentication(String toEmail, String subject, String body){
         Properties props = System.getProperties();
-        props.put(MAIL_SMTP_SERVER_KEY, ConstantUtil.MAIL_SMTP_SERVER);
+        props.put(MAIL_SMTP_SERVER_KEY, Utils.MAIL_SMTP_SERVER);
         props.put(MAIL_SMTP_SERVER_AUTH_KEY, "true");
-        props.put(MAIL_SMTP_SERVER_PORT_KEY, ConstantUtil.MAIL_SMTP_SERVER_PORT);
+        props.put(MAIL_SMTP_SERVER_PORT_KEY, Utils.MAIL_SMTP_SERVER_PORT);
         props.setProperty("proxySet", "true");
         props.setProperty("ProxyHost", "forward.posco.net");
         props.setProperty("ProxyPort", "80");
         Authenticator auth = new Authenticator() {
             //override the getPasswordAuthentication method
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(ConstantUtil.MAIL_SMTP_EMAIL_USERNAME,ConstantUtil.MAIL_SMTP_EMAIL_PASSWORD);
+                return new PasswordAuthentication(Utils.MAIL_SMTP_EMAIL_USERNAME, Utils.MAIL_SMTP_EMAIL_PASSWORD);
             }
         };
         Session session = Session.getInstance(props, auth);
