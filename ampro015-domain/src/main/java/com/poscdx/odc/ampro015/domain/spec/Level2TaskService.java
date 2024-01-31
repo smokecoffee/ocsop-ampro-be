@@ -54,8 +54,7 @@ public interface Level2TaskService {
      * @param newTask
      * @return M00TaskDto
      */
-    ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask);
-//    boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
+    boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
     /**
      * remove task function

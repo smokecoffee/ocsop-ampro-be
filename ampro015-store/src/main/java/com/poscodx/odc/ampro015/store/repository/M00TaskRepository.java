@@ -66,8 +66,6 @@ public interface M00TaskRepository extends JpaRepository<M00TaskJpo, M00TaskId> 
             "t.CREATION_TIMESTAMP, \n"+
             "t.START_DATE \n" +
             "t.STATUS_APPROVE \n" +
-//            "t.ATTACH_FILE \n" +
-//            "t.ESTIMATE_DAY \n" +
             "FROM tb_m00_task AS t \n"
             +" JOIN tb_pme00_employee_task AS emp ON t.PROJECT_NUMBER = emp.PROJECT_NUMBER and t.TASK_NAME = emp.TASK_NAME \n"
             +" WHERE emp.EMP_ID = :employeeId \n "

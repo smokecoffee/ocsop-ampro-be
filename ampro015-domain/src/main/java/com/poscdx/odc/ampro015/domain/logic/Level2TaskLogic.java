@@ -4,7 +4,8 @@ import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
+import feign.Util;
 import lombok.var;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -164,13 +165,13 @@ public class Level2TaskLogic implements Level2TaskService {
             responseUpdateTask.setTask(updatedTask);
             // insert file/image
             if (imageUpload != null) {
-                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", imageUpload);
+                String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", imageUpload);
                 if (!result.contains("Task")) {
                     return false;
                 }
             }
             if (fileUpload != null) {
-                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", fileUpload);
+                String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", fileUpload);
                 return result.contains("Task");
             }
             return true;
@@ -185,41 +186,15 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param newTask
      * @return M00TaskDto
      */
-    @Override
-    public ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
-        //check this already existed yet?
-        M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
-        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
-        if (existedTask.isPresent()) {
-            HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
-            mapResponse.get(RESPONSE_DATA);
-            return appendResponse(HttpStatus.BAD_REQUEST, DUPLICATE_RESPONSE_MESSAGE, new M00TaskDto());
-        } else {
-            // map M00TaskDto -> Jpo
-            M00Task newTaskJpo = newTask.getTask();
-
-            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()));
-            M00Task savedTask = serviceLifecycle.requestM00TaskService().register(newTaskJpo);
-
-            // map Emp
-            M00TaskDto newReponse = new M00TaskDto();
-            newReponse.setTask(savedTask);
-            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
-            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
-            newReponse.setMembers(savedPme00EmployeeTaskList);
-            return appendResponse(HttpStatus.OK, INSERT_SUCCESS_RESPONSE_MESSAGE, newReponse);
-        }
-    }
-
 //    @Override
-//    public boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) {
+//    public ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
 //        //check this already existed yet?
 //        M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
 //        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
 //        if (existedTask.isPresent()) {
 //            HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
 //            mapResponse.get(RESPONSE_DATA);
-//            return false;
+//            return appendResponse(HttpStatus.BAD_REQUEST, DUPLICATE_RESPONSE_MESSAGE, new M00TaskDto());
 //        } else {
 //            // map M00TaskDto -> Jpo
 //            M00Task newTaskJpo = newTask.getTask();
@@ -233,22 +208,48 @@ public class Level2TaskLogic implements Level2TaskService {
 //            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
 //            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
 //            newReponse.setMembers(savedPme00EmployeeTaskList);
-//
-//            // insert file/image
-//            if (imageUpload != null) {
-//                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", imageUpload);
-//                if (!result.contains("Task")) {
-//                    return false;
-//                }
-//            }
-//            if (fileUpload != null) {
-//                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", fileUpload);
-//                return result.contains("Task");
-//            }
-//
-//            return true;
+//            return appendResponse(HttpStatus.OK, INSERT_SUCCESS_RESPONSE_MESSAGE, newReponse);
 //        }
 //    }
+
+    @Override
+    public boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) {
+        //check this already existed yet?
+        M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
+        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
+        if (existedTask.isPresent()) {
+            HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
+            mapResponse.get(RESPONSE_DATA);
+            return false;
+        } else {
+            // map M00TaskDto -> Jpo
+            M00Task newTaskJpo = newTask.getTask();
+
+            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()));
+            M00Task savedTask = serviceLifecycle.requestM00TaskService().register(newTaskJpo);
+
+            // map Emp
+            M00TaskDto newReponse = new M00TaskDto();
+            newReponse.setTask(savedTask);
+            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
+            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
+            newReponse.setMembers(savedPme00EmployeeTaskList);
+
+            // insert file/image
+            if (imageUpload != null) {
+                String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", imageUpload);
+                if (!result.contains("Task")) {
+                    return false;
+                }
+            }
+            if (fileUpload != null) {
+                String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", fileUpload);
+                return result.contains("Task");
+            }
+
+            return true;
+        }
+    }
 
     /**
      * This function removes an existing task and its associated employeeTask based on value from the M00TaskDto.

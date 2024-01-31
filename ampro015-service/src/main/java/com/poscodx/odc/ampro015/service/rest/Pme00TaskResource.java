@@ -78,8 +78,10 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @PostMapping("")
-    public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
-        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest);
+    public boolean insertTask(@RequestBody M00TaskDto newTaskRequest,
+                                        @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                                        @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
     }
 
     /**
@@ -137,16 +139,6 @@ public class Pme00TaskResource {
         return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
     }
 
-//    @CrossOrigin
-//    @PostMapping("")
-//    public boolean register(@RequestParam ("data") String dtoString,
-//                            @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
-//                            @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-//
-//        return this.serviceLifecycle
-//                .requestLevel2ProjectService()
-//                .registerProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
-//    }
 
 
 }
