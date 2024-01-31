@@ -38,8 +38,13 @@ public class M00EmployeeLogic implements M00EmployeeService {
 
     @Override
     public Pme00Employee modifyByList2(Pme00Employee pme00Employee) {
-        return this.store.update2(pme00Employee);
+        return null;
     }
+
+//    @Override
+//    public Pme00Employee modifyByList2(Pme00Employee pme00Employee) {
+//        return this.store.update2(pme00Employee);
+//    }
 
     @Override
     public M00Employee register(M00Employee entity) {

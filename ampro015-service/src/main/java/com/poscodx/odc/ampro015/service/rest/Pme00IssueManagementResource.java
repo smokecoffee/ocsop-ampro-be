@@ -50,7 +50,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @PostMapping
-//    @PreAuthorize("hasAuthority('ADD_ISSUE')")
+    @PreAuthorize("hasAnyAuthority('ADD_ISSUE')")
     public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement, MultipartFile fileUpload) {
         return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement, fileUpload);
     }
@@ -63,7 +63,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @PutMapping
-//    @PreAuthorize("hasAuthority('UPDATE_ISSUE, UPDATE_ISSUE_OWNER')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_ISSUE,UPDATE_ISSUE_OWNER')")
     public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement, MultipartFile fileUpload) {
         return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement, fileUpload);
     }
@@ -76,7 +76,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @DeleteMapping
-//    @PreAuthorize("hasAuthority('DELETE_ISSUE, DELETE_ISSUE_OWNER')")
+    @PreAuthorize("hasAnyAuthority('DELETE_ISSUE,DELETE_ISSUE_OWNER')")
     public IssueManagementResponse deleteIssue(@RequestBody IssueManagementId seq) {
         return this.serviceLifecycle.requestPme00IssueManagementService().remove(seq, serviceLifecycle);
     }
@@ -89,7 +89,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping
-//    @PreAuthorize("hasAuthority('GET_ISSUE, GET_ISSUE_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public List<IssueManagement> getAll() {
         return this.serviceLifecycle.requestPme00IssueManagementService().retrieveAll();
     }
@@ -102,7 +102,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping("/getbyseqandsite")
-//    @PreAuthorize("hasAuthority('GET_ISSUE, GET_ISSUE_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public List<IssueManagement> getBySeqAndSite(@RequestParam int seq, @RequestParam String site) {
         return this.serviceLifecycle.requestPme00IssueManagementService().retrieve(seq, site);
     }
@@ -116,7 +116,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping(path = "/search")
-//    @PreAuthorize("hasAuthority('GET_ISSUE, GET_ISSUE_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
                                       @RequestParam(required = false) String site,
                                       @RequestParam(required = false) String module,

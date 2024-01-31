@@ -46,7 +46,7 @@ public class A01Resource {
      * @return
      */
     @PostMapping("/asset")
-//    @PreAuthorize("hasAuthority('ADD_ASSET')")
+    @PreAuthorize("hasAnyAuthority('ADD_ASSET')")
     public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[amp] create Asset -> " +JsonUtil.toJson(request), this);
         ResponseEntity<?> response = null;
@@ -64,14 +64,14 @@ public class A01Resource {
      * @param assetInfoDto
      */
     @PutMapping(path = "/")
-//    @PreAuthorize("hasAuthority('UPDATE_ASSET, UPDATE_ASSET_OWNER')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_ASSET, UPDATE_ASSET_OWNER')")
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
         this.serviceLifecycle.requestLevel2QrCodeService().updateAsset(serviceLifecycle, assetInfoDto);
     }
 
     @DeleteMapping(path = "/")
-//    @PreAuthorize("hasAuthority('DELETE_ASSET, DELETE_ASSET_OWNER')")
+    @PreAuthorize("hasAnyAuthority('DELETE_ASSET, DELETE_ASSET_OWNER')")
     public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) String userId) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] Asset Token : " +JsonUtil.toJson(token), this);
         this.serviceLifecycle.requestLevel2QrCodeService().deleteAsset(serviceLifecycle, token, userId);
@@ -83,7 +83,7 @@ public class A01Resource {
      * @return
      */
     @PostMapping("/search")
-//    @PreAuthorize("hasAuthority('GET_ASSET, GET_ASSET_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_ASSET, GET_ASSET_OWNER')")
     public List<AssetInfoDto> findAssetList(@RequestBody AssetSearch assetSearch) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
         int assetID = assetSearch.getAssetId();

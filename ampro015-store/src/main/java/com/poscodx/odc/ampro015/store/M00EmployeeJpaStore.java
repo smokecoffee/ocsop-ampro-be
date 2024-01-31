@@ -35,17 +35,17 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
         return updatedJpo.toDomain();
     }
 
-    @Override
-    public Pme00Employee update2(Pme00Employee entity) {
-        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.S);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        M00EmployeeJpo jpoToUpdate = this.repository.findById(entity.getEmpId()).get();
-        modelMapper.map(entity, jpoToUpdate);
-        jpoToUpdate.setRole("User");
-        M00EmployeeJpo updatedJpo = this.repository.save(jpoToUpdate);
-        return updatedJpo.toDomain2();
-    }
+//    @Override
+//    public Pme00Employee update2(Pme00Employee entity) {
+//        ModelMapper modelMapper = new ModelMapper();
+////        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.S);
+//        modelMapper.getConfiguration().setSkipNullEnabled(true);
+//        M00EmployeeJpo jpoToUpdate = this.repository.findById(entity.getEmpId()).get();
+//        modelMapper.map(entity, jpoToUpdate);
+//        jpoToUpdate.setRole("User");
+//        M00EmployeeJpo updatedJpo = this.repository.save(jpoToUpdate);
+//        return updatedJpo.toDomain2();
+//    }
 
     @Override
     public M00Employee create(M00Employee entity) {
@@ -80,7 +80,9 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     }
 
     @Override
-    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo, String gender) {
+    public List<Object[]> searchPmeEmployee(String site, String status, String name,
+                                            String empId, String joinDateFrom,
+                                            String joinDateTo, String gender) {
         return this.repository.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
 
@@ -88,4 +90,5 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     public List<Object[]> getEmployeeByEmail(String email) {
         return this.repository.getEmployeeByEmail(email);
     }
+
 }
