@@ -35,4 +35,6 @@ public interface ServiceLifecycle {
 
     S91MenuService requestS91MenuService();
 
+    M99WorkingTimeService requestM99WorkingTimeService();
+
 }

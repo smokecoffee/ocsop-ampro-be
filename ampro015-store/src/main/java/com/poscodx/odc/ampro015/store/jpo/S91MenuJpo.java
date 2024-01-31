@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "S91Menu")
-@Table(name = "TB_S91_MENU", schema = "POSCTZN")
+@Table(name = "TB_S91_MENU", schema = "VIVA-ODC")
 public class S91MenuJpo implements Serializable {
 
     @Id

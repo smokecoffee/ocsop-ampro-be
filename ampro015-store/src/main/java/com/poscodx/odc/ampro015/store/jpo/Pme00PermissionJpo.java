@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 @Getter
 @Setter
 @Entity(name = "Pme00Permission")
-@Table(name = "TB_PME00_PERMISSION", schema = "POSCTZN")
+@Table(name = "TB_PME00_PERMISSION", schema = "VIVA-ODC")
 public class Pme00PermissionJpo
 {
     @Id

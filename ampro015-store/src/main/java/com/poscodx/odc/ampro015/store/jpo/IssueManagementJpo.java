@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "IssueManagement")
-@Table(name = "TB_M00_ISSUE_MANAGEMENT", schema = "POSCTZN")
+@Table(name = "TB_M00_ISSUE_MANAGEMENT", schema = "VIVA-ODC")
 @IdClass(IssueManagementId.class)
 public class IssueManagementJpo implements Serializable {
 
