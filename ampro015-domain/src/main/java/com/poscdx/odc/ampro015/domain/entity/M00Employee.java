@@ -43,7 +43,7 @@ public class M00Employee {
     private String empStatus;
     private String createBy;
     private String gender;
-    private LocalTime startWorkingTime;
+    private Date startWorkingTime;
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
