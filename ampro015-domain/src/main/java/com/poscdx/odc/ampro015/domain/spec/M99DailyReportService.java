@@ -21,7 +21,7 @@ public interface M99DailyReportService {
 
     void remove(int seq);
 
-    List<M99DailyReport> findWorkingTimeByEmployeeId(String empId);
+    List<M99DailyReport> findWorkingTime(String empId,  String startTime, String endTime);
 
     Map<String, Object> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize);
 }

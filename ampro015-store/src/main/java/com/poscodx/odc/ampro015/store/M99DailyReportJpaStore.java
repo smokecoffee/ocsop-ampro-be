@@ -49,9 +49,8 @@ public class M99DailyReportJpaStore implements M99DailyReportStore {
     }
 
     @Override
-    public List<M99DailyReport> findWorkingTimeByEmployeeId(String empId) {
-        Iterable<M99DailyReportJpo> list =  this.repository
-                                                .findByEmployeeIdAndOpSatDateIsNotNullAndOpDnDateIsNotNull(empId);
+    public List<M99DailyReport> findWorkingTime(String employeeId, String startTime, String endTime) {
+        Iterable<M99DailyReportJpo> list =  this.repository.findWorkingTime(employeeId, startTime, endTime,null, null, null);
         return M99DailyReportJpo.toDomains(list);
     }
 
@@ -60,8 +59,4 @@ public class M99DailyReportJpaStore implements M99DailyReportStore {
         return this.repository.findDailyReport(employeeId, projectNumber, fromDate, toDate, pageable);
     }
 
-    @Override
-    public int countDailyReport(String employeeId, String projectNumber, Date fromDate, Date toDate) {
-        return this.repository.countDailyReport(employeeId, projectNumber, fromDate, toDate);
-    }
 }

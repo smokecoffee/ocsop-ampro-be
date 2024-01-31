@@ -41,7 +41,9 @@ public class M99DailyReportResource {
 
     @CrossOrigin
     @GetMapping("/working-time")
-    public List findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
-        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
+    public List findWorkingTime(@RequestParam(required = false,defaultValue = "", name = "empId") String empId,
+                                @RequestParam(required = false,defaultValue = "", name = "startTime") String startTime,
+                                @RequestParam(required = false,defaultValue = "", name = "endTime") String endTime) throws SQLException{
+        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTime(empId, startTime, endTime);
     }
 }
