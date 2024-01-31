@@ -48,8 +48,8 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public List<M99DailyReport> findWorkingTimeByEmployeeId(String empId) {
-        return store.findWorkingTimeByEmployeeId(empId);
+    public List<M99DailyReport> findWorkingTime(String empId,  String startTime, String endTime) {
+        return this.store.findWorkingTime(empId, startTime, endTime);
     }
 
     @Override
@@ -71,10 +71,7 @@ public class M99DailyReportLogic implements M99DailyReportService {
 
         Map<String, Object> rs = new HashMap<>();
 
-        int total = this.store.countDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
-                                                    m99DailyReport.getFromDate(), m99DailyReport.getToDate());
-
-        rs.put("total", total);
+        rs.put("total", infoList.size());
         rs.put("info", infoList);
 
         return rs;

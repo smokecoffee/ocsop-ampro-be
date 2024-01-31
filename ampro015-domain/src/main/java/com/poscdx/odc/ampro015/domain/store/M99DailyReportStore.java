@@ -18,9 +18,8 @@ public interface M99DailyReportStore {
 
     List<M99DailyReport> retrieveAll();
 
-    List<M99DailyReport> findWorkingTimeByEmployeeId(String empId);
+    List<M99DailyReport> findWorkingTime(String empId, String startTime, String endTime);
 
     List<Object[]> findDailyReport(String employeeId, String projectNumber, Date fromDate, Date toDate, Pageable pageable);
 
-    int countDailyReport(String employeeId, String projectNumber, Date fromDate, Date toDate);
 }
