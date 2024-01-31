@@ -151,6 +151,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                     employee.setGender(newEmployee.getGender());
                     employee.setIpAddress(newEmployee.getIpAddress());
                     employee.setRole("ADMIN");
+                    employee.setStartWorkingTime(newEmployee.getStartWorkingTime());
                     M00Employee m00Employee = serviceLifecycle.requestM00EmployeeService().register(employee);
 
                     List<Pme00RoleUser> listRoleUser = newEmployee.getListRoleUser();
@@ -299,6 +300,7 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                     checkEmployee.setAddress(pme00Employee.getAddress());
                     checkEmployee.setEmpStatus(pme00Employee.getStatus());
                     checkEmployee.setGender(pme00Employee.getGender());
+                    checkEmployee.setStartWorkingTime(pme00Employee.getStartWorkingTime());
                     checkEmployee.setRole("ADMIN");
                     //xu ly
                     serviceLifecycle.requestM00EmployeeService().modify(checkEmployee);

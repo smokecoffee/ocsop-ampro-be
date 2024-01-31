@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class Pme00Employee {
     private String createByUserPhoto;
     private List<Pme00RoleUser> listRoleUser;
     private String nameCreateBy;
+    private LocalTime startWorkingTime;
 
 //    @NotBlank(message = "Gender is required")
 //    @NotEmpty(message = "Gender cannot be empty")

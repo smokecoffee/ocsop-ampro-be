@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -110,7 +111,8 @@ public class M00EmployeeJpo implements Serializable {
     @Column(name="GENDER")
     private String gender;
 
-    @Column(name)
+    @Column(name="START_WORKING_TIME")
+    private LocalTime startWorkingTime;
 
     public M00EmployeeJpo(M00Employee domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

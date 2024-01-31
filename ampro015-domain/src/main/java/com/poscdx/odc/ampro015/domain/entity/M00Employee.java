@@ -3,6 +3,7 @@ package com.poscdx.odc.ampro015.domain.entity;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.*;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 
@@ -42,7 +43,7 @@ public class M00Employee {
     private String empStatus;
     private String createBy;
     private String gender;
-
+    private LocalTime startWorkingTime;
     public M00Employee(Object[] objects) {
         this.empId = (String) objects[0];
         this.name = (String) objects[1];
