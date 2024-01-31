@@ -9,7 +9,7 @@ import java.util.List;
 public interface Level2EmployeeService {
     Pme00AllLevel2EmployeeResponse searchPmeEmployee(ServiceLifecycle serviceLifecycle,
                                                      String site, String status, String name, String empId,
-                                                     String joinDateFrom, String joinDateTo);
+                                                     String joinDateFrom, String joinDateTo, String gender);
     PmeSiteResponse findSiteEmp(ServiceLifecycle serviceLifecycle);
     PmeStatusResponse findStatus(ServiceLifecycle serviceLifecycle);
     Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle,
@@ -18,9 +18,7 @@ public interface Level2EmployeeService {
 
     PmeRoleResponse findAllRole(ServiceLifecycle serviceLifecycle);
     Pme00AllLevel2EmployeeResponse editEmployee(ServiceLifecycle serviceLifecycle,
-                                                List<Pme00Employee> pme00EmployeeList);
+                                                Pme00Employee pme00Employee);
 
     Pme00GenderResponse findGender(ServiceLifecycle serviceLifecycle);
-
-
 }

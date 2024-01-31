@@ -25,6 +25,10 @@ public class Pme00RoleUserLogic implements Pme00RoleUserService {
 
     @Override
     public void modify(List<Pme00RoleUser> entityList) {
+        List<Pme00RoleUser> deletedList = store.findRoleUserByEmpId(entityList.get(0).getEmpId());
+        for (Pme00RoleUser user : deletedList) {
+            store.delete(user.getId());
+        }
         entityList.forEach(this.store::update);
     }
 

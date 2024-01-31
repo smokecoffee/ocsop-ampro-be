@@ -4,10 +4,12 @@ import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.common.config.ConfigDef;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -26,9 +28,10 @@ public class Pme00EmployeeResource {
             @RequestParam(required = false, name = "name") String name,
             @RequestParam(required = false, name = "empId") String empId,
             @RequestParam(required = false, name = "joinDateFrom") String joinDateFrom,
-            @RequestParam(required = false, name = "joinDateTo") String joinDateTo){
+            @RequestParam(required = false, name = "joinDateTo") String joinDateTo,
+            @RequestParam(required = false, name = "gender") String gender){
         return this.serviceLifecycle.requestLevel2EmployeeService()
-                .searchPmeEmployee(serviceLifecycle, site, status, name, empId, joinDateFrom, joinDateTo);
+                .searchPmeEmployee(serviceLifecycle, site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
 
     @GetMapping("/findSiteEmp")
@@ -55,11 +58,16 @@ public class Pme00EmployeeResource {
     public PmeRoleResponse findAllRole() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findAllRole(serviceLifecycle);
     }
+//
+//    @PutMapping("/")
+//<<<<<<< HEAD
+//    public Pme00AllLevel2EmployeeResponse editEmployee(@Valid @RequestBody Pme00Employee  pme00Employee) {
+////    @PreAuthorize("hasAuthority('UPDATE_EMPLOYEE')")
+//        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00Employee);
 
-    @PutMapping("/")
     @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE')")
-    public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody List<Pme00Employee> pme00EmployeeList) {
-        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00EmployeeList);
+    public Pme00AllLevel2EmployeeResponse editEmployee(@RequestBody Pme00Employee pme00Employee) {
+        return this.serviceLifecycle.requestLevel2EmployeeService().editEmployee(serviceLifecycle,pme00Employee);
     }
 
     @GetMapping("/findGender")
