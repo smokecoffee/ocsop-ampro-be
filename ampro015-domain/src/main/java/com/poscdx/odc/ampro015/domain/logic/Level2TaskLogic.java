@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.emun.M00TaskJpoComlumnName;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2TaskService;
+import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
 import lombok.var;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -113,7 +115,7 @@ public class Level2TaskLogic implements Level2TaskService {
      * @return M00TaskDto
      */
     @Override
-    public ResponseEntity<?> modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest) {
+    public boolean modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest, MultipartFile imageUpload, MultipartFile fileUpload) {
         // convert json to DTO
         M00Task requestTask = updateTaskRequest.getTask();
         // find exitedTask
@@ -130,7 +132,7 @@ public class Level2TaskLogic implements Level2TaskService {
 
 
             if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
-                return appendResponse(HttpStatus.BAD_REQUEST, INVALID_PASSWORD_RESPONSE_MESSAGE, new M00TaskDto());
+                return false;
             }
 
             // find existedEmplTask
@@ -160,9 +162,20 @@ public class Level2TaskLogic implements Level2TaskService {
             M00TaskDto responseUpdateTask = new M00TaskDto();
             responseUpdateTask.setMembers(pme00EmployeeTasksRequestList);
             responseUpdateTask.setTask(updatedTask);
-            return appendResponse(HttpStatus.OK, UPDATE_SUCCESS_RESPONSE_MESSAGE, responseUpdateTask);
+            // insert file/image
+            if (imageUpload != null) {
+                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", imageUpload);
+                if (!result.contains("Task")) {
+                    return false;
+                }
+            }
+            if (fileUpload != null) {
+                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", fileUpload);
+                return result.contains("Task");
+            }
+            return true;
         }
-        return appendResponse(HttpStatus.BAD_REQUEST, NOT_FOUND_RESPONSE_MESSAGE, new M00TaskDto());
+        return false;
     }
 
     /**
@@ -197,6 +210,45 @@ public class Level2TaskLogic implements Level2TaskService {
             return appendResponse(HttpStatus.OK, INSERT_SUCCESS_RESPONSE_MESSAGE, newReponse);
         }
     }
+
+//    @Override
+//    public boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) {
+//        //check this already existed yet?
+//        M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
+//        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
+//        if (existedTask.isPresent()) {
+//            HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
+//            mapResponse.get(RESPONSE_DATA);
+//            return false;
+//        } else {
+//            // map M00TaskDto -> Jpo
+//            M00Task newTaskJpo = newTask.getTask();
+//
+//            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()));
+//            M00Task savedTask = serviceLifecycle.requestM00TaskService().register(newTaskJpo);
+//
+//            // map Emp
+//            M00TaskDto newReponse = new M00TaskDto();
+//            newReponse.setTask(savedTask);
+//            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
+//            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
+//            newReponse.setMembers(savedPme00EmployeeTaskList);
+//
+//            // insert file/image
+//            if (imageUpload != null) {
+//                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", imageUpload);
+//                if (!result.contains("Task")) {
+//                    return false;
+//                }
+//            }
+//            if (fileUpload != null) {
+//                String result = serviceLifecycle.requestLevel2Service().uploadFile(ConstantUtil.UPLOAD_BUCKET, "Task", fileUpload);
+//                return result.contains("Task");
+//            }
+//
+//            return true;
+//        }
+//    }
 
     /**
      * This function removes an existing task and its associated employeeTask based on value from the M00TaskDto.

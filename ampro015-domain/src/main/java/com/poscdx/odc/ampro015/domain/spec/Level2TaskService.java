@@ -6,7 +6,9 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskId;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +45,7 @@ public interface Level2TaskService {
      * @param updateTaskRequest
      * @return M00TaskDto
      */
-    ResponseEntity<?> modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest);
+    boolean modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest, MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
     /**
      * create new task function
@@ -53,6 +55,7 @@ public interface Level2TaskService {
      * @return M00TaskDto
      */
     ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask);
+//    boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
     /**
      * remove task function

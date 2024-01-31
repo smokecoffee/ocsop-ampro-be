@@ -2,13 +2,16 @@ package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
+import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +78,13 @@ public class Pme00TaskResource {
         return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest);
     }
 
+    //    @CrossOrigin
+//    @PostMapping("")
+//    public boolean insertTask(@RequestBody M00TaskDto newTaskRequest,  @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+//                              @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+//        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
+//    }
+
     /**
      * Update Task function
      *
@@ -84,8 +94,10 @@ public class Pme00TaskResource {
      */
     @CrossOrigin
     @PutMapping("")
-    public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) {
-        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest);
+    public boolean updateTask(@RequestBody M00TaskDto newTaskRequest,
+                              @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+                              @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
     }
 
     /**
@@ -131,6 +143,17 @@ public class Pme00TaskResource {
     public M00Employee searchTask(@PathVariable("id") String employeeId) {
         return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
     }
+
+//    @CrossOrigin
+//    @PostMapping("")
+//    public boolean register(@RequestParam ("data") String dtoString,
+//                            @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
+//                            @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+//
+//        return this.serviceLifecycle
+//                .requestLevel2ProjectService()
+//                .registerProject(serviceLifecycle, ProjectManagementDto.fromJson(dtoString), imageUpload, fileUpload);
+//    }
 
 
 }
