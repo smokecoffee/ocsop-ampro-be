@@ -22,6 +22,7 @@ public class M99WorkingTimeJpo implements Serializable {
 
     @Column(name = "EMP_ID")
     private String empId;
+    @Id
     @Column(name = "EQP_SAT_DT")
     private String eqpSatDt;
     @Column(name = "REMARK1")
