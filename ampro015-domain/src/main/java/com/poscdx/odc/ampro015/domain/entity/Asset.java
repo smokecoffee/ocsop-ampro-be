@@ -1,7 +1,7 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
 import com.google.gson.annotations.JsonAdapter;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.poscdx.odc.ampro015.domain.utils.DateUtils;
 import com.poscoict.base.share.domain.PoscoEntity;
 import com.poscoict.base.share.util.json.JsonUtil;
@@ -54,6 +54,6 @@ public class Asset  {
         this.updateAt = (Date) objects[9];
         this.deleteAt = (Date) objects[10];
         this.ownerName = (String) objects[11];
-        this.ownerImage = ConstantUtil.applyEmployeeAvatarPath((String) objects[12], "Employee");
+        this.ownerImage = Utils.applyEmployeeAvatarPath((String) objects[12], "Employee");
     }
 }
