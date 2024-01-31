@@ -4,6 +4,8 @@ import com.poscdx.odc.ampro015.domain.entity.M00Employee;
 import com.poscdx.odc.ampro015.domain.entity.M00Codes030Id;
 import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.Map;
 
 public interface Level2ProjectService {
 
-    boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
+    boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+                            MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
-    boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto) throws SQLException;
+    boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+                          MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
     boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
 

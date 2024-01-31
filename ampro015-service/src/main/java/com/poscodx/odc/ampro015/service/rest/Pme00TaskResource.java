@@ -7,10 +7,16 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Router API for task management
@@ -18,6 +24,7 @@ import java.util.Map;
  * @author 202296_Duong
  * @since 2023-11-11
  */
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/task")
@@ -31,8 +38,8 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @GetMapping(path = "/getAll")
+//    @PreAuthorize("hasAuthority('GET_TASK, GET_TASK_OWNER')")
     public List<M00TaskDto> findAll(@RequestParam String projectNumber) {
         return this.serviceLifecycle.requestLevel2TaskService().findAll(serviceLifecycle, projectNumber);
     }
@@ -45,8 +52,8 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @GetMapping(path = "/search")
+//    @PreAuthorize("hasAuthority('GET_TASK, GET_TASK_OWNER')")
     public ResponseEntity<?> searchTask(@RequestParam(required = false, name = "projectNumber") String projectNumber,
                                        @RequestParam(required = false, name = "taskName") String taskName,
                                        @RequestParam(required = false, name = "planDate") String planDate,
@@ -69,8 +76,8 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @PostMapping("")
+//    @PreAuthorize("hasAuthority('ADD_TASK')")
     public ResponseEntity<?> insertTask(@RequestBody M00TaskDto newTaskRequest) {
         return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest);
     }
@@ -82,8 +89,8 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @PutMapping("")
+//    @PreAuthorize("hasAuthority('UPDATE_TASK, UPDATE_TASK_OWNER')")
     public ResponseEntity<?> updateTask(@RequestBody M00TaskDto newTaskRequest) {
         return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest);
     }
@@ -95,8 +102,8 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @DeleteMapping("")
+//    @PreAuthorize("hasAuthority('DELETE_TASK, DELETE_TASK_OWNER')")
     public ResponseEntity<?> deleteTask(@RequestBody Map<String, Object> m00TaskId) {
         return this.serviceLifecycle.requestLevel2TaskService().remove(serviceLifecycle, m00TaskId, true);
     }
@@ -108,8 +115,8 @@ public class Pme00TaskResource {
      * @author 202296_Duong
      * @since 2023-11-11
      */
-    @CrossOrigin
     @PostMapping("/search")
+//    @PreAuthorize("hasAuthority('GET_TASK, GET_TASK_OWNER')")
     public ResponseEntity<?> searchTask(@RequestBody TaskSearchDTO searchTask) {
         String employeeId = searchTask.getEmpId();
         if (StringUtils.isNotEmpty(employeeId)) {
@@ -126,9 +133,8 @@ public class Pme00TaskResource {
      * @author 202260_tri
      * @since 2024-01-11
      */
-    @CrossOrigin
     @GetMapping("/employee/{id}")
-    public M00Employee searchTask(@PathVariable("id") String employeeId) {
+    public M00Employee getTaskOwner(@PathVariable("id") String employeeId) {
         return this.serviceLifecycle.requestLevel2TaskService().getCreator(serviceLifecycle, employeeId);
     }
 

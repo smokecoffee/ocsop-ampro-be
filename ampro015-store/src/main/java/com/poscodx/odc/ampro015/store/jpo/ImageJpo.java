@@ -1,9 +1,7 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Image;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.poscoict.base.share.jpo.PoscoEntityJpo;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +18,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @Entity(name = "Image")
 @Table(name = "TB_A01_IMAGE", schema = "AMPRO")
-public class ImageJpo extends PoscoEntityJpo {
+public class ImageJpo  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -67,15 +65,10 @@ public class ImageJpo extends PoscoEntityJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(ImageJpo::toDomain).collect(Collectors.toList());
     }
 
-    @Override
-    public void validateJpo() throws PosBaseException {
-
-    }
-
     @PostLoad
     private void addUrlPath() {
         if (path != null && !path.isEmpty()) {
-            path = ConstantUtil.applyEmployeeAvatarPath(path, "Asset");
+            path = Utils.applyEmployeeAvatarPath(path, "Asset");
         }
     }
 }

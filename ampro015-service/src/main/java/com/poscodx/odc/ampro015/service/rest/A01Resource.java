@@ -3,6 +3,7 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.AssetInfoDto;
 import com.poscdx.odc.ampro015.domain.entity.AssetSearch;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
 import com.poscoict.base.share.util.json.JsonUtil;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/asset")
@@ -28,7 +31,6 @@ public class A01Resource {
 
     private final ServiceLifecycle serviceLifecycle;
 
-    @CrossOrigin
     @GetMapping(path = "/view-asset/")
     public AssetInfoDto getAsset(@RequestParam(value = "token", required = true) String token) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[찾다] Asset Token : " +JsonUtil.toJson(token), this);
@@ -43,8 +45,8 @@ public class A01Resource {
      * @param request AssetInfoDto
      * @return
      */
-    @CrossOrigin
     @PostMapping("/asset")
+//    @PreAuthorize("hasAuthority('ADD_ASSET')")
     public ResponseEntity<?> createAsset(@RequestBody AssetInfoDto request) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[amp] create Asset -> " +JsonUtil.toJson(request), this);
         ResponseEntity<?> response = null;
@@ -61,16 +63,16 @@ public class A01Resource {
      *
      * @param assetInfoDto
      */
-    @CrossOrigin
     @PutMapping(path = "/")
+//    @PreAuthorize("hasAuthority('UPDATE_ASSET, UPDATE_ASSET_OWNER')")
     public void updateAsset(@RequestBody AssetInfoDto assetInfoDto) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] assetInfoDto -> " +JsonUtil.toJson(assetInfoDto), this);
         this.serviceLifecycle.requestLevel2QrCodeService().updateAsset(serviceLifecycle, assetInfoDto);
     }
 
-    @CrossOrigin
     @DeleteMapping(path = "/")
-    public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) int userId) {
+//    @PreAuthorize("hasAuthority('DELETE_ASSET, DELETE_ASSET_OWNER')")
+    public void deleteAsset(@RequestParam(value = "token", required = true) String token, @RequestParam(value = "userId", required = true) String userId) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "[삭제] Asset Token : " +JsonUtil.toJson(token), this);
         this.serviceLifecycle.requestLevel2QrCodeService().deleteAsset(serviceLifecycle, token, userId);
     }
@@ -80,8 +82,8 @@ public class A01Resource {
      * @param assetSearch
      * @return
      */
-    @CrossOrigin
     @PostMapping("/search")
+//    @PreAuthorize("hasAuthority('GET_ASSET, GET_ASSET_OWNER')")
     public List<AssetInfoDto> findAssetList(@RequestBody AssetSearch assetSearch) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Asset -> " + assetSearch, this);
         int assetID = assetSearch.getAssetId();
@@ -97,7 +99,6 @@ public class A01Resource {
      * @param status
      * @throws IOException
      */
-    @CrossOrigin
     @GetMapping("/export-excel")
     public void exportToExcel(HttpServletResponse response,
                               @RequestParam(required = true) String owner,
@@ -124,7 +125,6 @@ public class A01Resource {
      * @param token
      * @throws IOException
      */
-    @CrossOrigin
     @GetMapping("/export-QRCode")
     public ResponseEntity<byte[]> exportToExcel1(HttpServletResponse response, @RequestParam(value = "token", required = true) String token) throws IOException{
         HttpHeaders headers = new HttpHeaders();
@@ -139,7 +139,6 @@ public class A01Resource {
         return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping(path = "/uploadImage/Assets/{folderName}")
     public String uploadFile(@PathVariable("folderName") String folderAssetName,
                              @RequestParam("file") MultipartFile image) {

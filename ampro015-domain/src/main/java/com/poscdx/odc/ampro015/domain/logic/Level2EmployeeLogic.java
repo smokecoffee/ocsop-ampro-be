@@ -3,11 +3,14 @@ package com.poscdx.odc.ampro015.domain.logic;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2EmployeeService;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,12 +79,13 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         return pmeStatusResponse;
     }
     @Override
-    public Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle, Pme00Employee newEmployee){
-        String passwordToMd5Hex = DigestUtils
-                .md5Hex(newEmployee.getPassword());
+    public Pme00AllLevel2EmployeeResponse addEmployee(ServiceLifecycle serviceLifecycle,
+                                                      Pme00Employee newEmployee,
+                                                      MultipartFile imageUpload){
+        String passwordToMd5Hex = DigestUtils.md5Hex(newEmployee.getPassword());
         Pme00AllLevel2EmployeeResponse pme00AllLevel2EmployeeResponse = new Pme00AllLevel2EmployeeResponse();
         M00Employee checkEmployee = serviceLifecycle.requestM00EmployeeService().find(newEmployee.getEmpId());
-        if(checkEmployee!=null){
+        if(checkEmployee != null){
             pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
             pme00AllLevel2EmployeeResponse.setMessage("Employee exist");
         }else {
@@ -165,8 +169,20 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
                     pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
                 }
 
-            } catch (Exception e){
-            e.printStackTrace();
+
+                // upload File
+                if (imageUpload != null) {
+                    String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Employee", imageUpload);
+                    if (!result.contains(Objects.requireNonNull(imageUpload.getOriginalFilename()))) {
+                        pme00AllLevel2EmployeeResponse.setMessage("Employee has been created, but image failed to upload");
+                    }
+                }
+
+                pme00AllLevel2EmployeeResponse.setMessage("Employee has been created successfully");
+                pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.OK.value());
+
+            } catch (Exception e) {
+                e.printStackTrace();
                 pme00AllLevel2EmployeeResponse.setStatus(HttpStatus.NOT_FOUND.value());
                 pme00AllLevel2EmployeeResponse.setMessage(e.getMessage());
             }

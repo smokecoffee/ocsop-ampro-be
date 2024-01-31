@@ -23,6 +23,7 @@ public class DateUtils {
     public static String defaultDateTime = "yyyy-MM-dd HH:mm:ss";
     public static String originalDate = "EEEEE MMMMM yyyy HH:mm.SSSZ";
     public static String simpleDate = "dd-MM-yyyy";
+    public static String dbDate = "yyyy-MM-dd";
 
     /**
      * convertDateTimeToString
@@ -35,7 +36,7 @@ public class DateUtils {
      */
     public static String convertDateTimeToString(Date date, String format) {
         DateFormat dateFormatter = new SimpleDateFormat(format);
-        return dateFormatter.format(date);
+        return date != null ? dateFormatter.format(date) : null;
     }
 
     /**

@@ -74,5 +74,11 @@ public class M00EmployeeLogic implements M00EmployeeService {
     public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo, String gender){
         return store.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
+    @Override
+    public M00Employee getEmployeeByEmail(String email) {
+        List<Object[]> objects =  store.getEmployeeByEmail(email);
+        if(objects.isEmpty()) return  null;
+        return new M00Employee((objects.get(0)));
+    }
 
 }

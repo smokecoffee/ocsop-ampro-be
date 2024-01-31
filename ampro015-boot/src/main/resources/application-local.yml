@@ -18,3 +18,14 @@ minio:
   accessKey: 2046KAWetUZYcG8nubg0
   secretKey: cpxDglli2pZI3KdiIsG1ZdJVi0wgRCFlBwQlK5OJ
   bucketName: ampro
+
+mail:
+  smtp:
+    host: 116.123.216.77
+    port: 25
+    id: no-reply@example.com
+    name: ODC데이터포털
+    userName: ss
+    password: ss
+  frontEndUrl: http://localhost:3000
+  subject: Reset Password

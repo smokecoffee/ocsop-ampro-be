@@ -1,16 +1,12 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Pme00Member;
-import com.poscdx.odc.ampro015.domain.utils.ConstantUtil;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.poscoict.base.share.jpo.PoscoEntityJpo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -33,11 +29,11 @@ public class Pme00MemberJpo {
     @Column(name = "EMP_ID")
     private String empId;
 
-    @Column(name = "EMP_NAME")
-    private String empName;
-
-    @Column(name = "AVATAR")
-    private String avatar;
+//    @Column(name = "EMP_NAME")
+//    private String empName;
+//
+//    @Column(name = "AVATAR")
+//    private String avatar;
 
     public Pme00MemberJpo(Pme00Member domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
@@ -53,10 +49,10 @@ public class Pme00MemberJpo {
         return StreamSupport.stream(jpos.spliterator(), false).map(Pme00MemberJpo::toDomain).collect(Collectors.toList());
     }
 
-    @PostLoad
-    public void setAvatar() {
-        if (avatar != null && !avatar.isEmpty()) {
-            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
-        }
-    }
+//    @PostLoad
+//    public void setAvatar() {
+//        if (avatar != null && !avatar.isEmpty()) {
+//            avatar = ConstantUtil.applyEmployeeAvatarPath(avatar, "Employee");
+//        }
+//    }
 }

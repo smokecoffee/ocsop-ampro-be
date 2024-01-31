@@ -29,9 +29,10 @@ public interface ServiceLifecycle {
     Pme00PasswordTokenService requestPasswordService();
     Pme00PermissionService requestPme00PermissionService();
     Pme00PerRoleService requestPme00PerRoleService();
-
     Level2EmployeeService requestLevel2EmployeeService();
+    Pme00IssueManagementService requestPme00IssueManagementService();
     LogoutAccessTokenService requestLogoutAccessTokenService();
 
+    S91MenuService requestS91MenuService();
 
 }

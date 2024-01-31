@@ -6,6 +6,7 @@ import com.poscdx.odc.ampro015.domain.spec.M99DailyReportService;
 import com.poscdx.odc.ampro015.domain.store.M99DailyReportStore;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.*;
 
@@ -27,8 +28,8 @@ public class M99DailyReportLogic implements M99DailyReportService {
     }
 
     @Override
-    public M99DailyReport modify(M99DailyReport requestUpdateTask) {
-        return this.store.update(requestUpdateTask);
+    public M99DailyReport modify(M99DailyReport requestUpdate) {
+        return this.store.update(requestUpdate);
     }
 
     @Override
@@ -54,10 +55,11 @@ public class M99DailyReportLogic implements M99DailyReportService {
     @Override
     public Map<String, Object> findDailyReport(M99DailyReport m99DailyReport, int pageNo, int pageSize) {
         Pageable pageable;
+        Sort sort = Sort.by("REGISTER_DATE").descending();
         if (pageSize == 0) {
             pageable = Pageable.unpaged();
         } else {
-            pageable = PageRequest.of(pageNo, pageSize);
+            pageable = PageRequest.of(pageNo, pageSize, sort);
         }
 
         List<Object[]> dailyReportList = this.store.findDailyReport(m99DailyReport.getEmployeeId(), m99DailyReport.getProjectNumber(),
