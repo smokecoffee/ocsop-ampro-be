@@ -11,7 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -51,10 +53,62 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADD_ISSUE')")
-    public IssueManagementResponse insertIssue(@RequestParam("data") String dtoString,
-                                               @RequestParam("fileName") MultipartFile fileUpload) {
-        IssueManagement issueManagement = IssueManagement.fromJson(dtoString);
+   // @PreAuthorize("hasAnyAuthority('ADD_ISSUE')")
+    public IssueManagementResponse insertIssue(
+                                                   @RequestParam(required = false, name = "registrationDate")  String registrationDate,
+                                                   @RequestParam(required = false, name = "requestDate") String requestDate,
+                                                   @RequestParam(required = false, name = "requester") String requester,
+                                                   @RequestParam(required = false, name = "site") String site,
+                                                   @RequestParam(required = false, name = "module") String module,
+                                                   @RequestParam(required = false, name = "menu") String menu,
+                                                   @RequestParam(required = false, name = "screenName") String screenName,
+                                                   @RequestParam(required = false, name = "divisionFlag") String divisionFlag,
+                                                   @RequestParam(required = false, name = "appliedPeriodFlag") String appliedPeriodFlag,
+                                                   @RequestParam(required = false, name = "contents") String contents,
+                                                   @RequestParam(required = false, name = "contentsKR") String contentsKR,
+                                                   @RequestParam(required = false, name = "developer") String developer,
+                                                   @RequestParam(required = false, name = "fileName") String fileName,
+                                                   @RequestParam(required = false, name = "acceptFlag") String acceptFlag,
+                                                   @RequestParam(required = false, name = "status") String status,
+                                                   @RequestParam(required = false, name = "developComments") String developComments,
+                                                   @RequestParam(required = false, name = "developFromDate") String developFromDate,
+                                                   @RequestParam(required = false, name = "developToDate") String developToDate,
+                                                   @RequestParam(required = false, name = "categoryFlag") String categoryFlag,
+                                                   @RequestParam(required = false, name = "requesterConfirm") String requesterConfirm,
+                                                   @RequestParam(required = false, name = "finalConfirmDate") String finalConfirmDate,
+                                                   @RequestParam(required = false, name = "requesterId") String requesterId,
+                                                   @RequestParam(value = "file", required = false) MultipartFile fileUpload) throws ParseException {
+        DateFormat formatter  = new SimpleDateFormat("yyyy-MM-dd");
+        Date _requestDate = (Date) formatter.parse(requestDate);
+        Date _registrationDate = (Date) formatter.parse(registrationDate);
+        Date _developFromDate = (Date) formatter.parse(developFromDate);
+        Date _developToDate = (Date) formatter.parse(developToDate);
+        Date _finalConfirmDate = (Date) formatter.parse(finalConfirmDate);
+
+
+        IssueManagement issueManagement = new IssueManagement();
+        issueManagement.setSeq(999);
+        issueManagement.setRegistrationDate(_registrationDate);
+        issueManagement.setRequestDate(_requestDate);
+        issueManagement.setRequester(requester);
+        issueManagement.setSite(site);
+        issueManagement.setModule(module);
+        issueManagement.setMenu(menu);
+        issueManagement.setScreenName(screenName);
+        issueManagement.setDivisionFlag(divisionFlag);
+        issueManagement.setAppliedPeriodFlag(appliedPeriodFlag);
+        issueManagement.setContents(contents);
+        issueManagement.setContentsKR(contentsKR);
+        issueManagement.setDeveloper(developer);
+        issueManagement.setFileName(fileName);
+        issueManagement.setAcceptFlag(acceptFlag);
+        issueManagement.setStatus(status);
+        issueManagement.setDevelopComments(developComments);
+        issueManagement.setDevelopFromDate(_developFromDate);
+        issueManagement.setDevelopToDate(_developToDate);
+        issueManagement.setCategoryFlag(categoryFlag);
+        issueManagement.setRequesterConfirm(requesterConfirm);
+        issueManagement.setFinalConfirmDate(_finalConfirmDate);
         return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, issueManagement, fileUpload);
     }
 
@@ -67,9 +121,60 @@ public class Pme00IssueManagementResource {
      */
     @PutMapping
     @PreAuthorize("hasAnyAuthority('UPDATE_ISSUE,UPDATE_ISSUE_OWNER')")
-    public IssueManagementResponse updateIssue(@RequestParam("data") String dtoString,
-                                               @RequestParam("fileName") MultipartFile fileUpload) {
-        IssueManagement issueManagement = IssueManagement.fromJson(dtoString);
+    public IssueManagementResponse updateIssue(  @RequestParam(required = false, name = "registrationDate")  String registrationDate,
+                                                 @RequestParam(required = false, name = "requestDate") String requestDate,
+                                                 @RequestParam(required = false, name = "requester") String requester,
+                                                 @RequestParam(required = false, name = "site") String site,
+                                                 @RequestParam(required = false, name = "module") String module,
+                                                 @RequestParam(required = false, name = "menu") String menu,
+                                                 @RequestParam(required = false, name = "screenName") String screenName,
+                                                 @RequestParam(required = false, name = "divisionFlag") String divisionFlag,
+                                                 @RequestParam(required = false, name = "appliedPeriodFlag") String appliedPeriodFlag,
+                                                 @RequestParam(required = false, name = "contents") String contents,
+                                                 @RequestParam(required = false, name = "contentsKR") String contentsKR,
+                                                 @RequestParam(required = false, name = "developer") String developer,
+                                                 @RequestParam(required = false, name = "fileName") String fileName,
+                                                 @RequestParam(required = false, name = "acceptFlag") String acceptFlag,
+                                                 @RequestParam(required = false, name = "status") String status,
+                                                 @RequestParam(required = false, name = "developComments") String developComments,
+                                                 @RequestParam(required = false, name = "developFromDate") String developFromDate,
+                                                 @RequestParam(required = false, name = "developToDate") String developToDate,
+                                                 @RequestParam(required = false, name = "categoryFlag") String categoryFlag,
+                                                 @RequestParam(required = false, name = "requesterConfirm") String requesterConfirm,
+                                                 @RequestParam(required = false, name = "finalConfirmDate") String finalConfirmDate,
+                                                 @RequestParam(required = false, name = "requesterId") String requesterId,
+                                                 @RequestParam(value = "file", required = false) MultipartFile fileUpload) throws ParseException {
+        DateFormat formatter  = new SimpleDateFormat("yyyy-MM-dd");
+        Date _requestDate = (Date) formatter.parse(requestDate);
+        Date _registrationDate = (Date) formatter.parse(registrationDate);
+        Date _developFromDate = (Date) formatter.parse(developFromDate);
+        Date _developToDate = (Date) formatter.parse(developToDate);
+        Date _finalConfirmDate = (Date) formatter.parse(finalConfirmDate);
+
+
+        IssueManagement issueManagement = new IssueManagement();
+
+        issueManagement.setRegistrationDate(_registrationDate);
+        issueManagement.setRequestDate(_requestDate);
+        issueManagement.setRequester(requester);
+        issueManagement.setSite(site);
+        issueManagement.setModule(module);
+        issueManagement.setMenu(menu);
+        issueManagement.setScreenName(screenName);
+        issueManagement.setDivisionFlag(divisionFlag);
+        issueManagement.setAppliedPeriodFlag(appliedPeriodFlag);
+        issueManagement.setContents(contents);
+        issueManagement.setContentsKR(contentsKR);
+        issueManagement.setDeveloper(developer);
+        issueManagement.setFileName(fileName);
+        issueManagement.setAcceptFlag(acceptFlag);
+        issueManagement.setStatus(status);
+        issueManagement.setDevelopComments(developComments);
+        issueManagement.setDevelopFromDate(_developFromDate);
+        issueManagement.setDevelopToDate(_developToDate);
+        issueManagement.setCategoryFlag(categoryFlag);
+        issueManagement.setRequesterConfirm(requesterConfirm);
+        issueManagement.setFinalConfirmDate(_finalConfirmDate);
         return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement, fileUpload);
     }
 
@@ -121,7 +226,7 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping(path = "/search")
-    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
+   // @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
                                       @RequestParam(required = false) List<String> site,
                                       @RequestParam(required = false) List<String>  module,
@@ -133,10 +238,10 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false) String requester_id,
                                       @RequestParam(required = false) String contents_kr,
                                       @RequestParam(required = false) String developer,
-                                      @RequestParam(required = false) Date fromRegistrationStartDate,
-                                      @RequestParam(required = false) Date toRegistrationEndDate,
-                                      @RequestParam(required = false) Date fromRequestStartDate,
-                                      @RequestParam(required = false) Date toRequestEndDate,
+                                      @RequestParam(required = false) String fromRegistrationStartDate,
+                                      @RequestParam(required = false) String toRegistrationEndDate,
+                                      @RequestParam(required = false) String fromRequestStartDate,
+                                      @RequestParam(required = false) String toRequestEndDate,
                                       @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                       @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize
     ) throws ParseException {

@@ -52,6 +52,6 @@ public interface Pme00IssueManagementService {
      */
     Map<String, Object> search(String content, List<String> site, List<String> module,List<String> division_flag, String applied_period_flag,
                                String accept_flag,String requester_confirm,String requester,String requester_id,String contents_kr,
-                               String developer,Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate,
-                               Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;
+                               String developer,String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate,
+                               String toRequestEndDate, int pageNo, int pageSize) throws ParseException;
 }
