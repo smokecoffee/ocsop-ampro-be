@@ -43,7 +43,9 @@ public class M99DailyReportResource {
 
     @GetMapping("/working-time")
     @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
-    public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
-        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
+    public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = false, name = "empId") String empId,
+                                                            @RequestParam(required = false, name = "startTime") String startTime,
+                                                            @RequestParam(required = false, name = "endTime") String endTime) {
+        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTime(empId, startTime, endTime);
     }
 }
