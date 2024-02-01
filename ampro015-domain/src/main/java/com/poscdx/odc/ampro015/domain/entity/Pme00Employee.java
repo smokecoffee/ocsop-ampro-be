@@ -100,7 +100,7 @@ public class Pme00Employee {
                 Utils.UPLOAD_URL + Utils.UPLOAD_BUCKET + "/Employee/" +object[31];
         this.gender = (String) object[28];
         this.ipAddress = (String) object[7];
-
+        this.startWorkingTime= (Integer) object[29];
 
     }
 }
