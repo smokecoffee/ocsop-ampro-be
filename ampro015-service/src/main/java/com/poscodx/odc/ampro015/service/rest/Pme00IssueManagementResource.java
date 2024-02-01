@@ -141,7 +141,7 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize
     ) throws ParseException {
         return this.serviceLifecycle.requestPme00IssueManagementService()
-                                    .findIssueInfo(contents, site, module, division_flag,
+                .search(contents, site, module, division_flag,
                                                     applied_period_flag, accept_flag, requester_confirm, requester, requester_id,
                                                     contents_kr, developer, fromRegistrationStartDate,
                                                     toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageNo, pageSize);

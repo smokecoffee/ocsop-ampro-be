@@ -48,16 +48,6 @@ public class IssueManagementJpaStore implements IssueManagementStore {
         this.repository.findById(id).ifPresent(repository::delete);
     }
 
-    @Override
-    public List<Object[]> findIssueInfo(String contents, String site, List<String> modules, List<String> division_flag,
-                                        String applied_period_flag, String accept_flag, String requester_confirm,
-                                        String requester, String requester_id, String contents_kr, String developer,
-                                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
-                                        Date requestToEndDate, Pageable pageable) {
-        return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate,
-                registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
-    }
 
     @Override
     public List<Object[]> search(String content, List<String> site, List<String> module, boolean module_check, boolean division_check,
