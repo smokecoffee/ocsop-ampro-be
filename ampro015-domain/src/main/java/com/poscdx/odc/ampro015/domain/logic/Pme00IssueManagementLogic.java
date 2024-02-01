@@ -46,7 +46,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      */
     @Override
     public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload) {
-        if (fileUpload != null) {
+        if (fileUpload != null || issueManagement.getFileName().isEmpty()) {
             List<String> fileName = new ArrayList<>();
             List<IssueManagement> issueList = store.retrieve(issueManagement.getSeq(), issueManagement.getSite());
             for (IssueManagement issue : issueList) {
@@ -129,11 +129,11 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag,
+    public Map<String, Object> findIssueInfo(String contents, String site, List<String> module, List<String> division_flag,
                                              String applied_period_flag, String accept_flag, String requester_confirm,
                                              String requester, String requester_id, String contents_kr, String developer,
-                                             String fromRegistrationStartDate, String toRegistrationEndDate,
-                                             String fromRequestStartDate, String toRequestEndDate,
+                                             Date fromRegistrationStartDate, Date toRegistrationEndDate,
+                                             Date fromRequestStartDate, Date toRequestEndDate,
                                              int pageNo, int pageSize) throws ParseException {
         Pageable pageable;
         if (pageSize == 0) {
@@ -141,27 +141,62 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         } else {
             pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date _fromRegistrationStartDate = (fromRegistrationStartDate != null) ? dateFormat.parse(fromRegistrationStartDate) : null;
-        Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? dateFormat.parse(toRegistrationEndDate) : null;
-        Date _fromRequestStartDate = (fromRequestStartDate != null) ? dateFormat.parse(fromRequestStartDate) : null;
-        Date _toRequestEndDate = (toRequestEndDate != null) ? dateFormat.parse(toRequestEndDate) : null;
         List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
-                _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
+                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate,
+                toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for (Object[] objects : list) {
             issueManagementDtoList.add(new IssueManagement(objects));
         }
         Map<String, Object> responses = new HashMap<>();
         int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
-                _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
+                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate,
+                toRegistrationEndDate, fromRequestStartDate, toRequestEndDate);
         responses.put("status", HttpStatus.FOUND.value());
         responses.put("message", "OK");
         responses.put("total", total);
         responses.put("data", issueManagementDtoList);
         return responses;
     }
-    
+
+    @Override
+    public Map<String, Object> test(String content, String site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,String requester, String requester_id,String contents_kr, String developer,Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate, Date toRequestEndDate, int pageNo, int pageSize) throws ParseException {
+        Pageable pageable;
+        if (pageSize == 0) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
+        }
+        List<String> module_new = new ArrayList<>();
+        List<String> division_flag_new = new ArrayList<>();
+        if(module == null) {
+            module_new.add("EM");
+            module_new.add("TR");
+        } else {
+            module_new = module;
+        }
+
+        if(division_flag == null) {
+            division_flag_new.add("M");
+            division_flag_new.add("F");
+            division_flag_new.add("A");
+        }else {
+            division_flag_new = division_flag;
+        }
+//        System.out.println(module_new.getClass().getName());
+        List<Object[]> list = this.store.search(content, site, module_new, division_flag_new, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
+        List<IssueManagement> issueManagementDtoList = new ArrayList<>();
+        for (Object[] objects : list) {
+            issueManagementDtoList.add(new IssueManagement(objects));
+        }
+        int total = store.totalIssue(content, site, module_new, division_flag_new, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr,developer, fromRegistrationStartDate,
+                toRegistrationEndDate, fromRequestStartDate, toRequestEndDate);
+        Map<String, Object> responses = new HashMap<>();
+        responses.put("status", HttpStatus.FOUND.value());
+        responses.put("message", "OK");
+        responses.put("total", total);
+        responses.put("data", issueManagementDtoList);
+        return responses;
+    }
+
 }

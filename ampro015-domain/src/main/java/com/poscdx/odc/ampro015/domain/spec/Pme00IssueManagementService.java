@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ public interface Pme00IssueManagementService {
      * @author 202307_Phat
      *  * @since 2024-01-23
      */
-    Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id,
-                                      String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException;
+    Map<String, Object> findIssueInfo(String contents, String site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id,
+                                      String contents_kr, String developer, Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate, Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;
 
+    Map<String, Object> test(String content, String site, List<String> module,List<String> division_flag, String applied_period_flag, String accept_flag,String requester_confirm,String requester,String requester_id,String contents_kr,String developer,Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate, Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;
 }
