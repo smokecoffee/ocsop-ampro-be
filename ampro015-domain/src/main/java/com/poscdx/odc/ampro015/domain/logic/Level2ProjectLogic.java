@@ -307,7 +307,6 @@ public class Level2ProjectLogic implements Level2ProjectService {
      */
     @Override
     public Map<String, Object> getProjectList(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize) {
-        //return this.store.getProjectList(dto);
         List<ProjectManagementDto>  projectList = new ArrayList<>();
         List<M00Codes030> m00Codes030List =
                 serviceLifecycle.requestM00Codes030Service()

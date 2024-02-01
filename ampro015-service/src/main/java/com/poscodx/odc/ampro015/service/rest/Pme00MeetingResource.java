@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00Meeting;
 import com.poscdx.odc.ampro015.domain.entity.Pme00MeetingResponse;
 import com.poscdx.odc.ampro015.domain.entity.Pme00AllRoomResponse;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
+import com.poscodx.odc.ampro015.service.PermissionValidation;
 import com.poscodx.odc.ampro015.service.lifecycle.ServiceLifecycle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +53,9 @@ public class Pme00MeetingResource {
     @DeleteMapping("/{meetingId}")
     @PreAuthorize("hasAnyAuthority('DELETE_MEETING,DELETE_MEETING_OWNER')")
     public Pme00MeetingResponse deleteMeeting(@PathVariable("meetingId") int meetingId) {
-        if (Utils.checkPermission("DELETE_MEETING_OWNER")) {
-            String id = Utils.getLoginUserDetail();
-            Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
-            if (!pme00Meeting.getCreatorId().equals(id)) {
-                return new Pme00MeetingResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
-            }
+        Pme00Meeting pme00Meeting = serviceLifecycle.requestPme00MeetingService().find(meetingId);
+        if (!PermissionValidation.validateDeleteMeeting(pme00Meeting)) {
+            return new Pme00MeetingResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
         }
         return this.serviceLifecycle.requestBookingMeetingRoomService().deleteMeeting(serviceLifecycle, meetingId);
     }
@@ -98,14 +96,8 @@ public class Pme00MeetingResource {
     @PutMapping("/")
     @PreAuthorize("hasAnyAuthority('UPDATE_MEETING,UPDATE_MEETING_OWNER')")
     public Pme00MeetingResponse editMeetingRoom(@RequestBody List<Pme00Meeting> listMeeting) {
-        if (Utils.checkPermission("UPDATE_MEETING_OWNER")) {
-            String id = Utils.getLoginUserDetail();
-            List<Pme00Meeting> checkList = listMeeting.stream()
-                                                      .filter(pme00Meeting -> !pme00Meeting.getCreatorId().equals(id))
-                                                      .collect(Collectors.toList());
-            if (checkList.isEmpty()) {
-                return new Pme00MeetingResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
-            }
+        if (!PermissionValidation.validateUpdateMeeting(listMeeting)) {
+            return new Pme00MeetingResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
         }
         return this.serviceLifecycle.requestBookingMeetingRoomService().editMeetingRoom(serviceLifecycle,listMeeting);
     }
