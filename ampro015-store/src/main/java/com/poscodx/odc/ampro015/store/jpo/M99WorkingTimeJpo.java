@@ -19,12 +19,18 @@ import java.util.stream.StreamSupport;
 @Entity(name="M99WorkingTime")
 @Table(name="TB_M00_WORKING_TIME", schema = "VIVA-ODC")
 public class M99WorkingTimeJpo implements Serializable {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SEQ")
+    private int seq;
     @Column(name = "EMP_ID")
     private String empId;
-    @Id
-    @Column(name = "EQP_SAT_DT")
-    private String eqpSatDt;
+    @Column(name = "REGISTER_DATE")
+    private Date registerDate;
+    @Column(name = "ARRIVE")
+    private Date arrive;
+    @Column(name = "LEAVE")
+    private Date leave;
     @Column(name = "REMARK1")
     private String remark1;
     @Column(name = "REMARK2")
