@@ -11,8 +11,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class M99WorkingTime {
+    private int seq;
     private String empId;
-    private String eqpSatDt;
+    private Date registerDate;
+    private Date arrive;
+    private Date leave;
     private String remark1;
     private String remark2;
     private String remark3;
