@@ -323,7 +323,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 serviceLifecycle.requestPme00ProjectInfoService()
                         .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
                                 , dto.getPme00ProjectInfo().getPeriod(), dto.getPme00ProjectInfo().getKoreaPm()
-                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework(), false
+                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework()
                                 , dto.getPme00ProjectInfo().getSearchStatus(), dto.getFromStartDate(), dto.getToStartDate()
                                 , dto.getFromEndDate(), dto.getToEndDate(), pageable);
 
@@ -349,7 +349,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getM00Codes030().getCdV()
                 , dto.getM00Codes030().getCdvMeaning(), dto.getPme00ProjectInfo().getPeriod()
                 , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
-                , dto.getPme00ProjectInfo().getFramework(), false, dto.getPme00ProjectInfo().getSearchStatus()
+                , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getSearchStatus()
                 , dto.getFromStartDate(), dto.getToStartDate(), dto.getFromEndDate(), dto.getToEndDate());
         Map<String, Object> rs = new HashMap<>();
         rs.put("total", total);
@@ -379,8 +379,9 @@ public class Level2ProjectLogic implements Level2ProjectService {
                 serviceLifecycle.requestPme00ProjectInfoService()
                         .findProjectInfo(dto.getM00Codes030().getCdV(),  dto.getM00Codes030().getCdvMeaning()
                                 , dto.getPme00ProjectInfo().getPeriod(), dto.getPme00ProjectInfo().getKoreaPm()
-                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework(), false
-                                , dto.getPme00ProjectInfo().getSearchStatus(), dto.getFromStartDate(), dto.getToStartDate()
+                                , dto.getPme00ProjectInfo().getVietnamPl(), dto.getPme00ProjectInfo().getFramework()
+                                , dto.getPme00ProjectInfo().getSearchStatus()
+                                , dto.getFromStartDate(), dto.getToStartDate()
                                 , dto.getFromEndDate(), dto.getToEndDate(), pageable);
 
         for (Pme00ProjectInfo projectInfo : pme00ProjectInfoList) {
@@ -429,7 +430,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProject(dto.getM00Codes030().getCdV()
                 , dto.getM00Codes030().getCdvMeaning(), dto.getPme00ProjectInfo().getPeriod()
                 , dto.getPme00ProjectInfo().getKoreaPm(), dto.getPme00ProjectInfo().getVietnamPl()
-                , dto.getPme00ProjectInfo().getFramework(), false, dto.getPme00ProjectInfo().getSearchStatus()
+                , dto.getPme00ProjectInfo().getFramework(), dto.getPme00ProjectInfo().getSearchStatus()
                 , dto.getFromStartDate(), dto.getToStartDate(), dto.getFromEndDate(), dto.getToEndDate());
         Map<String, Object> rs = new HashMap<>();
         rs.put("total", total);
@@ -465,7 +466,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         statusSearch.add("");
 
         List<Pme00ProjectInfo> projectList = serviceLifecycle.requestPme00ProjectInfoService().findProjectInfoWithEmpId(
-                null, null, 0, null, null, null, true, statusSearch,
+                null, null, 0, null, null, null, statusSearch,
                 null, null, null, null, empId, pageable);
 
         if (!projectList.isEmpty()) {
@@ -517,7 +518,7 @@ public class Level2ProjectLogic implements Level2ProjectService {
         }
 
         int total = serviceLifecycle.requestPme00ProjectInfoService().getCountProjectWithEmpId(null, null,0, null,
-                null, null, true, statusSearch, null, null, null, null, empId);
+                null, null,  statusSearch, null, null, null, null, empId);
         Map<String, Object> rs = new HashMap<>();
         rs.put("total", total);
         rs.put("info", result);

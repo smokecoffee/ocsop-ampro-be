@@ -41,11 +41,9 @@ public class M99DailyReportResource {
         return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
     }
 
-    @GetMapping("/working-time")
-    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
-    public List<M99DailyReport> findWorkingTime(@RequestParam(required = false, name = "empId") String empId,
-                                                            @RequestParam(required = false, name = "startTime") String startTime,
-                                                            @RequestParam(required = false, name = "endTime") String endTime)  throws SQLException{
-        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTime(empId, startTime, endTime);
-    }
+//    @GetMapping("/working-time")
+//    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
+//    public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
+//        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
+//    }
 }
