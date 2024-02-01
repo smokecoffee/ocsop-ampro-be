@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -120,11 +121,11 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping(path = "/search")
-    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
+   // @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
                                       @RequestParam(required = false) String site,
-                                      @RequestParam(required = false) String module,
-                                      @RequestParam(required = false) String division_flag,
+                                      @RequestParam(required = false) List<String>  module,
+                                      @RequestParam(required = false) List<String>  division_flag,
                                       @RequestParam(required = false) String applied_period_flag,
                                       @RequestParam(required = false) String accept_flag,
                                       @RequestParam(required = false) String requester_confirm,
@@ -132,10 +133,10 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false) String requester_id,
                                       @RequestParam(required = false) String contents_kr,
                                       @RequestParam(required = false) String developer,
-                                      @RequestParam(required = false) String fromRegistrationStartDate,
-                                      @RequestParam(required = false) String toRegistrationEndDate,
-                                      @RequestParam(required = false) String fromRequestStartDate,
-                                      @RequestParam(required = false) String toRequestEndDate,
+                                      @RequestParam(required = false) Date fromRegistrationStartDate,
+                                      @RequestParam(required = false) Date toRegistrationEndDate,
+                                      @RequestParam(required = false) Date fromRequestStartDate,
+                                      @RequestParam(required = false) Date toRequestEndDate,
                                       @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                       @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize
     ) throws ParseException {
