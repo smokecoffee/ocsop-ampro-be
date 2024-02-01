@@ -25,7 +25,7 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             ",E.IP_ADDRESS\n" +
             ",E.MAIL\n" +
             " FROM\n" +
-            " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
+            " TB_M00_EMPLOYEE AS E\n" +
             " WHERE\n" +
             " E.END_DATE IS NULL\n" +
             " ORDER BY E.EMP_ID", nativeQuery = true)
@@ -55,22 +55,27 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             " ON CODE2.CD_V = E.EMP_STATUS \n" +
             " LEFT JOIN TB_M00_EMPLOYEE AS E1\n" +
             " ON E.CREATE_BY = E1.EMP_ID \n" +
+            " JOIN TB_M00_CODES030 CODE3 \n"+
+            " ON CODE3.CD_V = E.GENDER\n"+
             " WHERE 1=1\n" +
             " AND CODE1.CD_TP_ID = 51"+
             " AND CODE2.CD_TP_ID = 99"+
+            " AND CODE3.CD_TP_ID = 68"+
             " AND (:site IS NULL OR :site = '' OR (CODE1.CD_V_EXPLAIN =:site))"+
             " AND (:status IS NULL OR :status = '' OR (CODE2.CD_V = :status))"+
             " AND (:name IS NULL OR :name = '' OR (E.NAME =:name))"+
             " AND (:empId IS NULL OR :empId = '' OR (E.EMP_ID =:empId))"+
             " AND (:joinDateFrom IS NULL OR E.JOIN_DATE >= :joinDateFrom)\n"+
-            " AND (:joinDateTo IS NULL OR E.JOIN_DATE <= :joinDateTo)\n"
+            " AND (:joinDateTo IS NULL OR E.JOIN_DATE <= :joinDateTo)\n"+
+            " AND (:gender IS NULL OR CODE3.CD_V = :gender)\n"
             , nativeQuery = true)
     List<Object[]> searchPmeEmployee(@Param("site") String site,
                                      @Param("status") String status,
                                      @Param("name") String name,
                                      @Param("empId") String empId,
                                      @Param("joinDateFrom") String joinDateFrom,
-                                     @Param("joinDateTo") String joinDateTo);
+                                     @Param("joinDateTo") String joinDateTo,
+                                     @Param("gender") String gender);
     Boolean existsByName(String username);
 
     Boolean existsByMail(String email);

@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "M99DailyReport")
-@Table(name = "TB_M99_DAILY_REPORT", schema = "POSCTZN")
+@Table(name = "TB_M99_DAILY_REPORT", schema = "VIVA-ODC")
 public class M99DailyReportJpo implements Serializable {
 
     @Id

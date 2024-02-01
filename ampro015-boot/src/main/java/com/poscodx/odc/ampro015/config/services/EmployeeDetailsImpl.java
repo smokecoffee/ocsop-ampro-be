@@ -14,6 +14,7 @@ import java.util.*;
 
 @Data
 public class EmployeeDetailsImpl implements UserDetails {
+
     private static final long serialVersionUID = 1L;
 
     private String id;
@@ -31,7 +32,6 @@ public class EmployeeDetailsImpl implements UserDetails {
   @JsonIgnore
   private String password;
 
-
   private Collection<? extends GrantedAuthority> authorities;
 
     public EmployeeDetailsImpl(String id, String username, String email, String avatar, String password, List<String> role,
@@ -39,7 +39,6 @@ public class EmployeeDetailsImpl implements UserDetails {
         this.id = id;
         this.username = username;
         this.email = email;
-        //this.avatar = avatar;
         this.avatar = Utils.applyEmployeeAvatarPath(avatar, "Employee");
         this.password = password;
         this.role = role;
@@ -61,7 +60,6 @@ public class EmployeeDetailsImpl implements UserDetails {
                 permissionMap.put(key, permissionList);
             }
         }
-        //Collections.singleton(new SimpleGrantedAuthority(roleName));
 
         return new EmployeeDetailsImpl(
                 user.getEmpId(),

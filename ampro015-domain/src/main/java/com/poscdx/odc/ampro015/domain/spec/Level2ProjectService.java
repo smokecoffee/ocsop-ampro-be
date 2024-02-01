@@ -13,20 +13,22 @@ import java.util.Map;
 
 public interface Level2ProjectService {
 
-    boolean registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+    List<Object> registerProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
                             MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
-    boolean modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
+    List<Object> modifyProject(ServiceLifecycle serviceLifecycle, ProjectManagementDto dto,
                           MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
 
-    boolean deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
+    List<Object> deleteProject(ServiceLifecycle serviceLifecycle, M00Codes030Id id) throws SQLException;
 
     Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize);
 
     Map<String, Object> getProjectListWithTask (ServiceLifecycle serviceLifecycle, ProjectManagementDto dto, int pageNo, int pageSize);
 
-    Map<String, Object> getProjectList (ServiceLifecycle serviceLifecycle, int pageNo, int pageSize);
+    Map<String, Object> getProjectListWithEmpId (ServiceLifecycle serviceLifecycle, String empId, int pageNo, int pageSize);
 
     List<M00Employee> getProjectMember (ServiceLifecycle serviceLifecycle, String cdV);
+
+    ProjectManagementDto findProjectById(ServiceLifecycle serviceLifecycle, M00Codes030Id id);
 
 }

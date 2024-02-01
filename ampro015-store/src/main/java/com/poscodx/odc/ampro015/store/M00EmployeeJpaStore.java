@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.store;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.Pme00Employee;
 import com.poscdx.odc.ampro015.domain.store.M00EmployeeStore;
 import com.poscodx.odc.ampro015.store.jpo.M00EmployeeJpo;
 import com.poscodx.odc.ampro015.store.repository.M00EmployeeRepository;
@@ -64,12 +65,15 @@ public class M00EmployeeJpaStore implements M00EmployeeStore {
     }
 
     @Override
-    public List<Object[]> searchPmeEmployee(String site, String status, String name, String empId, String joinDateFrom, String joinDateTo) {
-        return this.repository.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo);
+    public List<Object[]> searchPmeEmployee(String site, String status, String name,
+                                            String empId, String joinDateFrom,
+                                            String joinDateTo, String gender) {
+        return this.repository.searchPmeEmployee(site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
 
     @Override
     public List<Object[]> getEmployeeByEmail(String email) {
         return this.repository.getEmployeeByEmail(email);
     }
+
 }

@@ -24,7 +24,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Task")
-@Table(name = "TB_M00_TASK", schema = "POSCTZN")
+@Table(name = "TB_M00_TASK", schema = "VIVA-ODC")
 @IdClass(M00TaskId.class)
 public class M00TaskJpo implements Serializable {
     @Id
@@ -72,6 +72,15 @@ public class M00TaskJpo implements Serializable {
 
     @Column(name = "START_DATE")
     private Date startDate;
+
+    @Column(name = "STATUS_APPROVE")
+    private String statusApprove;
+
+    @Column(name = "ATTACH_FILE")
+    private String attach_File;
+
+    @Column(name = "ESTIMATE_DAY")
+    private Integer estimate_Day;
 
     public M00TaskJpo(M00Task domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Image")
-@Table(name = "TB_A01_IMAGE", schema = "AMPRO")
+@Table(name = "TB_A01_IMAGE", schema = "VIVA-ODC")
 public class ImageJpo  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,7 @@ import com.poscdx.odc.ampro015.domain.entity.Asset;
 import com.poscdx.odc.ampro015.domain.spec.AssetService;
 import com.poscdx.odc.ampro015.domain.store.AssetStore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssetLogic implements AssetService {
@@ -50,7 +51,12 @@ public class AssetLogic implements AssetService {
 
     @Override
     public List<Asset> findByAssetAndOwnerAndStatus(int assetId, String emplId, int status) {
-        return this.store.findByAssetAndOwnerAndStatus(assetId, emplId, status);
+        List<Object[]> resultList = this.store.findByAssetAndOwnerAndStatus(assetId, emplId, status);
+        List<Asset> AssetInfoList = new ArrayList<>();
+        for(Object[] obj : resultList){
+            AssetInfoList.add(new Asset(obj));
+        }
+        return AssetInfoList;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.poscodx.odc.ampro015.service.rest;
 
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
+import com.poscdx.odc.ampro015.domain.entity.M99WorkingTime;
 import com.poscdx.odc.ampro015.domain.entity.S91Menu;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
@@ -49,12 +50,11 @@ public class Level2Resource {
 
     @PostMapping(path = "/left-menu")
     public List<S91Menu> getLeftMenuByPermission(@RequestBody List<String> permissionList) {
-        System.out.println(Utils.getPermissionList());
         return serviceLifecycle.requestS91MenuService().findMenuByPermission(permissionList);
     }
 
     @GetMapping(path = "/test")
-    public String test(@RequestBody String recipient) {
-        return this.serviceLifecycle.requestLevel2Service().sendMail(recipient, "", "", "", "");
+    public List<M99WorkingTime> test(@RequestBody String recipient) {
+        return this.serviceLifecycle.requestM99WorkingTimeService().findAll();
     }
 }

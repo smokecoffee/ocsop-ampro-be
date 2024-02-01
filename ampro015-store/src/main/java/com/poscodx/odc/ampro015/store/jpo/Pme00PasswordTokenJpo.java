@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 @Getter
 @Setter
 @Entity(name = "Pme00Password")
-@Table(name = "TB_PME00_RESET_PASSWORD", schema = "POSCTZN")
+@Table(name = "TB_PME00_RESET_PASSWORD", schema = "VIVA-ODC")
 public class Pme00PasswordTokenJpo
 {
     @Id
