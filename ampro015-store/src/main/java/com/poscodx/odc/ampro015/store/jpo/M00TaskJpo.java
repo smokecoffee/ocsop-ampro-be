@@ -24,7 +24,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Task")
-@Table(name = "TB_M00_TASK", schema = "POSCTZN")
+@Table(name = "TB_M00_TASK", schema = "VIVA-ODC")
 @IdClass(M00TaskId.class)
 public class M00TaskJpo implements Serializable {
     @Id

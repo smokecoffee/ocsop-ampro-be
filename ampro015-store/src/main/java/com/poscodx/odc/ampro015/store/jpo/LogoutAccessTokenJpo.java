@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 @Getter
 @Setter
 @Entity(name = "LogoutAccessToken")
-@Table(name = "TB_PME00_LOGOUT_ACCESS_TOKEN", schema = "POSCTZN")
+@Table(name = "TB_PME00_LOGOUT_ACCESS_TOKEN", schema = "VIVA-ODC")
 public class LogoutAccessTokenJpo
 {
     @Id

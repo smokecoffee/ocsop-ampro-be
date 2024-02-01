@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Pme00RoleUser")
-@Table(name = "TB_PME00_ROLE_USER", schema = "POSCTZN")
+@Table(name = "TB_PME00_ROLE_USER", schema = "VIVA-ODC")
 public class Pme00RoleUserJpo {
 
     @Id

@@ -25,7 +25,7 @@ public interface M00EmployeeRepository extends JpaRepository<M00EmployeeJpo, Str
             ",E.IP_ADDRESS\n" +
             ",E.MAIL\n" +
             " FROM\n" +
-            " POSCTZN.TB_M00_EMPLOYEE AS E\n" +
+            " TB_M00_EMPLOYEE AS E\n" +
             " WHERE\n" +
             " E.END_DATE IS NULL\n" +
             " ORDER BY E.EMP_ID", nativeQuery = true)
