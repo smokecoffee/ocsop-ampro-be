@@ -46,12 +46,12 @@ public interface Pme00IssueManagementService {
      */
     IssueManagementResponse remove(IssueManagementId seq, ServiceLifecycle serviceLifecycle);
     /**
-     * Interface find issue info by param return map
+     * Interface search issue
      * @author 202307_Phat
      *  * @since 2024-01-23
      */
-    Map<String, Object> findIssueInfo(String contents, String site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id,
-                                      String contents_kr, String developer, Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate, Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;
-
-    Map<String, Object> test(String content, String site, List<String> module,List<String> division_flag, String applied_period_flag, String accept_flag,String requester_confirm,String requester,String requester_id,String contents_kr,String developer,Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate, Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;
+    Map<String, Object> search(String content, String site, List<String> module,List<String> division_flag, String applied_period_flag,
+                               String accept_flag,String requester_confirm,String requester,String requester_id,String contents_kr,
+                               String developer,Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate,
+                               Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;
 }

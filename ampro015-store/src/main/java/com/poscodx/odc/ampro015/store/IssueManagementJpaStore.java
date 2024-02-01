@@ -3,12 +3,10 @@ package com.poscodx.odc.ampro015.store;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
-import com.poscdx.odc.ampro015.domain.utils.DateUtils;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
 import com.poscodx.odc.ampro015.store.repository.IssueManagementRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
 
 import java.util.Date;
 import java.util.List;
@@ -51,22 +49,30 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     }
 
     @Override
-    public List<Object[]> findIssueInfo(String contents, String site, List<String> modules, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate, Pageable pageable) {
+    public List<Object[]> findIssueInfo(String contents, String site, List<String> modules, List<String> division_flag,
+                                        String applied_period_flag, String accept_flag, String requester_confirm,
+                                        String requester, String requester_id, String contents_kr, String developer,
+                                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
+                                        Date requestToEndDate, Pageable pageable) {
         return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
                 accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate,
                 registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
 
     @Override
-    public List<Object[]> search(String content,String site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag,String requester_confirm,String requester,String requester_id, String contents_kr,String developer,Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate, Pageable pageable) {
-        List<Object[]> search =  this.repository.search(content ,site, module, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer,registrationFromStartDate,registrationToEndDate,requestFromStartDate,registrationToEndDate,pageable);
-       return search;
-
+    public List<Object[]> search(String content, String site, List<String> module, boolean module_check, boolean division_check,
+                                 List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,
+                                 String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate,
+                                 Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate, Pageable pageable) {
+        return this.repository.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, registrationToEndDate, pageable);
     }
 
     @Override
-    public int totalIssue(String content, String site, List<String> module,List<String> division_flag, String applied_period_flag,String accept_flag,String requester_confirm,String requester,String requester_id, String contents_kr,String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
-        return repository.countSearch(content, site, module, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer,registrationFromStartDate,registrationToEndDate,requestFromStartDate,requestToEndDate);
+    public int totalIssue(String content, String site, List<String> module, boolean module_check, boolean division_check,
+                          List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,
+                          String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate,
+                          Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
+        return repository.countSearch(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
 
     @Override
@@ -80,8 +86,6 @@ public class IssueManagementJpaStore implements IssueManagementStore {
                 requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate,
                 registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
-
-
 
     @Override
     public int maxSeq() {
