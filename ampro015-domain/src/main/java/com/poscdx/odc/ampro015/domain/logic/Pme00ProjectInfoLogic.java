@@ -65,20 +65,26 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
                                                   String koreaPM,
                                                   String vietnamPL,
                                                   String framework,
-                                                  boolean searchAllStatus,
                                                   List<String> searchStatus,
                                                   Date fromStartDate,
                                                   Date toStartDate,
                                                   Date fromEndDate,
                                                   Date toEndDate, Pageable pageable){
+
+        boolean checkSearch = (searchStatus == null || searchStatus.isEmpty());
+
+        if (searchStatus == null) {
+            searchStatus = new ArrayList<>();
+        }
         if(searchStatus.isEmpty()) {
             searchStatus.add("");
         }
         if(searchStatus.get(0).equals("All")) {
-            searchAllStatus = true;
+            checkSearch = true;
         }
+
         List<Object[]> resultList = this.store.findProjectInfo(cdV, meaning, period, koreaPM, vietnamPL, framework,
-                                                        searchAllStatus, searchStatus, fromStartDate, toStartDate, fromEndDate,
+                !checkSearch, searchStatus, fromStartDate, toStartDate, fromEndDate,
                                                                toEndDate, pageable);
         List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
         for(Object[] obj : resultList){
@@ -89,17 +95,24 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public List<Pme00ProjectInfo> findProjectInfoWithEmpId(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+    public List<Pme00ProjectInfo> findProjectInfoWithEmpId(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework,
                                                            List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, String empId,
                                                            Pageable pageable) {
+
+        boolean checkSearch = (searchStatus == null || searchStatus.isEmpty());
+
+        if (searchStatus == null) {
+            searchStatus = new ArrayList<>();
+        }
         if(searchStatus.isEmpty()) {
             searchStatus.add("");
         }
         if(searchStatus.get(0).equals("All")) {
-            searchAllStatus = true;
+            checkSearch = true;
         }
+
         List<Object[]> resultList = this.store.findProjectInfoWithEmpId(cdV, meaning, period, koreaPM, vietnamPL, framework,
-                searchAllStatus, searchStatus, fromStartDate, toStartDate, fromEndDate,
+                !checkSearch, searchStatus, fromStartDate, toStartDate, fromEndDate,
                 toEndDate, empId, pageable);
         List<Pme00ProjectInfo> pme00ProjectInfoList = new ArrayList<>();
         for(Object[] obj : resultList){
@@ -130,28 +143,42 @@ public class Pme00ProjectInfoLogic implements Pme00ProjectInfoService {
     }
 
     @Override
-    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+    public int getCountProject(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework,
                                List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate){
+
+        boolean checkSearch = (searchStatus == null || searchStatus.isEmpty());
+
+        if (searchStatus == null) {
+            searchStatus = new ArrayList<>();
+        }
         if(searchStatus.isEmpty()) {
             searchStatus.add("");
         }
         if(searchStatus.get(0).equals("All")) {
-            searchAllStatus = true;
+            checkSearch = true;
         }
-        return this.store.getCountProject(cdV, meaning, period, koreaPM, vietnamPL, framework, searchAllStatus,
+
+        return this.store.getCountProject(cdV, meaning, period, koreaPM, vietnamPL, framework, !checkSearch,
                                             searchStatus, fromStartDate, toStartDate, fromEndDate, toEndDate);
     }
 
     @Override
-    public int getCountProjectWithEmpId(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework, boolean searchAllStatus,
+    public int getCountProjectWithEmpId(String cdV, String meaning, int period, String koreaPM, String vietnamPL, String framework,
                                         List<String> searchStatus, Date fromStartDate, Date toStartDate, Date fromEndDate, Date toEndDate, String empId) {
+
+        boolean checkSearch = (searchStatus == null || searchStatus.isEmpty());
+
+        if (searchStatus == null) {
+            searchStatus = new ArrayList<>();
+        }
         if(searchStatus.isEmpty()) {
             searchStatus.add("");
         }
         if(searchStatus.get(0).equals("All")) {
-            searchAllStatus = true;
+            checkSearch = true;
         }
-        return this.store.getCountProjectWithEmpId(cdV, meaning, period, koreaPM, vietnamPL, framework, searchAllStatus,
+
+        return this.store.getCountProjectWithEmpId(cdV, meaning, period, koreaPM, vietnamPL, framework, !checkSearch,
                                                     searchStatus, fromStartDate, toStartDate, fromEndDate, toEndDate, empId);
     }
 }
