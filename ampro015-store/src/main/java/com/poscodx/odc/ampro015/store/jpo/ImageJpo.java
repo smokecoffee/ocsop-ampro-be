@@ -67,7 +67,7 @@ public class ImageJpo  {
 
     @PostLoad
     private void addUrlPath() {
-        if (path != null && !path.isEmpty()) {
+        if (path != null && !path.isEmpty() && !path.contains(Utils.UPLOAD_URL)) {
             path = Utils.applyEmployeeAvatarPath(path, "Asset");
         }
     }
