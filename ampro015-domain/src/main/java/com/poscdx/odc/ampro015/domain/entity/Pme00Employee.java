@@ -95,7 +95,7 @@ public class Pme00Employee {
         this.status = (String) object[32];
         this.action = (String) object[26];
         this.createBy = (String) object[27];
-        this.createByUserName = (String) object[29];
+        this.createByUserName = (String) object[30];
         this.createByUserPhoto = (object[31]== null ||((String) object[31]).isEmpty())? null:
                 Utils.UPLOAD_URL + Utils.UPLOAD_BUCKET + "/Employee/" +object[31];
         this.gender = (String) object[28];
