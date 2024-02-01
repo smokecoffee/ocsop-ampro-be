@@ -55,7 +55,7 @@ public class Pme00EmployeeTaskJpo {
 
     @PostLoad
     public void setAvatar() {
-        if (avatar != null && !avatar.isEmpty()) {
+        if (avatar != null && !avatar.isEmpty() && !avatar.contains(Utils.UPLOAD_URL)) {
             avatar = Utils.applyEmployeeAvatarPath(avatar, "Employee");
         }
     }

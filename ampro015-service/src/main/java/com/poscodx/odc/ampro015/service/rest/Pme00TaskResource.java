@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.entity.M00TaskDto;
 import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
 import com.poscdx.odc.ampro015.domain.entity.TaskSearchDTO;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import com.poscdx.odc.ampro015.domain.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.rmi.CORBA.Util;
 
 /**
  * Router API for task management
@@ -81,10 +84,9 @@ public class Pme00TaskResource {
      */
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('ADD_TASK')")
-    public boolean insertTask(@RequestBody M00TaskDto newTaskRequest,
-                                        @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
-                                        @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
+    public boolean insertTask(@RequestParam ("data") String dtoString,
+                              @RequestParam (value = "file", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle.requestLevel2TaskService().register(serviceLifecycle, M00TaskDto.fromJson(dtoString), fileUpload);
     }
 
     /**
@@ -95,11 +97,10 @@ public class Pme00TaskResource {
      * @since 2023-11-11
      */
     @PutMapping("")
-    @PreAuthorize("hasAnyAuthority('UPDATE_TASK, UPDATE_TASK_OWNER')")
-    public boolean updateTask(@RequestBody M00TaskDto newTaskRequest,
-                              @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
-                              @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, newTaskRequest, imageUpload, fileUpload);
+    @PreAuthorize("hasAnyAuthority('UPDATE_TASK,UPDATE_TASK_OWNER')")
+    public boolean updateTask(@RequestParam ("data") String dtoString,
+                              @RequestParam (value = "file", required = false) MultipartFile fileUpload) throws SQLException {
+        return this.serviceLifecycle.requestLevel2TaskService().modify(serviceLifecycle, M00TaskDto.fromJson(dtoString), fileUpload);
     }
 
     /**

@@ -64,7 +64,7 @@ public class M99DailyReportJpo implements Serializable {
 
     @PostLoad
     private void addUrlPath() {
-        if (fileName != null && !fileName.isEmpty()) {
+        if (fileName != null && !fileName.isEmpty() && !fileName.contains(Utils.UPLOAD_URL)) {
             fileName = Utils.applyEmployeeAvatarPath(fileName, "Report");
         }
     }

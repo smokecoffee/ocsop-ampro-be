@@ -78,10 +78,10 @@ public class Pme00ProjectInfoJpo {
 
     @PostLoad
     private void addUrlPath() {
-        if (image != null && !image.isEmpty()) {
+        if (image != null && !image.isEmpty() && !image.contains(Utils.UPLOAD_URL)) {
             image = Utils.applyEmployeeAvatarPath(image, "Project");
         }
-        if (file != null && !file.isEmpty()) {
+        if (file != null && !file.isEmpty() && !file.contains(Utils.UPLOAD_URL)) {
             file = Utils.applyEmployeeAvatarPath(file, "Project");
         }
     }
