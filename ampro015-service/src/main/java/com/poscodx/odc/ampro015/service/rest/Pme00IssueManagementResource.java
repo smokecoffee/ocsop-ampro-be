@@ -121,9 +121,9 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping(path = "/search")
-   // @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
+    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
-                                      @RequestParam(required = false) String site,
+                                      @RequestParam(required = false) List<String> site,
                                       @RequestParam(required = false) List<String>  module,
                                       @RequestParam(required = false) List<String>  division_flag,
                                       @RequestParam(required = false) String applied_period_flag,

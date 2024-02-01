@@ -41,7 +41,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:fromRequestStartDate IS NULL OR :toRequestEndDate IS NULL OR (CAST(ISSUE.REQUEST_DATE as DATE) >=  :fromRequestStartDate AND CAST(ISSUE.REQUEST_DATE as DATE) <= :toRequestEndDate))"
             , nativeQuery = true)
     int countIssueReport(@Param("contents") String contents,
-                         @Param("site") String site,
+                         @Param("site") List<String> site,
                          @Param("module") List<String> modules,
                          @Param("division_flag") List<String> division_flag,
                          @Param("applied_period_flag") String applied_period_flag,
@@ -126,7 +126,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
             , nativeQuery = true)
     List<Object[]> search(
             @Param("content") String content,
-            @Param("site") String site,
+            @Param("site") List<String> site,
             @Param("module") List<String> module,
             @Param("module_check") boolean module_check,
             @Param("division_flag_check") boolean division_check,
@@ -169,7 +169,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
             , nativeQuery = true)
     int countSearch(
             @Param("content") String content,
-            @Param("site") String site,
+            @Param("site") List<String> site,
             @Param("module") List<String> module,
             @Param("module_check") boolean module_check,
             @Param("division_flag_check") boolean division_check,

@@ -50,7 +50,7 @@ public interface Pme00IssueManagementService {
      * @author 202307_Phat
      *  * @since 2024-01-23
      */
-    Map<String, Object> findIssueInfo(String content, String site, List<String> module,List<String> division_flag, String applied_period_flag,
+    Map<String, Object> findIssueInfo(String content, List<String> site, List<String> module,List<String> division_flag, String applied_period_flag,
                                String accept_flag,String requester_confirm,String requester,String requester_id,String contents_kr,
                                String developer,Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate,
                                Date toRequestEndDate, int pageNo, int pageSize) throws ParseException;

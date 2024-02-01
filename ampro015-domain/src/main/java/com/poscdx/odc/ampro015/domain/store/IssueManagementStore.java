@@ -26,15 +26,11 @@ public interface IssueManagementStore {
                                  Date requestToEndDate, Pageable pageable);
 
 
-    List<Object[]> search(String content, String site, List<String> module, boolean module_check, boolean division_check, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
+    List<Object[]> search(String content, List<String> site, List<String> module, boolean module_check, boolean division_check, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
                           Date requestToEndDate, Pageable pageable);
 
-    int totalIssue(String content, String site, List<String> module, boolean module_check, boolean division_check, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
+    int totalIssue(String content, List<String> site, List<String> module, boolean module_check, boolean division_check, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
                    Date requestToEndDate);
-
-    int findIssueReport(String contents, String site, List<String> modules, List<String> division_flag, String applied_period_flag,
-                        String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
-                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate);
 
     int maxSeq();
 
