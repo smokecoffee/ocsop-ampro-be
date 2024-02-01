@@ -52,23 +52,23 @@ public class IssueManagementJpaStore implements IssueManagementStore {
     @Override
     public List<Object[]> search(String content, List<String> site, List<String> module, boolean module_check, boolean division_check,
                                  List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,
-                                 String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate,
-                                 Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate, Pageable pageable) {
-        return this.repository.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, registrationToEndDate, pageable);
+                                 String requester, String requester_id, String contents_kr, String developer, String registrationFromStartDate,
+                                 String registrationToEndDate, String requestFromStartDate, String requestToEndDate, Pageable pageable) {
+        return this.repository.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
 
     @Override
     public int totalIssue(String content, List<String> site, List<String> module, boolean module_check, boolean division_check,
                           List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,
-                          String requester, String requester_id, String contents_kr, String developer, Date registrationFromStartDate,
-                          Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
+                          String requester, String requester_id, String contents_kr, String developer, String registrationFromStartDate,
+                          String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
         return repository.countSearch(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate);
     }
 
 
     @Override
-    public int maxSeq() {
-        return repository.maxSeq();
+    public int maxSeq(String site) {
+        return repository.maxSeq(site);
     }
 
 }
