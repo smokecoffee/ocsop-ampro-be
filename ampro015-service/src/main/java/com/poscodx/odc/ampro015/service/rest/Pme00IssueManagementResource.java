@@ -51,8 +51,10 @@ public class Pme00IssueManagementResource {
      */
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADD_ISSUE')")
-    public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement, MultipartFile fileUpload) {
-        return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement, fileUpload);
+    public IssueManagementResponse insertIssue(@RequestParam("data") String dtoString,
+                                               @RequestParam("fileName") MultipartFile fileUpload) {
+        IssueManagement issueManagement = IssueManagement.fromJson(dtoString);
+        return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, issueManagement, fileUpload);
     }
 
     /**
@@ -64,7 +66,9 @@ public class Pme00IssueManagementResource {
      */
     @PutMapping
     @PreAuthorize("hasAnyAuthority('UPDATE_ISSUE,UPDATE_ISSUE_OWNER')")
-    public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement, MultipartFile fileUpload) {
+    public IssueManagementResponse updateIssue(@RequestParam("data") String dtoString,
+                                               @RequestParam("fileName") MultipartFile fileUpload) {
+        IssueManagement issueManagement = IssueManagement.fromJson(dtoString);
         return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement, fileUpload);
     }
 
