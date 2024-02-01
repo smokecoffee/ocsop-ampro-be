@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Pme00Meeting")
-@Table(name = "tb_pme00_meeting", schema = "POSCTZN")
+@Table(name = "tb_pme00_meeting", schema = "VIVA-ODC")
 public class Pme00MeetingJpo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

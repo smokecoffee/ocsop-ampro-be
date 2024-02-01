@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Asset")
-@Table(name = "TB_A01_ASSET", schema = "AMPRO")
+@Table(name = "TB_A01_ASSET", schema = "VIVA-ODC")
 public class AssetJpo  {
 
     @Id
@@ -56,6 +56,12 @@ public class AssetJpo  {
     @Column(name = "DELETE_AT")
     private Date deleteAt;
 
+    @Transient
+    private String ownerName;
+
+    @Transient
+    private String ownerImage;
+
     public AssetJpo(Asset domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
     }
@@ -70,8 +76,4 @@ public class AssetJpo  {
         return StreamSupport.stream(jpos.spliterator(), false).map(AssetJpo::toDomain).collect(Collectors.toList());
     }
 
-//    @Override
-//    public void validateJpo() throws PosBaseException {
-//
-//    }
 }
