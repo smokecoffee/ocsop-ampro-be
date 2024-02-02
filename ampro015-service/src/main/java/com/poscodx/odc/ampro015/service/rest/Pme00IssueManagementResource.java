@@ -124,6 +124,7 @@ public class Pme00IssueManagementResource {
     public IssueManagementResponse updateIssue(  @RequestParam(required = false, name = "registrationDate")  String registrationDate,
                                                  @RequestParam(required = false, name = "requestDate") String requestDate,
                                                  @RequestParam(required = false, name = "requester") String requester,
+                                                 @RequestParam(required = false, name = "seq") String seq,
                                                  @RequestParam(required = false, name = "site") String site,
                                                  @RequestParam(required = false, name = "module") String module,
                                                  @RequestParam(required = false, name = "menu") String menu,
