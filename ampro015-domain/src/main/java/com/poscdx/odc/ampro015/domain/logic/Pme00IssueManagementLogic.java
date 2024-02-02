@@ -77,13 +77,13 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement, MultipartFile fileUpload) {
         IssueManagementResponse response = new IssueManagementResponse();
-        int seq = store.maxSeq() + 1;
+        int seq = store.maxSeq(newIssueManagement.getSite()) + 1;
         newIssueManagement.setSeq(seq);
         if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
-        store.create(newIssueManagement);
+        IssueManagement a = store.create(newIssueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
@@ -127,7 +127,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public Map<String, Object> search(String content, List<String> site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, Date fromRegistrationStartDate, Date toRegistrationEndDate, Date fromRequestStartDate, Date toRequestEndDate, int pageNo, int pageSize) throws ParseException {
+    public Map<String, Object> search(String content, List<String> site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException {
         Pageable pageable;
         if (pageSize == 0) {
             pageable = Pageable.unpaged();
@@ -148,7 +148,8 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
         if (division_flag.isEmpty()) {
             division_flag.add("");
         }
-        List<Object[]> list = this.store.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate, toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
+        List<Object[]> list = this.store.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate,
+                toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for (Object[] objects : list) {
             issueManagementDtoList.add(new IssueManagement(objects));

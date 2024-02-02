@@ -17,9 +17,6 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
     List<IssueManagementJpo> findBySeqAndSite(@Param("seq") int seq, @Param("site") String site);
 
 
-    @Query(value = "SELECT MAX(SEQ) FROM tb_m00_issue_management ", nativeQuery = true)
-    int maxSeq();
-
     @Query(value =
             "SELECT ISSUE.*\n" +
                     ", EMP2.NAME AS DEV_NAME\n" +
@@ -43,7 +40,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                     "AND (:fromRegistrationStartDate IS NULL OR :toRegistrationEndDate IS NULL OR (CAST(ISSUE.REGISTRATION_DATE as DATE) >=  :fromRegistrationStartDate AND CAST(ISSUE.REGISTRATION_DATE as DATE) <= :toRegistrationEndDate)) \n" +
-                    "AND (:fromRequestStartDate IS NULL OR :toRequestEndDate IS NULL OR (CAST(ISSUE.REQUEST_DATE as DATE) >=  :fromRequestStartDate AND CAST(ISSUE.REQUEST_DATE as DATE) <= :toRequestEndDate))"
+                    "AND (:fromRequestStartDate IS NULL OR :toRequestEndDate IS NULL OR (CAST(ISSUE.REQUEST_DATE_NEW as DATE) >=  :fromRequestStartDate AND CAST(ISSUE.REQUEST_DATE_NEW as DATE) <= :toRequestEndDate))"
             , nativeQuery = true)
     List<Object[]> search(
             @Param("content") String content,
@@ -59,8 +56,8 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
             @Param("requester_id") String requester_id,
             @Param("contents_kr") String contents_kr,
             @Param("developer") String developer,
-            @Param("fromRegistrationStartDate") Date registrationFromStartDate, @Param("toRegistrationEndDate") Date registrationToEndDate,
-            @Param("fromRequestStartDate") Date requestFromStartDate, @Param("toRequestEndDate") Date requestToEndDate,
+            @Param("fromRegistrationStartDate") String registrationFromStartDate, @Param("toRegistrationEndDate") String registrationToEndDate,
+            @Param("fromRequestStartDate") String requestFromStartDate, @Param("toRequestEndDate") String requestToEndDate,
             Pageable pageable
     );
 
@@ -86,8 +83,7 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
                     "AND (:contents_kr IS NULL OR (ISSUE.CONTENTS_KR LIKE CONCAT('%', :contents_kr, '%')))\n" +
                     "AND (:developer IS NULL OR (ISSUE.DEVELOPER LIKE CONCAT('%', :developer, '%')))\n" +
                     "AND (:fromRegistrationStartDate IS NULL OR :toRegistrationEndDate IS NULL OR (CAST(ISSUE.REGISTRATION_DATE as DATE) >=  :fromRegistrationStartDate AND CAST(ISSUE.REGISTRATION_DATE as DATE) <= :toRegistrationEndDate)) \n" +
-                    "AND (:fromRequestStartDate IS NULL OR :toRequestEndDate IS NULL OR (CAST(ISSUE.REQUEST_DATE as DATE) >=  :fromRequestStartDate AND CAST(ISSUE.REQUEST_DATE as DATE) <= :toRequestEndDate))"
-            , nativeQuery = true)
+                    "AND (:fromRequestStartDate IS NULL OR :toRequestEndDate IS NULL OR (CAST(ISSUE.REQUEST_DATE_NEW as DATE) >=  :fromRequestStartDate AND CAST(ISSUE.REQUEST_DATE_NEW as DATE) <= :toRequestEndDate))"            , nativeQuery = true)
     int countSearch(
             @Param("content") String content,
             @Param("site") List<String> site,
@@ -102,6 +98,9 @@ public interface IssueManagementRepository extends JpaRepository<IssueManagement
             @Param("requester_id") String requester_id,
             @Param("contents_kr") String contents_kr,
             @Param("developer") String developer,
-            @Param("fromRegistrationStartDate") Date registrationFromStartDate, @Param("toRegistrationEndDate") Date registrationToEndDate,
-            @Param("fromRequestStartDate") Date requestFromStartDate, @Param("toRequestEndDate") Date requestToEndDate);
+            @Param("fromRegistrationStartDate") String registrationFromStartDate, @Param("toRegistrationEndDate") String registrationToEndDate,
+            @Param("fromRequestStartDate") String requestFromStartDate, @Param("toRequestEndDate") String requestToEndDate);
+
+    @Query(value = "SELECT MAX(SEQ) FROM tb_m00_issue_management WHERE SITE = :site", nativeQuery = true)
+    int maxSeq(@Param("site") String site);
 }
