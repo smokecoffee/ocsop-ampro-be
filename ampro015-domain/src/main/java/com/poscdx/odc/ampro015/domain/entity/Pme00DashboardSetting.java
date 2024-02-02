@@ -13,7 +13,7 @@ import java.util.List;
 public class Pme00DashboardSetting {
     private int id;
     private String empId;
-    private String order;
+    private String setting;
 
     public String toJson() {
         return JsonUtil.toJson(this);

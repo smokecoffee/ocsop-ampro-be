@@ -16,7 +16,7 @@ import java.util.stream.StreamSupport;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Pme00DashboardSetting")
-@Table(name = "TB_PME00_DASHBOARD_SETTING", schema = "VIVA-ODC")
+@Table(name = "TB_PME00_SETTING", schema = "VIVA-ODC")
 public class Pme00DashboardSettingJpo {
 
     @Id
@@ -27,8 +27,8 @@ public class Pme00DashboardSettingJpo {
     @Column(name = "EMP_ID")
     private String empId;
 
-    @Column(name = "DASHBOARD_ORDER")
-    private String order;
+    @Column(name = "SETTING")
+    private String setting;
 
     public Pme00DashboardSettingJpo(Pme00DashboardSetting domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);
