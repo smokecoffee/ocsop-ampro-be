@@ -11,8 +11,6 @@ public interface Level2Service {
 
     String uploadFile(String bucketName, String serviceName, MultipartFile image);
 
-//    String uploadFile(String bucketName, String serviceName, File file);
-
     boolean removeFile(String bucketName, String serviceName, List<String> fileName);
 
     String sendMail(String recipient, String username, String password, String subject, String body);
