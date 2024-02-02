@@ -116,7 +116,7 @@ public class Level2TaskLogic implements Level2TaskService {
      * @return M00TaskDto
      */
     @Override
-    public boolean modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest, MultipartFile imageUpload, MultipartFile fileUpload) {
+    public boolean modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest, MultipartFile fileUpload) {
         // convert json to DTO
         M00Task requestTask = updateTaskRequest.getTask();
         // find exitedTask
@@ -130,6 +130,14 @@ public class Level2TaskLogic implements Level2TaskService {
             String existedPasswordTask = StringUtils.defaultIfBlank(existedTask.get().getPassword(), StringUtils.EMPTY);
             String requestOwnerTaskId = StringUtils.defaultIfBlank(requestTask.getEmpId(), StringUtils.EMPTY);
             String requestPasswordTask = DigestUtils.md5Hex(StringUtils.defaultIfBlank(requestTask.getPassword(), StringUtils.EMPTY));
+
+            // delete old file from server
+            if (requestTask.getAttach_File() == null || fileUpload != null) {
+                List<String> fileList = new ArrayList<>();
+                fileList.add(StringUtils.defaultIfBlank(existedTask.get().getAttach_File(), StringUtils.EMPTY));
+                boolean result = serviceLifecycle.requestLevel2Service()
+                        .removeFile(Utils.UPLOAD_BUCKET, "Task", fileList);
+            }
 
 
             if (!existedOwnerTaskId.equals(requestOwnerTaskId) && !existedPasswordTask.equals(requestPasswordTask)) { // Don't need to check password
@@ -163,13 +171,7 @@ public class Level2TaskLogic implements Level2TaskService {
             M00TaskDto responseUpdateTask = new M00TaskDto();
             responseUpdateTask.setMembers(pme00EmployeeTasksRequestList);
             responseUpdateTask.setTask(updatedTask);
-            // insert file/image
-            if (imageUpload != null) {
-                String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", imageUpload);
-                if (!result.contains("Task")) {
-                    return false;
-                }
-            }
+
             if (fileUpload != null) {
                 String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", fileUpload);
                 return result.contains("Task");
@@ -186,34 +188,9 @@ public class Level2TaskLogic implements Level2TaskService {
      * @param newTask
      * @return M00TaskDto
      */
-//    @Override
-//    public ResponseEntity<?> register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask) {
-//        //check this already existed yet?
-//        M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
-//        Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
-//        if (existedTask.isPresent()) {
-//            HashMap<String, Object> mapResponse = (HashMap<String, Object>) appendResponse(HttpStatus.BAD_REQUEST, String.format(DUPLICATE_RESPONSE_MESSAGE, "task"), new M00TaskDto()).getBody();
-//            mapResponse.get(RESPONSE_DATA);
-//            return appendResponse(HttpStatus.BAD_REQUEST, DUPLICATE_RESPONSE_MESSAGE, new M00TaskDto());
-//        } else {
-//            // map M00TaskDto -> Jpo
-//            M00Task newTaskJpo = newTask.getTask();
-//
-//            newTaskJpo.setPassword(DigestUtils.md5Hex(newTask.getTask().getPassword()));
-//            M00Task savedTask = serviceLifecycle.requestM00TaskService().register(newTaskJpo);
-//
-//            // map Emp
-//            M00TaskDto newReponse = new M00TaskDto();
-//            newReponse.setTask(savedTask);
-//            List<Pme00EmployeeTask> newPme00EmployeeTaskList = newTask.getMembers();
-//            List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
-//            newReponse.setMembers(savedPme00EmployeeTaskList);
-//            return appendResponse(HttpStatus.OK, INSERT_SUCCESS_RESPONSE_MESSAGE, newReponse);
-//        }
-//    }
 
     @Override
-    public boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) {
+    public boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile fileUpload) {
         //check this already existed yet?
         M00TaskId newTaskId = new M00TaskId(newTask.getTask().getProjectNumber(), newTask.getTask().getTaskName());
         Optional<M00Task> existedTask = Optional.ofNullable(serviceLifecycle.requestM00TaskService().findTaskByProjectNumberAndTaskName(newTaskId));
@@ -235,13 +212,6 @@ public class Level2TaskLogic implements Level2TaskService {
             List<Pme00EmployeeTask> savedPme00EmployeeTaskList = serviceLifecycle.requestPme00EmployeeTaskService().createFromList(newPme00EmployeeTaskList);
             newReponse.setMembers(savedPme00EmployeeTaskList);
 
-            // insert file/image
-            if (imageUpload != null) {
-                String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", imageUpload);
-                if (!result.contains("Task")) {
-                    return false;
-                }
-            }
             if (fileUpload != null) {
                 String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Task", fileUpload);
                 return result.contains("Task");
@@ -281,6 +251,14 @@ public class Level2TaskLogic implements Level2TaskService {
                     return appendResponse(HttpStatus.BAD_REQUEST, INVALID_PASSWORD_RESPONSE_MESSAGE, new M00TaskDto());
                 }
             }
+
+            // delete old file from server
+            List<String> fileList = new ArrayList<>();
+            fileList.add(StringUtils.defaultIfBlank(existedTask.get().getAttach_File(), StringUtils.EMPTY));
+            boolean result = serviceLifecycle.requestLevel2Service()
+                    .removeFile(Utils.UPLOAD_BUCKET, "Task", fileList);
+
+
             //find empTask
             List<Pme00EmployeeTask> pme00EmployeeTaskExistedList = serviceLifecycle.requestPme00EmployeeTaskService().findAllByTaskId(deleteTaskId);
 

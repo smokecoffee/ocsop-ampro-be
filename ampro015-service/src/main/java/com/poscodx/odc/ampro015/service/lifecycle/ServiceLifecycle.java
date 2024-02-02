@@ -38,7 +38,7 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     private final Pme00IssueManagementService pme00IssueManagementService;
     private final LogoutAccessTokenService logoutAccessTokenService;
     private final S91MenuService s91MenuService;
-    private final M99WorkingTimeService m99WorkingTimeService;
+    private final Pme00WorkingTimeService pme00WorkingTimeService;
 
     @Override
     public Level2ProjectService requestLevel2ProjectService() { return this.level2ProjectService; }
@@ -169,8 +169,8 @@ public class ServiceLifecycle implements com.poscdx.odc.ampro015.domain.lifecycl
     }
 
     @Override
-    public M99WorkingTimeService requestM99WorkingTimeService() {
-        return this.m99WorkingTimeService;
+    public Pme00WorkingTimeService requestPme00WorkingTimeService() {
+        return this.pme00WorkingTimeService;
     }
 
     @Override

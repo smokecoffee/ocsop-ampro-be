@@ -11,7 +11,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,8 +54,11 @@ public class Pme00IssueManagementResource {
      */
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADD_ISSUE')")
-    public IssueManagementResponse insertIssue(@RequestBody IssueManagement newIssueManagement, MultipartFile fileUpload) {
-        return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, newIssueManagement, fileUpload);
+    public IssueManagementResponse insertIssue(
+                                                   @RequestParam(required = false, name = "data")  String data,
+                                                   @RequestParam(value = "file", required = false) MultipartFile fileUpload) throws ParseException {
+        IssueManagement issueManagement = IssueManagement.fromJson(data);
+        return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, issueManagement, fileUpload);
     }
 
     /**
@@ -64,8 +70,11 @@ public class Pme00IssueManagementResource {
      */
     @PutMapping
     @PreAuthorize("hasAnyAuthority('UPDATE_ISSUE,UPDATE_ISSUE_OWNER')")
-    public IssueManagementResponse updateIssue(@RequestBody IssueManagement issueManagement, MultipartFile fileUpload) {
-        return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement, fileUpload);
+   // @PreAuthorize("hasAnyAuthority('UPDATE_ISSUE,UPDATE_ISSUE_OWNER')")
+    public IssueManagementResponse updateIssue(  @RequestParam(required = false, name = "data")  String data,
+                                                 @RequestParam(value = "file", required = false) MultipartFile fileUpload) throws ParseException {
+        IssueManagement issueManagement = IssueManagement.fromJson(data);
+        return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement , fileUpload);
     }
 
     /**
@@ -116,11 +125,11 @@ public class Pme00IssueManagementResource {
      * @since 2024-01-23
      */
     @GetMapping(path = "/search")
-    @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
+   // @PreAuthorize("hasAnyAuthority('GET_ISSUE,GET_ISSUE_OWNER')")
     public Map<String, Object> search(@RequestParam(required = false) String contents,
-                                      @RequestParam(required = false) String site,
-                                      @RequestParam(required = false) String module,
-                                      @RequestParam(required = false) String division_flag,
+                                      @RequestParam(required = false) List<String> site,
+                                      @RequestParam(required = false) List<String>  module,
+                                      @RequestParam(required = false) List<String>  division_flag,
                                       @RequestParam(required = false) String applied_period_flag,
                                       @RequestParam(required = false) String accept_flag,
                                       @RequestParam(required = false) String requester_confirm,
@@ -136,7 +145,7 @@ public class Pme00IssueManagementResource {
                                       @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize
     ) throws ParseException {
         return this.serviceLifecycle.requestPme00IssueManagementService()
-                                    .findIssueInfo(contents, site, module, division_flag,
+                .search(contents, site, module, division_flag,
                                                     applied_period_flag, accept_flag, requester_confirm, requester, requester_id,
                                                     contents_kr, developer, fromRegistrationStartDate,
                                                     toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageNo, pageSize);

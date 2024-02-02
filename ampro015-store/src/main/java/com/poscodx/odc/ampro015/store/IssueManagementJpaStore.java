@@ -3,12 +3,10 @@ package com.poscodx.odc.ampro015.store;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
 import com.poscdx.odc.ampro015.domain.store.IssueManagementStore;
-import com.poscdx.odc.ampro015.domain.utils.DateUtils;
 import com.poscodx.odc.ampro015.store.jpo.IssueManagementJpo;
 import com.poscodx.odc.ampro015.store.repository.IssueManagementRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
 
 import java.util.Date;
 import java.util.List;
@@ -50,41 +48,27 @@ public class IssueManagementJpaStore implements IssueManagementStore {
         this.repository.findById(id).ifPresent(repository::delete);
     }
 
-    @Override
-    public List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                                        String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
-                                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
-                                        Date requestToEndDate, Pageable pageable) {
-
-        String registrationStartDate = DateUtils.convertDateTimeToString(registrationFromStartDate, DateUtils.dbDate);
-        String registrationEndDate = DateUtils.convertDateTimeToString(registrationToEndDate, DateUtils.dbDate);
-        String requestStartDate =DateUtils.convertDateTimeToString(requestFromStartDate, DateUtils.dbDate);
-        String requestEndDate = DateUtils.convertDateTimeToString(requestToEndDate, DateUtils.dbDate);
-
-        return this.repository.findIssueInfo(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationStartDate,
-                registrationEndDate, requestStartDate, requestEndDate, pageable);
-    }
-
-
 
     @Override
-    public int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                               String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
-                               Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate) {
-
-        String registrationStartDate = DateUtils.convertDateTimeToString(registrationFromStartDate, DateUtils.dbDate);
-        String registrationEndDate = DateUtils.convertDateTimeToString(registrationToEndDate, DateUtils.dbDate);
-        String requestStartDate =DateUtils.convertDateTimeToString(requestFromStartDate, DateUtils.dbDate);
-        String requestEndDate = DateUtils.convertDateTimeToString(requestToEndDate, DateUtils.dbDate);
-        return this.repository.countIssueReport(contents, site, modules, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationStartDate,
-                registrationEndDate, requestStartDate, requestEndDate);
+    public List<Object[]> search(String content, List<String> site, List<String> module, boolean module_check, boolean division_check,
+                                 List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,
+                                 String requester, String requester_id, String contents_kr, String developer, String registrationFromStartDate,
+                                 String registrationToEndDate, String requestFromStartDate, String requestToEndDate, Pageable pageable) {
+        return this.repository.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate, pageable);
     }
 
     @Override
-    public int maxSeq() {
-        return repository.maxSeq();
+    public int totalIssue(String content, List<String> site, List<String> module, boolean module_check, boolean division_check,
+                          List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm,
+                          String requester, String requester_id, String contents_kr, String developer, String registrationFromStartDate,
+                          String registrationToEndDate, String requestFromStartDate, String requestToEndDate) {
+        return repository.countSearch(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, registrationFromStartDate, registrationToEndDate, requestFromStartDate, requestToEndDate);
+    }
+
+
+    @Override
+    public int maxSeq(String site) {
+        return repository.maxSeq(site);
     }
 
 }

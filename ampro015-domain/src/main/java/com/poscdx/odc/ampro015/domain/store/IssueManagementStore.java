@@ -19,18 +19,12 @@ public interface IssueManagementStore {
 
     void delete(IssueManagementId id);
 
+    List<Object[]> search(String content, List<String> site, List<String> module, boolean module_check, boolean division_check, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate,
+                          String requestToEndDate, Pageable pageable);
 
-    List<Object[]> findIssueInfo(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                                 String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
-                                 Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate,
-                                 Date requestToEndDate, Pageable pageable);
+    int totalIssue(String content, List<String> site, List<String> module, boolean module_check, boolean division_check, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, String registrationFromStartDate, String registrationToEndDate, String requestFromStartDate,
+                   String requestToEndDate);
 
-
-
-    int findIssueReport(String contents, String site, String modules, String division_flag, String applied_period_flag,
-                        String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer,
-                        Date registrationFromStartDate, Date registrationToEndDate, Date requestFromStartDate, Date requestToEndDate);
-
-    int maxSeq();
+    int maxSeq(String site);
 
 }

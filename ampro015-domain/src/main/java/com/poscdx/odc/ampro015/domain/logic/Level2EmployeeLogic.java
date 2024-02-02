@@ -328,4 +328,17 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         pme00GenderResponse.setMessage("Get all gender successfully");
         return pme00GenderResponse;
     }
+
+
+    private boolean uploadIdentificationImages(ServiceLifecycle serviceLifecycle, String empId,
+                                               List<MultipartFile> fileList) {
+        String userFolder = "Identification/" + empId;
+        if (!fileList.isEmpty()) {
+            fileList.forEach(file -> serviceLifecycle.requestLevel2Service()
+                    .uploadFile(Utils.UPLOAD_BUCKET, userFolder, file));
+        }
+        return true;
+    }
 }
+
+

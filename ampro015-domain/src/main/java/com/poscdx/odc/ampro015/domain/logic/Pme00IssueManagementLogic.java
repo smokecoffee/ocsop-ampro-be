@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import java.util.*;
 
@@ -46,7 +45,7 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      */
     @Override
     public IssueManagementResponse modify(ServiceLifecycle serviceLifecycle, IssueManagement issueManagement, MultipartFile fileUpload) {
-        if (fileUpload != null) {
+        if (fileUpload != null || issueManagement.getFileName().isEmpty()) {
             List<String> fileName = new ArrayList<>();
             List<IssueManagement> issueList = store.retrieve(issueManagement.getSeq(), issueManagement.getSite());
             for (IssueManagement issue : issueList) {
@@ -78,13 +77,13 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
     @Override
     public IssueManagementResponse create(ServiceLifecycle serviceLifecycle, IssueManagement newIssueManagement, MultipartFile fileUpload) {
         IssueManagementResponse response = new IssueManagementResponse();
-        int seq = store.maxSeq() + 1;
+        int seq = store.maxSeq(newIssueManagement.getSite()) + 1;
         newIssueManagement.setSeq(seq);
         if (fileUpload != null) {
             String result = serviceLifecycle.requestLevel2Service().uploadFile(Utils.UPLOAD_BUCKET, "Issue", fileUpload);
             result.contains("Issue");
         }
-        store.create(newIssueManagement);
+        IssueManagement a = store.create(newIssueManagement);
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("This issue has been created");
         return response;
@@ -112,7 +111,6 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
                     .removeFile(Utils.UPLOAD_BUCKET, "Issue", fileName);
             store.delete(seq);
         }
-
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("This issue has been deleted");
         return response;
@@ -129,39 +127,41 @@ public class Pme00IssueManagementLogic implements Pme00IssueManagementService {
      * @since: 2024-01-24
      */
     @Override
-    public Map<String, Object> findIssueInfo(String contents, String site, String module, String division_flag,
-                                             String applied_period_flag, String accept_flag, String requester_confirm,
-                                             String requester, String requester_id, String contents_kr, String developer,
-                                             String fromRegistrationStartDate, String toRegistrationEndDate,
-                                             String fromRequestStartDate, String toRequestEndDate,
-                                             int pageNo, int pageSize) throws ParseException {
+    public Map<String, Object> search(String content, List<String> site, List<String> module, List<String> division_flag, String applied_period_flag, String accept_flag, String requester_confirm, String requester, String requester_id, String contents_kr, String developer, String fromRegistrationStartDate, String toRegistrationEndDate, String fromRequestStartDate, String toRequestEndDate, int pageNo, int pageSize) throws ParseException {
         Pageable pageable;
         if (pageSize == 0) {
             pageable = Pageable.unpaged();
         } else {
             pageable = PageRequest.of(pageNo, pageSize, Sort.by("status"));
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date _fromRegistrationStartDate = (fromRegistrationStartDate != null) ? dateFormat.parse(fromRegistrationStartDate) : null;
-        Date _toRegistrationEndDate = (toRegistrationEndDate != null) ? dateFormat.parse(toRegistrationEndDate) : null;
-        Date _fromRequestStartDate = (fromRequestStartDate != null) ? dateFormat.parse(fromRequestStartDate) : null;
-        Date _toRequestEndDate = (toRequestEndDate != null) ? dateFormat.parse(toRequestEndDate) : null;
-        List<Object[]> list = this.store.findIssueInfo(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
-                _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate, pageable);
+        boolean module_check = (module == null || module.isEmpty());
+        if (module == null) {
+            module = new ArrayList<>();
+        }
+        if (module.isEmpty()) {
+            module.add("");
+        }
+        boolean division_check = (division_flag == null || division_flag.isEmpty());
+        if (division_flag == null) {
+            division_flag = new ArrayList<>();
+        }
+        if (division_flag.isEmpty()) {
+            division_flag.add("");
+        }
+        List<Object[]> list = this.store.search(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate,
+                toRegistrationEndDate, fromRequestStartDate, toRequestEndDate, pageable);
         List<IssueManagement> issueManagementDtoList = new ArrayList<>();
         for (Object[] objects : list) {
             issueManagementDtoList.add(new IssueManagement(objects));
         }
+        int total = store.totalIssue(content, site, module, module_check, division_check, division_flag, applied_period_flag, accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, fromRegistrationStartDate,
+                toRegistrationEndDate, fromRequestStartDate, toRequestEndDate);
         Map<String, Object> responses = new HashMap<>();
-        int total = store.findIssueReport(contents, site, module, division_flag, applied_period_flag,
-                accept_flag, requester_confirm, requester, requester_id, contents_kr, developer, _fromRegistrationStartDate,
-                _toRegistrationEndDate, _fromRequestStartDate, _toRequestEndDate);
         responses.put("status", HttpStatus.FOUND.value());
         responses.put("message", "OK");
         responses.put("total", total);
         responses.put("data", issueManagementDtoList);
         return responses;
     }
-    
+
 }

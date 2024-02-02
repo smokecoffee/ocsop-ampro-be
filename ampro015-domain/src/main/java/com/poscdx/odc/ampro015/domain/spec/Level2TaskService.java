@@ -45,7 +45,7 @@ public interface Level2TaskService {
      * @param updateTaskRequest
      * @return M00TaskDto
      */
-    boolean modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest, MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
+    boolean modify(ServiceLifecycle serviceLifecycle, M00TaskDto updateTaskRequest, MultipartFile fileUpload) throws SQLException;
 
     /**
      * create new task function
@@ -54,7 +54,7 @@ public interface Level2TaskService {
      * @param newTask
      * @return M00TaskDto
      */
-    boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile imageUpload, MultipartFile fileUpload) throws SQLException;
+    boolean register(ServiceLifecycle serviceLifecycle, M00TaskDto newTask, MultipartFile fileUpload) throws SQLException;
 
     /**
      * remove task function

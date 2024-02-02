@@ -3,14 +3,12 @@ package com.poscodx.odc.ampro015.service.rest;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
+import com.poscodx.odc.ampro015.service.PermissionValidation;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.common.config.ConfigDef;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -30,12 +28,14 @@ public class Pme00EmployeeResource {
             @RequestParam(required = false, name = "joinDateFrom") String joinDateFrom,
             @RequestParam(required = false, name = "joinDateTo") String joinDateTo,
             @RequestParam(required = false, name = "gender") String gender){
+        if (!PermissionValidation.validateSearchEmployee(empId)) {
+            return new Pme00AllLevel2EmployeeResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
+        }
         return this.serviceLifecycle.requestLevel2EmployeeService()
                 .searchPmeEmployee(serviceLifecycle, site, status, name, empId, joinDateFrom, joinDateTo, gender);
     }
 
     @GetMapping("/findSiteEmp")
-    @PreAuthorize("hasAnyAuthority('GET_EMPLOYEE')")
     public PmeSiteResponse findSiteEmp() {
         return this.serviceLifecycle.requestLevel2EmployeeService().findSiteEmp(serviceLifecycle);
     }
@@ -59,13 +59,19 @@ public class Pme00EmployeeResource {
         return this.serviceLifecycle.requestLevel2EmployeeService().findAllRole(serviceLifecycle);
     }
 
+
     @PutMapping("/")
-    @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE,UPDATE_EMPLOYEE_OWNER')")
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestParam ("data") String dtoString,
-     @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
+                                        @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
+        Pme00Employee pme00Employee = Pme00Employee.fromJson(dtoString);
+        if (!PermissionValidation.validateUpdateEmployee(pme00Employee)) {
+            return new Pme00AllLevel2EmployeeResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
+        }
         return this.serviceLifecycle.requestLevel2EmployeeService()
-                .editEmployee(serviceLifecycle,Pme00Employee.fromJson(dtoString),imageUpload);
+                .editEmployee(serviceLifecycle, pme00Employee, imageUpload);
     }
+
 
     @GetMapping("/findGender")
     public Pme00GenderResponse findGender() {

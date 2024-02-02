@@ -1,7 +1,8 @@
 package com.poscodx.odc.ampro015.service.rest;
 
+import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.entity.M00Employee;
-import com.poscdx.odc.ampro015.domain.entity.M99WorkingTime;
+import com.poscdx.odc.ampro015.domain.entity.Pme00WorkingTime;
 import com.poscdx.odc.ampro015.domain.entity.S91Menu;
 import com.poscdx.odc.ampro015.domain.entity.TaskStatusDto;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
@@ -54,7 +55,13 @@ public class Level2Resource {
     }
 
     @GetMapping(path = "/test")
-    public List<M99WorkingTime> test(@RequestBody String recipient) {
-        return this.serviceLifecycle.requestM99WorkingTimeService().findAll();
+    public List<Pme00WorkingTime> test(@RequestBody String recipient) {
+        return this.serviceLifecycle.requestPme00WorkingTimeService().findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/getListProject")
+    public List<M00Codes030>  listProject(@RequestParam ("user") String user){
+        return this.serviceLifecycle.requestM00Codes030Service().getListProject(user);
     }
 }

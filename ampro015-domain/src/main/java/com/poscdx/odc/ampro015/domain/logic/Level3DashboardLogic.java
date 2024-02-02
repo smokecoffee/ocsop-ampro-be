@@ -21,11 +21,12 @@ public class Level3DashboardLogic implements Level3DashboardService {
             return null;
         }
         dto.setPme00DashboardSetting(setting);
-        JsonArray jsonArray = (JsonArray) JsonParser.parseString(dto.getPme00DashboardSetting().getOrder());
+        JsonElement jsonElementSetting = JsonParser.parseString(dto.getPme00DashboardSetting().getSetting());
+        JsonObject jsonObjectSetting = (JsonObject) jsonElementSetting;
         JsonObject jsonObject;
         SettingOrderDto settingOrderDto;
         List<SettingOrderDto> list = new ArrayList<>();
-        for (JsonElement element : jsonArray) {
+        for (JsonElement element : jsonObjectSetting.get("dashboard").getAsJsonObject().get("order").getAsJsonArray()) {
             jsonObject = (JsonObject) element;
             settingOrderDto = new SettingOrderDto();
             settingOrderDto.setIndex(jsonObject.get("index").getAsInt());
@@ -65,7 +66,7 @@ public class Level3DashboardLogic implements Level3DashboardService {
         if (setting == null) {
             setting = serviceLifecycle.requestPme00DashboardSettingService().register(entity);
         } else {
-            setting.setOrder(entity.getOrder());
+            setting.setSetting(entity.getSetting());
             setting = serviceLifecycle.requestPme00DashboardSettingService().modify(setting);
         }
         return (setting != null) ? loadDashboard(serviceLifecycle, empId) : null;

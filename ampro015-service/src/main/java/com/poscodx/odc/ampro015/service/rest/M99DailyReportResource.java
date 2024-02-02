@@ -8,6 +8,7 @@ import com.posco.reuse.common.logging.PosLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
 import java.sql.SQLException;
@@ -31,19 +32,30 @@ public class M99DailyReportResource {
 
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('ADD_REPORT')")
-    public M99DailyReport register(@RequestBody M99DailyReport dto) throws SQLException {
-        return this.serviceLifecycle.requestM99DailyReportService().register(dto);
+    public M99DailyReport register(@RequestParam ("data") String dtoString,
+                                   @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+
+        return this.serviceLifecycle
+                   .requestM99DailyReportService()
+                   .register(serviceLifecycle, M99DailyReport.fromJson(dtoString), fileUpload);
     }
 
     @PutMapping("")
     @PreAuthorize("hasAnyAuthority('UPDATE_REPORT,UPDATE_REPORT_OWNER')")
-    public M99DailyReport modify(@RequestBody M99DailyReport dto) throws SQLException {
-        return this.serviceLifecycle.requestM99DailyReportService().modify(dto);
+    public M99DailyReport modify(@RequestParam ("data") String dtoString,
+                                 @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
+
+        return this.serviceLifecycle
+                   .requestM99DailyReportService()
+                   .modify(serviceLifecycle, M99DailyReport.fromJson(dtoString), fileUpload);
     }
 
-//    @GetMapping("/working-time")
-//    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
-//    public List<M99DailyReport> findWorkingTimeByEmployeeId(@RequestParam(required = true, name = "empId") String empId) {
-//        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTimeByEmployeeId(empId);
-//    }
+    @GetMapping("/working-time")
+    @PreAuthorize("hasAnyAuthority('GET_REPORT,GET_REPORT_OWNER')")
+    public List<M99DailyReport> findWorkingTime(@RequestParam(required = false, name = "empId") String empId,
+                                                @RequestParam(required = false, name = "startTime") String startTime,
+                                                @RequestParam(required = false, name = "endTime") String endTime) throws SQLException {
+        return this.serviceLifecycle.requestM99DailyReportService().findWorkingTime(empId, startTime, endTime);
+    }
 }
+

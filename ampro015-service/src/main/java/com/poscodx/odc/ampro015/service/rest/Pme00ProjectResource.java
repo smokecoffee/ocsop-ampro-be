@@ -5,6 +5,7 @@ import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
 import com.posco.reuse.common.logging.PosLogWriterIF;
 import com.posco.reuse.common.logging.PosLogger;
+import com.poscodx.odc.ampro015.service.PermissionValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +35,18 @@ public class Pme00ProjectResource {
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
+        String id = PermissionValidation.validateGetProject();
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, dto, pageNo, pageSize);
     }
 
     @PostMapping("/search-include-task")
-    @PreAuthorize("hasAnyAuthority('VIEW_PROJECT_MONITORING')")
+    @PreAuthorize("hasAnyAuthority('VIEW_PROJECT_MONITORING,VIEW_PROJECT_MONITORING_OWNER')")
+//    @PreAuthorize("hasAnyAuthority('GET_PROJECT,GET_PROJECT_OWNER')")
     public Map<String, Object> findProjectListWithTask(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
         PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
+        String id = PermissionValidation.validateGetProject();
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithTask(serviceLifecycle, dto, pageNo, pageSize);
     }
 
@@ -50,13 +54,8 @@ public class Pme00ProjectResource {
     @PreAuthorize("hasAnyAuthority('GET_PROJECT,GET_PROJECT_OWNER')")
     public Map<String, Object> findAllProjectMonitoring(@RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                         @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
-        if (Utils.checkPermission("GET_PROJECT_OWNER")) {
-            String id = Utils.getLoginUserDetail();
-            if (id != null) {
-                return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, id, pageNo, pageSize);
-            }
-        }
-        return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, null, pageNo, pageSize);
+        String id = PermissionValidation.validateGetProject();
+        return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithEmpId(serviceLifecycle, id, pageNo, pageSize);
     }
 
     @PostMapping("")
@@ -76,16 +75,11 @@ public class Pme00ProjectResource {
                           @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                           @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
         ProjectManagementDto dto = ProjectManagementDto.fromJson(dtoString);
-        if (Utils.checkPermission("UPDATE_PROJECT_OWNER")) {
-            String id = Utils.getLoginUserDetail();
-            if (!dto.getM00Codes030().getCreatedProgramId().equals(id) &&
-                !dto.getPme00ProjectInfo().getKoreaPm().equals(id) &&
-                !dto.getPme00ProjectInfo().getVietnamPl().equals(id)) {
-                List<Object> result = new ArrayList<>();
-                result.add(false);
-                result.add(Utils.NO_PERMISSION);
-                return result;
-            }
+        if (!PermissionValidation.validateUpdateProject(dto)) {
+            List<Object> result = new ArrayList<>();
+            result.add(false);
+            result.add(Utils.NO_PERMISSION);
+            return result;
         }
         return this.serviceLifecycle
                    .requestLevel2ProjectService()
@@ -95,18 +89,13 @@ public class Pme00ProjectResource {
     @DeleteMapping("")
     @PreAuthorize("hasAnyAuthority('DELETE_PROJECT,DELETE_PROJECT_OWNER')")
     public List<Object> delete(@RequestBody M00Codes030Id id) throws SQLException {
-        if (Utils.checkPermission("UPDATE_PROJECT_OWNER")) {
-            String userId = Utils.getLoginUserDetail();
-            ProjectManagementDto dto = serviceLifecycle.requestLevel2ProjectService()
-                                                       .findProjectById(serviceLifecycle, id);
-            if (!dto.getM00Codes030().getCreatedProgramId().equals(userId) &&
-                    !dto.getPme00ProjectInfo().getKoreaPm().equals(userId) &&
-                    !dto.getPme00ProjectInfo().getVietnamPl().equals(userId)) {
-                List<Object> result = new ArrayList<>();
-                result.add(false);
-                result.add(Utils.NO_PERMISSION);
-                return result;
-            }
+        ProjectManagementDto dto = serviceLifecycle.requestLevel2ProjectService()
+                                                   .findProjectById(serviceLifecycle, id);
+        if (!PermissionValidation.validateDeleteProject(dto)) {
+            List<Object> result = new ArrayList<>();
+            result.add(false);
+            result.add(Utils.NO_PERMISSION);
+            return result;
         }
         return this.serviceLifecycle.requestLevel2ProjectService().deleteProject(serviceLifecycle, id);
     }
