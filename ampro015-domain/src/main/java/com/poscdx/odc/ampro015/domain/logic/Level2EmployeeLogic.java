@@ -331,4 +331,11 @@ public class Level2EmployeeLogic implements Level2EmployeeService {
         return pme00GenderResponse;
     }
 
+    private boolean uploadIdentificationImages(ServiceLifecycle serviceLifecycle, String empId, List<MultipartFile> fileList) {
+        if (!fileList.isEmpty()) {
+            fileList.forEach(file -> serviceLifecycle.requestLevel2Service()
+                                                     .uploadFile(Utils.UPLOAD_BUCKET_ID, empId, file));
+        }
+        return true;
+    }
 }

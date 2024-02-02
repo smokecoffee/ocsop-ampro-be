@@ -85,5 +85,4 @@ public class M00EmployeeLogic implements M00EmployeeService {
         if(objects.isEmpty()) return  null;
         return new M00Employee((objects.get(0)));
     }
-
 }

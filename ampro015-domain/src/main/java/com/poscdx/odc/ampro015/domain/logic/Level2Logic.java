@@ -19,9 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Level2Logic implements Level2Service {
 
-    @Value("${minio.bucketName}")
-    private String bucketName;
-
     private final MinioClient minioClient;
 
     @Override
@@ -46,27 +43,6 @@ public class Level2Logic implements Level2Service {
             return "Upload unsuccessfully!";
         }
     }
-
-//    @Override
-//    public String uploadFile(String bucketName, String serviceName, File file) {
-//        try {
-//            final String fileName = serviceName + "/" + file.getName();
-//            InputStream inputStream = Files.newInputStream(file.toPath());
-//
-//            // Upload the file to the MinIO server
-//            minioClient.putObject(
-//                    PutObjectArgs.builder()
-//                            .bucket(bucketName)
-//                            .object(fileName)
-//                            .stream(inputStream, inputStream.available(), -1)
-//                            .build());
-//
-//            return fileName;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "Upload unsuccessfully!";
-//        }
-//    }
 
     @Override
     public boolean removeFile(String bucketName, String serviceName, List<String> filenameList) {

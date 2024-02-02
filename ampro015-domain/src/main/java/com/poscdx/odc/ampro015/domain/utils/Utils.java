@@ -20,6 +20,7 @@ public class Utils {
 
     public static String UPLOAD_URL = "";
     public static String UPLOAD_BUCKET = "";
+    public static String UPLOAD_BUCKET_ID = "";
 
     public static String MAIL_SMTP_SERVER = "116.123.216.77";
     public static String MAIL_SMTP_SERVER_PORT = "25";

@@ -16,5 +16,10 @@ public class ValueConfig {
     public void setBucketName(String bucketName) {
         Utils.UPLOAD_BUCKET = bucketName;
     }
+
+    @Value("${minio.bucketNameIdentification}")
+    public void setBucketNameIdentification(String bucketNameIdentification) {
+        Utils.UPLOAD_BUCKET_ID = bucketNameIdentification;
+    }
     
 }
