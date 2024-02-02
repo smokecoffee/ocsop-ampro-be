@@ -72,4 +72,9 @@ public class M00Codes030JpaStore implements M00Codes030Store {
     public List<Object[]> getTaskStatus() {
         return this.repository.getTaskStatus();
     }
+
+    @Override
+    public List<M00Codes030> getListProject(String user){
+        return M00Codes030Jpo.toDomains(this.repository.getListProject(user));
+    };
 }

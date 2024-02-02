@@ -1,6 +1,9 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
 import com.poscdx.odc.ampro015.domain.entity.M99DailyReport;
+import com.poscdx.odc.ampro015.domain.entity.ProjectManagementDto;
+import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
 import java.util.Date;
@@ -13,13 +16,11 @@ public interface M99DailyReportService {
 
     List<M99DailyReport> findAll();
 
-    M99DailyReport modify(M99DailyReport requestUpdate);
+    M99DailyReport modify(ServiceLifecycle serviceLifecycle, M99DailyReport dto, MultipartFile fileUpload);
 
-    void modifyByList(List<M99DailyReport> entityList);
+    M99DailyReport register(ServiceLifecycle serviceLifecycle, M99DailyReport dto, MultipartFile fileUpload);
 
-    M99DailyReport register(M99DailyReport entity);
-
-    void remove(int seq);
+    void remove(ServiceLifecycle serviceLifecycle, int seq);
 
     List<M99DailyReport> findWorkingTime(String empId,  String startTime, String endTime);
 
