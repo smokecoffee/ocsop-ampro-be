@@ -1,0 +1,24 @@
+package com.poscdx.odc.ampro015.domain.entity;
+
+import com.poscoict.base.share.domain.PoscoEntity;
+import com.poscoict.base.share.util.json.JsonUtil;
+import lombok.*;
+
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AssetSearch {
+    private int assetId;
+    private String empId;
+    private int status;
+    public String toJson() {
+        return JsonUtil.toJson(this);
+    }
+
+    public static AssetSearch fromJson(String json) {
+        return JsonUtil.fromJson(json, AssetSearch.class);
+    }
+}

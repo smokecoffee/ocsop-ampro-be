@@ -5,6 +5,10 @@ server:
     min-response-size: 1024
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   datasource:
     url: ${datasource.url}
     username: ${datasource.username}
@@ -12,7 +16,6 @@ spring:
     driver-class-name: ${datasource.driver-class-name}
   jpa:
     hibernate:
-      ddl-auto: create-drop # oracle db 사용시 none
     show-sql: true
     properties:
       hibernate:
@@ -36,3 +39,43 @@ feign:
 ribbon:
   ReadTimeout: 10000 # TODO[선택] : 업무 요건에 맞게 변경
   ConnectTimeout: 3000 # TODO[선택] : 업무 요건에 맞게 변경
+
+qrcode:
+  domain : http://localhost:3000/asert?token=
+  fileType : png
+  size : 250
+
+bezkoder:
+  app:
+    jwtSecret: cG9zY29kLXh2aWV0bmFtbnVtYmVyb25laW5teWhlYXJ0XjBedGhlbWt5dHVjaHVjaHVvaWR1ZGFp
+    jwtExpirationMs: 36000000
+
+cross:
+  origins: "http://localhost:3000"
+
+
+
+  minio:
+    url: ${minio.url}
+    accessKey: ${minio.accessKey}
+    secretKey: ${minio.secretKey}
+    bucketName: ${minio.bucketName}
+
+email:
+  smtpHostServer: ${email.smtpHostServer}
+  //emailId: ${email.emailId}
+  //emailIdAlias:  ${email.emailIdAlias}
+  emailPass:  ${email.emailPass}
+  frontEndUrl:  ${email.frontEndUrl}
+
+
+mail:
+  smtp:
+    host: ${mail.smtp.host}
+    port: ${mail.smtp.port}
+    id: ${mail.smtp.id}
+    name: ${mail.smtp.name}
+    userName: ${mail.smtp.userName}
+    password: ${mail.smtp.password}
+  frontEndUrl: ${mail.frontEndUrl}
+  subject: ${mail.subject}

@@ -1,184 +1,72 @@
 package com.poscdx.odc.ampro015.domain.logic;
 
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
-import com.poscdx.odc.ampro015.domain.entity.QCodeItem;
-import com.poscdx.odc.ampro015.domain.entity.SCodeItem;
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.spec.Level2Service;
-import com.poscoict.base.share.domain.NameValueList;
-import org.springframework.util.ObjectUtils;
+import com.poscdx.odc.ampro015.domain.utils.MailSender;
+import com.poscdx.odc.ampro015.domain.utils.QRCodeRender;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
+
+@RequiredArgsConstructor
 public class Level2Logic implements Level2Service {
 
-    @Override
-    public List<ItemCodeDto> findItemCodeInfos(ServiceLifecycle serviceLifecycle, String codeType, String description) {
-        List<QCodeItem> qCodeList = new ArrayList<>();
-        List<SCodeItem> sCodeList = new ArrayList<>();
-        if (ObjectUtils.isEmpty(codeType) || "A".equals(codeType)) {
-            qCodeList.addAll(
-                    serviceLifecycle.requestQCodeItemService().findAll()
-                            .stream()
-                            .filter(qCode -> ObjectUtils.isEmpty(qCode.getDeleteFlag()))
-                            .filter(qCode -> {
-                                String description1 = qCode.getDescription1();
-                                String itemCode = qCode.getItemNum();
-                                if (ObjectUtils.isEmpty(description))
-                                    return true;
-                                return (!ObjectUtils.isEmpty(description1) && description1.contains(description)) || itemCode.contains(description);
-                            })
-                            .collect(Collectors.toList())
-            );
-        }
-        if (ObjectUtils.isEmpty(codeType) || "B".equals(codeType)) {
-            sCodeList.addAll(
-                    serviceLifecycle.requestSCodeItemService().findAll()
-                            .stream()
-                            .filter(sCode -> ObjectUtils.isEmpty(sCode.getDeleteFlag()))
-                            .filter(sCode -> {
-                                String description1 = sCode.getDescription1();
-                                String itemCode = sCode.getItemNum();
-                                if (ObjectUtils.isEmpty(description))
-                                    return true;
-                                return (!ObjectUtils.isEmpty(description1) && description1.contains(description)) || itemCode.contains(description);
-                            })
-                            .collect(Collectors.toList())
-            );
-        }
-        // List
-        List<ItemCodeDto> itemCodeList = new ArrayList<>();
-        if (!ObjectUtils.isEmpty(qCodeList)) {
-            itemCodeList.addAll(
-                    qCodeList.stream()
-                            .map(qCode -> ItemCodeDto.builder()
-                                    .itemNum(qCode.getItemNum())
-                                    .description1(qCode.getDescription1())
-                                    .description2(qCode.getDescription3())
-                                    .mesUnitOfMeasure(qCode.getMesUnitOfMeasure())
-                                    .purMatItemWgt(qCode.getPurMatItemWgt())
-                                    .listPricePerUnit(qCode.getListPricePerUnit())
-                                    .build()
-                            )
-                            .collect(Collectors.toList())
-            );
-        }
-        if (!ObjectUtils.isEmpty(sCodeList)) {
-            itemCodeList.addAll(
-                    sCodeList.stream()
-                            .map(sCode -> ItemCodeDto.builder()
-                                    .itemNum(sCode.getItemNum())
-                                    .description1(sCode.getDescription1())
-                                    .description2(sCode.getDescription3())
-                                    .mesUnitOfMeasure(sCode.getMesUnitOfMeasure())
-                                    .listPricePerUnit(sCode.getListPricePerUnit())
-                                    .build()
-                            )
-                            .collect(Collectors.toList())
-            );
-        }
+    private final MinioClient minioClient;
 
-        return itemCodeList;
+    @Override
+    public String renderQRcode(String token) {
+        QRCodeRender qrCodeRender = new QRCodeRender();
+        return qrCodeRender.generateEmbeddedQRCodenBase64(token);
     }
 
-    /**
-     * modifyItemCodeInfo
-     * 내화물 코드 수정
-     *
-     * @param serviceLifecycle ServiceLifecycle
-     * @param itemCodeDtoList  List<ItemCodeDto>
-     */
     @Override
-    public void modifyItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList) {
-        Map<String, List<ItemCodeDto>> codeGroup = itemCodeDtoList.stream()
-                .collect(Collectors.groupingBy(dto -> {
-                    String itemNum = dto.getItemNum();
-                    return "Q".equals(String.valueOf(itemNum.charAt(0))) ? "A" : "B";
-                }));
-        for (Map.Entry<String, List<ItemCodeDto>> codeGroupEntry : codeGroup.entrySet()) {
-            String codeGroupKey = codeGroupEntry.getKey();
-            List<ItemCodeDto> group = codeGroupEntry.getValue();
-            // A: QCode, B: SCode
-            if ("A".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
-                List<QCodeItem> qCodeItems = serviceLifecycle.requestQCodeItemService().findAll();
-                qCodeItems.forEach(qCodeItem -> {
-                    group.forEach(itemCodeDto -> {
-                        if (itemCodeDto.getItemNum().equals(qCodeItem.getItemNum())) {
-                            serviceLifecycle.requestQCodeItemService()
-                                    .modify(itemCodeDto.getItemNum(),
-                                            NameValueList.newInstance("description3",
-                                                    itemCodeDto.getDescription2()));
-                        }
-                    });
-                });
-            }
-            if ("B".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
-                List<SCodeItem> sCodeItems = serviceLifecycle.requestSCodeItemService().findAll();
-                sCodeItems.forEach(sCodeItem -> {
-                    group.forEach(itemCodeDto -> {
-                        if (itemCodeDto.getItemNum().equals(sCodeItem.getItemNum())) {
-                            serviceLifecycle.requestSCodeItemService()
-                                    .modify(itemCodeDto.getItemNum(),
-                                            sCodeItem.getPoLineNum(),
-                                            sCodeItem.getPoNum(),
-                                            NameValueList.newInstance("description3",
-                                                    itemCodeDto.getDescription2()));
-                        }
-                    });
-                });
-            }
+    public String uploadFile(String bucketName, String serviceName, MultipartFile file) {
+        try {
+            final String fileName = serviceName + "/" + file.getOriginalFilename();
+            InputStream inputStream = file.getInputStream();
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .stream(inputStream, inputStream.available(), -1)
+                    .contentType(file.getContentType())
+                    .build());
+            return fileName;
+        } catch (Exception e) {
+            return "Upload unsuccessfully!";
         }
     }
 
-    /**
-     * deleteItemCodeInfo
-     * 내화물 코드 삭제
-     *
-     * @param serviceLifecycle ServiceLifecycle
-     * @param itemCodeDtoList  List<ItemCodeDto>
-     */
     @Override
-    public void deleteItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList) {
-        Map<String, List<ItemCodeDto>> codeGroup = itemCodeDtoList.stream()
-                .collect(Collectors.groupingBy(dto -> {
-                    String itemNum = dto.getItemNum();
-                    return "Q".equals(String.valueOf(itemNum.charAt(0))) ? "A" : "B";
-                }));
-        for (Map.Entry<String, List<ItemCodeDto>> codeGroupEntry : codeGroup.entrySet()) {
-            String codeGroupKey = codeGroupEntry.getKey();
-            List<ItemCodeDto> group = codeGroupEntry.getValue();
-            // A: QCode, B: SCode
-            if ("A".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
-                group.forEach(itemCodeDto -> {
-                        if (Objects.nonNull(itemCodeDto)) {
-                            QCodeItem qCodeItem = serviceLifecycle.requestQCodeItemService().find(itemCodeDto.getItemNum());
-                            if (Objects.nonNull(qCodeItem)) {
-                                serviceLifecycle.requestQCodeItemService()
-                                        .modify(qCodeItem.getItemNum(),
-                                                NameValueList.newInstance("deleteFlag", "Y"));
-                            }
-                        }
-                    }
-                );
+    public boolean removeFile(String bucketName, String serviceName, List<String> filenameList) {
+        try {
+            List<String> deleteList = new ArrayList<>();
+            filenameList.forEach(filename -> deleteList.add("/" + serviceName + "/" + filename));
+
+            for (String deleteString : deleteList) {
+                minioClient.removeObject(bucketName, deleteString);
             }
-            if ("B".equals(codeGroupKey) && !ObjectUtils.isEmpty(group)) {
-                List<SCodeItem> sCodeItems = serviceLifecycle.requestSCodeItemService().findAll();
-                sCodeItems.forEach(sCodeItem -> {
-                    group.forEach(itemCodeDto -> {
-                        if (itemCodeDto.getItemNum().equals(sCodeItem.getItemNum())) {
-                            serviceLifecycle.requestSCodeItemService()
-                                    .modify(itemCodeDto.getItemNum(),
-                                            sCodeItem.getPoLineNum(),
-                                            sCodeItem.getPoNum(),
-                                            NameValueList.newInstance("deleteFlag", "Y"));
-                        }
-                    });
-                });
-            }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
+    }
+
+    @Override
+    public String sendMail(String recipient, String username, String password, String subject, String body) {
+         MailSender.sendEmailWithAuthentication("", "Your email subject", "<b>Hello, this is the body of the email.</b>");
+    return "OK";
+    }
+
+    @Override
+    public boolean sendMail(String mail,String subject, String resetHtmlTemplate) {
+        return MailSender.sendEmailWithAuthentication(mail, subject, resetHtmlTemplate);
     }
 }

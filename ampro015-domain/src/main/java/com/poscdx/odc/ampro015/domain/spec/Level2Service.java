@@ -1,15 +1,19 @@
 package com.poscdx.odc.ampro015.domain.spec;
 
-import com.poscdx.odc.ampro015.domain.entity.ItemCodeDto;
-import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 public interface Level2Service {
 
-    List<ItemCodeDto> findItemCodeInfos(ServiceLifecycle serviceLifecycle, String codeType, String description);
+    String renderQRcode(String token);
 
-    void modifyItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList);
+    String uploadFile(String bucketName, String serviceName, MultipartFile image);
 
-    void deleteItemCodeInfo(ServiceLifecycle serviceLifecycle, List<ItemCodeDto> itemCodeDtoList);
+    boolean removeFile(String bucketName, String serviceName, List<String> fileName);
+
+    String sendMail(String recipient, String username, String password, String subject, String body);
+
+    boolean sendMail(String mail, String subject,String resetHtmlTemplate);
 }
