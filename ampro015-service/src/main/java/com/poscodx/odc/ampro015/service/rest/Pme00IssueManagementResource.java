@@ -85,7 +85,6 @@ public class Pme00IssueManagementResource {
         Date _developToDate = (Date) formatter.parse(developToDate);
         Date _finalConfirmDate = (Date) formatter.parse(finalConfirmDate);
 
-
         IssueManagement issueManagement = new IssueManagement();
         issueManagement.setSeq(999);
         issueManagement.setRegistrationDate(_registrationDate);
@@ -124,6 +123,7 @@ public class Pme00IssueManagementResource {
     public IssueManagementResponse updateIssue(  @RequestParam(required = false, name = "registrationDate")  String registrationDate,
                                                  @RequestParam(required = false, name = "requestDate") String requestDate,
                                                  @RequestParam(required = false, name = "requester") String requester,
+                                                 @RequestParam(required = false, name = "seq") String seq,
                                                  @RequestParam(required = false, name = "site") String site,
                                                  @RequestParam(required = false, name = "module") String module,
                                                  @RequestParam(required = false, name = "menu") String menu,
@@ -150,10 +150,10 @@ public class Pme00IssueManagementResource {
         Date _developFromDate = (Date) formatter.parse(developFromDate);
         Date _developToDate = (Date) formatter.parse(developToDate);
         Date _finalConfirmDate = (Date) formatter.parse(finalConfirmDate);
-
+        int _seq = Integer.parseInt(seq);
 
         IssueManagement issueManagement = new IssueManagement();
-
+        issueManagement.setSeq(_seq);
         issueManagement.setRegistrationDate(_registrationDate);
         issueManagement.setRequestDate(_requestDate);
         issueManagement.setRequester(requester);
