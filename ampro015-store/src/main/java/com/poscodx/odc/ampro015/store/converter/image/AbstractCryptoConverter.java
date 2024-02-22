@@ -1,9 +1,8 @@
 package com.poscodx.odc.ampro015.store.converter.image;
 
 import com.poscdx.odc.ampro015.domain.utils.Utils;
-
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter
 abstract class AbstractCryptoConverter<T> implements AttributeConverter<T, String> {

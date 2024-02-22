@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,11 +32,5 @@ public class M00Codes030 {
         this.cdV = cdV;
     }
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
 
-    public static M00Codes030 fromJson(String json) {
-        return JsonUtil.fromJson(json, M00Codes030.class);
-    }
 }

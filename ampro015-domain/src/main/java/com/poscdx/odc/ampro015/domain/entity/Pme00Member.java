@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
 import com.poscdx.odc.ampro015.domain.utils.Utils;
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 
@@ -17,13 +16,6 @@ public class Pme00Member {
     private String empName;
     private String avatar;
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static Pme00Member fromJson(String json) {
-        return JsonUtil.fromJson(json, Pme00Member.class);
-    }
 
     public Pme00Member(Object[] objects) {
         this.memberId = (int) objects[0];

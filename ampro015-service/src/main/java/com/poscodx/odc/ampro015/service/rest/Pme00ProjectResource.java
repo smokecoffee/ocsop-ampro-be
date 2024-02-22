@@ -1,10 +1,9 @@
 package com.poscodx.odc.ampro015.service.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscdx.odc.ampro015.domain.entity.*;
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscdx.odc.ampro015.domain.utils.Utils;
-import com.posco.reuse.common.logging.PosLogWriterIF;
-import com.posco.reuse.common.logging.PosLogger;
 import com.poscodx.odc.ampro015.service.PermissionValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +33,7 @@ public class Pme00ProjectResource {
     public Map<String, Object> findProjectList(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
+       // PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
         String id = PermissionValidation.validateGetProject();
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectList(serviceLifecycle, dto, pageNo, pageSize);
     }
@@ -45,7 +44,7 @@ public class Pme00ProjectResource {
     public Map<String, Object> findProjectListWithTask(@RequestBody ProjectManagementDto dto,
                                                @RequestParam(required = false, defaultValue = "0", name = "pageNo") int pageNo,
                                                @RequestParam(required = false, defaultValue = "20", name = "pageSize") int pageSize) {
-        PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
+        //PosLogger.developerLog(PosLogWriterIF.INFO, "Project -> " + dto, this);
         String id = PermissionValidation.validateGetProject();
         return this.serviceLifecycle.requestLevel2ProjectService().getProjectListWithTask(serviceLifecycle, dto, pageNo, pageSize);
     }
@@ -63,10 +62,12 @@ public class Pme00ProjectResource {
     public List<Object> register(@RequestParam ("data") String dtoString,
                             @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                             @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-        ProjectManagementDto dto = ProjectManagementDto.fromJson(dtoString);
-        return this.serviceLifecycle
-                   .requestLevel2ProjectService()
-                   .registerProject(serviceLifecycle, dto, imageUpload, fileUpload);
+//        ProjectManagementDto dto = ProjectManagementDto.fromJson(dtoString);
+//        return this.serviceLifecycle
+//                   .requestLevel2ProjectService()
+//                   .registerProject(serviceLifecycle, dto, imageUpload, fileUpload);
+        return null;
+
     }
 
     @PutMapping("")
@@ -74,7 +75,7 @@ public class Pme00ProjectResource {
     public List<Object> modify(@RequestParam ("data") String dtoString,
                           @RequestParam (value = "imageUpload", required = false) MultipartFile imageUpload,
                           @RequestParam (value = "fileUpload", required = false) MultipartFile fileUpload) throws SQLException {
-        ProjectManagementDto dto = ProjectManagementDto.fromJson(dtoString);
+        ProjectManagementDto dto = null;//new ObjectMapper().convertValue(dtoString, );//ProjectManagementDto.fromJson(dtoString);
         if (!PermissionValidation.validateUpdateProject(dto)) {
             List<Object> result = new ArrayList<>();
             result.add(false);

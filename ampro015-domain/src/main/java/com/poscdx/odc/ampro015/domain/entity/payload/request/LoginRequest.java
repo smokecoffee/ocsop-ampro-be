@@ -1,15 +1,15 @@
 package com.poscdx.odc.ampro015.domain.entity.payload.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 
 @Data
 public class LoginRequest {
-	@NotBlank
+    @NotBlank
 //  	private String name;
-	private String id;
+    private String id;
 
-	@NotBlank
-	private String password;
+    @NotBlank
+    private String password;
 }

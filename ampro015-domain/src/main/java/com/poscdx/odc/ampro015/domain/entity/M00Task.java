@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -30,13 +29,6 @@ public class M00Task {
     private String statusApprove;
     private String attach_File;
     private Integer estimate_Day;
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static M00Task fromJson(String json) {
-        return JsonUtil.fromJson(json, M00Task.class);
-    }
 
     public M00Task(Object[] object) {
         this.projectNumber = (String) object[0];

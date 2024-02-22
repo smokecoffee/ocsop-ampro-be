@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -22,9 +21,5 @@ public class SearchMeetingDto {
     private String status;
     private List<Pme00EmployeeMeeting> listMember;
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-    public static SearchMeetingDto fromJson(String json) { return JsonUtil.fromJson(json, SearchMeetingDto.class);}
 }
     

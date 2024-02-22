@@ -16,18 +16,7 @@
  *==================================================================================*/
 package com.poscodx.odc.ampro015.service.rest.exception;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.posco.reuse.common.logging.PosLogWriterIF;
-import com.posco.reuse.common.logging.PosLogger;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import javax.servlet.ServletException;
 
 /**
  * ProductHistoryExceptionHandler.java
@@ -38,7 +27,7 @@ import javax.servlet.ServletException;
  */
 @ControllerAdvice
 public class TaskExceptionHandler {
-
+/*
     @ExceptionHandler(PosBaseException.class)
     public ResponseEntity<String> handlePosBaseException(PosBaseException exception) {
 
@@ -97,5 +86,5 @@ public class TaskExceptionHandler {
 
     private void logException(Exception e) {
         PosLogger.developerLog(PosLogWriterIF.ERROR, e, this);
-    }
+    }*/
 }

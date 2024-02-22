@@ -2,13 +2,12 @@ package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.IssueManagement;
 import com.poscdx.odc.ampro015.domain.entity.IssueManagementId;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.poscodx.odc.ampro015.store.converter.image;
 
-import javax.persistence.Converter;
-
+import jakarta.persistence.Converter;
 @Converter
 public class StringCryptoConverter extends AbstractCryptoConverter<String> {
 

@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
-
 @ControllerAdvice
 public class CustomExceptionHandler {
 

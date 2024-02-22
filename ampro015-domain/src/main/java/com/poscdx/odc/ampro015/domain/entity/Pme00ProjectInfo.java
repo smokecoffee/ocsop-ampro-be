@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
 import com.poscdx.odc.ampro015.domain.utils.Utils;
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -39,13 +38,6 @@ public class Pme00ProjectInfo {
         this.cdV = cdV;
     }
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static Pme00ProjectInfo fromJson(String json) {
-        return JsonUtil.fromJson(json, Pme00ProjectInfo.class);
-    }
 
     public Pme00ProjectInfo(Object[] objects) {
 
@@ -57,8 +49,8 @@ public class Pme00ProjectInfo {
         this.framework = (String) objects[5];
         this.startDate = (Date) objects[6];
         this.endDate = (Date) objects[7];
-        this.image = Utils.applyEmployeeAvatarPath((String) objects[8],"Project");
-        this.file = Utils.applyEmployeeAvatarPath((String) objects[9],"Project");
+        this.image = Utils.applyEmployeeAvatarPath((String) objects[8], "Project");
+        this.file = Utils.applyEmployeeAvatarPath((String) objects[9], "Project");
         this.koreaPmName = (String) objects[10];
         this.koreaPmImage = Utils.applyEmployeeAvatarPath((String) objects[11], "Employee");
         this.vietnamPlName = (String) objects[12];

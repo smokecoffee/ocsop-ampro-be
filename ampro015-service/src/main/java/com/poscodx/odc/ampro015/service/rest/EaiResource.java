@@ -1,14 +1,15 @@
 package com.poscodx.odc.ampro015.service.rest;
 
-import com.posco.reuse.common.logging.PosLogWriterIF;
-import com.posco.reuse.common.logging.PosLogger;
+
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/receive")
+@Log4j2
 public class EaiResource {
-
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(EaiResource.class);
     /**
      * receiveEai
      *
@@ -17,8 +18,7 @@ public class EaiResource {
      */
     @PostMapping("/eai")
     public String receiveEai(@RequestBody String eaiMessage) {
-        //
-        PosLogger.developerLog(PosLogWriterIF.INFO, " EAI Message : " + eaiMessage, this);
+        logger.trace(" EAI Message : {}", eaiMessage);
         return "SUCCESS";
     }
 }

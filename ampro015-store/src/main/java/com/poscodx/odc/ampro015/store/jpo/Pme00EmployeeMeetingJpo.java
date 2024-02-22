@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;

@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -29,12 +28,5 @@ public class ProjectManagementDto {
     private Date fromEndDate;
     private Date toEndDate;
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static ProjectManagementDto fromJson(String json) {
-        return JsonUtil.fromJson(json, ProjectManagementDto.class);
-    }
 
 }

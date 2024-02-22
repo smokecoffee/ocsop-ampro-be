@@ -1,14 +1,13 @@
 package com.poscodx.odc.ampro015.store.jpo;
 
 import com.poscdx.odc.ampro015.domain.entity.Field;
-import com.posco.reuse.common.errorobjects.PosBaseException;
-import com.poscoict.base.share.jpo.PoscoEntityJpo;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

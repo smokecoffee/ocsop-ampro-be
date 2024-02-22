@@ -1,8 +1,7 @@
 package com.poscdx.odc.ampro015.domain.entity.payload.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
-import javax.validation.constraints.NotBlank;
 
 @Data
 @Getter

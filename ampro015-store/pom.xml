@@ -2,12 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
+    <!--<parent>
         <groupId>com.posco.base</groupId>
         <artifactId>posco-comp-jar</artifactId>
         <version>1.0.0-SNAPSHOT</version>
+    </parent>-->
+    <parent>
+        <groupId>com.poscodx.odc</groupId>
+        <artifactId>ampro015-product</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
-
     <groupId>com.poscodx.odc</groupId>
     <artifactId>ampro015-store</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -16,14 +21,14 @@
     </properties>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>com.poscoict.base.share</groupId>
             <artifactId>share-store</artifactId>
         </dependency>
         <dependency>
             <groupId>com.posco.reuse</groupId>
             <artifactId>posco-reuse-compensation-util</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.poscodx.odc</groupId>
             <artifactId>ampro015-domain</artifactId>
@@ -48,29 +53,5 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.posco.reuse</groupId>
-                <artifactId>reuse-dependencies</artifactId>
-                <version>${posco-reuse.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
 </project>

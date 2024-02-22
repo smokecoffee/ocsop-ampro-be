@@ -2,8 +2,6 @@ package com.poscdx.odc.ampro015.domain.entity;
 
 import com.google.gson.annotations.JsonAdapter;
 import com.poscdx.odc.ampro015.domain.utils.DateUtils;
-import com.poscoict.base.share.domain.PoscoEntity;
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -27,11 +25,4 @@ public class Field {
     private Date updateAt;
     @JsonAdapter(DateUtils.DateTypeAdapter.class)
     private Date deleteAt;
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static Field fromJson(String json) {
-        return JsonUtil.fromJson(json, Field.class);
-    }
 }

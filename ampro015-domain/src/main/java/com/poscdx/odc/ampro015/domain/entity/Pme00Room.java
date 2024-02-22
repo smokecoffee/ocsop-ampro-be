@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 @Getter
@@ -10,16 +9,9 @@ import lombok.*;
 @Builder
 public class Pme00Room {
 
-   private int cdTpId;
-   private String cdv;
-   private String cdvMeaning;
-   private String color;
+    private int cdTpId;
+    private String cdv;
+    private String cdvMeaning;
+    private String color;
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static Pme00Room fromJson(String json) {
-        return JsonUtil.fromJson(json, Pme00Room.class);
-    }
 }

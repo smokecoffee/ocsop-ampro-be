@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.domain.PoscoEntity;
 import lombok.*;
 
 
@@ -9,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskStatusDto extends PoscoEntity {
+public class TaskStatusDto{
 
     private String cdV;
     private String cdVMeaning;

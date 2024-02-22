@@ -49,9 +49,10 @@ public class Pme00EmployeeResource {
     @PreAuthorize("hasAnyAuthority('ADD_EMPLOYEE')")
     public Pme00AllLevel2EmployeeResponse addEmployee(@RequestParam ("data") String dtoString,
                                                      @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
-        return this.serviceLifecycle
+        /*return this.serviceLifecycle
                    .requestLevel2EmployeeService()
-                   .addEmployee(serviceLifecycle, Pme00Employee.fromJson(dtoString), imageUpload);
+                   .addEmployee(serviceLifecycle, Pme00Employee.fromJson(dtoString), imageUpload);*/
+        return null;
     }
 
     @GetMapping("/findAllRole")
@@ -64,12 +65,13 @@ public class Pme00EmployeeResource {
     @PreAuthorize("hasAnyAuthority('UPDATE_EMPLOYEE,UPDATE_EMPLOYEE_OWNER')")
     public Pme00AllLevel2EmployeeResponse editEmployee(@RequestParam ("data") String dtoString,
                                         @RequestParam (value = "file", required = false) MultipartFile imageUpload) {
-        Pme00Employee pme00Employee = Pme00Employee.fromJson(dtoString);
-        if (!PermissionValidation.validateUpdateEmployee(pme00Employee)) {
-            return new Pme00AllLevel2EmployeeResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
-        }
-        return this.serviceLifecycle.requestLevel2EmployeeService()
-                .editEmployee(serviceLifecycle, pme00Employee, imageUpload);
+//        Pme00Employee pme00Employee = Pme00Employee.fromJson(dtoString);
+//        if (!PermissionValidation.validateUpdateEmployee(pme00Employee)) {
+//            return new Pme00AllLevel2EmployeeResponse(HttpStatus.FORBIDDEN.value(), null, Utils.NO_PERMISSION);
+//        }
+//        return this.serviceLifecycle.requestLevel2EmployeeService()
+//                .editEmployee(serviceLifecycle, pme00Employee, imageUpload);
+        return null;
     }
 
 

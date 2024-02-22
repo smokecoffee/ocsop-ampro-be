@@ -6,7 +6,8 @@ import com.poscdx.odc.ampro015.domain.entity.Pme00EmployeeTask;
 import com.poscdx.odc.ampro015.domain.store.Pme00EmployeeTaskStore;
 import com.poscodx.odc.ampro015.store.jpo.Pme00EmployeeTaskJpo;
 import com.poscodx.odc.ampro015.store.repository.Pme00EmployeeTaskRepository;
-import com.poscoict.base.share.util.string.StringUtil;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -68,8 +69,8 @@ public class Pme00EmployeeTaskJpaStore implements Pme00EmployeeTaskStore {
             pme00EmployeeTaskJpo.setProjectNumber(pme00EmployeeTask.getProjectNumber());
             pme00EmployeeTaskJpo.setTaskName(pme00EmployeeTask.getTaskName());
             pme00EmployeeTaskJpo.setEmpId(pme00EmployeeTask.getEmpId());
-            pme00EmployeeTaskJpo.setEmpName(StringUtil.defaultIfBlank(pme00EmployeeTask.getEmpName(), ""));
-            pme00EmployeeTaskJpo.setAvatar(StringUtil.defaultIfBlank(pme00EmployeeTask.getAvatar(), ""));
+            pme00EmployeeTaskJpo.setEmpName(StringUtils.defaultIfBlank(pme00EmployeeTask.getEmpName(), ""));
+            pme00EmployeeTaskJpo.setAvatar(StringUtils.defaultIfBlank(pme00EmployeeTask.getAvatar(), ""));
             requestEmployeeTaskJpoList.add(pme00EmployeeTaskJpo);
         });
 

@@ -2,6 +2,8 @@ package com.poscodx.odc.ampro015.config.jwt;
 
 import com.poscdx.odc.ampro015.domain.lifecycle.ServiceLifecycle;
 import com.poscodx.odc.ampro015.config.services.EmployeeDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,10 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
@@ -31,7 +29,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 //  private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, jakarta.servlet.FilterChain filterChain) throws jakarta.servlet.ServletException, IOException {
     String jwt = parseJwt(request);
     if(serviceLifecycle.requestLogoutAccessTokenService().findByToken(jwt).isEmpty()){//check token in blacklist
       if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -63,4 +61,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     return null;
   }
+
+
+
 }

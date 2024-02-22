@@ -1,6 +1,5 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,11 +26,4 @@ public class M00Codes020 {
     private String mdlRegReqEmpId;
     private int fkCdTpId;
 
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static Asset fromJson(String json) {
-        return JsonUtil.fromJson(json, Asset.class);
-    }
 }

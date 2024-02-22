@@ -27,7 +27,11 @@ spring:
       enabled: false
       kafka:
         enabled: false
-
+  profiles:
+    active: local
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 feign:
   hystrix:
     enabled: false

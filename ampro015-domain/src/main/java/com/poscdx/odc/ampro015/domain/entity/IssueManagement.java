@@ -1,7 +1,6 @@
 package com.poscdx.odc.ampro015.domain.entity;
 
 import com.poscdx.odc.ampro015.domain.utils.Utils;
-import com.poscoict.base.share.util.json.JsonUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -39,15 +38,6 @@ public class IssueManagement {
     private Date finalConfirmDate;
     private String requesterId;
     //private String developerName;
-
-
-    public String toJson() {
-        return JsonUtil.toJson(this);
-    }
-
-    public static IssueManagement fromJson(String json) {
-        return JsonUtil.fromJson(json, IssueManagement.class);
-    }
 
     public IssueManagement(Object[] objects) {
         this.seq = (int) objects[0];

@@ -57,7 +57,7 @@ public class Pme00IssueManagementResource {
     public IssueManagementResponse insertIssue(
                                                    @RequestParam(required = false, name = "data")  String data,
                                                    @RequestParam(value = "file", required = false) MultipartFile fileUpload) throws ParseException {
-        IssueManagement issueManagement = IssueManagement.fromJson(data);
+        IssueManagement issueManagement = null;// IssueManagement.fromJson(data);
         return this.serviceLifecycle.requestPme00IssueManagementService().create(serviceLifecycle, issueManagement, fileUpload);
     }
 
@@ -73,7 +73,7 @@ public class Pme00IssueManagementResource {
    // @PreAuthorize("hasAnyAuthority('UPDATE_ISSUE,UPDATE_ISSUE_OWNER')")
     public IssueManagementResponse updateIssue(  @RequestParam(required = false, name = "data")  String data,
                                                  @RequestParam(value = "file", required = false) MultipartFile fileUpload) throws ParseException {
-        IssueManagement issueManagement = IssueManagement.fromJson(data);
+        IssueManagement issueManagement = null;//IssueManagement.fromJson(data);
         return this.serviceLifecycle.requestPme00IssueManagementService().modify(serviceLifecycle, issueManagement , fileUpload);
     }
 
